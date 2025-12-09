@@ -1,0 +1,42 @@
+/* Import Tailwind CSS */
+@import "tailwindcss";
+
+/* Enable class-based dark mode in Tailwind v4 - MANDATORY */
+@variant dark (&:where(.dark, .dark *));
+
+/* Couleurs custom REPAE selon la charte graphique */
+@theme {
+  /* REPAE Blue - Couleur primaire #1488bb */
+  --color-repae-blue-50: #f0f9ff;
+  --color-repae-blue-100: #e0f2fe;
+  --color-repae-blue-200: #bae6fd;
+  --color-repae-blue-300: #7dd3fc;
+  --color-repae-blue-400: #38bdf8;
+  --color-repae-blue-500: #1488bb;
+  --color-repae-blue-600: #0284c7;
+  --color-repae-blue-700: #0369a1;
+  --color-repae-blue-800: #075985;
+  --color-repae-blue-900: #0c4a6e;
+
+  /* REPAE Gray - Couleur secondaire #717173 */
+  --color-repae-gray-50: #f9fafb;
+  --color-repae-gray-100: #f3f4f6;
+  --color-repae-gray-200: #e5e7eb;
+  --color-repae-gray-300: #d1d5db;
+  --color-repae-gray-400: #9ca3af;
+  --color-repae-gray-500: #717173;
+  --color-repae-gray-600: #4b5563;
+  --color-repae-gray-700: #374151;
+  --color-repae-gray-800: #1f2937;
+  --color-repae-gray-900: #111827;
+
+  /* Couleurs brand aliases */
+  --color-repae-primary: #1488bb;
+  --color-repae-secondary: #717173;
+  --color-brand-blue: #1488bb;
+  --color-brand-gray: #717173;
+
+  /* Font family */
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-brand: 'Montserrat', sans-serif;
+}
