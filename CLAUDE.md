@@ -23,6 +23,7 @@ This is a Nuxt 4 application with the following stack:
 - **Pinia** for state management (`@pinia/nuxt`)
 - **Tailwind CSS v4** with dark mode support (`@tailwindcss/vite`)
 - **Font Awesome** for icons (`@vesp/nuxt-fontawesome`)
+- **Animate.css** for CSS animations (`animate.css`)
 - **Nuxt Content** for content management
 
 ### Project Structure (Nuxt 4 with app/ directory)
@@ -210,6 +211,66 @@ library.add(
 - `@fortawesome/free-solid-svg-icons` - Solid icons (fa-solid)
 - `@fortawesome/free-regular-svg-icons` - Regular icons (fa-regular)
 - `@fortawesome/free-brands-svg-icons` - Brand icons (fa-brands)
+
+## Animate.css Animations
+
+Animate.css is globally imported and ready to use. Add CSS animation classes directly to elements.
+
+### Basic Usage
+
+Always combine `animate__animated` with an animation class:
+
+```vue
+<template>
+  <h1 class="animate__animated animate__fadeIn">Bienvenue</h1>
+  <div class="animate__animated animate__bounceIn">Contenu animé</div>
+</template>
+```
+
+### Popular Animations
+
+| Category | Classes |
+|----------|---------|
+| **Fade** | `animate__fadeIn`, `animate__fadeInUp`, `animate__fadeInDown`, `animate__fadeInLeft`, `animate__fadeInRight` |
+| **Bounce** | `animate__bounce`, `animate__bounceIn`, `animate__bounceOut`, `animate__bounceInUp` |
+| **Slide** | `animate__slideInLeft`, `animate__slideInRight`, `animate__slideInUp`, `animate__slideInDown` |
+| **Zoom** | `animate__zoomIn`, `animate__zoomOut`, `animate__zoomInUp`, `animate__zoomInDown` |
+| **Attention** | `animate__pulse`, `animate__shake`, `animate__swing`, `animate__tada`, `animate__heartBeat` |
+
+### Duration & Delay Modifiers
+
+```vue
+<!-- Speed modifiers -->
+<div class="animate__animated animate__fadeIn animate__faster">0.5s</div>
+<div class="animate__animated animate__fadeIn animate__fast">0.8s</div>
+<div class="animate__animated animate__fadeIn animate__slow">2s</div>
+<div class="animate__animated animate__fadeIn animate__slower">3s</div>
+
+<!-- Delay modifiers -->
+<div class="animate__animated animate__fadeIn animate__delay-1s">1s delay</div>
+<div class="animate__animated animate__fadeIn animate__delay-2s">2s delay</div>
+<div class="animate__animated animate__fadeIn animate__delay-3s">3s delay</div>
+```
+
+### Vue Integration Example
+
+```vue
+<script setup>
+const isVisible = ref(false)
+</script>
+
+<template>
+  <div
+    v-if="isVisible"
+    class="animate__animated animate__fadeInUp"
+  >
+    Contenu avec animation d'entrée
+  </div>
+</template>
+```
+
+### Documentation
+Full animation list: https://animate.style/
 
 ## Dark Mode Implementation
 

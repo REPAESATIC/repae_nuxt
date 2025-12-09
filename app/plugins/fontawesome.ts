@@ -50,6 +50,7 @@ import {
   faCheck,
   faSpinner,
   faCircle,
+  faHandPointer,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -114,6 +115,7 @@ library.add(
   faCheck,
   faSpinner,
   faCircle,
+  faHandPointer,
 )
 
 // Add regular icons to library

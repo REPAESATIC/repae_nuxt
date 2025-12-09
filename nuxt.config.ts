@@ -9,10 +9,11 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
 
-  // Global CSS (Tailwind v4 + Font Awesome)
+  // Global CSS (Tailwind v4 + Font Awesome + Animate.css)
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
     '~/assets/css/tailwind.css',
+    'animate.css',
   ],
 
   // App configuration with dark mode script

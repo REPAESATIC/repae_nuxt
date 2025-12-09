@@ -23,6 +23,7 @@
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/vite": "^4.1.17",
     "@vesp/nuxt-fontawesome": "^2.0.0",
+    "animate.css": "^4.1.1",
     "nuxt": "^4.2.1",
     "pinia": "^3.0.4",
     "tailwindcss": "^4.1.17",
