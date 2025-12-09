@@ -1,4 +1,47 @@
 <script setup>
+// Stats data
+const stats = ref([
+  { value: '+150', label: 'Membres actifs', numericValue: 150, prefix: '+', suffix: '', key: 'members' },
+  { value: '87%', label: "Taux d'insertion", numericValue: 87, prefix: '', suffix: '%', key: 'insertionRate' },
+  { value: '13', label: 'Promotions', numericValue: 13, prefix: '', suffix: '', key: 'promotions' },
+  { value: '+5', label: 'Partenariats', numericValue: 5, prefix: '+', suffix: '', key: 'partnerships' }
+])
+
+const displayedStats = ref(stats.value.map(stat => ({ ...stat, displayValue: 0 })))
+const statsVisible = ref(false)
+const statsContainer = ref(null)
+
+// Counter animation function
+const animateCounter = (index, targetValue, duration = 2000) => {
+  const startTime = performance.now()
+  const startValue = displayedStats.value[index].displayValue
+
+  const updateCounter = (currentTime) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+
+    // Easing function for smooth animation
+    const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+
+    const currentValue = Math.round(startValue + (targetValue - startValue) * easeOutQuart)
+    displayedStats.value[index].displayValue = currentValue
+
+    if (progress < 1) {
+      requestAnimationFrame(updateCounter)
+    }
+  }
+
+  requestAnimationFrame(updateCounter)
+}
+
+// Format displayed value with prefix and suffix
+const formatValue = (stat) => {
+  return `${stat.prefix}${stat.displayValue}${stat.suffix}`
+}
+
+// Intersection Observer for stats
+let statsObserver = null
+
 const testimonials = ref([
   {
     id: 1,
@@ -69,13 +112,14 @@ const currentIndex = ref(0)
 const isPaused = ref(false)
 let autoScrollInterval = null
 
+// Largeur de la fenêtre réactive
+const windowWidth = ref(1024)
+
 // Nombre de témoignages par vue (responsive)
 const testimonialsPerView = computed(() => {
-  if (typeof window === 'undefined') return 3
-  const width = window.innerWidth
-  if (width >= 1024) return 3 // Desktop: 3 témoignages
-  if (width >= 768) return 2   // Tablet: 2 témoignages
-  return 1                     // Mobile: 1 témoignage
+  if (windowWidth.value >= 1024) return 3 // Desktop: 3 témoignages
+  if (windowWidth.value >= 768) return 2   // Tablet: 2 témoignages
+  return 1                                  // Mobile: 1 témoignage
 })
 
 // Nombre total de "pages" de témoignages
@@ -84,9 +128,19 @@ const totalPages = computed(() => {
 })
 
 // Fonction pour obtenir les témoignages d'une page spécifique
+// Complète avec des témoignages du début si la page est incomplète (pour garder la ligne pleine)
 const getTestimonialsForPage = (pageIndex) => {
-  const start = pageIndex * testimonialsPerView.value
-  return testimonials.value.slice(start, start + testimonialsPerView.value)
+  const perView = testimonialsPerView.value
+  const total = testimonials.value.length
+  const start = pageIndex * perView
+  const result = []
+
+  for (let i = 0; i < perView; i++) {
+    const index = (start + i) % total
+    result.push({ ...testimonials.value[index], displayKey: `${pageIndex}-${i}` })
+  }
+
+  return result
 }
 
 const startAutoScroll = () => {
@@ -124,22 +178,103 @@ const handleMouseLeave = () => {
 }
 
 const handleResize = () => {
-  currentIndex.value = 0
+  windowWidth.value = window.innerWidth
+  // Réinitialiser l'index si on dépasse le nombre de pages
+  if (currentIndex.value >= totalPages.value) {
+    currentIndex.value = Math.max(0, totalPages.value - 1)
+  }
 }
 
 onMounted(() => {
+  // Initialiser la largeur de la fenêtre
+  windowWidth.value = window.innerWidth
   startAutoScroll()
   window.addEventListener('resize', handleResize)
+
+  // Observer pour les stats
+  statsObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !statsVisible.value) {
+          statsVisible.value = true
+          displayedStats.value.forEach((stat, index) => {
+            setTimeout(() => {
+              animateCounter(index, stat.numericValue, 2000)
+            }, index * 200)
+          })
+        }
+      })
+    },
+    { threshold: 0.3 }
+  )
+
+  if (statsContainer.value) {
+    statsObserver.observe(statsContainer.value)
+  }
 })
 
 onUnmounted(() => {
   stopAutoScroll()
   window.removeEventListener('resize', handleResize)
+  if (statsObserver) {
+    statsObserver.disconnect()
+  }
 })
 </script>
 
 <template>
-  <section class="pb-16 pt-32 bg-gray-50 dark:bg-repae-gray-900">
+  <section class="pb-16 pt-8 bg-gray-50 dark:bg-repae-gray-900">
+    <!-- Stats Bar - déborde sur HeroSection -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-40 mb-16 relative z-10">
+      <div
+        ref="statsContainer"
+        class="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white dark:bg-repae-gray-800 p-5 rounded-xl shadow-2xl"
+      >
+        <div
+          v-for="(stat, index) in displayedStats"
+          :key="stat.key"
+          :class="[
+            'stat-card rounded-lg p-6 transform transition-all duration-500 cursor-pointer relative overflow-hidden',
+            stat.key === 'insertionRate'
+              ? 'bg-gradient-to-br from-repae-gray-500 to-repae-gray-600 dark:from-repae-gray-600 dark:to-repae-gray-700 hover:from-repae-gray-600 hover:to-repae-gray-700'
+              : 'bg-gradient-to-br from-repae-blue-500 to-repae-blue-600 dark:from-repae-blue-600 dark:to-repae-blue-700 hover:from-repae-blue-600 hover:to-repae-blue-700',
+            statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          ]"
+          :style="{
+            transitionDelay: `${index * 100}ms`,
+            animationDelay: `${index * 200}ms`
+          }"
+        >
+          <!-- Animated background effect -->
+          <div class="absolute inset-0 bg-white opacity-0 hover:opacity-10 transition-opacity duration-300"></div>
+
+          <!-- Floating animation for icon -->
+          <div class="stat-icon absolute -top-2 -right-2 text-white/20 text-6xl animate-pulse">
+            <font-awesome-icon
+              :icon="stat.key === 'members' ? 'fa-solid fa-users' :
+                     stat.key === 'insertionRate' ? 'fa-solid fa-chart-line' :
+                     stat.key === 'promotions' ? 'fa-solid fa-trophy' :
+                     'fa-solid fa-handshake'"
+            />
+          </div>
+
+          <div class="relative z-10">
+            <div class="text-3xl md:text-4xl font-bold text-white font-brand mb-2 stat-number">
+              {{ formatValue(stat) }}
+            </div>
+            <div :class="[
+              'text-sm font-brand transition-colors duration-300',
+              stat.key === 'insertionRate'
+                ? 'text-gray-200'
+                : 'text-blue-100'
+            ]">
+              {{ stat.label }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="mx-auto">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-bold text-repae-blue-500 dark:text-white font-brand mb-4">
@@ -165,7 +300,7 @@ onUnmounted(() => {
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div
                 v-for="testimonial in getTestimonialsForPage(pageIndex - 1)"
-                :key="testimonial.id"
+                :key="testimonial.displayKey"
                 class="transform transition-all duration-300 hover:scale-105"
               >
                 <div class="bg-white dark:bg-repae-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-l-repae-blue-500 h-full flex flex-col">
@@ -233,3 +368,102 @@ onUnmounted(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.stat-card {
+  animation: fadeInUp 0.8s ease-out forwards;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+.stat-card:hover .stat-icon {
+  animation-duration: 1.5s;
+}
+
+.stat-number {
+  position: relative;
+  display: inline-block;
+}
+
+.stat-number::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: currentColor;
+  transition: width 0.3s ease;
+}
+
+.stat-card:hover .stat-number::after {
+  width: 100%;
+}
+
+/* Shimmer effect on hover */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.stat-card:hover .stat-number {
+  background: linear-gradient(90deg,
+    currentColor 25%,
+    rgba(255, 255, 255, 0.3) 50%,
+    currentColor 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 2s linear infinite;
+}
+</style>
