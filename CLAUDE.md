@@ -258,6 +258,28 @@ const { isDark, toggle } = useDarkMode()
 </template>
 ```
 
+## Placeholder Images & Avatars
+
+For development and mockups, use these placeholder services:
+
+### Random Images (Picsum Photos)
+```
+https://picsum.photos/{width}/{height}
+```
+**Examples:**
+- `https://picsum.photos/400/300` - 400x300 image
+- `https://picsum.photos/800/600` - 800x600 image
+- `https://picsum.photos/1920/1080` - Full HD image
+
+### Random Avatars (Pravatar)
+```
+https://i.pravatar.cc/{size}
+```
+**Examples:**
+- `https://i.pravatar.cc/150` - 150x150 avatar
+- `https://i.pravatar.cc/64` - 64x64 avatar (small)
+- `https://i.pravatar.cc/300` - 300x300 avatar (large)
+
 ## Quick Reference
 
 ### Essential Commands

@@ -92,23 +92,23 @@ const nextArticle = () => {
 
         <!-- Section Actualités -->
         <!-- Carrousel d'actualités -->
-        <div class="relative col-span-1">
+        <div class="relative col-span-1 overflow-hidden">
           <!-- Flèche gauche -->
           <button
             @click="previousArticle"
-            class="absolute cursor-pointer -left-10 top-1/2 transform -translate-y-1/2 z-10 bg-repae-gray-800 hover:bg-repae-gray-700 text-white p-3 rounded-full transition-colors"
+            class="absolute cursor-pointer left-0 md:-left-10 top-1/2 transform -translate-y-1/2 z-10 bg-repae-gray-800 hover:bg-repae-gray-700 text-white p-2 md:p-3 rounded-full transition-colors"
             aria-label="Article précédent"
           >
-            <font-awesome-icon icon="fa-solid fa-chevron-left" class="text-xl" />
+            <font-awesome-icon icon="fa-solid fa-chevron-left" class="text-lg md:text-xl" />
           </button>
 
           <!-- Flèche droite -->
           <button
             @click="nextArticle"
-            class="absolute cursor-pointer -right-10 top-1/2 transform -translate-y-1/2 z-10 bg-repae-gray-800 hover:bg-repae-gray-700 text-white p-3 rounded-full transition-colors"
+            class="absolute cursor-pointer right-0 md:-right-10 top-1/2 transform -translate-y-1/2 z-10 bg-repae-gray-800 hover:bg-repae-gray-700 text-white p-2 md:p-3 rounded-full transition-colors"
             aria-label="Article suivant"
           >
-            <font-awesome-icon icon="fa-solid fa-chevron-right" class="text-xl" />
+            <font-awesome-icon icon="fa-solid fa-chevron-right" class="text-lg md:text-xl" />
           </button>
 
           <!-- Conteneur des articles -->

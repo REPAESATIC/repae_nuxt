@@ -80,7 +80,7 @@ const formatValue = (stat) => {
 </script>
 
 <template>
-  <section class="relative min-h-[600px] bg-gradient-to-br from-repae-gray-800 to-repae-gray-900 dark:from-repae-gray-900 dark:to-black">
+  <section class="relative min-h-[600px] bg-gradient-to-br from-repae-gray-800 to-repae-gray-900 dark:from-repae-gray-900 dark:to-black overflow-hidden">
     <div
       class="absolute inset-0 bg-cover bg-center hero-background"
       :style="{ backgroundImage: 'url(/image/background/background-image-hero-section.jpg)' }"
