@@ -367,15 +367,11 @@ const totalAlumni = computed(() => {
         </div>
 
         <!-- Card Container (Formulaire ou Notebook) -->
-        <div class="card-wrapper lg:w-[380px] lg:flex-shrink-0 z-20 lg:mt-12">
+        <div class="card-wrapper lg:w-[380px] lg:flex-shrink-0 z-20 lg:mt-12" style="perspective: 1200px;">
           <Transition
             mode="out-in"
-            enter-active-class="transition-all duration-300 ease-out"
-            enter-from-class="opacity-0 translate-y-4"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-active-class="transition-all duration-200 ease-in"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 -translate-y-4"
+            enter-active-class="animate__animated animate__backInRight animate__fast"
+            leave-active-class="animate__animated animate__backOutLeft animate__faster"
           >
             <!-- Formulaire d'inscription -->
             <div v-if="!selectedCountry" key="form" class="bg-slate-700 dark:bg-slate-800 p-6 sm:p-8 rounded-xl shadow-xl relative mt-16 lg:mt-0">
@@ -483,7 +479,7 @@ const totalAlumni = computed(() => {
             </div>
 
             <!-- Card du pays sélectionné - Style Notebook -->
-            <div v-else key="notebook" class="notebook-card-wrapper">
+            <div v-else :key="'country-' + selectedCountry.id" class="notebook-card-wrapper">
               <div class="notebook-card">
                 <!-- Image du pays avec effet scotch -->
                 <div class="notebook-card-image">
