@@ -59,11 +59,11 @@ const jobOffers = ref([
         </p>
       </div>
 
-      <div class="grid md:grid-cols-4 gap-1 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 justify-items-center">
         <div
           v-for="job in jobOffers"
             :key="job.id"
-            class="mt-10 bg-repae-blue border-2 border-white dark:border-gray-500 dark:bg-repae-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 max-w-[18rem]"
+            class="mt-10 bg-repae-blue border-2 border-white dark:border-gray-500 dark:bg-repae-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 w-full max-w-[18rem]"
           >
           <div class="p-6 text-white relative">
             <div class="rounded-md overflow-hidden bg-amber-700 flex items-start justify-center mb-4 absolute -top-12 left-1/2 transform -translate-x-1/2">
@@ -80,8 +80,8 @@ const jobOffers = ref([
                 {{ job.company }}
               </p>
               <p class="text-sm dark:text-repae-gray-300 font-brand flex items-center">
-                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="mr-2" />
-                {{ job.location }}
+                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="mr-2 shrink-0" />
+                <span class="wrap-break-word">{{ job.location }}</span>
               </p>
               <p class="text-sm dark:text-repae-gray-300 font-brand flex items-center">
                 <font-awesome-icon icon="fa-solid fa-briefcase" class="mr-2" />

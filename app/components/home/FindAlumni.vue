@@ -22,6 +22,11 @@ const hovered = ref(null)
 // Selected country state
 const selectedCountry = ref(null)
 
+// Click origin for animation
+const clickOrigin = ref({ x: 0, y: 0 })
+const cardWrapperRef = ref(null)
+const mapContainerRef = ref(null)
+
 // Mouse position for tooltip
 const mousePosition = ref({ x: 0, y: 0 })
 
@@ -244,9 +249,20 @@ const getAlumniForCountry = (countryId) => {
 }
 
 // Handle country click
-const handleCountryClick = (location) => {
+const handleCountryClick = (location, event) => {
   const alumni = getAlumniForCountry(location.id)
   if (alumni) {
+    // Calculate click position relative to card wrapper
+    if (cardWrapperRef.value && mapContainerRef.value) {
+      const cardRect = cardWrapperRef.value.getBoundingClientRect()
+      const clickX = event.clientX - cardRect.left
+      const clickY = event.clientY - cardRect.top
+      clickOrigin.value = { x: clickX, y: clickY }
+
+      // Set CSS custom properties for animation
+      cardWrapperRef.value.style.setProperty('--origin-x', `${clickX}px`)
+      cardWrapperRef.value.style.setProperty('--origin-y', `${clickY}px`)
+    }
     selectedCountry.value = alumni
   }
 }
@@ -264,6 +280,16 @@ const handleTooltipClick = () => {
 // Close country card
 const closeCountryCard = () => {
   selectedCountry.value = null
+}
+
+// Handle country selection from list (bottom buttons)
+const selectCountryFromList = (data) => {
+  // Set default animation origin (center-left for list clicks)
+  if (cardWrapperRef.value) {
+    cardWrapperRef.value.style.setProperty('--origin-x', '-100px')
+    cardWrapperRef.value.style.setProperty('--origin-y', '200px')
+  }
+  selectedCountry.value = data
 }
 
 // Total alumni count
@@ -312,7 +338,7 @@ const totalAlumni = computed(() => {
       <!-- Map and Card Container -->
       <div class="relative flex flex-col lg:flex-row gap-6 lg:gap-0">
         <!-- Map Container -->
-        <div class="relative flex-1 bg-linear-to-br from-gray-50 to-gray-100 dark:from-repae-gray-700 dark:to-repae-gray-900 rounded-3xl p-4 lg:p-8 border border-gray-200/50 dark:border-repae-gray-600/50 shadow-xl lg:-mr-20 z-10">
+        <div ref="mapContainerRef" class="relative flex-1 bg-linear-to-br from-gray-50 to-gray-100 dark:from-repae-gray-700 dark:to-repae-gray-900 rounded-3xl p-4 lg:p-8 border border-gray-200/50 dark:border-repae-gray-600/50 shadow-xl lg:-mr-20 z-10">
           <!-- Map -->
           <div class="map-container relative" @mousemove="handleMouseMove">
             <svg
@@ -331,7 +357,7 @@ const totalAlumni = computed(() => {
                 :class="{ 'cursor-pointer': countriesWithAlumni.includes(location.id) }"
                 @mouseenter="hovered = location"
                 @mouseleave="hovered = null"
-                @click="handleCountryClick(location)"
+                @click="handleCountryClick(location, $event)"
               />
             </svg>
 
@@ -367,11 +393,10 @@ const totalAlumni = computed(() => {
         </div>
 
         <!-- Card Container (Formulaire ou Notebook) -->
-        <div class="card-wrapper lg:w-[380px] lg:flex-shrink-0 z-20 lg:mt-12" style="perspective: 1200px;">
+        <div ref="cardWrapperRef" class="card-wrapper lg:w-[380px] lg:flex-shrink-0 z-20 lg:mt-12 relative" style="perspective: 1200px;">
           <Transition
-            mode="out-in"
-            enter-active-class="animate__animated animate__backInRight animate__fast"
-            leave-active-class="animate__animated animate__backOutLeft animate__faster"
+            enter-active-class="card-zoom-enter"
+            leave-active-class="card-zoom-leave"
           >
             <!-- Formulaire d'inscription -->
             <div v-if="!selectedCountry" key="form" class="bg-slate-700 dark:bg-slate-800 p-6 sm:p-8 rounded-xl shadow-xl relative mt-16 lg:mt-0">
@@ -472,7 +497,7 @@ const totalAlumni = computed(() => {
                   type="submit"
                   class="w-full bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold py-2.5 sm:py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg mt-4 sm:mt-6 text-sm sm:text-base cursor-pointer"
                 >
-                  <font-awesome-icon icon="fa-solid fa-search" class="mr-2" />
+                  <font-awesome-icon icon="fa-solid fa-user-plus" class="mr-2" />
                   S'inscrire
                 </button>
               </form>
@@ -568,10 +593,11 @@ const totalAlumni = computed(() => {
               'country-name-card--active': selectedCountry?.id === countryId,
               'country-name-card--main': countryId === mainCountry
             }"
-            @click="selectedCountry = data"
+            @click="selectCountryFromList(data)"
           >
             <font-awesome-icon v-if="countryId === mainCountry" icon="fa-solid fa-star" class="text-xs mr-1" />
             {{ data.country }}
+            <span class="country-name-card-count">{{ data.alumniCount }}</span>
           </button>
         </div>
       </div>
@@ -977,5 +1003,81 @@ const totalAlumni = computed(() => {
 
 :root.dark .country-name-card--main.country-name-card--active {
   background: #b45309;
+}
+
+.country-name-card-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.25rem;
+  padding: 0 0.375rem;
+  margin-left: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(20, 136, 187, 0.2);
+  color: #1488bb;
+  border-radius: 9999px;
+}
+
+:root.dark .country-name-card-count {
+  background: rgba(20, 136, 187, 0.3);
+  color: #5cb8d6;
+}
+
+.country-name-card--main .country-name-card-count {
+  background: rgba(146, 64, 14, 0.2);
+  color: #92400e;
+}
+
+:root.dark .country-name-card--main .country-name-card-count {
+  background: rgba(254, 243, 199, 0.2);
+  color: #fef3c7;
+}
+
+.country-name-card--active .country-name-card-count {
+  background: rgba(255, 255, 255, 0.3);
+  color: inherit;
+}
+
+/* Card transition - zoom from click origin */
+@keyframes zoomFromOrigin {
+  0% {
+    transform: translate(var(--origin-x, -200px), var(--origin-y, 100px)) scale(0.1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomToOrigin {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--origin-x, -200px), var(--origin-y, 100px)) scale(0.1);
+    opacity: 0;
+  }
+}
+
+.card-zoom-enter {
+  animation: zoomFromOrigin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  position: relative;
+  z-index: 10;
+}
+
+.card-zoom-leave {
+  animation: zoomToOrigin 0.4s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 </style>
