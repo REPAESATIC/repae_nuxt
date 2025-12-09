@@ -590,7 +590,7 @@ const totalAlumni = computed(() => {
 
       <!-- Liste des pays avec alumni - Style Post-it -->
       <div class="mt-12">
-        <div class="flex flex-wrap justify-center gap-3">
+        <div class="countries-scroll-container flex flex-nowrap gap-3 overflow-x-auto pb-4 px-2">
           <button
             v-for="(data, countryId) in alumniData"
             :key="countryId"
@@ -920,8 +920,44 @@ const totalAlumni = computed(() => {
   color: #1488bb;
 }
 
+/* Countries Scroll Container */
+.countries-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #1488bb transparent;
+}
+
+.countries-scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.countries-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.countries-scroll-container::-webkit-scrollbar-thumb {
+  background: #1488bb;
+  border-radius: 3px;
+}
+
+.countries-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #117a9e;
+}
+
+:root.dark .countries-scroll-container {
+  scrollbar-color: #5cb8d6 transparent;
+}
+
+:root.dark .countries-scroll-container::-webkit-scrollbar-thumb {
+  background: #5cb8d6;
+}
+
+:root.dark .countries-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #7dc8e0;
+}
+
 /* Country Name Cards - Post-it Style */
 .country-name-card {
+  flex-shrink: 0;
   padding: 0.5rem 1rem;
   background: #fffef0;
   color: #374151;
