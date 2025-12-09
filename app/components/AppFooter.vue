@@ -1,14 +1,15 @@
 <script setup>
 const currentYear = new Date().getFullYear()
 
-const socialLinks = ref([
+// Données statiques - pas besoin de ref()
+const socialLinks = [
   { icon: 'fa-brands fa-facebook', url: '#', label: 'Facebook' },
   { icon: 'fa-brands fa-twitter', url: '#', label: 'Twitter' },
   { icon: 'fa-brands fa-linkedin', url: '#', label: 'LinkedIn' },
   { icon: 'fa-brands fa-instagram', url: '#', label: 'Instagram' }
-])
+]
 
-const newsArticles = ref([
+const newsArticles = [
   {
     id: 1,
     image: '/image/actualites/actualite1.png',
@@ -23,7 +24,20 @@ const newsArticles = ref([
     title: 'Transformation digitale et l\'avenir du travail',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   }
-])
+]
+
+// Carrousel d'actualités
+const currentArticleIndex = ref(0)
+
+const previousArticle = () => {
+  currentArticleIndex.value = currentArticleIndex.value > 0
+    ? currentArticleIndex.value - 1
+    : newsArticles.length - 1
+}
+
+const nextArticle = () => {
+  currentArticleIndex.value = (currentArticleIndex.value + 1) % newsArticles.length
+}
 </script>
 
 <template>
@@ -81,6 +95,7 @@ const newsArticles = ref([
         <div class="relative col-span-1">
           <!-- Flèche gauche -->
           <button
+            @click="previousArticle"
             class="absolute cursor-pointer -left-10 top-1/2 transform -translate-y-1/2 z-10 bg-repae-gray-800 hover:bg-repae-gray-700 text-white p-3 rounded-full transition-colors"
             aria-label="Article précédent"
           >
@@ -89,6 +104,7 @@ const newsArticles = ref([
 
           <!-- Flèche droite -->
           <button
+            @click="nextArticle"
             class="absolute cursor-pointer -right-10 top-1/2 transform -translate-y-1/2 z-10 bg-repae-gray-800 hover:bg-repae-gray-700 text-white p-3 rounded-full transition-colors"
             aria-label="Article suivant"
           >
@@ -96,10 +112,11 @@ const newsArticles = ref([
           </button>
 
           <!-- Conteneur des articles -->
-          <div class="flex space-x-2">
+          <div class="flex space-x-2 transition-transform duration-300">
             <article
-              v-for="article in newsArticles"
+              v-for="(article, index) in newsArticles"
               :key="article.id"
+              v-show="index === currentArticleIndex || index === currentArticleIndex + 1"
               class="bg-repae-gray-800 dark:bg-repae-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
             >
               <!-- Image de couverture -->

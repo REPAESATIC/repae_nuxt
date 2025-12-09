@@ -2,6 +2,15 @@
 const { isDark, toggle } = useDarkMode()
 const isMobileMenuOpen = ref(false)
 
+// Liens de navigation centralisés
+const navLinks = [
+  { label: 'Accueil', href: '/', isNuxtLink: true },
+  { label: "L'Association", href: '#association', isNuxtLink: false },
+  { label: 'Espace IT', href: '#alumni', isNuxtLink: false },
+  { label: 'Entreprises', href: '#enterprises', isNuxtLink: false },
+  { label: 'Contact', href: '#contact', isNuxtLink: false }
+]
+
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
@@ -22,37 +31,23 @@ const toggleMobileMenu = () => {
           </NuxtLink>
         </div>
 
-        <div class="hidden md:flex items-center space-x-8 ">
-          <NuxtLink
-            to="/"
-            class="text-repae-gray-700 dark:text-repae-gray-300 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 font-brand transition-colors"
-          >
-            Accueil
-          </NuxtLink>
-          <a
-            href="#association"
-            class="text-repae-gray-700 dark:text-repae-gray-300 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 font-brand transition-colors"
-          >
-            L'Association
-          </a>
-          <a
-            href="#alumni"
-            class="text-repae-gray-700 dark:text-repae-gray-300 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 font-brand transition-colors"
-          >
-            Espace IT
-          </a>
-          <a
-            href="#enterprises"
-            class="text-repae-gray-700 dark:text-repae-gray-300 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 font-brand transition-colors"
-          >
-            Entreprises
-          </a>
-          <a
-            href="#contact"
-            class="text-repae-gray-700 dark:text-repae-gray-300 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 font-brand transition-colors"
-          >
-            Contact
-          </a>
+        <div class="hidden md:flex items-center space-x-8">
+          <template v-for="link in navLinks" :key="link.href">
+            <NuxtLink
+              v-if="link.isNuxtLink"
+              :to="link.href"
+              class="text-repae-gray-700 dark:text-repae-gray-300 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 font-brand transition-colors"
+            >
+              {{ link.label }}
+            </NuxtLink>
+            <a
+              v-else
+              :href="link.href"
+              class="text-repae-gray-700 dark:text-repae-gray-300 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 font-brand transition-colors"
+            >
+              {{ link.label }}
+            </a>
+          </template>
         </div>
 
         <div class="hidden md:flex items-center space-x-4">
@@ -99,36 +94,24 @@ const toggleMobileMenu = () => {
       class="md:hidden bg-white dark:bg-repae-gray-800 border-t border-gray-200 dark:border-repae-gray-700"
     >
       <div class="px-4 pt-2 pb-3 space-y-1">
-        <NuxtLink
-          to="/"
-          class="block px-3 py-2 rounded-md text-repae-gray-700 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 font-brand"
-        >
-          Accueil
-        </NuxtLink>
-        <a
-          href="#association"
-          class="block px-3 py-2 rounded-md text-repae-gray-700 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 font-brand"
-        >
-          L'Association
-        </a>
-        <a
-          href="#alumni"
-          class="block px-3 py-2 rounded-md text-repae-gray-700 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 font-brand"
-        >
-          Espace IT
-        </a>
-        <a
-          href="#enterprises"
-          class="block px-3 py-2 rounded-md text-repae-gray-700 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 font-brand"
-        >
-          Entreprises
-        </a>
-        <a
-          href="#contact"
-          class="block px-3 py-2 rounded-md text-repae-gray-700 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 font-brand"
-        >
-          Contact
-        </a>
+        <template v-for="link in navLinks" :key="link.href">
+          <NuxtLink
+            v-if="link.isNuxtLink"
+            :to="link.href"
+            class="block px-3 py-2 rounded-md text-repae-gray-700 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 font-brand"
+            @click="isMobileMenuOpen = false"
+          >
+            {{ link.label }}
+          </NuxtLink>
+          <a
+            v-else
+            :href="link.href"
+            class="block px-3 py-2 rounded-md text-repae-gray-700 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 font-brand"
+            @click="isMobileMenuOpen = false"
+          >
+            {{ link.label }}
+          </a>
+        </template>
         <div class="pt-4 border-t border-gray-200 dark:border-repae-gray-700">
           <!-- Mobile Search Bar -->
           <div class="relative mb-4">

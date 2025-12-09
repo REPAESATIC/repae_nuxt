@@ -83,12 +83,6 @@ const totalPages = computed(() => {
   return Math.ceil(testimonials.value.length / testimonialsPerView.value)
 })
 
-// Témoignages visibles pour la page actuelle
-const visibleTestimonials = computed(() => {
-  const start = currentIndex.value * testimonialsPerView.value
-  return testimonials.value.slice(start, start + testimonialsPerView.value)
-})
-
 // Fonction pour obtenir les témoignages d'une page spécifique
 const getTestimonialsForPage = (pageIndex) => {
   const start = pageIndex * testimonialsPerView.value
@@ -129,22 +123,18 @@ const handleMouseLeave = () => {
   isPaused.value = false
 }
 
+const handleResize = () => {
+  currentIndex.value = 0
+}
+
 onMounted(() => {
   startAutoScroll()
-
-  // Réinitialiser lors du redimensionnement
-  const handleResize = () => {
-    currentIndex.value = 0
-  }
   window.addEventListener('resize', handleResize)
-
-  return () => {
-    window.removeEventListener('resize', handleResize)
-  }
 })
 
 onUnmounted(() => {
   stopAutoScroll()
+  window.removeEventListener('resize', handleResize)
 })
 </script>
 
@@ -215,7 +205,7 @@ onUnmounted(() => {
         <div v-if="totalPages > 1" class="flex justify-center items-center mt-12 space-x-4">
           <button
             @click="previousTestimonial"
-            class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             :disabled="currentIndex === 0"
           >
             <font-awesome-icon icon="fa-solid fa-chevron-left" class="text-repae-gray-600 dark:text-repae-gray-400" />
@@ -226,14 +216,14 @@ onUnmounted(() => {
               v-for="(_, index) in totalPages"
               :key="index"
               @click="goToTestimonial(index)"
-              class="w-3 h-3 rounded-full transition-all duration-300"
+              class="w-3 h-3 rounded-full transition-all duration-300 cursor-pointer"
               :class="currentIndex === index ? 'bg-repae-blue-500 w-8' : 'bg-gray-300 dark:bg-repae-gray-600 hover:bg-gray-400 dark:hover:bg-repae-gray-500'"
             ></button>
           </div>
 
           <button
             @click="nextTestimonial"
-            class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             :disabled="currentIndex === totalPages - 1"
           >
             <font-awesome-icon icon="fa-solid fa-chevron-right" class="text-repae-gray-600 dark:text-repae-gray-400" />

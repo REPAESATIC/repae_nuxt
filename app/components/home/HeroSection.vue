@@ -1,8 +1,6 @@
 <script setup>
 // Animation states for hero content
 const heroContentVisible = ref(false)
-const titleRef = ref(null)
-const subtitleRef = ref(null)
 
 const stats = ref([
   { value: '+150', label: 'Membres actifs', numericValue: 150, prefix: '+', suffix: '', key: 'members' },
@@ -39,13 +37,15 @@ const animateCounter = (index, targetValue, duration = 2000) => {
 }
 
 // Intersection Observer for triggering animations
+let observer = null
+
 onMounted(() => {
   // Trigger hero content animations immediately
   setTimeout(() => {
     heroContentVisible.value = true
   }, 100)
 
-  const observer = new IntersectionObserver(
+  observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !statsVisible.value) {
@@ -67,6 +67,12 @@ onMounted(() => {
   }
 })
 
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+  }
+})
+
 // Format displayed value with prefix and suffix
 const formatValue = (stat) => {
   return `${stat.prefix}${stat.displayValue}${stat.suffix}`
@@ -83,7 +89,6 @@ const formatValue = (stat) => {
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <div class="w-full md:w-6/12 md:ml-auto text-center md:text-left">
         <h1
-          ref="titleRef"
           :class="[
             'text-4xl text-shadow-lg text-shadow-repae-blue-500 md:text-5xl lg:text-6xl font-bold text-white font-brand mb-6 transition-all duration-1000 transform',
             heroContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -92,7 +97,6 @@ const formatValue = (stat) => {
           Nous sommes l'empreinte de l'excellence
         </h1>
         <p
-          ref="subtitleRef"
           :class="[
             'text-xl md:text-2xl text-gray-200 font-brand mb-8 max-w-3xl m-x-auto md:mx-0 transition-all duration-1000 transform',
             heroContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'

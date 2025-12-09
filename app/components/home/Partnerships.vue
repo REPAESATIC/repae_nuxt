@@ -1,5 +1,6 @@
 <script setup>
-const partners = ref([
+// Données statiques - pas besoin de ref()
+const partners = [
   {
     id: 1,
     name: 'Partenaire 1',
@@ -21,24 +22,7 @@ const partners = ref([
     description: "Réseau national d'écoles d'ingénieurs",
     website: '#'
   }
-])
-
-const newsItems = ref([
-  {
-    id: 1,
-    title: 'partnerships.news1.title',
-    content: 'partnerships.news1.content',
-    date: '2024-01-15',
-    image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=400'
-  },
-  {
-    id: 2,
-    title: 'partnerships.news2.title',
-    content: 'partnerships.news2.content',
-    date: '2024-01-10',
-    image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400'
-  }
-])
+]
 </script>
 
 <template>

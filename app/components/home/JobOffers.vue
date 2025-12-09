@@ -66,8 +66,8 @@ const jobOffers = ref([
             class="mt-10 bg-repae-blue border-2 border-white dark:border-gray-500 dark:bg-repae-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 max-w-[18rem]"
           >
           <div class="p-6 text-white relative">
-            <div class=" rounded-md overflow-hidden bg-amber-700 flex items-start justify-center mb-4 absolute -top-12 left-1/2 transform -translate-x-1/2">
-              <img class="maxh-32 object-cover" src="/image/exemples/tech-logo.jpg" alt="">
+            <div class="rounded-md overflow-hidden bg-amber-700 flex items-start justify-center mb-4 absolute -top-12 left-1/2 transform -translate-x-1/2">
+              <img class="max-h-32 object-cover" src="/image/exemples/tech-logo.jpg" :alt="job.company">
             </div>
 
             <h3 class="text-xl font-bold dark:text-white font-brand mb-2 mt-12">

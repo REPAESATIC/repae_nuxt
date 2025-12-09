@@ -3,7 +3,7 @@ const formData = ref({
   firstName: '',
   name: '',
   company: '',
-  location: '',
+  email: '',
   promotion: ''
 })
 
@@ -126,7 +126,7 @@ const handleSearch = () => {
               <!-- Bouton de recherche responsive -->
               <button
                 type="submit"
-                class="w-full bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold py-2.5 sm:py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg mt-4 sm:mt-6 text-sm sm:text-base"
+                class="w-full bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold py-2.5 sm:py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg mt-4 sm:mt-6 text-sm sm:text-base cursor-pointer"
               >
                 <font-awesome-icon icon="fa-solid fa-search" class="mr-2" />
                 S'inscrire
