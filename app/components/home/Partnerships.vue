@@ -43,7 +43,7 @@ const partners = [
           :key="partner.id"
           :src="partner.logo"
           :alt="partner.name"
-          class="h-32 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
+          class="h-32 w-auto object-contain opacity-70 hover:opacity-100 transition-all dark:brightness-0 dark:invert"
         />
       </div>
     </div>
