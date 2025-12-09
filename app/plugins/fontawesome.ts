@@ -51,6 +51,7 @@ import {
   faSpinner,
   faCircle,
   faHandPointer,
+  faHandPointDown,
   faUserPlus,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -117,6 +118,7 @@ library.add(
   faSpinner,
   faCircle,
   faHandPointer,
+  faHandPointDown,
   faUserPlus,
 )
 

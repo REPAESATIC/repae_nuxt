@@ -42,15 +42,15 @@ const formatValue = (stat) => {
 // Intersection Observer for stats
 let statsObserver = null
 
-const testimonials = ref([
+// Témoignages - rangée 1
+const testimonialsRow1 = ref([
   {
     id: 1,
     name: 'Jean DUPONT',
     role: 'Directeur Technique',
     company: 'Tech Solutions',
     image: 'https://i.pravatar.cc/150?img=1',
-    content: 'REPAE m\'a permis de développer mon réseau professionnel et d\'accéder à des opportunités exceptionnelles. La solidarité entre alumni est remarquable.',
-    rating: 5
+    content: 'REPAE m\'a permis de développer mon réseau professionnel et d\'accéder à des opportunités exceptionnelles.',
   },
   {
     id: 2,
@@ -58,8 +58,7 @@ const testimonials = ref([
     role: 'Chef de Projet',
     company: 'Innovation Corp',
     image: 'https://i.pravatar.cc/150?img=2',
-    content: 'Grâce à REPAE, j\'ai pu rencontrer des mentors qui ont guidé ma carrière. C\'est bien plus qu\'un réseau, c\'est une famille professionnelle.',
-    rating: 5
+    content: 'Grâce à REPAE, j\'ai pu rencontrer des mentors qui ont guidé ma carrière. C\'est une famille professionnelle.',
   },
   {
     id: 3,
@@ -67,26 +66,27 @@ const testimonials = ref([
     role: 'Data Scientist',
     company: 'DataTech Industries',
     image: 'https://i.pravatar.cc/150?img=3',
-    content: 'Le réseau REPAE m\'a ouvert des portes que je n\'aurais jamais imaginées. La qualité des connexions et le soutien professionnel sont incomparables.',
-    rating: 5
+    content: 'Le réseau REPAE m\'a ouvert des portes que je n\'aurais jamais imaginées. Le soutien est incomparable.',
   },
   {
     id: 4,
     name: 'Sophie LEROY',
-    role: 'Responsable Développement Durable',
-    company: 'Green Energy Solutions',
+    role: 'Responsable Dev Durable',
+    company: 'Green Energy',
     image: 'https://i.pravatar.cc/150?img=4',
-    content: 'Grâce à REPAE, j\'ai réussi ma transition vers les technologies durables. L\'accompagnement et le soutien du réseau ont fait toute la différence.',
-    rating: 5
+    content: 'J\'ai réussi ma transition vers les technologies durables grâce à l\'accompagnement du réseau.',
   },
+])
+
+// Témoignages - rangée 2
+const testimonialsRow2 = ref([
   {
     id: 5,
     name: 'Thomas PETIT',
     role: 'Architecte Systèmes',
     company: 'Aerospace Dynamics',
     image: 'https://i.pravatar.cc/150?img=5',
-    content: 'Faire partie de REPAE, c\'est appartenir à une communauté d\'élite. Les opportunités de croissance professionnelle sont extraordinaires.',
-    rating: 5
+    content: 'Faire partie de REPAE, c\'est appartenir à une communauté d\'élite avec des opportunités extraordinaires.',
   },
   {
     id: 6,
@@ -94,8 +94,7 @@ const testimonials = ref([
     role: 'Directrice Innovation',
     company: 'Smart Systems SA',
     image: 'https://i.pravatar.cc/150?img=6',
-    content: 'Le programme de mentorat REPAE a transformé ma trajectoire professionnelle. Le partage de connaissances entre alumni est inestimable.',
-    rating: 5
+    content: 'Le programme de mentorat REPAE a transformé ma trajectoire. Le partage de connaissances est inestimable.',
   },
   {
     id: 7,
@@ -103,71 +102,20 @@ const testimonials = ref([
     role: 'Responsable R&D',
     company: 'Robotics Lab',
     image: 'https://i.pravatar.cc/150?img=7',
-    content: 'Le réseau REPAE est mon plus grand atout professionnel. C\'est une communauté qui incarne véritablement l\'excellence et la solidarité.',
-    rating: 5
+    content: 'Le réseau REPAE est mon plus grand atout. Une communauté qui incarne l\'excellence et la solidarité.',
+  },
+  {
+    id: 8,
+    name: 'Emma DUBOIS',
+    role: 'Lead Developer',
+    company: 'FinTech Pro',
+    image: 'https://i.pravatar.cc/150?img=8',
+    content: 'Les événements networking de REPAE m\'ont permis de décrocher mon poste actuel. Merci au réseau !',
   },
 ])
 
-const currentIndex = ref(0)
+// Pause on hover
 const isPaused = ref(false)
-let autoScrollInterval = null
-
-// Largeur de la fenêtre réactive
-const windowWidth = ref(1024)
-
-// Nombre de témoignages par vue (responsive)
-const testimonialsPerView = computed(() => {
-  if (windowWidth.value >= 1024) return 3 // Desktop: 3 témoignages
-  if (windowWidth.value >= 768) return 2   // Tablet: 2 témoignages
-  return 1                                  // Mobile: 1 témoignage
-})
-
-// Nombre total de "pages" de témoignages
-const totalPages = computed(() => {
-  return Math.ceil(testimonials.value.length / testimonialsPerView.value)
-})
-
-// Fonction pour obtenir les témoignages d'une page spécifique
-// Complète avec des témoignages du début si la page est incomplète (pour garder la ligne pleine)
-const getTestimonialsForPage = (pageIndex) => {
-  const perView = testimonialsPerView.value
-  const total = testimonials.value.length
-  const start = pageIndex * perView
-  const result = []
-
-  for (let i = 0; i < perView; i++) {
-    const index = (start + i) % total
-    result.push({ ...testimonials.value[index], displayKey: `${pageIndex}-${i}` })
-  }
-
-  return result
-}
-
-const startAutoScroll = () => {
-  autoScrollInterval = setInterval(() => {
-    if (!isPaused.value) {
-      nextTestimonial()
-    }
-  }, 5000) // Change testimonials every 5 seconds
-}
-
-const stopAutoScroll = () => {
-  if (autoScrollInterval) {
-    clearInterval(autoScrollInterval)
-  }
-}
-
-const previousTestimonial = () => {
-  currentIndex.value = currentIndex.value > 0 ? currentIndex.value - 1 : totalPages.value - 1
-}
-
-const nextTestimonial = () => {
-  currentIndex.value = (currentIndex.value + 1) % totalPages.value
-}
-
-const goToTestimonial = (index) => {
-  currentIndex.value = index
-}
 
 const handleMouseEnter = () => {
   isPaused.value = true
@@ -177,20 +125,7 @@ const handleMouseLeave = () => {
   isPaused.value = false
 }
 
-const handleResize = () => {
-  windowWidth.value = window.innerWidth
-  // Réinitialiser l'index si on dépasse le nombre de pages
-  if (currentIndex.value >= totalPages.value) {
-    currentIndex.value = Math.max(0, totalPages.value - 1)
-  }
-}
-
 onMounted(() => {
-  // Initialiser la largeur de la fenêtre
-  windowWidth.value = window.innerWidth
-  startAutoScroll()
-  window.addEventListener('resize', handleResize)
-
   // Observer pour les stats
   statsObserver = new IntersectionObserver(
     (entries) => {
@@ -214,8 +149,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  stopAutoScroll()
-  window.removeEventListener('resize', handleResize)
   if (statsObserver) {
     statsObserver.disconnect()
   }
@@ -275,94 +208,117 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <div class="mx-auto">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-repae-blue-500 dark:text-white font-brand mb-4">
-          Témoignages De Nos Alumni
-        </h2>
-        <p class="text-lg text-repae-gray-600 dark:text-repae-gray-300 font-brand">
-          Découvrez les parcours inspirants de nos membres
-        </p>
-      </div>
+    <!-- Titre de la section -->
+    <div class="text-center mb-12 px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-repae-blue-500 dark:text-white font-brand mb-4">
+        Témoignages De Nos Alumni
+      </h2>
+      <p class="text-lg text-repae-gray-600 dark:text-repae-gray-300 font-brand">
+        Découvrez les parcours inspirants de nos membres
+      </p>
+    </div>
 
-      <div class="relative overflow-hidden" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
-        <!-- Slider avec groupes de témoignages -->
+    <!-- Marquee Container -->
+    <div
+      class="relative overflow-hidden"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+    >
+      <!-- Gradient overlays pour effet de fondu -->
+      <div class="absolute left-0 top-0 bottom-0 w-20 md:w-40 bg-linear-to-r from-gray-50 dark:from-repae-gray-900 to-transparent z-10 pointer-events-none"></div>
+      <div class="absolute right-0 top-0 bottom-0 w-20 md:w-40 bg-linear-to-l from-gray-50 dark:from-repae-gray-900 to-transparent z-10 pointer-events-none"></div>
+
+      <!-- Rangée 1 - Défilement vers la gauche -->
+      <div class="mb-6">
         <div
-          class="flex transition-transform duration-700 ease-in-out"
-          :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
+          class="marquee-row flex gap-6"
+          :class="{ 'paused': isPaused }"
         >
-          <!-- Chaque "slide" contient un groupe de témoignages -->
+          <!-- Double les témoignages pour un défilement infini fluide -->
           <div
-            v-for="pageIndex in totalPages"
-            :key="pageIndex"
-            class="w-full flex-shrink-0 px-4"
+            v-for="(testimonial, index) in [...testimonialsRow1, ...testimonialsRow1]"
+            :key="`row1-${index}`"
+            class="testimonial-card shrink-0 w-80 md:w-96"
           >
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div
-                v-for="testimonial in getTestimonialsForPage(pageIndex - 1)"
-                :key="testimonial.displayKey"
-                class="transform transition-all duration-300 hover:scale-105"
-              >
-                <div class="bg-white dark:bg-repae-gray-800 rounded-xl shadow-lg p-6 border-l-4 border-l-repae-blue-500 h-full flex flex-col">
-                  <div class="flex items-start mb-4">
-                    <img
-                      :src="testimonial.image"
-                      :alt="testimonial.name"
-                      class="w-14 h-14 rounded-full mr-4 flex-shrink-0"
-                    >
-                    <div class="flex-1 min-w-0">
-                      <h3 class="font-bold text-repae-gray-900 dark:text-white font-brand text-sm">
-                        {{ testimonial.name }}
-                      </h3>
-                      <p class="text-xs text-repae-gray-600 dark:text-repae-gray-400 font-brand truncate">
-                        {{ testimonial.role }}
-                      </p>
-                      <p class="text-xs text-repae-gray-500 dark:text-repae-gray-500 font-brand truncate">
-                        {{ testimonial.company }}
-                      </p>
-                    </div>
-                  </div>
+            <div class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-repae-gray-700 h-full">
+              <!-- Quote icon -->
+              <div class="text-repae-blue-500/20 dark:text-repae-blue-400/20 mb-4">
+                <font-awesome-icon icon="fa-solid fa-quote-left" class="text-3xl" />
+              </div>
 
-                  <p class="text-repae-gray-600 dark:text-repae-gray-300 font-brand italic text-sm flex-1 mb-4 leading-relaxed">
-                    "{{ testimonial.content }}"
+              <!-- Contenu du témoignage -->
+              <p class="text-repae-gray-600 dark:text-repae-gray-300 font-brand text-sm leading-relaxed mb-6">
+                "{{ testimonial.content }}"
+              </p>
+
+              <!-- Auteur -->
+              <div class="flex items-center mt-auto">
+                <img
+                  :src="testimonial.image"
+                  :alt="testimonial.name"
+                  class="w-12 h-12 rounded-full ring-2 ring-repae-blue-500/20 mr-4"
+                >
+                <div>
+                  <h4 class="font-bold text-repae-gray-900 dark:text-white font-brand text-sm">
+                    {{ testimonial.name }}
+                  </h4>
+                  <p class="text-xs text-repae-blue-500 dark:text-repae-blue-400 font-brand">
+                    {{ testimonial.role }}
                   </p>
-
-                  <button class="text-repae-blue-500 hover:text-repae-blue-600 dark:text-repae-blue-400 dark:hover:text-repae-blue-300 font-brand font-medium text-sm self-start">
-                    Lire la suite →
-                  </button>
+                  <p class="text-xs text-repae-gray-500 dark:text-repae-gray-500 font-brand">
+                    {{ testimonial.company }}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Navigation uniquement si plus d'une page -->
-        <div v-if="totalPages > 1" class="flex justify-center items-center mt-12 space-x-4">
-          <button
-            @click="previousTestimonial"
-            class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            :disabled="currentIndex === 0"
+      <!-- Rangée 2 - Défilement vers la droite -->
+      <div>
+        <div
+          class="marquee-row marquee-reverse flex gap-6"
+          :class="{ 'paused': isPaused }"
+        >
+          <!-- Double les témoignages pour un défilement infini fluide -->
+          <div
+            v-for="(testimonial, index) in [...testimonialsRow2, ...testimonialsRow2]"
+            :key="`row2-${index}`"
+            class="testimonial-card shrink-0 w-80 md:w-96"
           >
-            <font-awesome-icon icon="fa-solid fa-chevron-left" class="text-repae-gray-600 dark:text-repae-gray-400" />
-          </button>
+            <div class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-repae-gray-700 h-full">
+              <!-- Quote icon -->
+              <div class="text-repae-blue-500/20 dark:text-repae-blue-400/20 mb-4">
+                <font-awesome-icon icon="fa-solid fa-quote-left" class="text-3xl" />
+              </div>
 
-          <div class="flex space-x-2">
-            <button
-              v-for="(_, index) in totalPages"
-              :key="index"
-              @click="goToTestimonial(index)"
-              class="w-3 h-3 rounded-full transition-all duration-300 cursor-pointer"
-              :class="currentIndex === index ? 'bg-repae-blue-500 w-8' : 'bg-gray-300 dark:bg-repae-gray-600 hover:bg-gray-400 dark:hover:bg-repae-gray-500'"
-            ></button>
+              <!-- Contenu du témoignage -->
+              <p class="text-repae-gray-600 dark:text-repae-gray-300 font-brand text-sm leading-relaxed mb-6">
+                "{{ testimonial.content }}"
+              </p>
+
+              <!-- Auteur -->
+              <div class="flex items-center mt-auto">
+                <img
+                  :src="testimonial.image"
+                  :alt="testimonial.name"
+                  class="w-12 h-12 rounded-full ring-2 ring-repae-blue-500/20 mr-4"
+                >
+                <div>
+                  <h4 class="font-bold text-repae-gray-900 dark:text-white font-brand text-sm">
+                    {{ testimonial.name }}
+                  </h4>
+                  <p class="text-xs text-repae-blue-500 dark:text-repae-blue-400 font-brand">
+                    {{ testimonial.role }}
+                  </p>
+                  <p class="text-xs text-repae-gray-500 dark:text-repae-gray-500 font-brand">
+                    {{ testimonial.company }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <button
-            @click="nextTestimonial"
-            class="p-3 rounded-full hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            :disabled="currentIndex === totalPages - 1"
-          >
-            <font-awesome-icon icon="fa-solid fa-chevron-right" class="text-repae-gray-600 dark:text-repae-gray-400" />
-          </button>
         </div>
       </div>
     </div>
@@ -370,6 +326,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* Stats animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -465,5 +422,42 @@ onUnmounted(() => {
   -webkit-background-clip: text;
   background-clip: text;
   animation: shimmer 2s linear infinite;
+}
+
+/* Marquee animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.marquee-row {
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.marquee-row.marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
+
+.marquee-row.paused {
+  animation-play-state: paused;
+}
+
+/* Hover effect on cards */
+.testimonial-card:hover {
+  transform: scale(1.02);
 }
 </style>

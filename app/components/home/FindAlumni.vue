@@ -339,6 +339,12 @@ const totalAlumni = computed(() => {
       <div class="relative flex flex-col lg:flex-row gap-6 lg:gap-0">
         <!-- Map Container -->
         <div ref="mapContainerRef" class="relative flex-1 bg-linear-to-br from-gray-50 to-gray-100 dark:from-repae-gray-700 dark:to-repae-gray-900 rounded-3xl p-4 lg:p-8 border border-gray-200/50 dark:border-repae-gray-600/50 shadow-xl lg:-mr-20 z-10">
+          <!-- Instruction (top) -->
+          <p class="text-center text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-4">
+            <font-awesome-icon icon="fa-solid fa-hand-point-down" class="mr-1" />
+            Cliquez sur un pays coloré pour voir les alumni
+          </p>
+
           <!-- Map -->
           <div class="map-container relative" @mousemove="handleMouseMove">
             <svg
