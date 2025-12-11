@@ -369,3 +369,8 @@ The following specification documents are available in the `banck/` directory:
 ### Functional Specifications
 - **Site Arborescence**: `banck/cahier_des_charges/arborescence.md` - Site structure and navigation hierarchy
 - **Cahier des charges**: `banck/cahier_des_charges/Simplifie_Cahier_des_charges_REPAE.md` - Project requirements, objectives, and technical specifications
+
+
+### French Content Without Accents in Markdown Files
+
+**IMPORTANT**: When writing markdown files (`.md`) in the `banck/` directory, **avoid using French accented characters** (e, e, a, etc.) to prevent encoding issues. Use non-accented equivalents instead:

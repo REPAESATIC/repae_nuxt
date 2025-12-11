@@ -1,12 +1,16 @@
 <script setup>
+import { associationNavItems } from '@/data/association'
+
 const { isDark, toggle } = useDarkMode()
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
+const isAssociationDropdownOpen = ref(false)
+const isMobileAssociationOpen = ref(false)
 
-// Liens de navigation centralisés
+// Liens de navigation centralises
 const navLinks = [
   { label: 'Accueil', href: '/', isNuxtLink: true },
-  { label: "L'Association", href: '#association', isNuxtLink: false },
+  { label: "L'Association", href: '/association', isNuxtLink: true, hasDropdown: true },
   { label: 'Espace IT', href: '#alumni', isNuxtLink: false },
   { label: 'Entreprises', href: '#enterprises', isNuxtLink: false },
   { label: 'Contact', href: '#contact', isNuxtLink: false }
@@ -14,9 +18,16 @@ const navLinks = [
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
+  if (!isMobileMenuOpen.value) {
+    isMobileAssociationOpen.value = false
+  }
 }
 
-// Détection du scroll pour effet de fond
+const toggleMobileAssociation = () => {
+  isMobileAssociationOpen.value = !isMobileAssociationOpen.value
+}
+
+// Detection du scroll pour effet de fond
 onMounted(() => {
   const handleScroll = () => {
     isScrolled.value = window.scrollY > 20
@@ -57,20 +68,84 @@ onMounted(() => {
         <!-- Navigation Desktop -->
         <div class="hidden lg:flex items-center gap-1">
           <template v-for="link in navLinks" :key="link.href">
-            <NuxtLink
-              v-if="link.isNuxtLink"
-              :to="link.href"
-              class="nav-link"
-            >
-              {{ link.label }}
-            </NuxtLink>
-            <a
+            <!-- Regular Link -->
+            <template v-if="!link.hasDropdown">
+              <NuxtLink
+                v-if="link.isNuxtLink"
+                :to="link.href"
+                class="nav-link"
+              >
+                {{ link.label }}
+              </NuxtLink>
+              <a
+                v-else
+                :href="link.href"
+                class="nav-link"
+              >
+                {{ link.label }}
+              </a>
+            </template>
+
+            <!-- Dropdown Link (L'Association) -->
+            <div
               v-else
-              :href="link.href"
-              class="nav-link"
+              class="relative"
+              @mouseenter="isAssociationDropdownOpen = true"
+              @mouseleave="isAssociationDropdownOpen = false"
             >
-              {{ link.label }}
-            </a>
+              <NuxtLink
+                :to="link.href"
+                class="nav-link flex items-center gap-1"
+              >
+                {{ link.label }}
+                <font-awesome-icon
+                  icon="fa-solid fa-chevron-down"
+                  :class="[
+                    'text-xs transition-transform duration-200',
+                    isAssociationDropdownOpen ? 'rotate-180' : ''
+                  ]"
+                />
+              </NuxtLink>
+
+              <!-- Dropdown Menu -->
+              <Transition
+                enter-active-class="transition-all duration-200 ease-out"
+                enter-from-class="opacity-0 -translate-y-2"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition-all duration-150 ease-in"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 -translate-y-2"
+              >
+                <div
+                  v-if="isAssociationDropdownOpen"
+                  class="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-repae-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-repae-gray-700 overflow-hidden"
+                >
+                  <div class="py-2">
+                    <NuxtLink
+                      v-for="item in associationNavItems"
+                      :key="item.id"
+                      :to="item.href"
+                      class="flex items-center gap-3 px-4 py-3 hover:bg-repae-blue-50 dark:hover:bg-repae-gray-700 transition-colors"
+                    >
+                      <div class="w-8 h-8 rounded-lg bg-repae-blue-500/10 dark:bg-repae-blue-500/20 flex items-center justify-center">
+                        <font-awesome-icon
+                          :icon="item.icon"
+                          class="text-sm text-repae-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <span class="block text-sm font-medium font-brand text-repae-gray-900 dark:text-white">
+                          {{ item.label }}
+                        </span>
+                        <span class="block text-xs font-brand text-repae-gray-500 dark:text-repae-gray-400">
+                          {{ item.description }}
+                        </span>
+                      </div>
+                    </NuxtLink>
+                  </div>
+                </div>
+              </Transition>
+            </div>
           </template>
         </div>
 
@@ -107,7 +182,7 @@ onMounted(() => {
 
           <!-- CTA Button -->
           <NuxtLink
-            to="#contact"
+            to="/association/adhesion"
             class="relative px-5 py-2.5 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 text-white font-semibold font-brand rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-repae-blue-500/25 hover:-translate-y-0.5"
           >
             <span class="relative z-10">Nous rejoindre</span>
@@ -154,24 +229,69 @@ onMounted(() => {
       >
         <div class="px-4 py-4 space-y-1">
           <template v-for="(link, index) in navLinks" :key="link.href">
-            <NuxtLink
-              v-if="link.isNuxtLink"
-              :to="link.href"
-              class="block px-4 py-3 rounded-xl text-repae-gray-700 dark:text-repae-gray-300 hover:bg-repae-blue-50 dark:hover:bg-repae-gray-800 hover:text-repae-blue-500 font-brand font-medium transition-all duration-200"
-              :style="{ animationDelay: `${index * 50}ms` }"
-              @click="isMobileMenuOpen = false"
-            >
-              {{ link.label }}
-            </NuxtLink>
-            <a
-              v-else
-              :href="link.href"
-              class="block px-4 py-3 rounded-xl text-repae-gray-700 dark:text-repae-gray-300 hover:bg-repae-blue-50 dark:hover:bg-repae-gray-800 hover:text-repae-blue-500 font-brand font-medium transition-all duration-200"
-              :style="{ animationDelay: `${index * 50}ms` }"
-              @click="isMobileMenuOpen = false"
-            >
-              {{ link.label }}
-            </a>
+            <!-- Regular mobile link -->
+            <template v-if="!link.hasDropdown">
+              <NuxtLink
+                v-if="link.isNuxtLink"
+                :to="link.href"
+                class="block px-4 py-3 rounded-xl text-repae-gray-700 dark:text-repae-gray-300 hover:bg-repae-blue-50 dark:hover:bg-repae-gray-800 hover:text-repae-blue-500 font-brand font-medium transition-all duration-200"
+                :style="{ animationDelay: `${index * 50}ms` }"
+                @click="isMobileMenuOpen = false"
+              >
+                {{ link.label }}
+              </NuxtLink>
+              <a
+                v-else
+                :href="link.href"
+                class="block px-4 py-3 rounded-xl text-repae-gray-700 dark:text-repae-gray-300 hover:bg-repae-blue-50 dark:hover:bg-repae-gray-800 hover:text-repae-blue-500 font-brand font-medium transition-all duration-200"
+                :style="{ animationDelay: `${index * 50}ms` }"
+                @click="isMobileMenuOpen = false"
+              >
+                {{ link.label }}
+              </a>
+            </template>
+
+            <!-- Mobile dropdown (L'Association) -->
+            <div v-else>
+              <button
+                @click="toggleMobileAssociation"
+                class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-repae-gray-700 dark:text-repae-gray-300 hover:bg-repae-blue-50 dark:hover:bg-repae-gray-800 hover:text-repae-blue-500 font-brand font-medium transition-all duration-200 cursor-pointer"
+              >
+                <span>{{ link.label }}</span>
+                <font-awesome-icon
+                  icon="fa-solid fa-chevron-down"
+                  :class="[
+                    'text-xs transition-transform duration-200',
+                    isMobileAssociationOpen ? 'rotate-180' : ''
+                  ]"
+                />
+              </button>
+
+              <!-- Mobile submenu -->
+              <Transition
+                enter-active-class="transition-all duration-200 ease-out"
+                enter-from-class="opacity-0 max-h-0"
+                enter-to-class="opacity-100 max-h-96"
+                leave-active-class="transition-all duration-150 ease-in"
+                leave-from-class="opacity-100 max-h-96"
+                leave-to-class="opacity-0 max-h-0"
+              >
+                <div v-if="isMobileAssociationOpen" class="overflow-hidden">
+                  <div class="pl-4 py-2 space-y-1">
+                    <NuxtLink
+                      v-for="item in associationNavItems"
+                      :key="item.id"
+                      :to="item.href"
+                      class="flex items-center gap-3 px-4 py-2 rounded-lg text-repae-gray-600 dark:text-repae-gray-400 hover:bg-repae-blue-50 dark:hover:bg-repae-gray-800 hover:text-repae-blue-500 font-brand text-sm transition-colors"
+                      @click="isMobileMenuOpen = false"
+                    >
+                      <font-awesome-icon :icon="item.icon" class="text-repae-blue-500 w-4" />
+                      {{ item.label }}
+                    </NuxtLink>
+                  </div>
+                </div>
+              </Transition>
+            </div>
           </template>
 
           <div class="pt-4 mt-4 border-t border-gray-200 dark:border-repae-gray-700">
@@ -189,13 +309,13 @@ onMounted(() => {
             </div>
 
             <!-- Mobile CTA -->
-            <a
-              href="#contact"
+            <NuxtLink
+              to="/association/adhesion"
               class="block w-full px-4 py-3 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 text-white text-center font-semibold font-brand rounded-xl hover:shadow-lg transition-all"
               @click="isMobileMenuOpen = false"
             >
               Nous rejoindre
-            </a>
+            </NuxtLink>
           </div>
         </div>
       </div>

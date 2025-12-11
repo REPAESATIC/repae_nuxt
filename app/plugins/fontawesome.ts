@@ -53,6 +53,11 @@ import {
   faHandPointer,
   faHandPointDown,
   faUserPlus,
+  // Association icons
+  faFileAlt,
+  faGavel,
+  faTag,
+  faHandsHelping,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -120,6 +125,11 @@ library.add(
   faHandPointer,
   faHandPointDown,
   faUserPlus,
+  // Association icons
+  faFileAlt,
+  faGavel,
+  faTag,
+  faHandsHelping,
 )
 
 // Add regular icons to library
