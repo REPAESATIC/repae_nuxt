@@ -356,3 +356,16 @@ pnpm preview    # Preview production build
 - **Components**: `/app/components/` (auto-imported)
 - **Pages**: `/app/pages/` (auto-routed)
 - **Layouts**: `/app/layouts/`
+- **Mock data**: `/app/data/` (testimonials, alumni, jobs, events, partners, footer)
+
+## Project Specifications & Documentation
+
+The following specification documents are available in the `banck/` directory:
+
+### Database Model
+- **MCD (Modèle Conceptuel de Données)**: `banck/bd/mdc.md` - Complete entity definitions with attributes
+- **Relations MCD**: `banck/bd/relation_mcd.md` - Entity relationships, cardinalities, and access matrix
+
+### Functional Specifications
+- **Site Arborescence**: `banck/cahier_des_charges/arborescence.md` - Site structure and navigation hierarchy
+- **Cahier des charges**: `banck/cahier_des_charges/Simplifie_Cahier_des_charges_REPAE.md` - Project requirements, objectives, and technical specifications
