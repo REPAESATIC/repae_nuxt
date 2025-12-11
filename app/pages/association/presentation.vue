@@ -2,9 +2,9 @@
 import { statistiques } from '@/data/association'
 
 useHead({
-  title: 'Presentation - L\'Association REPAE',
+  title: 'Présentation - L\'Association REPAE',
   meta: [
-    { name: 'description', content: 'Decouvrez l\'histoire, les objectifs et les valeurs du Reseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
+    { name: 'description', content: 'Découvrez l\'histoire, les objectifs et les valeurs du Réseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
   ]
 })
 </script>
@@ -15,8 +15,8 @@ useHead({
 
     <!-- Hero Section -->
     <AssociationHero
-      titre="Presentation du REPAE"
-      sous-titre="Decouvrez notre histoire, nos objectifs et nos valeurs"
+      titre="Présentation du REPAE"
+      sous-titre="Découvrez notre histoire, nos objectifs et nos valeurs"
     />
 
     <!-- Secondary Navigation -->
@@ -36,7 +36,7 @@ useHead({
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <UiSectionTitle
           titre="Le REPAE en chiffres"
-          description="Quelques statistiques cles sur notre reseau"
+          description="Quelques statistiques clés sur notre réseau"
         />
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8">

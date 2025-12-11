@@ -6,8 +6,8 @@ import { etapesAdhesion } from '@/data/association'
   <section class="py-16 bg-gray-50 dark:bg-repae-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <UiSectionTitle
-        titre="Comment adherer ?"
-        description="Les etapes pour rejoindre le reseau"
+        titre="Comment adhérer ?"
+        description="Les étapes pour rejoindre le réseau"
       />
 
       <div class="max-w-4xl mx-auto">

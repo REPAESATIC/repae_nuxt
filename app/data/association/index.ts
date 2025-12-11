@@ -1,4 +1,4 @@
-// Export centralise des donnees de l'association
+// Export centralisé des données de l'association
 
 export * from './presentation'
 export * from './bureau'
@@ -9,24 +9,24 @@ export * from './documents'
 export const associationNavItems = [
   {
     id: 'presentation',
-    label: 'Presentation',
+    label: 'Présentation',
     href: '/association/presentation',
     icon: 'fa-solid fa-users',
-    description: 'Decouvrez l\'histoire et les objectifs du REPAE'
+    description: 'Découvrez l\'histoire et les objectifs du REPAE'
   },
   {
     id: 'bureau',
     label: 'Le Bureau',
     href: '/association/bureau',
     icon: 'fa-solid fa-user-tie',
-    description: 'Rencontrez les membres du bureau executif'
+    description: 'Rencontrez les membres du bureau exécutif'
   },
   {
     id: 'adhesion',
-    label: 'Adhesion',
+    label: 'Adhésion',
     href: '/association/adhesion',
     icon: 'fa-solid fa-handshake',
-    description: 'Rejoignez le reseau des alumni'
+    description: 'Rejoignez le réseau des alumni'
   },
   {
     id: 'statuts',
@@ -37,9 +37,9 @@ export const associationNavItems = [
   },
   {
     id: 'reglement',
-    label: 'Reglement',
+    label: 'Règlement',
     href: '/association/reglement',
     icon: 'fa-solid fa-gavel',
-    description: 'Consultez le reglement interieur'
+    description: 'Consultez le règlement intérieur'
   }
 ]

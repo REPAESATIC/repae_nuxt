@@ -1,4 +1,4 @@
-// Donnees des documents officiels du REPAE
+// Données des documents officiels du REPAE
 
 export interface DocumentOfficiel {
   id: string
@@ -16,7 +16,7 @@ export const documentsOfficiels: DocumentOfficiel[] = [
     id: 'statuts-v1',
     titre: 'Statuts du REPAE',
     type: 'statut',
-    description: 'Les statuts definissent les regles fondamentales de fonctionnement de l\'association, ses objectifs, son organisation et les droits et devoirs de ses membres.',
+    description: 'Les statuts définissent les règles fondamentales de fonctionnement de l\'association, ses objectifs, son organisation et les droits et devoirs de ses membres.',
     fichier_url: '/documents/statuts-repae-v1.pdf',
     version: '1.0',
     date_publication: '2022-03-15',
@@ -24,9 +24,9 @@ export const documentsOfficiels: DocumentOfficiel[] = [
   },
   {
     id: 'reglement-v1',
-    titre: 'Reglement Interieur',
+    titre: 'Règlement Intérieur',
     type: 'reglement',
-    description: 'Le reglement interieur precise les modalites pratiques d\'application des statuts et les regles de vie au sein du reseau.',
+    description: 'Le règlement intérieur précise les modalités pratiques d\'application des statuts et les règles de vie au sein du réseau.',
     fichier_url: '/documents/reglement-interieur-repae-v1.pdf',
     version: '1.0',
     date_publication: '2022-03-15',
@@ -39,64 +39,64 @@ export const reglement = documentsOfficiels.find(doc => doc.type === 'reglement'
 
 // Contenu des statuts (pour affichage inline si pas de PDF)
 export const statutsContenu = {
-  preambule: `Le Reseau Professionnel des Alumni de l'ESATIC (REPAE) est une association a but non lucratif regroupant les anciens etudiants de l'Ecole Superieure Africaine des Technologies de l'Information et de la Communication.`,
+  preambule: `Le Réseau Professionnel des Alumni de l'ESATIC (REPAE) est une association à but non lucratif regroupant les anciens étudiants de l'École Supérieure Africaine des Technologies de l'Information et de la Communication.`,
   articles: [
     {
       numero: 1,
-      titre: 'Denomination',
-      contenu: 'Il est fonde entre les adherents aux presents statuts une association regie par la loi, ayant pour denomination : Reseau Professionnel des Alumni de l\'ESATIC, en abrege REPAE.'
+      titre: 'Dénomination',
+      contenu: 'Il est fondé entre les adhérents aux présents statuts une association régie par la loi, ayant pour dénomination : Réseau Professionnel des Alumni de l\'ESATIC, en abrégé REPAE.'
     },
     {
       numero: 2,
       titre: 'Objet',
-      contenu: 'L\'association a pour objet de rassembler les anciens etudiants de l\'ESATIC afin de maintenir les liens de fraternite, favoriser l\'insertion professionnelle et creer un cadre d\'entraide et de formation continue.'
+      contenu: 'L\'association a pour objet de rassembler les anciens étudiants de l\'ESATIC afin de maintenir les liens de fraternité, favoriser l\'insertion professionnelle et créer un cadre d\'entraide et de formation continue.'
     },
     {
       numero: 3,
-      titre: 'Siege social',
-      contenu: 'Le siege social est fixe a Abidjan, Cote d\'Ivoire. Il pourra etre transfere par simple decision du bureau.'
+      titre: 'Siège social',
+      contenu: 'Le siège social est fixé à Abidjan, Côte d\'Ivoire. Il pourra être transféré par simple décision du bureau.'
     },
     {
       numero: 4,
-      titre: 'Duree',
-      contenu: 'La duree de l\'association est illimitee.'
+      titre: 'Durée',
+      contenu: 'La durée de l\'association est illimitée.'
     },
     {
       numero: 5,
       titre: 'Membres',
-      contenu: 'Peut devenir membre toute personne ayant ete etudiant a l\'ESATIC et adherant aux presents statuts.'
+      contenu: 'Peut devenir membre toute personne ayant été étudiant à l\'ESATIC et adhérant aux présents statuts.'
     }
   ]
 }
 
-// Contenu du reglement interieur (pour affichage inline si pas de PDF)
+// Contenu du règlement intérieur (pour affichage inline si pas de PDF)
 export const reglementContenu = {
-  preambule: `Le present reglement interieur complete et precise les statuts du REPAE. Il s'applique a tous les membres de l'association.`,
+  preambule: `Le présent règlement intérieur complète et précise les statuts du REPAE. Il s'applique à tous les membres de l'association.`,
   articles: [
     {
       numero: 1,
-      titre: 'Adhesion',
-      contenu: 'Toute demande d\'adhesion doit etre adressee au bureau qui statue sur son acceptation. L\'adhesion est effective apres paiement de la cotisation annuelle.'
+      titre: 'Adhésion',
+      contenu: 'Toute demande d\'adhésion doit être adressée au bureau qui statue sur son acceptation. L\'adhésion est effective après paiement de la cotisation annuelle.'
     },
     {
       numero: 2,
       titre: 'Cotisation',
-      contenu: 'Le montant de la cotisation annuelle est fixe par l\'assemblee generale. Elle est payable au debut de chaque exercice.'
+      contenu: 'Le montant de la cotisation annuelle est fixé par l\'assemblée générale. Elle est payable au début de chaque exercice.'
     },
     {
       numero: 3,
       titre: 'Droits des membres',
-      contenu: 'Les membres a jour de leur cotisation beneficient de tous les services et avantages offerts par le reseau.'
+      contenu: 'Les membres à jour de leur cotisation bénéficient de tous les services et avantages offerts par le réseau.'
     },
     {
       numero: 4,
       titre: 'Devoirs des membres',
-      contenu: 'Les membres s\'engagent a respecter les statuts et le reglement interieur, a participer aux activites du reseau et a promouvoir ses valeurs.'
+      contenu: 'Les membres s\'engagent à respecter les statuts et le règlement intérieur, à participer aux activités du réseau et à promouvoir ses valeurs.'
     },
     {
       numero: 5,
       titre: 'Sanctions',
-      contenu: 'Tout manquement aux obligations peut entrainer des sanctions allant de l\'avertissement a l\'exclusion, prononcees par le bureau.'
+      contenu: 'Tout manquement aux obligations peut entraîner des sanctions allant de l\'avertissement à l\'exclusion, prononcées par le bureau.'
     }
   ]
 }

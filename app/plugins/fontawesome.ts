@@ -58,6 +58,8 @@ import {
   faGavel,
   faTag,
   faHandsHelping,
+  faFlag,
+  faRocket,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -130,6 +132,8 @@ library.add(
   faGavel,
   faTag,
   faHandsHelping,
+  faFlag,
+  faRocket,
 )
 
 // Add regular icons to library

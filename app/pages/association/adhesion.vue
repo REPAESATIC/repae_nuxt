@@ -1,8 +1,8 @@
 <script setup>
 useHead({
-  title: 'Adhesion - L\'Association REPAE',
+  title: 'Adhésion - L\'Association REPAE',
   meta: [
-    { name: 'description', content: 'Rejoignez le Reseau Professionnel des Alumni de l\'ESATIC (REPAE). Decouvrez les avantages, les etapes et la cotisation.' }
+    { name: 'description', content: 'Rejoignez le Réseau Professionnel des Alumni de l\'ESATIC (REPAE). Découvrez les avantages, les étapes et la cotisation.' }
   ]
 })
 </script>
@@ -14,7 +14,7 @@ useHead({
     <!-- Hero Section -->
     <AssociationHero
       titre="Rejoignez le REPAE"
-      sous-titre="Devenez membre du reseau et beneficiez de tous les avantages"
+      sous-titre="Devenez membre du réseau et bénéficiez de tous les avantages"
     />
 
     <!-- Secondary Navigation -->
@@ -33,7 +33,7 @@ useHead({
     <section id="contact-form" class="py-16 bg-white dark:bg-repae-gray-800">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <UiSectionTitle
-          titre="Demande d'adhesion"
+          titre="Demande d'adhésion"
           description="Remplissez le formulaire ci-dessous pour soumettre votre demande"
         />
 
@@ -41,13 +41,13 @@ useHead({
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-                Prenom *
+                Prénom *
               </label>
               <input
                 type="text"
                 required
                 class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
-                placeholder="Votre prenom"
+                placeholder="Votre prénom"
               />
             </div>
             <div>
@@ -77,7 +77,7 @@ useHead({
 
           <div>
             <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-              Telephone
+              Téléphone
             </label>
             <input
               type="tel"
@@ -95,7 +95,7 @@ useHead({
                 required
                 class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
               >
-                <option value="">Selectionnez votre promotion</option>
+                <option value="">Sélectionnez votre promotion</option>
                 <option v-for="year in 13" :key="year" :value="2012 + year">
                   Promotion {{ 2012 + year }}
                 </option>
@@ -103,16 +103,16 @@ useHead({
             </div>
             <div>
               <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-                Diplome obtenu *
+                Diplôme obtenu *
               </label>
               <select
                 required
                 class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
               >
-                <option value="">Selectionnez votre diplome</option>
+                <option value="">Sélectionnez votre diplôme</option>
                 <option value="licence">Licence</option>
                 <option value="master">Master</option>
-                <option value="ingenieur">Ingenieur</option>
+                <option value="ingenieur">Ingénieur</option>
                 <option value="autre">Autre</option>
               </select>
             </div>
@@ -125,7 +125,7 @@ useHead({
             <textarea
               rows="4"
               class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors resize-none"
-              placeholder="Partagez vos motivations ou toute information supplementaire..."
+              placeholder="Partagez vos motivations ou toute information supplémentaire..."
             ></textarea>
           </div>
 
@@ -137,7 +137,7 @@ useHead({
             />
             <label class="text-sm font-brand text-repae-gray-600 dark:text-repae-gray-300">
               J'accepte les <NuxtLink to="/association/statuts" class="text-repae-blue-500 hover:underline">statuts</NuxtLink>
-              et le <NuxtLink to="/association/reglement" class="text-repae-blue-500 hover:underline">reglement interieur</NuxtLink> du REPAE. *
+              et le <NuxtLink to="/association/reglement" class="text-repae-blue-500 hover:underline">règlement intérieur</NuxtLink> du REPAE. *
             </label>
           </div>
 

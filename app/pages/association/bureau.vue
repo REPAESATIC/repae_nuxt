@@ -4,7 +4,7 @@ import { membresBureauActifs } from '@/data/association'
 useHead({
   title: 'Le Bureau - L\'Association REPAE',
   meta: [
-    { name: 'description', content: 'Decouvrez les membres du bureau executif du Reseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
+    { name: 'description', content: 'Découvrez les membres du bureau exécutif du Réseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
   ]
 })
 </script>
@@ -16,7 +16,7 @@ useHead({
     <!-- Hero Section -->
     <AssociationHero
       titre="Le Bureau du REPAE"
-      sous-titre="L'equipe qui dirige et anime notre reseau"
+      sous-titre="L'équipe qui dirige et anime notre réseau"
     />
 
     <!-- Secondary Navigation -->
@@ -26,8 +26,8 @@ useHead({
     <section class="py-12 bg-white dark:bg-repae-gray-800">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p class="text-lg font-brand text-repae-gray-600 dark:text-repae-gray-300">
-          Le bureau executif du REPAE est compose de {{ membresBureauActifs.length }} membres elus par l'assemblee generale.
-          Ils sont responsables de la gestion quotidienne du reseau et de l'organisation des activites.
+          Le bureau exécutif du REPAE est composé de {{ membresBureauActifs.length }} membres élus par l'assemblée générale.
+          Ils sont responsables de la gestion quotidienne du réseau et de l'organisation des activités.
         </p>
       </div>
     </section>
@@ -42,7 +42,7 @@ useHead({
           Vous souhaitez vous impliquer ?
         </h2>
         <p class="text-lg text-repae-gray-600 dark:text-repae-gray-300 font-brand mb-8 max-w-2xl mx-auto">
-          Le REPAE est toujours a la recherche de membres motives pour participer aux differentes commissions et activites du reseau.
+          Le REPAE est toujours à la recherche de membres motivés pour participer aux différentes commissions et activités du réseau.
         </p>
         <NuxtLink
           to="/association/adhesion"

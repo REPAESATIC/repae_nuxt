@@ -28,7 +28,7 @@ import { cotisation, moyensPaiement, conditionsEligibilite } from '@/data/associ
           <!-- Payment Methods -->
           <div class="border-t border-gray-200 dark:border-repae-gray-700 pt-6">
             <h4 class="text-sm font-bold font-brand text-repae-gray-900 dark:text-white mb-4 text-center">
-              Moyens de paiement acceptes
+              Moyens de paiement acceptés
             </h4>
             <div class="space-y-3">
               <div
@@ -56,7 +56,7 @@ import { cotisation, moyensPaiement, conditionsEligibilite } from '@/data/associ
         <!-- Eligibility Conditions -->
         <div class="text-white">
           <h3 class="text-2xl font-bold font-brand mb-6">
-            Conditions d'eligibilite
+            Conditions d'éligibilité
           </h3>
           <ul class="space-y-4">
             <li
@@ -77,7 +77,7 @@ import { cotisation, moyensPaiement, conditionsEligibilite } from '@/data/associ
               class="inline-flex items-center gap-2 px-8 py-4 bg-white text-repae-blue-500 font-brand font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 cursor-pointer"
             >
               <font-awesome-icon icon="fa-solid fa-user-plus" />
-              Demander mon adhesion
+              Demander mon adhésion
             </a>
           </div>
         </div>

@@ -2,9 +2,9 @@
 import { reglement, reglementContenu } from '@/data/association'
 
 useHead({
-  title: 'Reglement Interieur - L\'Association REPAE',
+  title: 'Règlement Intérieur - L\'Association REPAE',
   meta: [
-    { name: 'description', content: 'Consultez le reglement interieur du Reseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
+    { name: 'description', content: 'Consultez le règlement intérieur du Réseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
   ]
 })
 </script>
@@ -15,8 +15,8 @@ useHead({
 
     <!-- Hero Section -->
     <AssociationHero
-      titre="Reglement Interieur"
-      sous-titre="Les regles pratiques de fonctionnement du reseau"
+      titre="Règlement Intérieur"
+      sous-titre="Les règles pratiques de fonctionnement du réseau"
     />
 
     <!-- Secondary Navigation -->
@@ -33,7 +33,7 @@ useHead({
     <section class="py-16 bg-gray-50 dark:bg-repae-gray-900">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h3 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white mb-6 text-center">
-          Documents associes
+          Documents associés
         </h3>
         <div class="flex justify-center">
           <NuxtLink

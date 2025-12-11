@@ -1,4 +1,4 @@
-// Donnees des membres du bureau REPAE
+// Données des membres du bureau REPAE
 
 export interface MembreBureau {
   id: string
@@ -17,14 +17,14 @@ export interface MembreBureau {
 export const membresBureau: MembreBureau[] = [
   {
     id: '1',
-    prenom: 'Kouame',
+    prenom: 'Kouamé',
     nom: 'ASSI',
     photo_url: 'https://i.pravatar.cc/300?img=11',
-    poste: 'President',
-    poste_actuel: 'Directeur des Systemes d\'Information',
-    entreprise: 'Orange Cote d\'Ivoire',
+    poste: 'Président',
+    poste_actuel: 'Directeur des Systèmes d\'Information',
+    entreprise: 'Orange Côte d\'Ivoire',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Direction generale du reseau, representation officielle, presidence des assemblees.',
+    responsabilites: 'Direction générale du réseau, représentation officielle, présidence des assemblées.',
     ordre_affichage: 1,
     actif: true
   },
@@ -33,24 +33,24 @@ export const membresBureau: MembreBureau[] = [
     prenom: 'Aminata',
     nom: 'COULIBALY',
     photo_url: 'https://i.pravatar.cc/300?img=5',
-    poste: 'Vice-Presidente',
+    poste: 'Vice-Présidente',
     poste_actuel: 'Chef de Projet IT',
-    entreprise: 'MTN Cote d\'Ivoire',
+    entreprise: 'MTN Côte d\'Ivoire',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Suppleance du president, coordination des commissions.',
+    responsabilites: 'Suppléance du président, coordination des commissions.',
     ordre_affichage: 2,
     actif: true
   },
   {
     id: '3',
     prenom: 'Jean-Marc',
-    nom: 'TOURE',
+    nom: 'TOURÉ',
     photo_url: 'https://i.pravatar.cc/300?img=12',
-    poste: 'Secretaire General',
+    poste: 'Secrétaire Général',
     poste_actuel: 'Architecte Cloud',
-    entreprise: 'Societe Generale',
+    entreprise: 'Société Générale',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Gestion administrative, redaction des proces-verbaux, coordination des reunions.',
+    responsabilites: 'Gestion administrative, rédaction des procès-verbaux, coordination des réunions.',
     ordre_affichage: 3,
     actif: true
   },
@@ -59,11 +59,11 @@ export const membresBureau: MembreBureau[] = [
     prenom: 'Fatou',
     nom: 'DIALLO',
     photo_url: 'https://i.pravatar.cc/300?img=9',
-    poste: 'Tresoriere',
+    poste: 'Trésorière',
     poste_actuel: 'Consultante FinTech',
     entreprise: 'Deloitte',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Gestion financiere, comptabilite, rapport financier annuel.',
+    responsabilites: 'Gestion financière, comptabilité, rapport financier annuel.',
     ordre_affichage: 4,
     actif: true
   },
@@ -76,7 +76,7 @@ export const membresBureau: MembreBureau[] = [
     poste_actuel: 'Digital Marketing Manager',
     entreprise: 'Jumia',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Strategie de communication, gestion des reseaux sociaux, relations presse.',
+    responsabilites: 'Stratégie de communication, gestion des réseaux sociaux, relations presse.',
     ordre_affichage: 5,
     actif: true
   },
@@ -89,7 +89,7 @@ export const membresBureau: MembreBureau[] = [
     poste_actuel: 'Business Developer',
     entreprise: 'Microsoft Afrique',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Developpement des partenariats, relations entreprises, sponsoring.',
+    responsabilites: 'Développement des partenariats, relations entreprises, sponsoring.',
     ordre_affichage: 6,
     actif: true
   },
@@ -98,11 +98,11 @@ export const membresBureau: MembreBureau[] = [
     prenom: 'Yao',
     nom: 'GNAMBA',
     photo_url: 'https://i.pravatar.cc/300?img=14',
-    poste: 'Responsable Evenements',
+    poste: 'Responsable Événements',
     poste_actuel: 'Lead Developer',
     entreprise: 'Ecobank',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Organisation des evenements, coordination logistique, networking.',
+    responsabilites: 'Organisation des événements, coordination logistique, networking.',
     ordre_affichage: 7,
     actif: true
   },
@@ -115,13 +115,13 @@ export const membresBureau: MembreBureau[] = [
     poste_actuel: 'Data Scientist',
     entreprise: 'Google',
     linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Programme de mentorat, accompagnement des jeunes diplomes, formations.',
+    responsabilites: 'Programme de mentorat, accompagnement des jeunes diplômés, formations.',
     ordre_affichage: 8,
     actif: true
   }
 ]
 
-// Membres du bureau actifs tries par ordre d'affichage
+// Membres du bureau actifs triés par ordre d'affichage
 export const membresBureauActifs = membresBureau
   .filter(membre => membre.actif)
   .sort((a, b) => a.ordre_affichage - b.ordre_affichage)

@@ -4,7 +4,7 @@ import { statuts, statutsContenu } from '@/data/association'
 useHead({
   title: 'Statuts - L\'Association REPAE',
   meta: [
-    { name: 'description', content: 'Consultez les statuts officiels du Reseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
+    { name: 'description', content: 'Consultez les statuts officiels du Réseau Professionnel des Alumni de l\'ESATIC (REPAE).' }
   ]
 })
 </script>
@@ -16,7 +16,7 @@ useHead({
     <!-- Hero Section -->
     <AssociationHero
       titre="Statuts du REPAE"
-      sous-titre="Les regles fondamentales qui regissent notre association"
+      sous-titre="Les règles fondamentales qui régissent notre association"
     />
 
     <!-- Secondary Navigation -->
@@ -33,7 +33,7 @@ useHead({
     <section class="py-16 bg-gray-50 dark:bg-repae-gray-900">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h3 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white mb-6 text-center">
-          Documents associes
+          Documents associés
         </h3>
         <div class="flex justify-center">
           <NuxtLink
@@ -44,7 +44,7 @@ useHead({
               <font-awesome-icon icon="fa-solid fa-gavel" class="text-xl text-repae-blue-500" />
             </div>
             <div>
-              <span class="block font-bold font-brand text-repae-gray-900 dark:text-white">Reglement Interieur</span>
+              <span class="block font-bold font-brand text-repae-gray-900 dark:text-white">Règlement Intérieur</span>
               <span class="text-sm font-brand text-repae-gray-500 dark:text-repae-gray-400">Voir le document</span>
             </div>
             <font-awesome-icon icon="fa-solid fa-arrow-right" class="text-repae-blue-500 ml-2" />

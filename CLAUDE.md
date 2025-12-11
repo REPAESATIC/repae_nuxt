@@ -371,6 +371,76 @@ The following specification documents are available in the `banck/` directory:
 - **Cahier des charges**: `banck/cahier_des_charges/Simplifie_Cahier_des_charges_REPAE.md` - Project requirements, objectives, and technical specifications
 
 
-### French Content Without Accents in Markdown Files
+## French Language Content Guidelines
 
-**IMPORTANT**: When writing markdown files (`.md`) in the `banck/` directory, **avoid using French accented characters** (e, e, a, etc.) to prevent encoding issues. Use non-accented equivalents instead:
+This project contains French language content. Different file types require different handling of accented characters.
+
+### Code Files (`.ts`, `.vue`, `.js`) - USE ACCENTS
+
+**IMPORTANT**: All French text in code files **MUST use proper French accents**. These files are UTF-8 encoded and fully support accented characters.
+
+**Accented characters to use:**
+- Acute accent: é (e accent aigu)
+- Grave accent: è, à, ù (e, a, u accent grave)
+- Circumflex: ê, â, î, ô, û (accent circonflexe)
+- Diaeresis: ë, ï, ü (trema)
+- Cedilla: ç (c cedille)
+
+**Examples of CORRECT French text:**
+```typescript
+// CORRECT - Use accents in data files
+export const histoire = {
+  description: "Le Réseau Professionnel des Alumni de l'ESATIC a été créé..."
+}
+
+export const objectifs = [
+  { titre: 'Insertion professionnelle', description: "Contribuer à l'insertion..." },
+  { titre: 'Fraternité', description: "Maintenir les liens de fraternité..." }
+]
+```
+
+**Examples of INCORRECT French text (DO NOT DO THIS):**
+```typescript
+// INCORRECT - Missing accents
+export const histoire = {
+  description: "Le Reseau Professionnel des Alumni de l'ESATIC a ete cree..."  // BAD!
+}
+```
+
+**Common words requiring accents:**
+| Incorrect | Correct |
+|-----------|---------|
+| Reseau | Réseau |
+| cree | créé |
+| ESATIC | ESATIC (no change - acronym) |
+| Cote d'Ivoire | Côte d'Ivoire |
+| President | Président |
+| General | Général |
+| Secretaire | Secrétaire |
+| Tresorier/Tresoriere | Trésorier/Trésorière |
+| adhesion | adhésion |
+| evenement | événement |
+| activites | activités |
+| professionnelle | professionnelle (no change) |
+| fraternite | fraternité |
+| solidarite | solidarité |
+| reglement | règlement |
+
+### Markdown Files in `banck/` - AVOID ACCENTS
+
+**Exception**: Markdown files (`.md`) in the `banck/` directory should **avoid French accented characters** to prevent encoding issues with certain tools. Use non-accented equivalents:
+
+| With accents | Without accents |
+|--------------|-----------------|
+| Présentation | Presentation |
+| Adhésion | Adhesion |
+| Règlement | Reglement |
+| créé | cree |
+
+### Quick Reference
+
+| File Type | Location | Accents |
+|-----------|----------|---------|
+| `.ts`, `.vue`, `.js` | `app/` | **YES - Required** |
+| `.md` | `banck/` | **NO - Avoid** |
+| `.md` | Root (`CLAUDE.md`, `README.md`) | **YES - Allowed** |

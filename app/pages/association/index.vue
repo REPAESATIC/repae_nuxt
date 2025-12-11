@@ -4,7 +4,7 @@ import { associationNavItems } from '@/data/association'
 useHead({
   title: 'L\'Association - REPAE',
   meta: [
-    { name: 'description', content: 'Decouvrez le Reseau Professionnel des Alumni de l\'ESATIC (REPAE), son histoire, ses objectifs et ses membres.' }
+    { name: 'description', content: 'Découvrez le Réseau Professionnel des Alumni de l\'ESATIC (REPAE), son histoire, ses objectifs et ses membres.' }
   ]
 })
 </script>
@@ -16,7 +16,7 @@ useHead({
     <!-- Hero Section -->
     <AssociationHero
       titre="L'Association REPAE"
-      sous-titre="Decouvrez le Reseau Professionnel des Alumni de l'ESATIC"
+      sous-titre="Découvrez le Réseau Professionnel des Alumni de l'ESATIC"
     />
 
     <!-- Navigation Cards -->
@@ -24,7 +24,7 @@ useHead({
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <UiSectionTitle
           titre="Explorez notre association"
-          description="Selectionnez une section pour en savoir plus sur le REPAE"
+          description="Sélectionnez une section pour en savoir plus sur le REPAE"
         />
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -93,10 +93,10 @@ useHead({
     <section class="py-16 bg-gray-50 dark:bg-repae-gray-900">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-2xl md:text-3xl font-bold text-repae-gray-900 dark:text-white font-brand mb-4">
-          Rejoignez le reseau
+          Rejoignez le réseau
         </h2>
         <p class="text-lg text-repae-gray-600 dark:text-repae-gray-300 font-brand mb-8 max-w-2xl mx-auto">
-          Vous etes ancien etudiant de l'ESATIC ? Rejoignez la communaute et beneficiez de tous les avantages du reseau.
+          Vous êtes ancien étudiant de l'ESATIC ? Rejoignez la communauté et bénéficiez de tous les avantages du réseau.
         </p>
         <NuxtLink
           to="/association/adhesion"
