@@ -89,6 +89,13 @@ export const espaceItNavItems: NavItem[] = [
     description: 'Suivre mes candidatures'
   },
   {
+    id: 'forum',
+    label: 'Forum d\'entraide',
+    href: '/espace-it/forum',
+    icon: 'fa-solid fa-comments',
+    description: 'Poser vos questions'
+  },
+  {
     id: 'parametres',
     label: 'Parametres',
     href: '/espace-it/parametres',

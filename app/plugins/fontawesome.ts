@@ -133,6 +133,10 @@ import {
   // Parametres page icons
   faShieldAlt,
   faUserCog,
+  // Forum icons
+  faCircleQuestion,
+  faComments,
+  faReply,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -280,6 +284,10 @@ library.add(
   // Parametres page icons
   faShieldAlt,
   faUserCog,
+  // Forum icons
+  faCircleQuestion,
+  faComments,
+  faReply,
 )
 
 // Add regular icons to library
