@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getQuestionById, getReponsesByQuestionId, categorieConfig } from '~/data/espace-it/forum'
+import { getQuestionById, getNestedReplies, categorieConfig, forumReponses } from '~/data/espace-it/forum'
 import { currentUser } from '~/data/espace-it/current-user'
 
 definePageMeta({
@@ -12,7 +12,12 @@ const { success } = useToast()
 // Get question by ID
 const questionId = computed(() => route.params.id as string)
 const question = computed(() => getQuestionById(questionId.value))
-const reponses = computed(() => getReponsesByQuestionId(questionId.value))
+const nestedReponses = computed(() => getNestedReplies(questionId.value))
+
+// Count total responses (including nested)
+const totalReponses = computed(() => {
+  return forumReponses.filter(r => r.question_id === questionId.value).length
+})
 
 // SEO
 useSeoMeta({
@@ -22,6 +27,23 @@ useSeoMeta({
 // New response form
 const newReponse = ref('')
 const isSubmitting = ref(false)
+const replyingTo = ref<{ id: string; name: string } | null>(null)
+
+// Handle reply to specific response
+const handleReplyTo = (parentId: string, authorName: string) => {
+  replyingTo.value = { id: parentId, name: authorName }
+  // Scroll to form
+  nextTick(() => {
+    const form = document.getElementById('reply-form')
+    if (form) {
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  })
+}
+
+const cancelReply = () => {
+  replyingTo.value = null
+}
 
 const submitReponse = async () => {
   if (!newReponse.value.trim()) return
@@ -31,8 +53,12 @@ const submitReponse = async () => {
   // Simulate API call
   await new Promise(resolve => setTimeout(resolve, 1000))
 
-  success('Reponse envoyee', 'Votre reponse a ete publiee avec succes')
+  const message = replyingTo.value
+    ? `Reponse a ${replyingTo.value.name} envoyee`
+    : 'Reponse envoyee'
+  success(message, 'Votre reponse a ete publiee avec succes')
   newReponse.value = ''
+  replyingTo.value = null
   isSubmitting.value = false
 }
 
@@ -47,33 +73,44 @@ const formatDate = (dateStr: string): string => {
     minute: '2-digit'
   })
 }
-
-// Format relative date
-const formatRelativeDate = (dateStr: string): string => {
-  const now = new Date()
-  const date = new Date(dateStr)
-  const diffMs = now.getTime() - date.getTime()
-  const diffMins = Math.floor(diffMs / (1000 * 60))
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-
-  if (diffMins < 60) return `Il y a ${diffMins} min`
-  if (diffHours < 24) return `Il y a ${diffHours}h`
-  if (diffDays === 1) return 'Hier'
-  if (diffDays < 7) return `Il y a ${diffDays} jours`
-  return formatDate(dateStr)
-}
-
-// Parse markdown-like content (simple version)
-const parseContent = (content: string): string => {
-  return content
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n/g, '<br>')
-}
 </script>
 
 <template>
   <div class="space-y-6">
+    <!-- Sticky Header -->
+    <div
+      v-if="question"
+      class="sticky top-0 z-40 -mx-6 px-6 py-3 bg-white/95 dark:bg-repae-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-repae-gray-700 shadow-sm"
+    >
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 min-w-0">
+          <NuxtLink
+            to="/espace-it/forum"
+            class="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 dark:bg-repae-gray-800 flex items-center justify-center text-repae-gray-500 hover:text-repae-blue-500 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors"
+          >
+            <font-awesome-icon icon="fa-solid fa-arrow-left" class="text-sm" />
+          </NuxtLink>
+          <div class="min-w-0">
+            <h1 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white truncate">
+              {{ question.titre }}
+            </h1>
+            <div class="flex items-center gap-2 text-xs text-repae-gray-500 dark:text-repae-gray-400">
+              <span>{{ question.auteur.prenom }} {{ question.auteur.nom }}</span>
+              <span>·</span>
+              <span>{{ totalReponses }} reponse(s)</span>
+            </div>
+          </div>
+        </div>
+        <span
+          v-if="question.resolu"
+          class="flex-shrink-0 px-2.5 py-1 bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400 text-xs font-medium rounded-full flex items-center gap-1"
+        >
+          <font-awesome-icon icon="fa-solid fa-check" class="text-[10px]" />
+          Resolu
+        </span>
+      </div>
+    </div>
+
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-sm font-brand">
       <NuxtLink
@@ -185,7 +222,7 @@ const parseContent = (content: string): string => {
             </span>
             <span class="flex items-center gap-1.5">
               <font-awesome-icon icon="fa-solid fa-reply" />
-              {{ question.nombre_reponses }} reponses
+              {{ totalReponses }} reponses
             </span>
           </div>
         </div>
@@ -195,75 +232,23 @@ const parseContent = (content: string): string => {
       <div class="space-y-4">
         <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2">
           <font-awesome-icon icon="fa-solid fa-comments" class="text-repae-blue-500" />
-          {{ reponses.length }} Reponse{{ reponses.length > 1 ? 's' : '' }}
+          {{ totalReponses }} Reponse{{ totalReponses > 1 ? 's' : '' }}
         </h2>
 
-        <!-- Response Cards -->
-        <div
-          v-for="reponse in reponses"
-          :key="reponse.id"
-          :class="[
-            'bg-white dark:bg-repae-gray-800 rounded-xl border overflow-hidden',
-            reponse.is_solution
-              ? 'border-green-300 dark:border-green-500/50 ring-1 ring-green-200 dark:ring-green-500/20'
-              : 'border-gray-200 dark:border-repae-gray-700'
-          ]"
-        >
-          <!-- Solution Badge -->
-          <div
-            v-if="reponse.is_solution"
-            class="px-4 py-2 bg-green-50 dark:bg-green-500/10 border-b border-green-200 dark:border-green-500/30 flex items-center gap-2 text-green-700 dark:text-green-400"
-          >
-            <font-awesome-icon icon="fa-solid fa-check-circle" />
-            <span class="text-sm font-medium">Meilleure reponse</span>
-          </div>
-
-          <div class="p-5">
-            <!-- Author -->
-            <div class="flex items-start gap-4 mb-4">
-              <img
-                :src="reponse.auteur.photo_url"
-                :alt="`${reponse.auteur.prenom} ${reponse.auteur.nom}`"
-                class="w-10 h-10 rounded-full object-cover flex-shrink-0"
-              />
-              <div class="flex-1">
-                <div class="flex items-center gap-2">
-                  <span class="font-medium text-repae-gray-900 dark:text-white">
-                    {{ reponse.auteur.prenom }} {{ reponse.auteur.nom }}
-                  </span>
-                  <span class="text-xs text-repae-gray-500 dark:text-repae-gray-400">
-                    {{ reponse.auteur.poste }}
-                  </span>
-                </div>
-                <span class="text-xs text-repae-gray-400 dark:text-repae-gray-500">
-                  {{ formatRelativeDate(reponse.date_creation) }}
-                </span>
-              </div>
-            </div>
-
-            <!-- Content -->
-            <div
-              class="text-repae-gray-700 dark:text-repae-gray-300 leading-relaxed mb-4 prose-sm"
-              v-html="parseContent(reponse.contenu)"
-            />
-
-            <!-- Actions -->
-            <div class="flex items-center gap-4">
-              <button class="flex items-center gap-1.5 text-sm text-repae-gray-500 dark:text-repae-gray-400 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 transition-colors cursor-pointer">
-                <font-awesome-icon icon="fa-solid fa-heart" />
-                <span>{{ reponse.likes }}</span>
-              </button>
-              <button class="flex items-center gap-1.5 text-sm text-repae-gray-500 dark:text-repae-gray-400 hover:text-repae-blue-500 dark:hover:text-repae-blue-400 transition-colors cursor-pointer">
-                <font-awesome-icon icon="fa-solid fa-reply" />
-                <span>Repondre</span>
-              </button>
-            </div>
-          </div>
+        <!-- Threaded Response Cards -->
+        <div class="space-y-4">
+          <EspaceItForumReplyThread
+            v-for="reponse in nestedReponses"
+            :key="reponse.id"
+            :reply="reponse"
+            :depth="0"
+            @reply="handleReplyTo"
+          />
         </div>
 
         <!-- Empty Responses -->
         <div
-          v-if="reponses.length === 0"
+          v-if="nestedReponses.length === 0"
           class="text-center py-12 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700"
         >
           <font-awesome-icon icon="fa-solid fa-comments" class="text-4xl text-repae-gray-300 dark:text-repae-gray-600 mb-3" />
@@ -274,11 +259,31 @@ const parseContent = (content: string): string => {
       </div>
 
       <!-- Add Response Form -->
-      <div class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 p-6">
+      <div
+        id="reply-form"
+        class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 p-6"
+      >
         <h3 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <font-awesome-icon icon="fa-solid fa-pen" class="text-repae-blue-500" />
-          Votre reponse
+          {{ replyingTo ? 'Repondre a ' + replyingTo.name : 'Votre reponse' }}
         </h3>
+
+        <!-- Reply indicator -->
+        <div
+          v-if="replyingTo"
+          class="mb-4 p-3 bg-repae-blue-50 dark:bg-repae-blue-500/10 border border-repae-blue-200 dark:border-repae-blue-500/30 rounded-lg flex items-center justify-between"
+        >
+          <div class="flex items-center gap-2 text-sm text-repae-blue-700 dark:text-repae-blue-400">
+            <font-awesome-icon icon="fa-solid fa-reply" />
+            <span>En reponse a <strong>{{ replyingTo.name }}</strong></span>
+          </div>
+          <button
+            class="text-repae-blue-500 hover:text-repae-blue-700 dark:hover:text-repae-blue-300 cursor-pointer"
+            @click="cancelReply"
+          >
+            <font-awesome-icon icon="fa-solid fa-xmark" />
+          </button>
+        </div>
 
         <div class="flex items-start gap-4">
           <img
@@ -290,29 +295,38 @@ const parseContent = (content: string): string => {
             <textarea
               v-model="newReponse"
               rows="4"
-              placeholder="Partagez votre experience ou vos conseils..."
+              :placeholder="replyingTo ? `Repondre a ${replyingTo.name}...` : 'Partagez votre experience ou vos conseils...'"
               class="w-full px-4 py-3 border border-gray-200 dark:border-repae-gray-700 rounded-xl bg-white dark:bg-repae-gray-900 text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 resize-none"
             />
             <div class="flex items-center justify-between mt-3">
               <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">
                 Utilisez **texte** pour mettre en gras
               </p>
-              <button
-                :disabled="!newReponse.trim() || isSubmitting"
-                :class="[
-                  'px-5 py-2 font-medium font-brand rounded-lg transition-colors cursor-pointer flex items-center gap-2',
-                  newReponse.trim() && !isSubmitting
-                    ? 'bg-repae-blue-500 hover:bg-repae-blue-600 text-white'
-                    : 'bg-gray-200 dark:bg-repae-gray-700 text-repae-gray-400 cursor-not-allowed'
-                ]"
-                @click="submitReponse"
-              >
-                <font-awesome-icon
-                  :icon="isSubmitting ? 'fa-solid fa-spinner' : 'fa-solid fa-paper-plane'"
-                  :class="{ 'animate-spin': isSubmitting }"
-                />
-                {{ isSubmitting ? 'Envoi...' : 'Publier' }}
-              </button>
+              <div class="flex items-center gap-2">
+                <button
+                  v-if="replyingTo"
+                  class="px-4 py-2 text-sm font-medium font-brand text-repae-gray-600 dark:text-repae-gray-400 hover:text-repae-gray-900 dark:hover:text-white transition-colors cursor-pointer"
+                  @click="cancelReply"
+                >
+                  Annuler
+                </button>
+                <button
+                  :disabled="!newReponse.trim() || isSubmitting"
+                  :class="[
+                    'px-5 py-2 font-medium font-brand rounded-lg transition-colors cursor-pointer flex items-center gap-2',
+                    newReponse.trim() && !isSubmitting
+                      ? 'bg-repae-blue-500 hover:bg-repae-blue-600 text-white'
+                      : 'bg-gray-200 dark:bg-repae-gray-700 text-repae-gray-400 cursor-not-allowed'
+                  ]"
+                  @click="submitReponse"
+                >
+                  <font-awesome-icon
+                    :icon="isSubmitting ? 'fa-solid fa-spinner' : 'fa-solid fa-paper-plane'"
+                    :class="{ 'animate-spin': isSubmitting }"
+                  />
+                  {{ isSubmitting ? 'Envoi...' : 'Publier' }}
+                </button>
+              </div>
             </div>
           </div>
         </div>

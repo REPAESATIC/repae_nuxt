@@ -192,6 +192,7 @@ export const getForumStats = () => {
 export interface ForumReponse {
   id: string
   question_id: string
+  parent_id?: string // ID de la reponse parente (pour les reponses imbriquees)
   contenu: string
   auteur: {
     id: string
@@ -348,13 +349,234 @@ export const forumReponses: ForumReponse[] = [
     date_creation: '2024-12-08T14:00:00',
     likes: 10,
     is_solution: false
+  },
+
+  // ========================================
+  // REPONSES IMBRIQUEES (replies to replies)
+  // ========================================
+
+  // Reponse a la reponse 1 (sur Laravel vers NestJS)
+  {
+    id: '10',
+    question_id: '1',
+    parent_id: '1', // Reponse a Adama Camara
+    contenu: 'Merci Adama ! Pour TypeORM vs Prisma, tu recommandes lequel pour quelqu\'un qui vient de Laravel ?',
+    auteur: {
+      id: '1',
+      nom: 'Kouassi',
+      prenom: 'Aya',
+      photo_url: 'https://i.pravatar.cc/150?u=aya',
+      poste: 'Full Stack Developer'
+    },
+    date_creation: '2024-12-11T18:00:00',
+    likes: 3,
+    is_solution: false
+  },
+  {
+    id: '11',
+    question_id: '1',
+    parent_id: '10', // Reponse a Aya (nested level 2)
+    contenu: 'Prisma sans hesiter ! La syntaxe est plus intuitive et le schema.prisma ressemble beaucoup aux migrations Laravel. En plus, le typage TypeScript est automatique.',
+    auteur: {
+      id: '8',
+      nom: 'Camara',
+      prenom: 'Adama',
+      photo_url: 'https://i.pravatar.cc/150?u=adama',
+      poste: 'Senior Backend Developer'
+    },
+    date_creation: '2024-12-11T18:30:00',
+    likes: 7,
+    is_solution: false
+  },
+  {
+    id: '12',
+    question_id: '1',
+    parent_id: '11', // Reponse a Adama (nested level 3)
+    contenu: 'Je confirme, Prisma c\'est top ! J\'ai fait le switch et je regrette pas.',
+    auteur: {
+      id: '9',
+      nom: 'Sangare',
+      prenom: 'Aminata',
+      photo_url: 'https://i.pravatar.cc/150?u=aminata',
+      poste: 'Tech Lead'
+    },
+    date_creation: '2024-12-11T19:00:00',
+    likes: 2,
+    is_solution: false
+  },
+
+  // Autre branche de reponse a la reponse 1
+  {
+    id: '13',
+    question_id: '1',
+    parent_id: '1',
+    contenu: 'Pour les Guards NestJS, tu as des ressources a recommander ? J\'ai du mal avec le concept.',
+    auteur: {
+      id: '17',
+      nom: 'Bamba',
+      prenom: 'Sekou',
+      photo_url: 'https://i.pravatar.cc/150?u=sekou',
+      poste: 'Junior Developer'
+    },
+    date_creation: '2024-12-11T20:00:00',
+    likes: 1,
+    is_solution: false
+  },
+  {
+    id: '14',
+    question_id: '1',
+    parent_id: '13',
+    contenu: 'La doc officielle NestJS est excellente pour les Guards : https://docs.nestjs.com/guards\nEt regarde aussi les videos de Fireship sur YouTube !',
+    auteur: {
+      id: '8',
+      nom: 'Camara',
+      prenom: 'Adama',
+      photo_url: 'https://i.pravatar.cc/150?u=adama',
+      poste: 'Senior Backend Developer'
+    },
+    date_creation: '2024-12-11T20:30:00',
+    likes: 4,
+    is_solution: false
+  },
+
+  // Reponse a la reponse 4 (sur negociation salariale - meilleure reponse)
+  {
+    id: '15',
+    question_id: '2',
+    parent_id: '4',
+    contenu: 'Tres bon conseil ! Et pour la recherche des salaires du marche, vous conseillez quoi comme source fiable en Cote d\'Ivoire ?',
+    auteur: {
+      id: '18',
+      nom: 'Toure',
+      prenom: 'Ibrahim',
+      photo_url: 'https://i.pravatar.cc/150?u=ibrahim',
+      poste: 'Software Engineer'
+    },
+    date_creation: '2024-12-10T12:00:00',
+    likes: 5,
+    is_solution: false
+  },
+  {
+    id: '16',
+    question_id: '2',
+    parent_id: '15',
+    contenu: 'Pour la CI, je recommande de rejoindre les groupes LinkedIn et Telegram des devs ivoiriens. Les discussions y sont franches sur les salaires. Sinon, les cabinets comme Afrique RH publient parfois des etudes.',
+    auteur: {
+      id: '11',
+      nom: 'Coulibaly',
+      prenom: 'Fatoumata',
+      photo_url: 'https://i.pravatar.cc/150?u=fatoumata',
+      poste: 'HR Manager'
+    },
+    date_creation: '2024-12-10T13:00:00',
+    likes: 12,
+    is_solution: false
+  },
+
+  // Reponse a la reponse 6 (sur Freelance)
+  {
+    id: '17',
+    question_id: '3',
+    parent_id: '6',
+    contenu: 'Wise fonctionne bien depuis Abidjan ? J\'ai entendu dire qu\'il y avait des problemes de verification.',
+    auteur: {
+      id: '19',
+      nom: 'Kone',
+      prenom: 'Mariam',
+      photo_url: 'https://i.pravatar.cc/150?u=mariam',
+      poste: 'Frontend Developer'
+    },
+    date_creation: '2024-12-09T20:00:00',
+    likes: 3,
+    is_solution: false
+  },
+  {
+    id: '18',
+    question_id: '3',
+    parent_id: '17',
+    contenu: 'Oui ca marche ! La verification peut prendre 2-3 jours mais apres c\'est fluide. J\'utilise la carte virtuelle pour mes achats en ligne aussi.',
+    auteur: {
+      id: '13',
+      nom: 'Yao',
+      prenom: 'Christelle',
+      photo_url: 'https://i.pravatar.cc/150?u=christelle',
+      poste: 'Freelance Developer'
+    },
+    date_creation: '2024-12-09T21:00:00',
+    likes: 6,
+    is_solution: false
+  },
+  {
+    id: '19',
+    question_id: '3',
+    parent_id: '18',
+    contenu: 'Super, merci pour le retour ! Je vais me lancer alors.',
+    auteur: {
+      id: '19',
+      nom: 'Kone',
+      prenom: 'Mariam',
+      photo_url: 'https://i.pravatar.cc/150?u=mariam',
+      poste: 'Frontend Developer'
+    },
+    date_creation: '2024-12-09T22:00:00',
+    likes: 1,
+    is_solution: false
   }
 ]
 
-// Fonction pour obtenir les reponses d'une question
+// Interface pour les reponses avec leurs sous-reponses
+export interface ForumReponseWithReplies extends ForumReponse {
+  replies: ForumReponseWithReplies[]
+}
+
+// Fonction pour construire l'arbre des reponses
+export const getNestedReplies = (questionId: string): ForumReponseWithReplies[] => {
+  const allReplies = forumReponses.filter(r => r.question_id === questionId)
+
+  // Map pour acceder rapidement aux reponses par ID
+  const replyMap = new Map<string, ForumReponseWithReplies>()
+  allReplies.forEach(r => {
+    replyMap.set(r.id, { ...r, replies: [] })
+  })
+
+  // Construire l'arbre
+  const rootReplies: ForumReponseWithReplies[] = []
+
+  allReplies.forEach(r => {
+    const replyWithReplies = replyMap.get(r.id)!
+    if (r.parent_id) {
+      // C'est une sous-reponse
+      const parent = replyMap.get(r.parent_id)
+      if (parent) {
+        parent.replies.push(replyWithReplies)
+      }
+    } else {
+      // C'est une reponse de premier niveau
+      rootReplies.push(replyWithReplies)
+    }
+  })
+
+  // Trier: solution en premier, puis par likes
+  const sortReplies = (replies: ForumReponseWithReplies[]): ForumReponseWithReplies[] => {
+    return replies
+      .sort((a, b) => {
+        if (a.is_solution && !b.is_solution) return -1
+        if (!a.is_solution && b.is_solution) return 1
+        return b.likes - a.likes
+      })
+      .map(r => ({
+        ...r,
+        replies: sortReplies(r.replies)
+      }))
+  }
+
+  return sortReplies(rootReplies)
+}
+
+// Fonction pour obtenir les reponses d'une question (version plate, pour compatibilite)
 export const getReponsesByQuestionId = (questionId: string): ForumReponse[] => {
   return forumReponses
-    .filter(r => r.question_id === questionId)
+    .filter(r => r.question_id === questionId && !r.parent_id) // Seulement les reponses de premier niveau
     .sort((a, b) => {
       // Solution en premier, puis par likes
       if (a.is_solution && !b.is_solution) return -1
