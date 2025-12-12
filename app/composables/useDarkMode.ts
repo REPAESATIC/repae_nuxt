@@ -7,65 +7,85 @@
  * - SSR compatibility using useState
  *
  * Usage:
- *   const { isDark, toggle } = useDarkMode()
+ *   const { isDark, theme, toggle, setTheme } = useDarkMode()
  */
+export type ThemeMode = 'light' | 'dark' | 'system'
+
 export function useDarkMode() {
   // Shared state across all components using useState
   const isDark = useState('darkMode', () => false)
+  const theme = useState<ThemeMode>('themeMode', () => 'system')
 
   // Initialize on client side only
   onMounted(() => {
-    // Check if dark class is already applied (by inline script in head)
-    const hasDarkClass = document.documentElement.classList.contains('dark')
-
     // Check saved preference
-    const savedTheme = localStorage.getItem('theme')
+    const savedTheme = localStorage.getItem('theme') as ThemeMode | null
 
-    if (savedTheme) {
-      isDark.value = savedTheme === 'dark'
-    } else if (hasDarkClass) {
-      // Sync with class applied by inline script (system preference)
-      isDark.value = true
+    if (savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'system') {
+      theme.value = savedTheme
     } else {
-      // Fallback: detect system preference
-      isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+      theme.value = 'system'
     }
 
-    // Apply theme (ensures class matches state)
+    // Apply theme based on mode
     applyTheme()
 
     // Listen for system preference changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = (e: MediaQueryListEvent) => {
-      // Only auto-switch if no saved preference
-      if (!localStorage.getItem('theme')) {
+      // Only auto-switch if in system mode
+      if (theme.value === 'system') {
         isDark.value = e.matches
+        updateDOMClass()
       }
     }
     mediaQuery.addEventListener('change', handleChange)
   })
 
-  // Watch for changes and apply theme
-  watch(isDark, applyTheme)
+  // Watch for theme changes
+  watch(theme, applyTheme)
 
-  function applyTheme() {
+  function updateDOMClass() {
     if (import.meta.client) {
       if (isDark.value) {
         document.documentElement.classList.add('dark')
-        localStorage.setItem('theme', 'dark')
       } else {
         document.documentElement.classList.remove('dark')
-        localStorage.setItem('theme', 'light')
       }
     }
   }
 
+  function applyTheme() {
+    if (import.meta.client) {
+      localStorage.setItem('theme', theme.value)
+
+      if (theme.value === 'system') {
+        isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+      } else {
+        isDark.value = theme.value === 'dark'
+      }
+
+      updateDOMClass()
+    }
+  }
+
   function toggle() {
-    isDark.value = !isDark.value
+    if (theme.value === 'system') {
+      // If in system mode, switch to opposite of current state
+      theme.value = isDark.value ? 'light' : 'dark'
+    } else {
+      theme.value = theme.value === 'dark' ? 'light' : 'dark'
+    }
+  }
+
+  function setTheme(newTheme: ThemeMode) {
+    theme.value = newTheme
   }
 
   return {
     isDark: readonly(isDark),
-    toggle
+    theme: readonly(theme),
+    toggle,
+    setTheme
   }
 }

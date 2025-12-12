@@ -10,6 +10,7 @@ useSeoMeta({
 })
 
 const { success } = useToast()
+const { theme, setTheme } = useDarkMode()
 
 // Settings state
 const settings = reactive({
@@ -26,9 +27,13 @@ const settings = reactive({
   notif_newsletter: false,
 
   // Preferences
-  theme: 'system' as 'light' | 'dark' | 'system',
   langue: 'fr'
 })
+
+// Handle theme change
+const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
+  setTheme(newTheme)
+}
 
 // Save settings
 const saveSettings = () => {
@@ -46,7 +51,7 @@ const visibiliteOptions = [
 ]
 
 // Theme options
-const themeOptions = [
+const themeOptions: { value: 'light' | 'dark' | 'system'; label: string; icon: string }[] = [
   { value: 'light', label: 'Clair', icon: 'fa-solid fa-sun' },
   { value: 'dark', label: 'Sombre', icon: 'fa-solid fa-moon' },
   { value: 'system', label: 'Systeme', icon: 'fa-solid fa-desktop' }
@@ -327,33 +332,29 @@ const themeOptions = [
             Theme
           </label>
           <div class="grid grid-cols-3 gap-3">
-            <label
+            <button
               v-for="option in themeOptions"
               :key="option.value"
+              type="button"
               :class="[
                 'flex flex-col items-center p-4 rounded-xl border-2 cursor-pointer transition-all',
-                settings.theme === option.value
+                theme === option.value
                   ? 'border-repae-blue-500 bg-repae-blue-50 dark:bg-repae-blue-500/10'
                   : 'border-gray-200 dark:border-repae-gray-700 hover:border-repae-blue-300 dark:hover:border-repae-blue-500/50'
               ]"
+              @click="handleThemeChange(option.value)"
             >
-              <input
-                v-model="settings.theme"
-                type="radio"
-                :value="option.value"
-                class="sr-only"
-              />
               <font-awesome-icon
                 :icon="option.icon"
                 :class="[
                   'text-xl mb-2',
-                  settings.theme === option.value ? 'text-repae-blue-500' : 'text-repae-gray-400'
+                  theme === option.value ? 'text-repae-blue-500' : 'text-repae-gray-400'
                 ]"
               />
               <span class="font-medium font-brand text-sm text-repae-gray-900 dark:text-white">
                 {{ option.label }}
               </span>
-            </label>
+            </button>
           </div>
         </div>
       </div>
