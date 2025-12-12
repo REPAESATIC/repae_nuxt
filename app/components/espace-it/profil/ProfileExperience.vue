@@ -21,16 +21,19 @@ defineProps<{
       </button>
     </div>
 
-    <div class="space-y-6">
+    <div class="relative">
+      <!-- Timeline line continue -->
+      <div class="absolute left-[7px] top-2 bottom-2 w-0.5 bg-gray-200 dark:bg-repae-gray-700" />
+
       <div
         v-for="experience in experiences"
         :key="experience.id"
-        class="relative pl-6 pb-6 last:pb-0 border-l-2 border-gray-200 dark:border-repae-gray-700 last:border-l-transparent"
+        class="relative pl-8 pb-6 last:pb-0"
       >
         <!-- Timeline dot with status indicator -->
         <div
           :class="[
-            'absolute -left-2 top-0 w-4 h-4 rounded-full border-2 border-white dark:border-repae-gray-800',
+            'absolute left-0 top-0 w-4 h-4 rounded-full border-2 border-white dark:border-repae-gray-800 z-10',
             experience.en_cours ? 'bg-green-500' : 'bg-repae-blue-500'
           ]"
         />

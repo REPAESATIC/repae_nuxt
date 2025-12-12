@@ -99,6 +99,34 @@ import {
   faDesktop,
   // Sprint 6 Profile Edit icons
   faImage,
+  // Sprint 8 Alumni Profile icons
+  faBolt,
+  // Sprint 9 Entreprises icons
+  faCoins,
+  faLeaf,
+  faHeartPulse,
+  faLaptopCode,
+  faShoppingCart,
+  faTruck,
+  // Sprint 10 Offres d'emploi icons
+  faInfinity,
+  faCalendarCheck,
+  faRotate,
+  faArrowsLeftRight,
+  faHouseLaptop,
+  faMoneyBillWave,
+  faFileContract,
+  faLocationDot,
+  // Sprint 11 Offre Detail & Candidature icons
+  faListCheck,
+  faGift,
+  faCloudUploadAlt,
+  // Sprint 12 Publication d'offre icons
+  faTrash,
+  faInfoCircle,
+  // Sprint 13 Candidatures icons
+  faExclamationTriangle,
+  faBan,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -212,6 +240,34 @@ library.add(
   faDesktop,
   // Sprint 6 Profile Edit icons
   faImage,
+  // Sprint 8 Alumni Profile icons
+  faBolt,
+  // Sprint 9 Entreprises icons
+  faCoins,
+  faLeaf,
+  faHeartPulse,
+  faLaptopCode,
+  faShoppingCart,
+  faTruck,
+  // Sprint 10 Offres d'emploi icons
+  faInfinity,
+  faCalendarCheck,
+  faRotate,
+  faArrowsLeftRight,
+  faHouseLaptop,
+  faMoneyBillWave,
+  faFileContract,
+  faLocationDot,
+  // Sprint 11 Offre Detail & Candidature icons
+  faListCheck,
+  faGift,
+  faCloudUploadAlt,
+  // Sprint 12 Publication d'offre icons
+  faTrash,
+  faInfoCircle,
+  // Sprint 13 Candidatures icons
+  faExclamationTriangle,
+  faBan,
 )
 
 // Add regular icons to library

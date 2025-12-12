@@ -14,9 +14,23 @@ const emit = defineEmits<{
 const route = useRoute()
 
 const isActiveRoute = (href: string) => {
+  // Dashboard: correspondance exacte uniquement
   if (href === '/espace-it') {
     return route.path === '/espace-it'
   }
+
+  // Verifier si une autre route de navigation est plus specifique
+  const hasMoreSpecificMatch = espaceItNavItems.some(item => {
+    return item.href !== href &&
+           item.href.startsWith(href) &&
+           route.path.startsWith(item.href)
+  })
+
+  // Si une route plus specifique correspond, ne pas marquer celle-ci comme active
+  if (hasMoreSpecificMatch) {
+    return false
+  }
+
   return route.path.startsWith(href)
 }
 </script>

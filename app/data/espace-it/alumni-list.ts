@@ -14,6 +14,12 @@ export interface Alumni {
   disponibilite: 'disponible' | 'en_poste' | 'ouvert_opportunites'
   linkedin_url?: string
   competences: string[]
+  // Champs etendus (optionnels) pour le profil detaille
+  telephone?: string
+  biographie?: string
+  site_web?: string
+  twitter_url?: string
+  github_url?: string
 }
 
 export const alumniList: Alumni[] = [
@@ -21,8 +27,8 @@ export const alumniList: Alumni[] = [
     id: '1',
     prenom: 'Kouame',
     nom: 'Yao',
-    email: 'kouame.yao@email.ci',
-    photo_url: 'https://i.pravatar.cc/150?u=kouame',
+    email: 'Angenor99@gmail.com',
+    photo_url: 'https://i.pravatar.cc/300?u=kouame',
     poste_actuel: 'Developpeur Full Stack Senior',
     entreprise_actuelle: 'MTN Cote d\'Ivoire',
     promotion: 2018,
@@ -30,7 +36,17 @@ export const alumniList: Alumni[] = [
     ville: 'Abidjan',
     disponibilite: 'ouvert_opportunites',
     linkedin_url: 'https://linkedin.com/in/kouameyao',
-    competences: ['Vue.js', 'Node.js', 'PostgreSQL']
+    competences: ['Vue.js', 'Node.js', 'PostgreSQL', 'TypeScript', 'Nuxt', 'Mobile Money'],
+    // Donnees etendues (meme que le profil utilisateur)
+    telephone: '+225 05 45 29 28 02',
+    biographie: `Passionne par le developpement web et mobile depuis plus de 6 ans, je me specialise dans la creation d'applications performantes et innovantes pour le secteur des telecommunications et de la fintech.
+
+Diplome de l'ESATIC promotion 2018, j'ai eu l'opportunite de travailler sur des projets majeurs chez Orange CI et MTN CI, notamment sur les plateformes de mobile money qui touchent des millions d'utilisateurs en Afrique de l'Ouest.
+
+Je suis convaincu que la technologie peut transformer positivement notre societe africaine, et je m'engage a contribuer a cet elan a travers mes projets et mon mentorat aupres des jeunes developpeurs ivoiriens.`,
+    site_web: 'https://kouameyao.dev',
+    twitter_url: 'https://twitter.com/kouameyao',
+    github_url: 'https://github.com/kouameyao'
   },
   {
     id: '2',

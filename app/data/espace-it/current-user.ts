@@ -80,5 +80,12 @@ export const espaceItNavItems: NavItem[] = [
     href: '/espace-it/offres/publier',
     icon: 'fa-solid fa-plus-circle',
     description: 'Proposer un emploi'
+  },
+  {
+    id: 'candidatures',
+    label: 'Mes candidatures',
+    href: '/espace-it/mes-candidatures',
+    icon: 'fa-solid fa-paper-plane',
+    description: 'Suivre mes candidatures'
   }
 ]

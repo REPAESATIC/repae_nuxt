@@ -27,7 +27,7 @@ export const jobOffers = [
     title: 'Ingénieur DevOps Junior',
     company: 'Tech Logic',
     location: 'Abidjan, Côte d\'Ivoire',
-    type: 'Alternance',
+    type: 'Consultant',
     level: 'Junior',
     logo: 'https://via.placeholder.com/100',
     postedDate: '2024-01-13',

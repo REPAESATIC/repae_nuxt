@@ -6,7 +6,7 @@ export interface Experience {
   entreprise: string
   logo_url?: string
   lieu: string
-  type_contrat: 'CDI' | 'CDD' | 'Stage' | 'Freelance' | 'Alternance'
+  type_contrat: 'CDI' | 'CDD' | 'Stage' | 'Freelance' | 'Consultant'
   date_debut: string
   date_fin?: string
   en_cours?: boolean
@@ -112,5 +112,5 @@ export const contratConfig: Record<string, { label: string; color: string }> = {
   CDD: { label: 'CDD', color: 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400' },
   Stage: { label: 'Stage', color: 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400' },
   Freelance: { label: 'Freelance', color: 'bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-400' },
-  Alternance: { label: 'Alternance', color: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400' }
+  Consultant: { label: 'Consultant', color: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400' }
 }

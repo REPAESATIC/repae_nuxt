@@ -1,51 +1,98 @@
 <script setup lang="ts">
 import { espaceItNavItems } from '@/data/espace-it/current-user'
 import type { DashboardStat } from '@/components/espace-it/DashboardStats.vue'
+import { candidaturesList, getCandidatureStats, statutConfig } from '~/data/espace-it/candidatures'
+import { offresList } from '~/data/espace-it/offres'
+import { alumniList } from '~/data/espace-it/alumni-list'
 
 definePageMeta({
   layout: 'espace-it'
 })
 
-// Statistiques mock pour le dashboard
-const stats = ref<DashboardStat[]>([
+// Stats des candidatures
+const candidatureStats = computed(() => getCandidatureStats(candidaturesList))
+
+// Statistiques dynamiques pour le dashboard
+const stats = computed<DashboardStat[]>(() => [
   {
-    id: 'profil',
-    label: 'Profil complete',
-    value: '85%',
-    icon: 'fa-solid fa-user-check',
+    id: 'candidatures',
+    label: 'Mes candidatures',
+    value: String(candidatureStats.value.total),
+    icon: 'fa-solid fa-paper-plane',
     color: 'blue',
-    trend: '+5%'
-  },
-  {
-    id: 'vues',
-    label: 'Vues du profil',
-    value: '124',
-    icon: 'fa-solid fa-eye',
-    color: 'green',
-    trend: '+12%'
+    trend: `${candidatureStats.value.entretien} entretien(s)`
   },
   {
     id: 'offres',
-    label: 'Offres compatibles',
-    value: '8',
+    label: 'Offres disponibles',
+    value: String(offresList.filter(o => o.statut === 'active').length),
     icon: 'fa-solid fa-briefcase',
-    color: 'purple',
-    trend: '+3'
+    color: 'green',
+    trend: 'Actives'
   },
   {
-    id: 'connexions',
-    label: 'Connexions',
-    value: '47',
+    id: 'alumni',
+    label: 'Alumni IT',
+    value: String(alumniList.length),
     icon: 'fa-solid fa-users',
+    color: 'purple',
+    trend: 'Dans l\'annuaire'
+  },
+  {
+    id: 'acceptees',
+    label: 'Candidatures acceptees',
+    value: String(candidatureStats.value.acceptee),
+    icon: 'fa-solid fa-check-circle',
     color: 'orange',
-    trend: '+2'
+    trend: 'Felicitations !'
   }
 ])
 
-// Quick links (filtered from nav items)
+// Quick links (filtered from nav items - only main sections)
 const quickLinks = computed(() =>
-  espaceItNavItems.filter(item => item.id !== 'dashboard')
+  espaceItNavItems.filter(item =>
+    ['profil', 'annuaire', 'entreprises', 'offres', 'candidatures'].includes(item.id)
+  )
 )
+
+// Activite recente basee sur les candidatures
+const recentActivity = computed(() => {
+  return candidaturesList
+    .slice()
+    .sort((a, b) => new Date(b.date_mise_a_jour).getTime() - new Date(a.date_mise_a_jour).getTime())
+    .slice(0, 4)
+    .map(c => ({
+      id: c.id,
+      type: c.statut,
+      title: c.offre.titre,
+      subtitle: c.offre.entreprise.nom,
+      date: c.date_mise_a_jour,
+      icon: statutConfig[c.statut].icon,
+      color: statutConfig[c.statut].color
+    }))
+})
+
+// Offres recommandees (les plus recentes)
+const recommendedOffers = computed(() => {
+  return offresList
+    .filter(o => o.statut === 'active')
+    .slice()
+    .sort((a, b) => new Date(b.date_publication).getTime() - new Date(a.date_publication).getTime())
+    .slice(0, 3)
+})
+
+// Formatage date relative
+const formatRelativeDate = (dateStr: string): string => {
+  const now = new Date()
+  const date = new Date(dateStr)
+  const diffMs = now.getTime() - date.getTime()
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  if (diffDays === 0) return 'Aujourd\'hui'
+  if (diffDays === 1) return 'Hier'
+  if (diffDays < 7) return `Il y a ${diffDays} jours`
+  return `Il y a ${Math.floor(diffDays / 7)} semaine(s)`
+}
 </script>
 
 <template>
