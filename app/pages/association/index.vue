@@ -27,32 +27,34 @@ useHead({
           description="Sélectionnez une section pour en savoir plus sur le REPAE"
         />
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <NuxtLink
             v-for="item in associationNavItems"
             :key="item.id"
             :to="item.href"
-            class="group bg-gray-50 dark:bg-repae-gray-700 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-repae-gray-600 hover:border-repae-blue-500 dark:hover:border-repae-blue-400"
+            class="stacked-card group relative"
           >
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-repae-blue-500/10 dark:bg-repae-blue-500/20 flex items-center justify-center group-hover:bg-repae-blue-500 transition-colors duration-300">
-                <font-awesome-icon
-                  :icon="item.icon"
-                  class="text-xl text-repae-blue-500 group-hover:text-white transition-colors duration-300"
-                />
+            <div class="stacked-card__content bg-gray-50 dark:bg-repae-gray-700 rounded-xl p-6 border-2 border-gray-200 dark:border-repae-gray-600 group-hover:border-repae-blue-500 dark:group-hover:border-repae-blue-400 h-full flex flex-col">
+              <div class="flex items-start gap-4">
+                <div class="shrink-0 w-12 h-12 rounded-lg bg-repae-blue-500/10 dark:bg-repae-blue-500/20 flex items-center justify-center group-hover:bg-repae-blue-500 transition-colors duration-300">
+                  <font-awesome-icon
+                    :icon="item.icon"
+                    class="text-xl text-repae-blue-500 group-hover:text-white transition-colors duration-300"
+                  />
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white mb-2 group-hover:text-repae-blue-500 dark:group-hover:text-repae-blue-400 transition-colors">
+                    {{ item.label }}
+                  </h3>
+                  <p class="text-sm font-brand text-repae-gray-600 dark:text-repae-gray-300">
+                    {{ item.description }}
+                  </p>
+                </div>
               </div>
-              <div class="flex-1">
-                <h3 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white mb-2 group-hover:text-repae-blue-500 dark:group-hover:text-repae-blue-400 transition-colors">
-                  {{ item.label }}
-                </h3>
-                <p class="text-sm font-brand text-repae-gray-600 dark:text-repae-gray-300">
-                  {{ item.description }}
-                </p>
+              <div class="mt-4 flex items-center text-repae-blue-500 dark:text-repae-blue-400 font-brand text-sm font-medium">
+                <span>En savoir plus</span>
+                <font-awesome-icon icon="fa-solid fa-arrow-right" class="ml-2 transform group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
-            <div class="mt-4 flex items-center text-repae-blue-500 dark:text-repae-blue-400 font-brand text-sm font-medium">
-              <span>En savoir plus</span>
-              <font-awesome-icon icon="fa-solid fa-arrow-right" class="ml-2 transform group-hover:translate-x-1 transition-transform" />
             </div>
           </NuxtLink>
         </div>
@@ -111,3 +113,46 @@ useHead({
     <AppFooter />
   </div>
 </template>
+
+<style scoped>
+.stacked-card {
+  --expand: 0;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.stacked-card:hover {
+  --expand: 1;
+}
+
+.stacked-card::before,
+.stacked-card::after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 0.75rem;
+  border: 2px solid rgb(229 231 235);
+  background: rgb(243 244 246);
+}
+
+:global(.dark) .stacked-card::before,
+:global(.dark) .stacked-card::after {
+  background: rgb(55 65 81);
+  border-color: rgb(75 85 99);
+}
+
+.stacked-card::after {
+  transform: translate(calc(var(--expand) * 6px), calc(var(--expand) * 6px));
+  transition: transform 0.2s ease-out;
+}
+
+.stacked-card__content {
+  position: relative;
+  transition: transform 0.2s ease-out;
+  transform: translate(calc(var(--expand) * -6px), calc(var(--expand) * -6px));
+}
+</style>
