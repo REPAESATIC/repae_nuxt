@@ -11,7 +11,7 @@ const isMobileAssociationOpen = ref(false)
 const navLinks = [
   { label: 'Accueil', href: '/', isNuxtLink: true },
   { label: "L'Association", href: '/association', isNuxtLink: true, hasDropdown: true },
-  { label: 'Espace IT', href: '#alumni', isNuxtLink: false },
+  { label: 'Espace IT', href: '/espace-it', isNuxtLink: true },
   { label: 'Entreprises', href: '#enterprises', isNuxtLink: false },
   { label: 'Contact', href: '#contact', isNuxtLink: false }
 ]

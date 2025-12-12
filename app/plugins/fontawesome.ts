@@ -80,6 +80,13 @@ import {
   faList,
   faTimesCircle,
   faHourglassHalf,
+  // Sprint 1 Espace IT - additional icons
+  faGaugeHigh,
+  faPlusCircle,
+  faCog,
+  faUserCheck,
+  // Sprint 3 Profil icons
+  faShare,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -174,6 +181,13 @@ library.add(
   faList,
   faTimesCircle,
   faHourglassHalf,
+  // Sprint 1 Espace IT - additional icons
+  faGaugeHigh,
+  faPlusCircle,
+  faCog,
+  faUserCheck,
+  // Sprint 3 Profil icons
+  faShare,
 )
 
 // Add regular icons to library
