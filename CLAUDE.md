@@ -199,9 +199,6 @@ library.add(
 
 **Rule**: Convert kebab-case to camelCase and prefix with `fa`
 
-### Currently Registered Icons
-
-**Solid (fa-solid)**: faBars, faTimes, faXmark, faSearch, faChevronDown, faChevronLeft, faChevronRight, faArrowRight, faExternalLinkAlt, faPlay, faPause, faExpand, faCompress, faSun, faMoon, faUser, faUsers, faUserTie, faBriefcase, faBuilding, faHandshake, faGraduationCap, faTrophy, faEnvelope, faPhone, faGlobe, faChartLine, faMapMarkerAlt, faCalendar, faCalendarAlt, faClock, faHeart, faStar, faHome, faQuoteLeft, faQuoteRight, faCheck, faSpinner, faCircle
 
 **Regular (fa-regular)**: faThumbsUp, faHeart, faCalendar, faClock, faEnvelope
 
@@ -215,42 +212,6 @@ library.add(
 ## Animate.css Animations
 
 Animate.css is globally imported and ready to use. Add CSS animation classes directly to elements.
-
-### Basic Usage
-
-Always combine `animate__animated` with an animation class:
-
-```vue
-<template>
-  <h1 class="animate__animated animate__fadeIn">Bienvenue</h1>
-  <div class="animate__animated animate__bounceIn">Contenu animé</div>
-</template>
-```
-
-### Popular Animations
-
-| Category | Classes |
-|----------|---------|
-| **Fade** | `animate__fadeIn`, `animate__fadeInUp`, `animate__fadeInDown`, `animate__fadeInLeft`, `animate__fadeInRight` |
-| **Bounce** | `animate__bounce`, `animate__bounceIn`, `animate__bounceOut`, `animate__bounceInUp` |
-| **Slide** | `animate__slideInLeft`, `animate__slideInRight`, `animate__slideInUp`, `animate__slideInDown` |
-| **Zoom** | `animate__zoomIn`, `animate__zoomOut`, `animate__zoomInUp`, `animate__zoomInDown` |
-| **Attention** | `animate__pulse`, `animate__shake`, `animate__swing`, `animate__tada`, `animate__heartBeat` |
-
-### Duration & Delay Modifiers
-
-```vue
-<!-- Speed modifiers -->
-<div class="animate__animated animate__fadeIn animate__faster">0.5s</div>
-<div class="animate__animated animate__fadeIn animate__fast">0.8s</div>
-<div class="animate__animated animate__fadeIn animate__slow">2s</div>
-<div class="animate__animated animate__fadeIn animate__slower">3s</div>
-
-<!-- Delay modifiers -->
-<div class="animate__animated animate__fadeIn animate__delay-1s">1s delay</div>
-<div class="animate__animated animate__fadeIn animate__delay-2s">2s delay</div>
-<div class="animate__animated animate__fadeIn animate__delay-3s">3s delay</div>
-```
 
 ### Vue Integration Example
 
@@ -374,73 +335,3 @@ The following specification documents are available in the `banck/` directory:
 ## French Language Content Guidelines
 
 This project contains French language content. Different file types require different handling of accented characters.
-
-### Code Files (`.ts`, `.vue`, `.js`) - USE ACCENTS
-
-**IMPORTANT**: All French text in code files **MUST use proper French accents**. These files are UTF-8 encoded and fully support accented characters.
-
-**Accented characters to use:**
-- Acute accent: é (e accent aigu)
-- Grave accent: è, à, ù (e, a, u accent grave)
-- Circumflex: ê, â, î, ô, û (accent circonflexe)
-- Diaeresis: ë, ï, ü (trema)
-- Cedilla: ç (c cedille)
-
-**Examples of CORRECT French text:**
-```typescript
-// CORRECT - Use accents in data files
-export const histoire = {
-  description: "Le Réseau Professionnel des Alumni de l'ESATIC a été créé..."
-}
-
-export const objectifs = [
-  { titre: 'Insertion professionnelle', description: "Contribuer à l'insertion..." },
-  { titre: 'Fraternité', description: "Maintenir les liens de fraternité..." }
-]
-```
-
-**Examples of INCORRECT French text (DO NOT DO THIS):**
-```typescript
-// INCORRECT - Missing accents
-export const histoire = {
-  description: "Le Reseau Professionnel des Alumni de l'ESATIC a ete cree..."  // BAD!
-}
-```
-
-**Common words requiring accents:**
-| Incorrect | Correct |
-|-----------|---------|
-| Reseau | Réseau |
-| cree | créé |
-| ESATIC | ESATIC (no change - acronym) |
-| Cote d'Ivoire | Côte d'Ivoire |
-| President | Président |
-| General | Général |
-| Secretaire | Secrétaire |
-| Tresorier/Tresoriere | Trésorier/Trésorière |
-| adhesion | adhésion |
-| evenement | événement |
-| activites | activités |
-| professionnelle | professionnelle (no change) |
-| fraternite | fraternité |
-| solidarite | solidarité |
-| reglement | règlement |
-
-### Markdown Files in `banck/` - AVOID ACCENTS
-
-**Exception**: Markdown files (`.md`) in the `banck/` directory should **avoid French accented characters** to prevent encoding issues with certain tools. Use non-accented equivalents:
-
-| With accents | Without accents |
-|--------------|-----------------|
-| Présentation | Presentation |
-| Adhésion | Adhesion |
-| Règlement | Reglement |
-| créé | cree |
-
-### Quick Reference
-
-| File Type | Location | Accents |
-|-----------|----------|---------|
-| `.ts`, `.vue`, `.js` | `app/` | **YES - Required** |
-| `.md` | `banck/` | **NO - Avoid** |
-| `.md` | Root (`CLAUDE.md`, `README.md`) | **YES - Allowed** |
