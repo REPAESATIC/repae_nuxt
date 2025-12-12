@@ -16,7 +16,7 @@ const disponibiliteColors: Record<string, string> = {
 </script>
 
 <template>
-  <div class="bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 rounded-2xl p-6 text-white">
+  <div class="bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 rounded-2xl p-6 text-white animate__animated animate__fadeIn">
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
       <img
         :src="currentUser.photo_url"

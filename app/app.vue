@@ -9,5 +9,7 @@ useDarkMode()
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <!-- Global Toast Notifications -->
+    <Toast />
   </div>
 </template>

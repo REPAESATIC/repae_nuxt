@@ -87,5 +87,12 @@ export const espaceItNavItems: NavItem[] = [
     href: '/espace-it/mes-candidatures',
     icon: 'fa-solid fa-paper-plane',
     description: 'Suivre mes candidatures'
+  },
+  {
+    id: 'parametres',
+    label: 'Parametres',
+    href: '/espace-it/parametres',
+    icon: 'fa-solid fa-cog',
+    description: 'Gerer vos preferences'
   }
 ]

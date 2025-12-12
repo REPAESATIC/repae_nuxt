@@ -17,10 +17,11 @@ defineProps<{
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <NuxtLink
-        v-for="link in links"
+        v-for="(link, index) in links"
         :key="link.id"
         :to="link.href"
-        class="group flex items-center gap-4 p-4 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 hover:border-repae-blue-300 dark:hover:border-repae-blue-500/50 hover:shadow-lg hover:shadow-repae-blue-500/10 transition-all duration-200"
+        class="group flex items-center gap-4 p-4 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 hover:border-repae-blue-300 dark:hover:border-repae-blue-500/50 hover:shadow-lg hover:shadow-repae-blue-500/10 transition-all duration-200 animate__animated animate__fadeInUp"
+        :style="{ animationDelay: `${index * 50}ms` }"
       >
         <div class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center group-hover:bg-repae-blue-100 dark:group-hover:bg-repae-blue-500/20 transition-colors">
           <font-awesome-icon

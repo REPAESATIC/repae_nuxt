@@ -35,9 +35,10 @@ const colorClasses = {
 <template>
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     <div
-      v-for="stat in stats"
+      v-for="(stat, index) in stats"
       :key="stat.id"
-      class="bg-white dark:bg-repae-gray-800 rounded-xl p-4 border border-gray-200 dark:border-repae-gray-700 hover:shadow-md transition-shadow"
+      class="bg-white dark:bg-repae-gray-800 rounded-xl p-4 border border-gray-200 dark:border-repae-gray-700 hover:shadow-md transition-shadow animate__animated animate__fadeInUp"
+      :style="{ animationDelay: `${index * 100}ms` }"
     >
       <div class="flex items-start justify-between">
         <div

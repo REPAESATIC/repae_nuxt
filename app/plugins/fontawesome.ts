@@ -127,6 +127,12 @@ import {
   // Sprint 13 Candidatures icons
   faExclamationTriangle,
   faBan,
+  // Sprint 14 Polish icons
+  faInbox,
+  faExclamation,
+  // Parametres page icons
+  faShieldAlt,
+  faUserCog,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -268,6 +274,12 @@ library.add(
   // Sprint 13 Candidatures icons
   faExclamationTriangle,
   faBan,
+  // Sprint 14 Polish icons
+  faInbox,
+  faExclamation,
+  // Parametres page icons
+  faShieldAlt,
+  faUserCog,
 )
 
 // Add regular icons to library

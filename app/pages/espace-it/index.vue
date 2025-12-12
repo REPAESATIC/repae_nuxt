@@ -109,58 +109,110 @@ const formatRelativeDate = (dateStr: string): string => {
       title="Acces rapides"
     />
 
-    <!-- Placeholder sections for future sprints -->
+    <!-- Content sections -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Recent Activity Placeholder -->
+      <!-- Recent Activity -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 p-6">
-        <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
-          Activite recente
-        </h2>
-        <div class="space-y-4">
-          <div
-            v-for="i in 3"
-            :key="i"
-            class="flex items-center gap-3 py-3 border-b border-gray-100 dark:border-repae-gray-700 last:border-b-0"
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white">
+            Activite recente
+          </h2>
+          <NuxtLink
+            to="/espace-it/mes-candidatures"
+            class="text-sm text-repae-blue-500 hover:text-repae-blue-600 dark:text-repae-blue-400 font-brand"
           >
-            <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center">
-              <font-awesome-icon
-                icon="fa-solid fa-clock"
-                class="text-repae-gray-400 dark:text-repae-gray-500"
-              />
-            </div>
-            <div class="flex-1">
-              <div class="h-4 bg-gray-100 dark:bg-repae-gray-700 rounded w-3/4" />
-              <div class="h-3 bg-gray-100 dark:bg-repae-gray-700 rounded w-1/2 mt-2" />
-            </div>
-          </div>
+            Voir tout
+          </NuxtLink>
         </div>
-        <p class="text-center text-sm text-repae-gray-400 dark:text-repae-gray-500 mt-4 font-brand">
-          A venir dans les prochains sprints
-        </p>
+        <div class="space-y-3">
+          <NuxtLink
+            v-for="activity in recentActivity"
+            :key="activity.id"
+            :to="`/espace-it/mes-candidatures`"
+            class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-repae-gray-700/50 transition-colors"
+          >
+            <div
+              :class="[
+                'w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0',
+                activity.color
+              ]"
+            >
+              <font-awesome-icon :icon="activity.icon" class="text-sm" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-repae-gray-900 dark:text-white truncate">
+                {{ activity.title }}
+              </p>
+              <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 truncate">
+                {{ activity.subtitle }}
+              </p>
+            </div>
+            <span class="text-xs text-repae-gray-400 dark:text-repae-gray-500 whitespace-nowrap">
+              {{ formatRelativeDate(activity.date) }}
+            </span>
+          </NuxtLink>
+        </div>
+        <div v-if="recentActivity.length === 0" class="text-center py-6">
+          <font-awesome-icon icon="fa-solid fa-inbox" class="text-3xl text-repae-gray-300 dark:text-repae-gray-600 mb-2" />
+          <p class="text-sm text-repae-gray-400 dark:text-repae-gray-500 font-brand">
+            Aucune activite recente
+          </p>
+        </div>
       </div>
 
-      <!-- Suggested Jobs Placeholder -->
+      <!-- Suggested Jobs -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 p-6">
-        <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
-          Offres recommandees
-        </h2>
-        <div class="space-y-4">
-          <div
-            v-for="i in 3"
-            :key="i"
-            class="p-4 bg-gray-50 dark:bg-repae-gray-700/50 rounded-lg"
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white">
+            Offres recommandees
+          </h2>
+          <NuxtLink
+            to="/espace-it/offres"
+            class="text-sm text-repae-blue-500 hover:text-repae-blue-600 dark:text-repae-blue-400 font-brand"
           >
-            <div class="h-4 bg-gray-200 dark:bg-repae-gray-600 rounded w-2/3 mb-2" />
-            <div class="h-3 bg-gray-200 dark:bg-repae-gray-600 rounded w-1/2 mb-3" />
-            <div class="flex gap-2">
-              <div class="h-5 bg-gray-200 dark:bg-repae-gray-600 rounded w-16" />
-              <div class="h-5 bg-gray-200 dark:bg-repae-gray-600 rounded w-20" />
-            </div>
-          </div>
+            Voir tout
+          </NuxtLink>
         </div>
-        <p class="text-center text-sm text-repae-gray-400 dark:text-repae-gray-500 mt-4 font-brand">
-          A venir dans les prochains sprints
-        </p>
+        <div class="space-y-3">
+          <NuxtLink
+            v-for="offre in recommendedOffers"
+            :key="offre.id"
+            :to="`/espace-it/offres/${offre.id}`"
+            class="block p-4 bg-gray-50 dark:bg-repae-gray-700/50 rounded-xl hover:bg-gray-100 dark:hover:bg-repae-gray-700 transition-colors group"
+          >
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-white dark:bg-repae-gray-600">
+                <img
+                  :src="offre.entreprise.logo_url"
+                  :alt="offre.entreprise.nom"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-repae-gray-900 dark:text-white group-hover:text-repae-blue-500 dark:group-hover:text-repae-blue-400 truncate transition-colors">
+                  {{ offre.titre }}
+                </p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 truncate">
+                  {{ offre.entreprise.nom }} - {{ offre.entreprise.ville }}
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="px-2 py-0.5 bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400 text-xs rounded-md font-brand">
+                    {{ offre.type_contrat.toUpperCase() }}
+                  </span>
+                  <span class="text-xs text-repae-gray-400 dark:text-repae-gray-500">
+                    {{ offre.nombre_candidatures }} candidature(s)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </NuxtLink>
+        </div>
+        <div v-if="recommendedOffers.length === 0" class="text-center py-6">
+          <font-awesome-icon icon="fa-solid fa-briefcase" class="text-3xl text-repae-gray-300 dark:text-repae-gray-600 mb-2" />
+          <p class="text-sm text-repae-gray-400 dark:text-repae-gray-500 font-brand">
+            Aucune offre disponible
+          </p>
+        </div>
       </div>
     </div>
   </div>
