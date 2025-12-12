@@ -2,6 +2,8 @@
 import { userProfile } from '@/data/espace-it/user-profile'
 import { formations } from '@/data/espace-it/formations'
 import { experiences } from '@/data/espace-it/experiences'
+import { competences } from '@/data/espace-it/competences'
+import { portfolio } from '@/data/espace-it/portfolio'
 
 definePageMeta({
   layout: 'espace-it'
@@ -44,6 +46,9 @@ useSeoMeta({
 
         <!-- Experiences professionnelles -->
         <EspaceItProfilProfileExperience :experiences="experiences" />
+
+        <!-- Portfolio -->
+        <EspaceItProfilProfilePortfolio :projets="portfolio" />
       </div>
 
       <!-- Sidebar -->
@@ -51,31 +56,8 @@ useSeoMeta({
         <!-- Contact Info -->
         <EspaceItProfilProfileContact :profile="userProfile" />
 
-        <!-- Placeholder: Competences (Sprint 5) -->
-        <div class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-repae-gray-700">
-          <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2 mb-4">
-            <font-awesome-icon icon="fa-solid fa-star" class="text-repae-blue-500" />
-            Competences
-          </h2>
-          <div class="text-center py-6">
-            <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand">
-              Sprint 5
-            </p>
-          </div>
-        </div>
-
-        <!-- Placeholder: Portfolio (Sprint 5) -->
-        <div class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-repae-gray-700">
-          <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2 mb-4">
-            <font-awesome-icon icon="fa-solid fa-layer-group" class="text-repae-blue-500" />
-            Portfolio
-          </h2>
-          <div class="text-center py-6">
-            <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand">
-              Sprint 5
-            </p>
-          </div>
-        </div>
+        <!-- Competences -->
+        <EspaceItProfilProfileCompetences :competences="competences" />
       </div>
     </div>
   </div>

@@ -87,6 +87,18 @@ import {
   faUserCheck,
   // Sprint 3 Profil icons
   faShare,
+  // Sprint 5 Competences & Portfolio icons
+  faPalette,
+  faServer,
+  faDatabase,
+  faCloud,
+  faMobileScreenButton,
+  faEllipsis,
+  faCube,
+  faCode,
+  faDesktop,
+  // Sprint 6 Profile Edit icons
+  faImage,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -188,6 +200,18 @@ library.add(
   faUserCheck,
   // Sprint 3 Profil icons
   faShare,
+  // Sprint 5 Competences & Portfolio icons
+  faPalette,
+  faServer,
+  faDatabase,
+  faCloud,
+  faMobileScreenButton,
+  faEllipsis,
+  faCube,
+  faCode,
+  faDesktop,
+  // Sprint 6 Profile Edit icons
+  faImage,
 )
 
 // Add regular icons to library
