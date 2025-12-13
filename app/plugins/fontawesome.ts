@@ -137,6 +137,36 @@ import {
   faCircleQuestion,
   faComments,
   faReply,
+  // Espace Entreprises icons
+  faAward,
+  faCrown,
+  faArrowUp,
+  faArrowDown,
+  // Sprint 5 Publier offre icons
+  faSlidersH,
+  // Sprint 6 Gestion offres icons
+  faCopy,
+  // Sprint 9 Candidatures icons
+  faStickyNote,
+  faFilePdf,
+  faSortAmountDown,
+  faSortAmountUp,
+  faEllipsisV,
+  // Sprint 12 Consulter IT icons
+  faLock,
+  // Sprint 13 Fidelite icons
+  faMedal,
+  faGem,
+  // Sprint 14 Avantages icons
+  faStore,
+  faHeadset,
+  faPen,
+  // Sprint 15 Finitions icons
+  faEyeSlash,
+  faArrowRightToBracket,
+  faCircleExclamation,
+  faChevronUp,
+  faHouse,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -288,6 +318,36 @@ library.add(
   faCircleQuestion,
   faComments,
   faReply,
+  // Espace Entreprises icons
+  faAward,
+  faCrown,
+  faArrowUp,
+  faArrowDown,
+  // Sprint 5 Publier offre icons
+  faSlidersH,
+  // Sprint 6 Gestion offres icons
+  faCopy,
+  // Sprint 9 Candidatures icons
+  faStickyNote,
+  faFilePdf,
+  faSortAmountDown,
+  faSortAmountUp,
+  faEllipsisV,
+  // Sprint 12 Consulter IT icons
+  faLock,
+  // Sprint 13 Fidelite icons
+  faMedal,
+  faGem,
+  // Sprint 14 Avantages icons
+  faStore,
+  faHeadset,
+  faPen,
+  // Sprint 15 Finitions icons
+  faEyeSlash,
+  faArrowRightToBracket,
+  faCircleExclamation,
+  faChevronUp,
+  faHouse,
 )
 
 // Add regular icons to library
