@@ -13,7 +13,7 @@ const navLinks = [
   { label: "L'Association", href: '/association', isNuxtLink: true, hasDropdown: true },
   { label: 'Espace IT', href: '/espace-it', isNuxtLink: true },
   { label: 'Espace Entreprises', href: '/connexion-entreprise', isNuxtLink: true },
-  { label: 'Contact', href: '#contact', isNuxtLink: false }
+  { label: 'Contact', href: '/contact', isNuxtLink: true }
 ]
 
 const toggleMobileMenu = () => {
