@@ -20,6 +20,9 @@ export interface ProfilIT {
   secteur_activite: string
   entreprise_actuelle?: string
   linkedin_url?: string
+  github_url?: string
+  twitter_url?: string
+  site_web?: string
   email_visible: boolean
   telephone_visible: boolean
   derniere_mise_a_jour: string
@@ -86,6 +89,8 @@ export const profilsITList: ProfilIT[] = [
     secteur_activite: 'Finance',
     entreprise_actuelle: 'DataTech CI',
     linkedin_url: 'https://linkedin.com/in/marie-kone',
+    github_url: 'https://github.com/mariekone',
+    site_web: 'https://mariekone.dev',
     email_visible: true,
     telephone_visible: false,
     derniere_mise_a_jour: '2024-01-15',
@@ -107,6 +112,8 @@ export const profilsITList: ProfilIT[] = [
     competences: ['Vue.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker'],
     secteur_activite: 'Tech',
     linkedin_url: 'https://linkedin.com/in/jean-kouassi',
+    github_url: 'https://github.com/jeankouassi',
+    site_web: 'https://jeankouassi.dev',
     email_visible: true,
     telephone_visible: true,
     derniere_mise_a_jour: '2024-01-18',
@@ -151,6 +158,9 @@ export const profilsITList: ProfilIT[] = [
     secteur_activite: 'E-commerce',
     entreprise_actuelle: 'ShopTech',
     linkedin_url: 'https://linkedin.com/in/paul-mensah',
+    github_url: 'https://github.com/paulmensah',
+    twitter_url: 'https://twitter.com/paulmensah_dev',
+    site_web: 'https://paulmensah.io',
     email_visible: true,
     telephone_visible: true,
     derniere_mise_a_jour: '2024-01-12',

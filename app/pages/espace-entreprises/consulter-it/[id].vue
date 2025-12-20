@@ -92,6 +92,9 @@ const handleDownloadCV = () => {
           :email="profilDetails.email"
           :telephone="profilDetails.telephone"
           :linkedin="profil.linkedin_url"
+          :github="profil.github_url"
+          :twitter="profil.twitter_url"
+          :portfolio="profil.site_web"
         />
 
         <!-- Competences -->
@@ -142,6 +145,63 @@ const handleDownloadCV = () => {
                 </span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Localisation -->
+        <div class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 p-6">
+          <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-emerald-500" />
+            Localisation
+          </h2>
+          <div class="space-y-2">
+            <p class="font-medium text-repae-gray-900 dark:text-white">
+              {{ profil.ville }}
+            </p>
+            <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
+              {{ profil.pays }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 p-6">
+          <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <font-awesome-icon icon="fa-solid fa-bolt" class="text-emerald-500" />
+            Actions rapides
+          </h2>
+          <div class="space-y-2">
+            <a
+              v-if="profilDetails.email"
+              :href="`mailto:${profilDetails.email}`"
+              class="flex items-center gap-2 w-full px-4 py-2.5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium text-sm rounded-xl hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition-colors"
+            >
+              <font-awesome-icon icon="fa-solid fa-envelope" />
+              Envoyer un email
+            </a>
+            <a
+              v-if="profilDetails.telephone"
+              :href="`tel:${profilDetails.telephone}`"
+              class="flex items-center gap-2 w-full px-4 py-2.5 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-medium text-sm rounded-xl hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors"
+            >
+              <font-awesome-icon icon="fa-solid fa-phone" />
+              Appeler
+            </a>
+            <button
+              type="button"
+              class="flex items-center gap-2 w-full px-4 py-2.5 bg-gray-100 dark:bg-repae-gray-700 text-repae-gray-700 dark:text-repae-gray-300 font-medium text-sm rounded-xl hover:bg-gray-200 dark:hover:bg-repae-gray-600 transition-colors cursor-pointer"
+              @click="handleDownloadCV"
+            >
+              <font-awesome-icon icon="fa-solid fa-file-pdf" />
+              Telecharger le CV
+            </button>
+            <button
+              type="button"
+              class="flex items-center gap-2 w-full px-4 py-2.5 bg-gray-100 dark:bg-repae-gray-700 text-repae-gray-700 dark:text-repae-gray-300 font-medium text-sm rounded-xl hover:bg-gray-200 dark:hover:bg-repae-gray-600 transition-colors cursor-pointer"
+            >
+              <font-awesome-icon icon="fa-solid fa-share" />
+              Partager le profil
+            </button>
           </div>
         </div>
 

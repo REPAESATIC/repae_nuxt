@@ -93,6 +93,7 @@ import {
   faDatabase,
   faCloud,
   faMobileScreenButton,
+  faMobileScreen,
   faEllipsis,
   faCube,
   faCode,
@@ -167,6 +168,7 @@ import {
   faCircleExclamation,
   faChevronUp,
   faHouse,
+  faBullhorn,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -274,6 +276,7 @@ library.add(
   faDatabase,
   faCloud,
   faMobileScreenButton,
+  faMobileScreen,
   faEllipsis,
   faCube,
   faCode,
@@ -348,6 +351,7 @@ library.add(
   faCircleExclamation,
   faChevronUp,
   faHouse,
+  faBullhorn,
 )
 
 // Add regular icons to library

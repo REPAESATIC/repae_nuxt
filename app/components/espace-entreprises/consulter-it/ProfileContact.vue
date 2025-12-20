@@ -4,11 +4,12 @@ const props = defineProps<{
   telephone?: string
   linkedin?: string
   github?: string
+  twitter?: string
   portfolio?: string
 }>()
 
 const hasContactInfo = computed(() => {
-  return props.email || props.telephone || props.linkedin || props.github || props.portfolio
+  return props.email || props.telephone || props.linkedin || props.github || props.twitter || props.portfolio
 })
 </script>
 
@@ -94,6 +95,26 @@ const hasContactInfo = computed(() => {
           </p>
         </div>
         <font-awesome-icon icon="fa-solid fa-external-link-alt" class="text-repae-gray-400 group-hover:text-repae-gray-600 text-xs" />
+      </a>
+
+      <!-- Twitter -->
+      <a
+        v-if="twitter"
+        :href="twitter"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-repae-gray-900 rounded-xl hover:bg-sky-50 dark:hover:bg-sky-500/10 transition-colors group"
+      >
+        <div class="w-10 h-10 bg-sky-100 dark:bg-sky-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+          <font-awesome-icon icon="fa-brands fa-twitter" class="text-sky-500" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Twitter</p>
+          <p class="text-sm font-medium text-repae-gray-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400 truncate">
+            Voir le profil
+          </p>
+        </div>
+        <font-awesome-icon icon="fa-solid fa-external-link-alt" class="text-repae-gray-400 group-hover:text-sky-500 text-xs" />
       </a>
 
       <!-- Portfolio -->
