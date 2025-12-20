@@ -6,6 +6,12 @@ const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 const isAssociationDropdownOpen = ref(false)
 const isMobileAssociationOpen = ref(false)
+const isJoinModalOpen = ref(false)
+
+const openJoinModal = () => {
+  isJoinModalOpen.value = true
+  isMobileMenuOpen.value = false
+}
 
 // Liens de navigation centralises
 const navLinks = [
@@ -181,13 +187,13 @@ onMounted(() => {
           </button>
 
           <!-- CTA Button -->
-          <NuxtLink
-            to="/association/adhesion"
-            class="relative px-5 py-2.5 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 text-white font-semibold font-brand rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-repae-blue-500/25 hover:-translate-y-0.5"
+          <button
+            @click="openJoinModal"
+            class="relative px-5 py-2.5 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 text-white font-semibold font-brand rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-lg hover:shadow-repae-blue-500/25 hover:-translate-y-0.5 cursor-pointer"
           >
             <span class="relative z-10">Nous rejoindre</span>
             <div class="absolute inset-0 bg-gradient-to-r from-repae-blue-600 to-repae-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </NuxtLink>
+          </button>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -309,13 +315,12 @@ onMounted(() => {
             </div>
 
             <!-- Mobile CTA -->
-            <NuxtLink
-              to="/association/adhesion"
-              class="block w-full px-4 py-3 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 text-white text-center font-semibold font-brand rounded-xl hover:shadow-lg transition-all"
-              @click="isMobileMenuOpen = false"
+            <button
+              @click="openJoinModal"
+              class="block w-full px-4 py-3 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 text-white text-center font-semibold font-brand rounded-xl hover:shadow-lg transition-all cursor-pointer"
             >
               Nous rejoindre
-            </NuxtLink>
+            </button>
           </div>
         </div>
       </div>
@@ -324,6 +329,12 @@ onMounted(() => {
 
   <!-- Spacer pour compenser la navbar fixed -->
   <div class="h-18" />
+
+  <!-- Join Modal -->
+  <UiJoinModal
+    :is-open="isJoinModalOpen"
+    @close="isJoinModalOpen = false"
+  />
 </template>
 
 <style scoped>

@@ -80,6 +80,7 @@ const faqs = [
 ]
 
 const openFaqIndex = ref(null)
+const isJoinModalOpen = ref(false)
 
 const toggleFaq = (index) => {
   openFaqIndex.value = openFaqIndex.value === index ? null : index
@@ -362,19 +363,25 @@ const toggleFaq = (index) => {
         <!-- CTA Adhesion -->
         <div class="mt-12 text-center">
           <p class="text-repae-gray-600 dark:text-repae-gray-300 font-brand mb-4">
-            Vous êtes un ancien de l'ESATIC ?
+            Vous souhaitez rejoindre notre réseau ?
           </p>
-          <NuxtLink
-            to="/association/adhesion"
-            class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 hover:from-repae-blue-600 hover:to-repae-blue-700 text-white font-semibold font-brand rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-repae-blue-500/25"
+          <button
+            @click="isJoinModalOpen = true"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 hover:from-repae-blue-600 hover:to-repae-blue-700 text-white font-semibold font-brand rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-repae-blue-500/25 cursor-pointer"
           >
             <font-awesome-icon icon="fa-solid fa-user-plus" />
             Rejoindre le REPAE
-          </NuxtLink>
+          </button>
         </div>
       </div>
     </section>
 
     <AppFooter />
+
+    <!-- Join Modal -->
+    <UiJoinModal
+      :is-open="isJoinModalOpen"
+      @close="isJoinModalOpen = false"
+    />
   </div>
 </template>
