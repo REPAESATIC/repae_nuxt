@@ -10,7 +10,7 @@ const jobOffers = ref(jobOffersData)
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-bold text-white font-brand mb-4">
-          Nos Offres d'emploi
+          Emplois & Stages
         </h2>
         <p class="text-lg text-blue-100 font-brand">
           Opportunités exclusives pour les membres REPAE
