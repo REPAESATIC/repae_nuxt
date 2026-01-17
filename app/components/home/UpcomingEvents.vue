@@ -59,6 +59,14 @@ const timelineSegments = computed(() => {
         <p class="text-lg text-repae-gray-600 dark:text-repae-gray-300 font-brand max-w-3xl mx-auto">
           Rencontres, formations et moments de partage qui renforcent les liens entre alumni et favorisent l'excellence professionnelle.
         </p>
+        <NuxtLink
+          to="/evenements"
+          class="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-semibold font-brand rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-repae-blue-500/25 cursor-pointer"
+        >
+          <font-awesome-icon icon="fa-solid fa-calendar-alt" />
+          Voir tous les événements
+          <font-awesome-icon icon="fa-solid fa-arrow-right" class="text-sm" />
+        </NuxtLink>
       </div>
 
       <!-- Events and Timeline Container -->

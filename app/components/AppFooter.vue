@@ -68,8 +68,20 @@ const nextArticle = () => {
         </div>
 
         <!-- Section Actualités -->
-        <!-- Carrousel d'actualités -->
-        <div class="relative col-span-1 overflow-hidden">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-lg font-bold font-brand">Actualités</h4>
+            <NuxtLink
+              to="/actualites"
+              class="text-sm text-repae-blue-400 hover:text-repae-blue-300 font-brand transition-colors flex items-center gap-1"
+            >
+              Voir tout
+              <font-awesome-icon icon="fa-solid fa-arrow-right" class="text-xs" />
+            </NuxtLink>
+          </div>
+
+          <!-- Carrousel d'actualités -->
+          <div class="relative overflow-hidden">
           <!-- Flèche gauche -->
           <button
             @click="previousArticle"
@@ -123,6 +135,7 @@ const nextArticle = () => {
                 </p>
               </div>
             </article>
+          </div>
           </div>
         </div>
       </div>
