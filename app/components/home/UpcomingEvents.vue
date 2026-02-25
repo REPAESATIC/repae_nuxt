@@ -46,6 +46,17 @@ const timelineSegments = computed(() => {
     isBlue: event.status === 'completed' || event.status === 'ongoing'
   }))
 })
+
+// Calculate the starting offset for timeline segments based on number of events
+// Card width = 12rem (w-48), Gap = 1.5rem (gap-6)
+const timelineStartOffset = computed(() => {
+  const n = events.value.length
+  const cardWidth = 12 // rem
+  const gap = 1.5 // rem
+  const totalWidth = n * cardWidth + (n - 1) * gap
+  const firstCenterOffset = totalWidth / 2 - cardWidth / 2
+  return firstCenterOffset
+})
 </script>
 
 <template>
@@ -142,8 +153,8 @@ const timelineSegments = computed(() => {
               : 'bg-repae-gray-300 dark:bg-repae-gray-600'"
             :style="{
               top: '21.5rem',
-              left: `calc(50% - 27rem + ${segment.index * 13.5}rem)`,
-              width: '12rem'
+              left: `calc(50% - ${timelineStartOffset}rem + ${segment.index * 13.5}rem)`,
+              width: '13.5rem'
             }"
           ></div>
         </div>
