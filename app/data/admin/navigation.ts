@@ -29,17 +29,22 @@ export const adminNavGroups: AdminNavGroup[] = [
     icon: 'fa-solid fa-layer-group',
     items: [
       {
-        id: 'evenements',
-        label: 'Evenements',
-        href: '/admin/evenements',
-        icon: 'fa-solid fa-calendar-alt',
-        badge: 'Bientot',
+        id: 'categories',
+        label: 'Categories',
+        href: '/admin/categories',
+        icon: 'fa-solid fa-tag',
       },
       {
         id: 'actualites',
         label: 'Actualites',
         href: '/admin/actualites',
         icon: 'fa-solid fa-bullhorn',
+      },
+      {
+        id: 'evenements',
+        label: 'Evenements',
+        href: '/admin/evenements',
+        icon: 'fa-solid fa-calendar-alt',
         badge: 'Bientot',
       },
     ],

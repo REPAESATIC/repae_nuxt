@@ -42,5 +42,12 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
+  // Runtime config pour les URLs API
+  runtimeConfig: {
+    public: {
+      contentApiBase: 'http://localhost:3001',
+    },
+  },
+
   // Font Awesome: configured via app/plugins/fontawesome.ts
 })

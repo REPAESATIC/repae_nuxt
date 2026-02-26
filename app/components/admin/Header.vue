@@ -14,6 +14,7 @@ const route = useRoute()
 const pageTitle = computed(() => {
   const path = route.path
   if (path === '/admin') return 'Tableau de bord'
+  if (path.startsWith('/admin/categories')) return 'Categories'
   if (path.startsWith('/admin/evenements')) return 'Evenements'
   if (path.startsWith('/admin/actualites')) return 'Actualites'
   return 'Administration'
