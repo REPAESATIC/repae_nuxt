@@ -45,7 +45,6 @@ export const adminNavGroups: AdminNavGroup[] = [
         label: 'Evenements',
         href: '/admin/evenements',
         icon: 'fa-solid fa-calendar-alt',
-        badge: 'Bientot',
       },
     ],
   },
