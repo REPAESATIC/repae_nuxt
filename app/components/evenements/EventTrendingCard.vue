@@ -52,9 +52,7 @@ const locationName = computed(() => props.event.location?.locationName || '')
       </div>
       <div class="h-1/2">
         <!-- Description - hidden until hover -->
-        <p class="text-white text-sm pb-4 opacity-0 transition duration-300 group-hover:opacity-100">
-          {{ event.description }}
-        </p>
+        <p class="text-white text-sm pb-4 opacity-0 transition duration-300 group-hover:opacity-100" v-html="event.description" />
         <!-- Date and Location -->
         <div class="flex flex-wrap items-center gap-3 text-white/80 text-xs mb-4 opacity-0 transition duration-300 group-hover:opacity-100">
           <span class="flex items-center gap-1">

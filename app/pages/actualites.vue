@@ -146,9 +146,7 @@ const formatDate = (dateString?: string) => {
               {{ featuredArticle.title }}
             </h2>
 
-            <p v-if="featuredArticle.summary" class="mt-4 text-lg text-repae-gray-600 dark:text-repae-gray-300 leading-relaxed">
-              {{ featuredArticle.summary }}
-            </p>
+            <p v-if="featuredArticle.summary" class="mt-4 text-lg text-repae-gray-600 dark:text-repae-gray-300 leading-relaxed" v-html="featuredArticle.summary" />
 
             <div class="flex items-center space-x-4 mt-6">
               <img
@@ -267,9 +265,7 @@ const formatDate = (dateString?: string) => {
               </h3>
 
               <!-- Summary -->
-              <p v-if="article.summary" class="text-sm text-repae-gray-600 dark:text-repae-gray-400 line-clamp-3 mb-4">
-                {{ article.summary }}
-              </p>
+              <p v-if="article.summary" class="text-sm text-repae-gray-600 dark:text-repae-gray-400 line-clamp-3 mb-4" v-html="article.summary" />
 
               <!-- Author + date -->
               <div class="flex items-center gap-3 mt-auto">

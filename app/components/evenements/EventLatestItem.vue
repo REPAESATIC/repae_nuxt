@@ -47,9 +47,7 @@ const locationName = computed(() => props.event.location?.locationName || '')
           {{ event.title }}
         </h3>
         <!-- Description -->
-        <p class="text-sm text-repae-gray-600 dark:text-repae-gray-300 line-clamp-2">
-          {{ event.description }}
-        </p>
+        <p class="text-sm text-repae-gray-600 dark:text-repae-gray-300 line-clamp-2" v-html="event.description" />
       </div>
 
       <!-- Meta Info -->

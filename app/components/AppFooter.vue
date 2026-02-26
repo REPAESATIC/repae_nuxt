@@ -154,9 +154,7 @@ const formatDate = (dateString?: string) => {
                 </h4>
 
                 <!-- Description -->
-                <p class="text-sm text-repae-gray-300 font-brand mb-6 leading-relaxed line-clamp-3">
-                  {{ article.summary }}
-                </p>
+                <p class="text-sm text-repae-gray-300 font-brand mb-6 leading-relaxed line-clamp-3" v-html="article.summary" />
               </div>
             </article>
           </div>

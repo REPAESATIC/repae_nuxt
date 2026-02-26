@@ -48,9 +48,7 @@ const formatDate = (dateString: string) => {
         <h3 class="font-brand font-bold text-xl mb-3 leading-tight group-hover:underline">
           {{ event.title }}
         </h3>
-        <p class="text-white/80 text-sm mb-4 line-clamp-3">
-          {{ event.description }}
-        </p>
+        <p class="text-white/80 text-sm mb-4 line-clamp-3" v-html="event.description" />
 
         <!-- Meta -->
         <div class="flex flex-col gap-2 text-sm text-white/70 mb-5">

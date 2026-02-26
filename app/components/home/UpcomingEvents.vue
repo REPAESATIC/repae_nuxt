@@ -130,9 +130,7 @@ const timelineStartOffset = computed(() => {
                     <h3 class="font-brand font-bold text-sm mb-2 leading-tight">
                       {{ event.title }}
                     </h3>
-                    <p class="font-brand text-xs opacity-90 mb-2 line-clamp-2">
-                      {{ event.description }}
-                    </p>
+                    <p class="font-brand text-xs opacity-90 mb-2 line-clamp-2" v-html="event.description" />
                     <p class="font-brand text-xs opacity-75">
                       {{ formatDate(event.eventDate) }}
                     </p>
