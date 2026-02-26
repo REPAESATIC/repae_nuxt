@@ -186,7 +186,7 @@ onUnmounted(() => {
         <div class="flex items-center gap-4 flex-1 min-w-0">
           <NuxtLink
             to="/admin/evenements"
-            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-repae-gray-800 transition-colors cursor-pointer flex-shrink-0"
+            class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-repae-gray-800 transition-colors cursor-pointer shrink-0"
           >
             <font-awesome-icon icon="fa-solid fa-arrow-left" class="text-repae-gray-500 dark:text-repae-gray-400" />
           </NuxtLink>
@@ -242,7 +242,7 @@ onUnmounted(() => {
 
           <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
             <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-              Categorie
+              Categorie *
             </label>
             <select
               v-model="form.categoryId"
@@ -259,7 +259,7 @@ onUnmounted(() => {
         <!-- Location section -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6 space-y-4">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
-            Localisation
+            Localisation *
           </label>
 
           <!-- Location type -->
@@ -295,7 +295,7 @@ onUnmounted(() => {
           <!-- Location name -->
           <div>
             <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-1.5">
-              {{ locationNameLabel }}
+              {{ locationNameLabel }} *
             </label>
             <input
               v-model="form.locationName"
@@ -384,7 +384,7 @@ onUnmounted(() => {
         <!-- Description (TOAST UI Editor) -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Description
+            Description *
           </label>
           <UiToastEditor
             v-model="form.description"

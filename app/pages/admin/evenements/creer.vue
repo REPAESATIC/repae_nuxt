@@ -251,7 +251,7 @@ onUnmounted(() => {
         <!-- Location name -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-1.5">
-            {{ locationNameLabel }}
+            {{ locationNameLabel }} *
           </label>
           <input
             v-model="form.locationName"
