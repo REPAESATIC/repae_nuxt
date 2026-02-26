@@ -1,10 +1,23 @@
-<script setup>
-import { events as eventsData } from '@/data/events'
+<script setup lang="ts">
+import type { EventItem } from '~/composables/useEventsApi'
 
-// Events data (imported from external file)
-const events = ref(eventsData)
+const { fetchEventsList } = useEventsApi()
 
-const formatDate = (dateString) => {
+const events = ref<EventItem[]>([])
+const loading = ref(true)
+
+onMounted(async () => {
+  try {
+    const result = await fetchEventsList({ limit: 7 })
+    events.value = result.data
+  } catch {
+    // Fail gracefully
+  } finally {
+    loading.value = false
+  }
+})
+
+const formatDate = (dateString: string) => {
   const date = new Date(dateString)
   return date.toLocaleDateString('fr-FR', {
     day: 'numeric',
@@ -13,7 +26,18 @@ const formatDate = (dateString) => {
   })
 }
 
-const getStatusIcon = (status) => {
+// Compute display status from API data
+const getDisplayStatus = (event: EventItem): 'completed' | 'ongoing' | 'upcoming' => {
+  if (event.status === 'ARCHIVED') return 'completed'
+  const eventDate = new Date(event.eventDate)
+  const now = new Date()
+  const dayAfter = new Date(eventDate.getTime() + 24 * 60 * 60 * 1000)
+  if (now > dayAfter) return 'completed'
+  if (now >= eventDate && now <= dayAfter) return 'ongoing'
+  return 'upcoming'
+}
+
+const getStatusIcon = (status: string) => {
   switch(status) {
     case 'completed':
       return 'fa-check'
@@ -26,7 +50,7 @@ const getStatusIcon = (status) => {
   }
 }
 
-const getStatusClasses = (status) => {
+const getStatusClasses = (status: string) => {
   switch(status) {
     case 'completed':
       return 'bg-repae-blue-500 text-white'
@@ -41,9 +65,9 @@ const getStatusClasses = (status) => {
 
 const timelineSegments = computed(() => {
   return events.value.slice(0, -1).map((event, index) => ({
-    ...event,
+    id: event.id,
     index,
-    isBlue: event.status === 'completed' || event.status === 'ongoing'
+    isBlue: getDisplayStatus(event) === 'completed' || getDisplayStatus(event) === 'ongoing'
   }))
 })
 
@@ -60,7 +84,7 @@ const timelineStartOffset = computed(() => {
 </script>
 
 <template>
-  <section class="py-16 bg-gray-50 dark:bg-repae-gray-900">
+  <section v-if="!loading && events.length > 0" class="py-16 bg-gray-50 dark:bg-repae-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section Title -->
       <div class="text-center mb-12">
@@ -86,19 +110,19 @@ const timelineStartOffset = computed(() => {
           <div
             v-for="event in events"
             :key="event.id"
-            class="flex-shrink-0 flex flex-col items-center"
+            class="shrink-0 flex flex-col items-center"
           >
             <!-- Event Card -->
             <div
               class="w-48 h-72 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer mb-8"
-              :class="event.status === 'completed' ? 'opacity-60' : ''"
+              :class="getDisplayStatus(event) === 'completed' ? 'opacity-60' : ''"
             >
               <div class="relative w-full h-full">
                 <img
-                  :src="event.image"
+                  :src="event.imageUrl || '/image/background/evenement1.jpg'"
                   :alt="event.title"
                   class="w-full h-full object-cover"
-                  :class="event.status === 'completed' ? 'filter brightness-75' : ''"
+                  :class="getDisplayStatus(event) === 'completed' ? 'filter brightness-75' : ''"
                 >
                 <!-- Event Content Overlay -->
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
@@ -106,11 +130,11 @@ const timelineStartOffset = computed(() => {
                     <h3 class="font-brand font-bold text-sm mb-2 leading-tight">
                       {{ event.title }}
                     </h3>
-                    <p class="font-brand text-xs opacity-90 mb-2">
+                    <p class="font-brand text-xs opacity-90 mb-2 line-clamp-2">
                       {{ event.description }}
                     </p>
                     <p class="font-brand text-xs opacity-75">
-                      {{ formatDate(event.date) }}
+                      {{ formatDate(event.eventDate) }}
                     </p>
                   </div>
                 </div>
@@ -122,11 +146,11 @@ const timelineStartOffset = computed(() => {
               <!-- Timeline Point -->
               <div
                 class="w-12 h-12 rounded-full flex items-center justify-center mb-4 relative z-10 transition-all duration-300"
-                :class="getStatusClasses(event.status)"
+                :class="getStatusClasses(getDisplayStatus(event))"
               >
                 <font-awesome-icon
-                  :icon="`fa-solid ${getStatusIcon(event.status)}`"
-                  :class="event.status === 'ongoing' ? 'animate-spin' : ''"
+                  :icon="`fa-solid ${getStatusIcon(getDisplayStatus(event))}`"
+                  :class="getDisplayStatus(event) === 'ongoing' ? 'animate-spin' : ''"
                   class="text-sm"
                 />
               </div>
@@ -138,7 +162,7 @@ const timelineStartOffset = computed(() => {
 
               <!-- Event Date -->
               <p class="font-brand text-xs text-repae-gray-500 dark:text-repae-gray-400 text-center">
-                {{ formatDate(event.date) }}
+                {{ formatDate(event.eventDate) }}
               </p>
             </div>
           </div>
@@ -162,3 +186,12 @@ const timelineStartOffset = computed(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

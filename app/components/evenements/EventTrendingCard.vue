@@ -1,33 +1,11 @@
 <script setup lang="ts">
-import type { Event } from '@/data/events'
+import type { EventItem } from '~/composables/useEventsApi'
 
-defineProps<{
-  event: Event
+const props = defineProps<{
+  event: EventItem
+  categoryName?: string
+  categoryColor?: string
 }>()
-
-const getCategoryLabel = (category: string) => {
-  const labels: Record<string, string> = {
-    conference: 'Conférence',
-    formation: 'Formation',
-    networking: 'Networking',
-    sport: 'Sport',
-    webinaire: 'Webinaire',
-    autre: 'Autre'
-  }
-  return labels[category] || category
-}
-
-const getCategoryColor = (category: string) => {
-  const colors: Record<string, string> = {
-    conference: 'bg-purple-500',
-    formation: 'bg-green-500',
-    networking: 'bg-orange-500',
-    sport: 'bg-red-500',
-    webinaire: 'bg-blue-500',
-    autre: 'bg-gray-500'
-  }
-  return colors[category] || 'bg-gray-500'
-}
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -36,6 +14,10 @@ const formatDate = (dateString: string) => {
     year: 'numeric'
   })
 }
+
+const badgeColor = computed(() => props.categoryColor || 'bg-gray-500')
+const badgeLabel = computed(() => props.categoryName || '-')
+const locationName = computed(() => props.event.location?.locationName || '')
 </script>
 
 <template>
@@ -44,7 +26,7 @@ const formatDate = (dateString: string) => {
   >
     <!-- Background Image -->
     <img
-      :src="event.image"
+      :src="event.imageUrl || '/image/background/evenement1.jpg'"
       :alt="event.title"
       class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
     />
@@ -58,9 +40,9 @@ const formatDate = (dateString: string) => {
         <div class="absolute bottom-0">
           <!-- Category Badge -->
           <span
-            :class="[getCategoryColor(event.category), 'inline-block px-3 py-1 rounded-full text-xs font-bold text-white font-brand mb-3']"
+            :class="[badgeColor, 'inline-block px-3 py-1 rounded-full text-xs font-bold text-white font-brand mb-3']"
           >
-            {{ getCategoryLabel(event.category) }}
+            {{ badgeLabel }}
           </span>
           <!-- Title -->
           <h3 class="font-brand font-bold text-white text-lg md:text-xl leading-tight pb-4 group-hover:underline">
@@ -77,11 +59,11 @@ const formatDate = (dateString: string) => {
         <div class="flex flex-wrap items-center gap-3 text-white/80 text-xs mb-4 opacity-0 transition duration-300 group-hover:opacity-100">
           <span class="flex items-center gap-1">
             <font-awesome-icon icon="fa-solid fa-calendar-alt" />
-            {{ formatDate(event.date) }}
+            {{ formatDate(event.eventDate) }}
           </span>
-          <span v-if="event.location" class="flex items-center gap-1">
+          <span v-if="locationName" class="flex items-center gap-1">
             <font-awesome-icon icon="fa-solid fa-location-dot" />
-            {{ event.location }}
+            {{ locationName }}
           </span>
         </div>
         <!-- CTA Button -->

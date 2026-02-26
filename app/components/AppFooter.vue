@@ -1,7 +1,22 @@
-<script setup>
-import { socialLinks, newsArticles } from '@/data/footer'
+<script setup lang="ts">
+import { socialLinks } from '@/data/footer'
+import type { NewsItem } from '~/composables/useNewsApi'
+
+const { fetchNewsList } = useNewsApi()
 
 const currentYear = new Date().getFullYear()
+
+// Actualités depuis l'API
+const newsArticles = ref<NewsItem[]>([])
+
+onMounted(async () => {
+  try {
+    const result = await fetchNewsList({ status: 'PUBLISHED', limit: 4 })
+    newsArticles.value = result.data
+  } catch {
+    // Fail gracefully — footer shows nothing
+  }
+})
 
 // Carrousel d'actualités
 const currentArticleIndex = ref(0)
@@ -9,11 +24,20 @@ const currentArticleIndex = ref(0)
 const previousArticle = () => {
   currentArticleIndex.value = currentArticleIndex.value > 0
     ? currentArticleIndex.value - 1
-    : newsArticles.length - 1
+    : newsArticles.value.length - 1
 }
 
 const nextArticle = () => {
-  currentArticleIndex.value = (currentArticleIndex.value + 1) % newsArticles.length
+  currentArticleIndex.value = (currentArticleIndex.value + 1) % newsArticles.value.length
+}
+
+const formatDate = (dateString?: string) => {
+  if (!dateString) return ''
+  return new Date(dateString).toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  })
 }
 </script>
 
@@ -109,9 +133,9 @@ const nextArticle = () => {
               class="bg-repae-gray-800 dark:bg-repae-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
             >
               <!-- Image de couverture -->
-              <div class="relative h-32 overflow-hidden">
+              <div v-if="article.coverImage" class="relative h-32 overflow-hidden">
                 <img
-                  :src="article.image"
+                  :src="article.coverImage"
                   :alt="article.title"
                   class="w-full h-full object-cover"
                 />
@@ -121,7 +145,7 @@ const nextArticle = () => {
               <div class="px-6 pt-4">
                 <!-- Date de publication -->
                 <p class="text-repae-gray-400 text-sm font-brand mb-2">
-                  Publié le {{ article.date }}
+                  Publié le {{ formatDate(article.publishedAt) }}
                 </p>
 
                 <!-- Titre -->
@@ -131,7 +155,7 @@ const nextArticle = () => {
 
                 <!-- Description -->
                 <p class="text-sm text-repae-gray-300 font-brand mb-6 leading-relaxed line-clamp-3">
-                  {{ article.description }}
+                  {{ article.summary }}
                 </p>
               </div>
             </article>

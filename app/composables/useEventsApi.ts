@@ -35,6 +35,7 @@ export interface CreateEventPayload {
   locationType: 'PHYSICAL' | 'ONLINE'
   locationName?: string
   accessUrl?: string
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   image?: File | null
 }
 
@@ -46,6 +47,7 @@ export interface UpdateEventPayload {
   locationType?: 'PHYSICAL' | 'ONLINE'
   locationName?: string
   accessUrl?: string
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   image?: File | null
 }
 
@@ -82,6 +84,7 @@ export function useEventsApi() {
     formData.append('locationType', payload.locationType)
     if (payload.locationName) formData.append('locationName', payload.locationName)
     if (payload.accessUrl) formData.append('accessUrl', payload.accessUrl)
+    if (payload.status) formData.append('status', payload.status)
     if (payload.image) formData.append('image', payload.image)
 
     return await $fetch<EventItem>(`${baseUrl}/events`, {
@@ -99,6 +102,7 @@ export function useEventsApi() {
     if (payload.locationType !== undefined) formData.append('locationType', payload.locationType)
     if (payload.locationName !== undefined) formData.append('locationName', payload.locationName)
     if (payload.accessUrl !== undefined) formData.append('accessUrl', payload.accessUrl)
+    if (payload.status !== undefined) formData.append('status', payload.status)
     if (payload.image) formData.append('image', payload.image)
 
     return await $fetch<EventItem>(`${baseUrl}/events/${id}`, {

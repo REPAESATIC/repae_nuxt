@@ -29,7 +29,14 @@ const form = reactive({
   locationType: 'PHYSICAL' as 'PHYSICAL' | 'ONLINE',
   locationName: '',
   accessUrl: '',
+  status: 'DRAFT' as 'DRAFT' | 'PUBLISHED' | 'ARCHIVED',
 })
+
+const statusOptions = [
+  { value: 'DRAFT', label: 'Brouillon', icon: 'fa-solid fa-file-pen', class: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400' },
+  { value: 'PUBLISHED', label: 'Publie', icon: 'fa-solid fa-globe', class: 'border-green-500 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' },
+  { value: 'ARCHIVED', label: 'Archive', icon: 'fa-solid fa-box-archive', class: 'border-gray-500 bg-gray-50 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400' },
+] as const
 
 const rawImageFile = ref<File | null>(null)
 const showEditor = ref(false)
@@ -54,6 +61,7 @@ onMounted(async () => {
     form.locationType = eventData.location.type
     form.locationName = eventData.location.locationName || ''
     form.accessUrl = eventData.location.accessUrl || ''
+    form.status = eventData.status
 
     // Convert ISO date to datetime-local format
     if (eventData.eventDate) {
@@ -147,6 +155,7 @@ const submit = async () => {
       locationType: form.locationType,
       locationName: form.locationName || undefined,
       accessUrl: form.accessUrl || undefined,
+      status: form.status,
       image: coverImageFile.value,
     })
     toast.success('Evenement mis a jour', 'Les modifications ont ete enregistrees.')
@@ -414,25 +423,48 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="flex items-center justify-end gap-3">
-          <NuxtLink
-            to="/admin/evenements"
-            class="px-6 py-2.5 rounded-xl border border-gray-200 dark:border-repae-gray-700 text-sm font-semibold font-brand text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-50 dark:hover:bg-repae-gray-800 transition-colors cursor-pointer"
-          >
-            Annuler
-          </NuxtLink>
-          <button
-            type="submit"
-            :disabled="saving"
-            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
-          >
-            <font-awesome-icon
-              :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
-              :class="{ 'animate-spin': saving }"
-            />
-            {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
-          </button>
+        <!-- Status + Actions -->
+        <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
+          <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-3">
+            Statut de publication
+          </label>
+          <div class="flex gap-3 mb-6">
+            <button
+              v-for="opt in statusOptions"
+              :key="opt.value"
+              type="button"
+              :class="[
+                'flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold font-brand text-sm transition-all cursor-pointer',
+                form.status === opt.value
+                  ? opt.class
+                  : 'border-gray-200 dark:border-repae-gray-700 text-repae-gray-500 dark:text-repae-gray-400 hover:border-gray-300 dark:hover:border-repae-gray-600'
+              ]"
+              @click="form.status = opt.value"
+            >
+              <font-awesome-icon :icon="opt.icon" />
+              {{ opt.label }}
+            </button>
+          </div>
+
+          <div class="flex items-center justify-end gap-3">
+            <NuxtLink
+              to="/admin/evenements"
+              class="px-6 py-2.5 rounded-xl border border-gray-200 dark:border-repae-gray-700 text-sm font-semibold font-brand text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-50 dark:hover:bg-repae-gray-800 transition-colors cursor-pointer"
+            >
+              Annuler
+            </NuxtLink>
+            <button
+              type="submit"
+              :disabled="saving"
+              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+            >
+              <font-awesome-icon
+                :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
+                :class="{ 'animate-spin': saving }"
+              />
+              {{ saving ? 'Enregistrement...' : 'Enregistrer' }}
+            </button>
+          </div>
         </div>
       </form>
     </template>

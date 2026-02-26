@@ -170,6 +170,8 @@ import {
   faChevronUp,
   faHouse,
   faBullhorn,
+  faBoxArchive,
+  faFilePen,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -354,6 +356,8 @@ library.add(
   faChevronUp,
   faHouse,
   faBullhorn,
+  faBoxArchive,
+  faFilePen,
 )
 
 // Add regular icons to library

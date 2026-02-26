@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Event } from '@/data/events'
+import type { EventItem } from '~/composables/useEventsApi'
 
 defineProps<{
-  event: Event
+  event: EventItem
 }>()
 
 const formatDate = (dateString: string) => {
@@ -30,7 +30,7 @@ const formatDate = (dateString: string) => {
       <!-- Image -->
       <div class="relative h-48 overflow-hidden">
         <img
-          :src="event.image"
+          :src="event.imageUrl || '/image/background/evenement1.jpg'"
           :alt="event.title"
           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
@@ -56,11 +56,11 @@ const formatDate = (dateString: string) => {
         <div class="flex flex-col gap-2 text-sm text-white/70 mb-5">
           <span class="flex items-center gap-2">
             <font-awesome-icon icon="fa-solid fa-calendar-alt" class="w-4" />
-            {{ formatDate(event.date) }}
+            {{ formatDate(event.eventDate) }}
           </span>
-          <span v-if="event.location" class="flex items-center gap-2">
+          <span v-if="event.location?.locationName" class="flex items-center gap-2">
             <font-awesome-icon icon="fa-solid fa-location-dot" class="w-4" />
-            {{ event.location }}
+            {{ event.location.locationName }}
           </span>
         </div>
 

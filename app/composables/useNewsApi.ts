@@ -37,6 +37,7 @@ export interface CreateNewsPayload {
   categoryId: string
   summary?: string
   slug?: string
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   coverImage?: File | null
   authorAvatarUrl?: string
 }
@@ -46,6 +47,7 @@ export interface UpdateNewsPayload {
   slug?: string
   content?: string
   summary?: string
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
   coverImage?: File | null
   categoryId?: string
 }
@@ -119,6 +121,7 @@ export function useNewsApi() {
     if (payload.summary) formData.append('summary', payload.summary)
     if (payload.slug) formData.append('slug', payload.slug)
     if (payload.authorAvatarUrl) formData.append('authorAvatarUrl', payload.authorAvatarUrl)
+    if (payload.status) formData.append('status', payload.status)
     if (payload.coverImage) formData.append('coverImage', payload.coverImage)
 
     return await $fetch<NewsItem>(`${baseUrl}/news`, {
@@ -134,6 +137,7 @@ export function useNewsApi() {
     if (payload.content !== undefined) formData.append('content', payload.content)
     if (payload.summary !== undefined) formData.append('summary', payload.summary)
     if (payload.categoryId !== undefined) formData.append('categoryId', payload.categoryId)
+    if (payload.status !== undefined) formData.append('status', payload.status)
     if (payload.coverImage) formData.append('coverImage', payload.coverImage)
 
     return await $fetch<NewsItem>(`${baseUrl}/news/${id}`, {
