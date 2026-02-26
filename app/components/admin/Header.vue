@@ -17,6 +17,16 @@ const pageTitle = computed(() => {
   if (path.startsWith('/admin/categories')) return 'Categories'
   if (path.startsWith('/admin/evenements')) return 'Evenements'
   if (path.startsWith('/admin/actualites')) return 'Actualites'
+  if (path.startsWith('/admin/alumni')) return 'Alumni'
+  if (path.startsWith('/admin/entreprises')) return 'Entreprises'
+  if (path.startsWith('/admin/comptes')) return 'Comptes'
+  if (path.startsWith('/admin/competences')) return 'Competences'
+  if (path.startsWith('/admin/groupes-competences')) return 'Groupes de competences'
+  if (path.startsWith('/admin/pays')) return 'Pays'
+  if (path.startsWith('/admin/departements')) return 'Departements'
+  if (path.startsWith('/admin/promotions')) return 'Promotions'
+  if (path.startsWith('/admin/notifications')) return 'Notifications'
+  if (path.startsWith('/admin/parametres')) return 'Parametres'
   return 'Administration'
 })
 </script>
