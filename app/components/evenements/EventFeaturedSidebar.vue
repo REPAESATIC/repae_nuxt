@@ -24,7 +24,8 @@ const formatDate = (dateString: string) => {
     </h2>
 
     <!-- Featured Card -->
-    <div
+    <NuxtLink
+      :to="`/evenements/${event.id}`"
       class="block bg-gradient-to-br from-repae-blue-500 to-repae-blue-600 dark:from-repae-blue-600 dark:to-repae-blue-700 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 cursor-pointer group"
     >
       <!-- Image -->
@@ -67,7 +68,7 @@ const formatDate = (dateString: string) => {
           Voir les détails
         </span>
       </div>
-    </div>
+    </NuxtLink>
   </div>
 </template>
 

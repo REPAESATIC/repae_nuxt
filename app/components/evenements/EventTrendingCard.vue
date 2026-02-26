@@ -21,7 +21,8 @@ const locationName = computed(() => props.event.location?.locationName || '')
 </script>
 
 <template>
-  <div
+  <NuxtLink
+    :to="`/evenements/${event.id}`"
     class="trending-card group relative h-72 md:h-96 block rounded-xl overflow-hidden cursor-pointer"
   >
     <!-- Background Image -->
@@ -70,7 +71,7 @@ const locationName = computed(() => props.event.location?.locationName || '')
         </button>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <style scoped>

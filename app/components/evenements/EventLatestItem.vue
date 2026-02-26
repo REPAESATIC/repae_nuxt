@@ -21,7 +21,8 @@ const locationName = computed(() => props.event.location?.locationName || '')
 </script>
 
 <template>
-  <div
+  <NuxtLink
+    :to="`/evenements/${event.id}`"
     class="flex flex-col sm:flex-row gap-4 p-4 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 hover:shadow-lg hover:border-repae-blue-300 dark:hover:border-repae-blue-500 transition-all duration-300 cursor-pointer group"
   >
     <!-- Thumbnail -->
@@ -62,7 +63,7 @@ const locationName = computed(() => props.event.location?.locationName || '')
         </span>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <style scoped>

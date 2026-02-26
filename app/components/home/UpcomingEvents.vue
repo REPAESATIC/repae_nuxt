@@ -113,8 +113,9 @@ const timelineStartOffset = computed(() => {
             class="shrink-0 flex flex-col items-center"
           >
             <!-- Event Card -->
-            <div
-              class="w-48 h-72 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer mb-8"
+            <NuxtLink
+              :to="`/evenements/${event.id}`"
+              class="w-48 h-72 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer mb-8 block"
               :class="getDisplayStatus(event) === 'completed' ? 'opacity-60' : ''"
             >
               <div class="relative w-full h-full">
@@ -137,7 +138,7 @@ const timelineStartOffset = computed(() => {
                   </div>
                 </div>
               </div>
-            </div>
+            </NuxtLink>
 
             <!-- Timeline Section for this event -->
             <div class="relative w-48 flex flex-col items-center">

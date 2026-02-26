@@ -129,22 +129,24 @@ const formatDate = (dateString?: string) => {
       <section v-if="featuredArticle" class="flex flex-col lg:flex-row lg:space-x-10 mb-16">
         <!-- Left: Featured Image -->
         <div class="lg:w-3/5">
-          <div class="cursor-pointer group">
+          <NuxtLink :to="`/actualites/${featuredArticle.id}`" class="cursor-pointer group block">
             <img
               :src="featuredArticle.coverImage || '/image/background/evenement1.jpg'"
               :alt="featuredArticle.title"
               class="w-full h-64 md:h-80 object-cover rounded-lg"
             />
-          </div>
+          </NuxtLink>
 
           <div class="mt-6">
             <p :class="getCategoryColor(featuredArticle.categoryId)" class="font-semibold text-lg">
               {{ getCategoryName(featuredArticle.categoryId) }}
             </p>
 
-            <h2 class="text-2xl lg:text-4xl font-bold text-repae-gray-900 dark:text-white leading-tight mt-3 cursor-pointer hover:text-repae-blue-500 dark:hover:text-repae-blue-400 transition-colors">
-              {{ featuredArticle.title }}
-            </h2>
+            <NuxtLink :to="`/actualites/${featuredArticle.id}`" class="block">
+              <h2 class="text-2xl lg:text-4xl font-bold text-repae-gray-900 dark:text-white leading-tight mt-3 cursor-pointer hover:text-repae-blue-500 dark:hover:text-repae-blue-400 transition-colors">
+                {{ featuredArticle.title }}
+              </h2>
+            </NuxtLink>
 
             <p v-if="featuredArticle.summary" class="mt-4 text-lg text-repae-gray-600 dark:text-repae-gray-300 leading-relaxed" v-html="featuredArticle.summary" />
 
@@ -238,9 +240,10 @@ const formatDate = (dateString?: string) => {
 
         <!-- Articles grid -->
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <article
+          <NuxtLink
             v-for="article in articles"
             :key="article.id"
+            :to="`/actualites/${article.id}`"
             class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 overflow-hidden hover:shadow-lg hover:border-repae-blue-300 dark:hover:border-repae-blue-500 transition-all duration-300 cursor-pointer group"
           >
             <!-- Image -->
@@ -288,7 +291,7 @@ const formatDate = (dateString?: string) => {
                 </div>
               </div>
             </div>
-          </article>
+          </NuxtLink>
         </div>
 
         <!-- Pagination -->

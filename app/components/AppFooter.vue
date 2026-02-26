@@ -126,11 +126,12 @@ const formatDate = (dateString?: string) => {
 
           <!-- Conteneur des articles -->
           <div class="flex space-x-2 transition-transform duration-300">
-            <article
+            <NuxtLink
               v-for="(article, index) in newsArticles"
               :key="article.id"
               v-show="index === currentArticleIndex || index === currentArticleIndex + 1"
-              class="bg-repae-gray-800 dark:bg-repae-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+              :to="`/actualites/${article.id}`"
+              class="bg-repae-gray-800 dark:bg-repae-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
             >
               <!-- Image de couverture -->
               <div v-if="article.coverImage" class="relative h-32 overflow-hidden">
@@ -156,7 +157,7 @@ const formatDate = (dateString?: string) => {
                 <!-- Description -->
                 <p class="text-sm text-repae-gray-300 font-brand mb-6 leading-relaxed line-clamp-3" v-html="article.summary" />
               </div>
-            </article>
+            </NuxtLink>
           </div>
           </div>
         </div>
