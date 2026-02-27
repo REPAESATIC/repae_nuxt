@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { adminQuickActions, adminRecentActivity } from '~/data/admin/dashboard'
-import type { AdminDashboardStat } from '~/data/admin/dashboard'
+import { adminQuickActions } from '~/data/admin/dashboard'
+import type { AdminDashboardStat, AdminActivityItem } from '~/data/admin/dashboard'
+import type { UserItem } from '~/composables/useIdentityApi'
+import type { NewsItem } from '~/composables/useNewsApi'
+import type { EventItem } from '~/composables/useEventsApi'
 
 definePageMeta({
   layout: 'admin',
@@ -25,25 +28,89 @@ const pendingVerifications = ref(0)
 const usersCount = ref(0)
 const newsCount = ref(0)
 const eventsCount = ref(0)
-const entreprisesCount = ref(12) // Mock en attendant l'API
+const entreprisesCount = ref(0) // Pas d'API backend pour les entreprises
+
+const recentActivity = ref<AdminActivityItem[]>([])
+
+// ─── Construction du fil d'activite a partir des donnees reelles ─────────────
+
+const buildActivityFromUsers = (users: UserItem[]): AdminActivityItem[] => {
+  return users.map(user => ({
+    id: `user-${user.id}`,
+    type: 'inscription' as const,
+    title: 'Nouvelle inscription',
+    description: `${user.email} a cree un compte (${user.role})`,
+    date: user.createdAt,
+    icon: 'fa-solid fa-user-plus',
+    color: 'bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400',
+  }))
+}
+
+const buildActivityFromNews = (news: NewsItem[]): AdminActivityItem[] => {
+  return news.map(item => ({
+    id: `news-${item.id}`,
+    type: 'actualite' as const,
+    title: item.status === 'PUBLISHED' ? 'Actualite publiee' : 'Actualite creee',
+    description: item.title,
+    date: item.publishedAt || item.createdAt,
+    icon: 'fa-solid fa-bullhorn',
+    color: 'bg-violet-100 dark:bg-violet-500/20 text-violet-600 dark:text-violet-400',
+  }))
+}
+
+const buildActivityFromEvents = (events: EventItem[]): AdminActivityItem[] => {
+  return events.map(item => ({
+    id: `event-${item.id}`,
+    type: 'evenement' as const,
+    title: 'Evenement planifie',
+    description: item.title,
+    date: item.createdAt,
+    icon: 'fa-solid fa-calendar-alt',
+    color: 'bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400',
+  }))
+}
 
 // ─── Chargement des donnees ──────────────────────────────────────────────────
 
 const loadDashboardData = async () => {
   loading.value = true
   try {
-    const [alumniResult, pendingResult, usersResult, newsResult, eventsResult] = await Promise.all([
+    const [
+      alumniResult,
+      pendingResult,
+      usersResult,
+      newsResult,
+      eventsResult,
+      recentUsersResult,
+      recentNewsResult,
+      recentEventsResult,
+    ] = await Promise.all([
+      // Compteurs
       fetchAlumniList({ limit: 1 }),
       fetchAlumniList({ isVerified: false, limit: 1 }),
       fetchUsers({ limit: 1 }),
       fetchNewsList({ status: 'PUBLISHED', limit: 1 }),
       fetchEventsList({ limit: 1 }),
+      // Donnees recentes pour le fil d'activite
+      fetchUsers({ limit: 3 }),            // Tries par createdAt DESC cote backend
+      fetchNewsList({ limit: 3 }),          // Tries par createdAt DESC cote backend
+      fetchEventsList({ limit: 3 }),        // Tries par eventDate ASC cote backend
     ])
+
     alumniCount.value = alumniResult.total
     pendingVerifications.value = pendingResult.total
     usersCount.value = usersResult.total
     newsCount.value = newsResult.total
     eventsCount.value = eventsResult.total
+
+    // Fusionner et trier par date decroissante
+    const allActivity = [
+      ...buildActivityFromUsers(recentUsersResult.data),
+      ...buildActivityFromNews(recentNewsResult.data),
+      ...buildActivityFromEvents(recentEventsResult.data),
+    ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+    recentActivity.value = allActivity.slice(0, 6)
   } catch {
     // Affichage gracieux avec des valeurs a 0 si les APIs sont indisponibles
   } finally {
@@ -105,10 +172,6 @@ const stats = computed<AdminDashboardStat[]>(() => [
     href: '/admin/alumni',
   },
 ])
-
-// ─── Activite recente (mock) ─────────────────────────────────────────────────
-
-const recentActivity = computed(() => adminRecentActivity.slice(0, 6))
 
 // ─── Donnees vue d'ensemble ──────────────────────────────────────────────────
 
@@ -192,7 +255,7 @@ onMounted(() => {
             Activite recente
           </h2>
           <span class="text-xs text-repae-gray-400 dark:text-repae-gray-500">
-            Dernieres 24h
+            Derniers ajouts
           </span>
         </div>
         <div class="space-y-3">
