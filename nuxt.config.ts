@@ -46,6 +46,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       contentApiBase: 'http://localhost:3001',
+      identityApiBase: 'http://localhost:3003',
     },
   },
 
