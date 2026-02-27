@@ -43,10 +43,11 @@ export default defineNuxtConfig({
   },
 
   // Runtime config pour les URLs API
+  // Surchargeables via .env : NUXT_PUBLIC_CONTENT_API_BASE, NUXT_PUBLIC_IDENTITY_API_BASE
   runtimeConfig: {
     public: {
-      contentApiBase: 'http://localhost:3010',
-      identityApiBase: 'http://localhost:3001',
+      contentApiBase: '',
+      identityApiBase: '',
     },
   },
 
