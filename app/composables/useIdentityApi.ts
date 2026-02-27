@@ -152,8 +152,10 @@ export function useIdentityApi() {
   }
 
   const verifyAlumni = async (id: string): Promise<AlumniItem> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
     return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}/verify`, {
       method: 'PATCH',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
   }
 
@@ -171,6 +173,20 @@ export function useIdentityApi() {
 
     const qs = query.toString()
     return await $fetch<PaginatedPromotions>(`${baseUrl}/promotions${qs ? `?${qs}` : ''}`)
+  }
+
+  const createPromotion = async (payload: { year: number; nickname?: string }): Promise<PromotionItem> => {
+    return await $fetch<PromotionItem>(`${baseUrl}/promotions`, {
+      method: 'POST',
+      body: payload,
+    })
+  }
+
+  const updatePromotion = async (id: string, payload: { year?: number; nickname?: string | null }): Promise<PromotionItem> => {
+    return await $fetch<PromotionItem>(`${baseUrl}/promotions/${id}`, {
+      method: 'PUT',
+      body: payload,
+    })
   }
 
   // ─── Departements ────────────────────────────────────────────────────────────
@@ -211,6 +227,8 @@ export function useIdentityApi() {
     fetchAlumni,
     verifyAlumni,
     fetchPromotions,
+    createPromotion,
+    updatePromotion,
     fetchDepartments,
     fetchCountries,
   }
