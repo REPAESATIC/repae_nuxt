@@ -125,6 +125,84 @@ export interface RegisterAlumniPayload {
   degree?: string
 }
 
+// ─── Work Experiences ────────────────────────────────────────────────────────
+
+export interface WorkExperienceItem {
+  id: string
+  companyName: string
+  position: string
+  location?: string
+  startDate: string
+  endDate?: string
+  description?: string
+  contractType: 'CDI' | 'CDD' | 'INTERNSHIP' | 'FREELANCE' | 'PART_TIME' | 'ALTERNATION' | 'VOLUNTEER'
+  alumniId: string
+  createdAt: string
+  updatedAt: string
+}
+
+// ─── Education ───────────────────────────────────────────────────────────────
+
+export interface EducationItem {
+  id: string
+  schoolName: string
+  schoolAddress?: string
+  degree: string
+  fieldOfStudy: string
+  grade?: string
+  startDate: string
+  endDate?: string
+  description?: string
+  alumniId: string
+  createdAt: string
+  updatedAt: string
+}
+
+// ─── Projects ────────────────────────────────────────────────────────────────
+
+export interface ProjectSkillItem {
+  id: string
+  name: string
+  groups?: string[]
+}
+
+export interface ProjectItem {
+  id: string
+  title: string
+  description: string
+  client?: string
+  endDate?: string
+  projectUrl?: string
+  imageUrl?: string
+  alumniId: string
+  skillGroups?: { id: string; name: string }[]
+  skills?: ProjectSkillItem[]
+  createdAt?: string
+  updatedAt?: string
+}
+
+// ─── Update Alumni Payload ───────────────────────────────────────────────────
+
+export interface UpdateAlumniPayload {
+  firstName?: string
+  lastName?: string
+  phoneNumber?: string
+  city?: string
+  address?: string
+  bio?: string
+  degree?: string
+  photoUrl?: string
+  coverPicUrl?: string
+  portfolioUrl?: string
+  githubUrl?: string
+  linkedinUrl?: string
+  xUrl?: string
+  isOpenToMentoring?: boolean
+  countryId?: string
+  departmentId?: string
+  promotionId?: string
+}
+
 // ─── Composable ────────────────────────────────────────────────────────────────
 
 export function useIdentityApi() {
@@ -138,6 +216,47 @@ export function useIdentityApi() {
       method: 'POST',
       body: payload,
     })
+  }
+
+  // ─── IT Auth ─────────────────────────────────────────────────────────────────
+
+  const getItAuthHeaders = () => {
+    const token = import.meta.client ? localStorage.getItem('it-token') : null
+    return token ? { Authorization: `Bearer ${token}` } : {}
+  }
+
+  // ─── My Alumni Profile (authenticated IT user) ─────────────────────────────
+
+  const fetchMyAlumni = async (): Promise<AlumniItem> => {
+    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/my`, {
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const updateMyAlumni = async (payload: UpdateAlumniPayload): Promise<AlumniItem> => {
+    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/my`, {
+      method: 'PUT',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  // ─── Work Experiences ─────────────────────────────────────────────────────────
+
+  const fetchWorkExperiences = async (alumniId: string): Promise<WorkExperienceItem[]> => {
+    return await $fetch<WorkExperienceItem[]>(`${baseUrl}/work-experiences/alumni/${alumniId}`)
+  }
+
+  // ─── Educations ───────────────────────────────────────────────────────────────
+
+  const fetchEducations = async (alumniId: string): Promise<EducationItem[]> => {
+    return await $fetch<EducationItem[]>(`${baseUrl}/educations/alumni/${alumniId}`)
+  }
+
+  // ─── Projects ─────────────────────────────────────────────────────────────────
+
+  const fetchProjects = async (alumniId: string): Promise<ProjectItem[]> => {
+    return await $fetch<ProjectItem[]>(`${baseUrl}/projects/alumni/${alumniId}`)
   }
 
   // ─── Alumni ──────────────────────────────────────────────────────────────────
@@ -305,9 +424,14 @@ export function useIdentityApi() {
 
   return {
     registerAlumni,
+    fetchMyAlumni,
+    updateMyAlumni,
     fetchAlumniList,
     fetchAlumni,
     verifyAlumni,
+    fetchWorkExperiences,
+    fetchEducations,
+    fetchProjects,
     fetchUsers,
     fetchUser,
     registerUser,

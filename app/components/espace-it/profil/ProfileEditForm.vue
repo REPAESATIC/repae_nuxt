@@ -24,6 +24,7 @@ interface ProfileFormData {
 const props = defineProps<{
   formData: ProfileFormData
   isSubmitting: boolean
+  countriesList?: string[]
 }>()
 
 const emit = defineEmits<{
@@ -43,16 +44,6 @@ const validateField = (field: keyof ProfileFormData): boolean => {
     case 'nom':
       if (!props.formData[field].trim()) {
         errors[field] = 'Ce champ est requis'
-        return false
-      }
-      break
-    case 'email':
-      if (!props.formData.email.trim()) {
-        errors.email = 'L\'email est requis'
-        return false
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(props.formData.email)) {
-        errors.email = 'Email invalide'
         return false
       }
       break
@@ -78,7 +69,7 @@ const validateField = (field: keyof ProfileFormData): boolean => {
 // Validate all fields
 const validateForm = (): boolean => {
   let isValid = true
-  const fields: (keyof ProfileFormData)[] = ['prenom', 'nom', 'email', 'telephone', 'linkedin_url', 'twitter_url', 'github_url', 'site_web']
+  const fields: (keyof ProfileFormData)[] = ['prenom', 'nom', 'telephone', 'linkedin_url', 'twitter_url', 'github_url', 'site_web']
 
   for (const field of fields) {
     if (!validateField(field)) {
@@ -95,8 +86,8 @@ const handleSubmit = () => {
   }
 }
 
-// Pays disponibles (Afrique de l'Ouest principalement)
-const paysOptions = [
+// Pays disponibles : depuis l'API si fourni, sinon fallback statique
+const paysOptionsFallback = [
   'Cote d\'Ivoire',
   'Senegal',
   'Mali',
@@ -112,6 +103,12 @@ const paysOptions = [
   'Canada',
   'Autre'
 ]
+
+const paysOptions = computed(() =>
+  props.countriesList && props.countriesList.length > 0
+    ? props.countriesList
+    : paysOptionsFallback
+)
 </script>
 
 <template>
@@ -214,22 +211,20 @@ const paysOptions = [
           <p v-if="errors.nom" class="text-red-500 text-xs mt-1">{{ errors.nom }}</p>
         </div>
 
-        <!-- Email -->
+        <!-- Email (lecture seule — gere via le compte utilisateur) -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-            Email <span class="text-red-500">*</span>
+            Email
           </label>
           <input
-            v-model="formData.email"
+            :value="formData.email"
             type="email"
-            required
-            @blur="validateField('email')"
-            :class="[
-              'w-full px-4 py-2 rounded-lg border bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors',
-              errors.email ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-600'
-            ]"
+            disabled
+            class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-gray-100 dark:bg-repae-gray-600 text-repae-gray-500 dark:text-repae-gray-400 cursor-not-allowed"
           />
-          <p v-if="errors.email" class="text-red-500 text-xs mt-1">{{ errors.email }}</p>
+          <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
+            L'email est lie a votre compte et ne peut pas etre modifie ici
+          </p>
         </div>
 
         <!-- Telephone -->
@@ -261,30 +256,38 @@ const paysOptions = [
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Poste actuel -->
+        <!-- Poste actuel (lecture seule — derive des experiences) -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Poste actuel
           </label>
           <input
-            v-model="formData.poste_actuel"
+            :value="formData.poste_actuel"
             type="text"
-            placeholder="Ex: Developpeur Full Stack"
-            class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors"
+            disabled
+            placeholder="Aucun poste actuel"
+            class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-gray-100 dark:bg-repae-gray-600 text-repae-gray-500 dark:text-repae-gray-400 cursor-not-allowed"
           />
+          <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
+            Gere via vos experiences professionnelles
+          </p>
         </div>
 
-        <!-- Entreprise actuelle -->
+        <!-- Entreprise actuelle (lecture seule — derive des experiences) -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Entreprise actuelle
           </label>
           <input
-            v-model="formData.entreprise_actuelle"
+            :value="formData.entreprise_actuelle"
             type="text"
-            placeholder="Ex: MTN Cote d'Ivoire"
-            class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors"
+            disabled
+            placeholder="Aucune entreprise"
+            class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-gray-100 dark:bg-repae-gray-600 text-repae-gray-500 dark:text-repae-gray-400 cursor-not-allowed"
           />
+          <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
+            Gere via vos experiences professionnelles
+          </p>
         </div>
 
         <!-- Disponibilite -->
