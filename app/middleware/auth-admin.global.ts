@@ -8,10 +8,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
     return
   }
 
+  // Cote serveur (SSR), pas d'acces a localStorage — skip la verification
+  if (!import.meta.client) {
+    return
+  }
+
   // TODO: Remplacer par une vraie verification d'authentification (JWT + role ADMIN)
-  const isAuthenticated = import.meta.client
-    ? localStorage.getItem('admin-auth') === 'true'
-    : false
+  const isAuthenticated = localStorage.getItem('admin-auth') === 'true'
 
   if (!isAuthenticated) {
     // Rediriger vers la page de connexion admin si non authentifie
