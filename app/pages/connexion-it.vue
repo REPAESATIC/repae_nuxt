@@ -78,9 +78,11 @@ const handleSubmit = async () => {
         <div class="text-center mb-8">
           <NuxtLink to="/" class="inline-flex items-center gap-3 group">
             <div class="relative">
-              <div class="w-14 h-14 bg-gradient-to-br from-repae-blue-500 to-repae-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-repae-blue-500/25 group-hover:shadow-repae-blue-500/40 transition-shadow">
-                <font-awesome-icon icon="fa-solid fa-laptop-code" class="text-2xl text-white" />
-              </div>
+              <img
+                src="/image/logos_REAPE/ICONE/ICONE_REPAE_BBL.png"
+                alt="REPAE"
+                class="h-14 w-14 transition-transform duration-300 group-hover:scale-110"
+              />
             </div>
             <div class="text-left">
               <span class="block text-2xl font-bold font-brand text-repae-gray-900 dark:text-white">

@@ -187,16 +187,25 @@ const options = [
 
             <!-- Footer -->
             <div class="px-6 py-4 bg-gray-50 dark:bg-repae-gray-700/50 text-center">
-              <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand">
+              <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand mb-2">
                 Vous avez déjà un compte ?
-                <NuxtLink
-                  to="/espace-it"
-                  @click="closeModal"
-                  class="text-repae-blue-500 hover:text-repae-blue-600 font-medium"
-                >
-                  Connectez-vous
-                </NuxtLink>
               </p>
+              <div class="flex items-center justify-center gap-3 text-sm font-brand">
+                <NuxtLink
+                  to="/connexion-it"
+                  @click="closeModal"
+                  class="text-repae-blue-500 hover:text-repae-blue-600 font-medium cursor-pointer"
+                >
+                  Connexion Alumni
+                </NuxtLink>
+                <span class="text-repae-gray-300 dark:text-repae-gray-600">|</span>
+                <span class="text-repae-gray-400 dark:text-repae-gray-500 cursor-not-allowed" title="Bientôt disponible">
+                  Connexion Entreprise
+                  <span class="ml-1 px-1.5 py-0.5 text-[10px] font-semibold rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
+                    Bientôt
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
         </Transition>
