@@ -16,6 +16,7 @@ const route = useRoute()
 // Track open state for each nav group
 const openGroups = ref<Record<string, boolean>>({
   contenu: true,
+  utilisateurs: true,
   referentiel: true,
 })
 

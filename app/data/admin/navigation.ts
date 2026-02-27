@@ -79,18 +79,6 @@ export const adminNavGroups: AdminNavGroup[] = [
     icon: 'fa-solid fa-database',
     items: [
       {
-        id: 'pays',
-        label: 'Pays',
-        href: '/admin/pays',
-        icon: 'fa-solid fa-globe',
-      },
-      {
-        id: 'departements',
-        label: 'Departements',
-        href: '/admin/departements',
-        icon: 'fa-solid fa-graduation-cap',
-      },
-      {
         id: 'promotions',
         label: 'Promotions',
         href: '/admin/promotions',
