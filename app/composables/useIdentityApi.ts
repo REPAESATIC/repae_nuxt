@@ -95,6 +95,25 @@ export interface PaginatedCountries {
   limit: number
 }
 
+// ─── Users (Admin) ───────────────────────────────────────────────────────────
+
+export interface UserItem {
+  id: string
+  email: string
+  role: 'ADMIN' | 'ALUMNI' | 'STUDENT'
+  status: 'PENDING' | 'ACTIVE' | 'BANNED'
+  lastLogin?: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface PaginatedUsers {
+  data: UserItem[]
+  total: number
+  page: number
+  limit: number
+}
+
 // ─── Auth / Registration ─────────────────────────────────────────────────────
 
 export interface RegisterAlumniPayload {
@@ -221,11 +240,79 @@ export function useIdentityApi() {
     return await $fetch<PaginatedCountries>(`${baseUrl}/countries${qs ? `?${qs}` : ''}`)
   }
 
+  // ─── Users (Admin) ──────────────────────────────────────────────────────────
+
+  const getAuthHeaders = () => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return token ? { Authorization: `Bearer ${token}` } : {}
+  }
+
+  const fetchUsers = async (params?: {
+    search?: string
+    role?: string
+    status?: string
+    page?: number
+    limit?: number
+  }): Promise<PaginatedUsers> => {
+    const query = new URLSearchParams()
+    if (params?.search) query.set('search', params.search)
+    if (params?.role) query.set('role', params.role)
+    if (params?.status) query.set('status', params.status)
+    if (params?.page) query.set('page', String(params.page))
+    if (params?.limit) query.set('limit', String(params.limit))
+
+    const qs = query.toString()
+    return await $fetch<PaginatedUsers>(`${baseUrl}/users${qs ? `?${qs}` : ''}`, {
+      headers: getAuthHeaders(),
+    })
+  }
+
+  const fetchUser = async (id: string): Promise<UserItem> => {
+    return await $fetch<UserItem>(`${baseUrl}/users/${id}`, {
+      headers: getAuthHeaders(),
+    })
+  }
+
+  const registerUser = async (payload: {
+    email: string
+    password: string
+    role?: 'ADMIN' | 'ALUMNI' | 'STUDENT'
+  }): Promise<UserItem> => {
+    return await $fetch<UserItem>(`${baseUrl}/users/register`, {
+      method: 'POST',
+      body: payload,
+    })
+  }
+
+  const updateUser = async (id: string, payload: {
+    email?: string
+    role?: 'ADMIN' | 'ALUMNI' | 'STUDENT'
+    status?: 'PENDING' | 'ACTIVE' | 'BANNED'
+  }): Promise<UserItem> => {
+    return await $fetch<UserItem>(`${baseUrl}/users/${id}`, {
+      method: 'PUT',
+      body: payload,
+      headers: getAuthHeaders(),
+    })
+  }
+
+  const requestPasswordReset = async (email: string): Promise<{ message: string }> => {
+    return await $fetch<{ message: string }>(`${baseUrl}/users/password/request-reset`, {
+      method: 'POST',
+      body: { email },
+    })
+  }
+
   return {
     registerAlumni,
     fetchAlumniList,
     fetchAlumni,
     verifyAlumni,
+    fetchUsers,
+    fetchUser,
+    registerUser,
+    updateUser,
+    requestPasswordReset,
     fetchPromotions,
     createPromotion,
     updatePromotion,
