@@ -74,25 +74,6 @@ export const adminNavGroups: AdminNavGroup[] = [
     ],
   },
   {
-    id: 'competences',
-    label: 'Competences',
-    icon: 'fa-solid fa-code',
-    items: [
-      {
-        id: 'skills',
-        label: 'Competences',
-        href: '/admin/competences',
-        icon: 'fa-solid fa-bolt',
-      },
-      {
-        id: 'skill-groups',
-        label: 'Groupes',
-        href: '/admin/groupes-competences',
-        icon: 'fa-solid fa-cube',
-      },
-    ],
-  },
-  {
     id: 'referentiel',
     label: 'Referentiel',
     icon: 'fa-solid fa-database',
