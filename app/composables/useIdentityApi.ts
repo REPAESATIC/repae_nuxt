@@ -455,6 +455,14 @@ export function useIdentityApi() {
     })
   }
 
+  const adminResetPassword = async (userId: string, newPassword: string): Promise<{ message: string }> => {
+    return await $fetch<{ message: string }>(`${baseUrl}/users/${userId}/admin-reset-password`, {
+      method: 'PATCH',
+      body: { newPassword },
+      headers: getAuthHeaders(),
+    })
+  }
+
   return {
     registerAlumni,
     createAlumni,
@@ -472,6 +480,7 @@ export function useIdentityApi() {
     updateUser,
     requestPasswordReset,
     resetPassword,
+    adminResetPassword,
     fetchPromotions,
     createPromotion,
     updatePromotion,
