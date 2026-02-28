@@ -259,7 +259,16 @@ export function useIdentityApi() {
     })
   }
 
-  const updateMyAlumni = async (payload: UpdateAlumniPayload): Promise<AlumniItem> => {
+  const updateMyAlumni = async (payload: UpdateAlumniPayload | FormData): Promise<AlumniItem> => {
+    if (payload instanceof FormData) {
+      // Multipart/form-data (avec fichiers) — ne pas ajouter Content-Type manuellement
+      const token = import.meta.client ? localStorage.getItem('it-token') : null
+      return await $fetch<AlumniItem>(`${baseUrl}/alumnis/my`, {
+        method: 'PUT',
+        body: payload,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      })
+    }
     return await $fetch<AlumniItem>(`${baseUrl}/alumnis/my`, {
       method: 'PUT',
       body: payload,

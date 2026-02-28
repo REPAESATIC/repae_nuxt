@@ -113,28 +113,66 @@ const isSubmitting = ref(false)
 const showSuccessMessage = ref(false)
 const submitError = ref<string | null>(null)
 
+// Fichiers d'images reçus du composant enfant
+const photoFile = ref<File | null>(null)
+const coverFile = ref<File | null>(null)
+
+const onPhotoFileUpdate = (file: File | null) => {
+  photoFile.value = file
+}
+const onCoverFileUpdate = (file: File | null) => {
+  coverFile.value = file
+}
+
 const handleSubmit = async () => {
   isSubmitting.value = true
   submitError.value = null
 
   try {
-    await updateMyAlumni({
-      firstName: formData.prenom,
-      lastName: formData.nom,
-      phoneNumber: formData.telephone || undefined,
-      city: formData.ville || undefined,
-      address: formData.adresse || undefined,
-      bio: formData.biographie || undefined,
-      degree: formData.diplome || undefined,
-      photoUrl: formData.photo_url || undefined,
-      coverPicUrl: formData.cover_url || undefined,
-      portfolioUrl: formData.site_web || undefined,
-      githubUrl: formData.github_url || undefined,
-      linkedinUrl: formData.linkedin_url || undefined,
-      xUrl: formData.twitter_url || undefined,
-      isOpenToMentoring: formData.disponibilite === 'ouvert_opportunites',
-      countryId: formData.countryId || undefined,
-    })
+    const hasFiles = photoFile.value || coverFile.value
+
+    if (hasFiles) {
+      // Envoi en multipart/form-data (avec fichiers)
+      const fd = new FormData()
+      fd.append('firstName', formData.prenom)
+      fd.append('lastName', formData.nom)
+      if (formData.telephone) fd.append('phoneNumber', formData.telephone)
+      if (formData.ville) fd.append('city', formData.ville)
+      if (formData.adresse) fd.append('address', formData.adresse)
+      if (formData.biographie) fd.append('bio', formData.biographie)
+      if (formData.diplome) fd.append('degree', formData.diplome)
+      if (formData.site_web) fd.append('portfolioUrl', formData.site_web)
+      if (formData.github_url) fd.append('githubUrl', formData.github_url)
+      if (formData.linkedin_url) fd.append('linkedinUrl', formData.linkedin_url)
+      if (formData.twitter_url) fd.append('xUrl', formData.twitter_url)
+      fd.append('isOpenToMentoring', String(formData.disponibilite === 'ouvert_opportunites'))
+      if (formData.countryId) fd.append('countryId', formData.countryId)
+
+      // Fichiers images
+      if (photoFile.value) fd.append('photoFile', photoFile.value)
+      if (coverFile.value) fd.append('coverPicFile', coverFile.value)
+
+      await updateMyAlumni(fd)
+    } else {
+      // Envoi JSON classique (sans fichiers)
+      await updateMyAlumni({
+        firstName: formData.prenom,
+        lastName: formData.nom,
+        phoneNumber: formData.telephone || undefined,
+        city: formData.ville || undefined,
+        address: formData.adresse || undefined,
+        bio: formData.biographie || undefined,
+        degree: formData.diplome || undefined,
+        photoUrl: formData.photo_url || undefined,
+        coverPicUrl: formData.cover_url || undefined,
+        portfolioUrl: formData.site_web || undefined,
+        githubUrl: formData.github_url || undefined,
+        linkedinUrl: formData.linkedin_url || undefined,
+        xUrl: formData.twitter_url || undefined,
+        isOpenToMentoring: formData.disponibilite === 'ouvert_opportunites',
+        countryId: formData.countryId || undefined,
+      })
+    }
 
     showSuccessMessage.value = true
     setTimeout(() => {
@@ -254,6 +292,8 @@ const handleCancel = () => {
         :countries="countriesList"
         @submit="handleSubmit"
         @cancel="handleCancel"
+        @update:photo-file="onPhotoFileUpdate"
+        @update:cover-file="onCoverFileUpdate"
       />
     </template>
   </div>

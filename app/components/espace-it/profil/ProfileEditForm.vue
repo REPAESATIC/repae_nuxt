@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { disponibiliteConfig } from '@/data/espace-it/user-profile'
+import type { ImageVariants } from '~/types/image'
 
 interface ProfileFormData {
   prenom: string
@@ -31,12 +32,116 @@ const props = defineProps<{
 const emit = defineEmits<{
   submit: []
   cancel: []
+  'update:photoFile': [file: File | null]
+  'update:coverFile': [file: File | null]
 }>()
 
-// Validation errors
+// ─── Image Upload State ────────────────────────────────────────────────────────
+
+// Photo de profil
+const rawPhotoFile = ref<File | null>(null)
+const showPhotoEditor = ref(false)
+const photoFile = ref<File | null>(null)
+const photoPreview = ref<string | null>(null)
+
+// Photo de couverture
+const rawCoverFile = ref<File | null>(null)
+const showCoverEditor = ref(false)
+const coverFile = ref<File | null>(null)
+const coverPreview = ref<string | null>(null)
+
+// ─── Photo handlers ────────────────────────────────────────────────────────────
+
+const onPhotoSelect = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (file) {
+    rawPhotoFile.value = file
+    showPhotoEditor.value = true
+  }
+  target.value = ''
+}
+
+const onPhotoEditorSave = (variants: ImageVariants) => {
+  const file = new File([variants.high], 'photo-profile.jpg', { type: variants.high.type })
+  photoFile.value = file
+  emit('update:photoFile', file)
+
+  if (photoPreview.value) URL.revokeObjectURL(photoPreview.value)
+  photoPreview.value = URL.createObjectURL(variants.high)
+
+  showPhotoEditor.value = false
+  rawPhotoFile.value = null
+}
+
+const onPhotoEditorCancel = () => {
+  showPhotoEditor.value = false
+  rawPhotoFile.value = null
+}
+
+const removePhoto = () => {
+  photoFile.value = null
+  emit('update:photoFile', null)
+  if (photoPreview.value) {
+    URL.revokeObjectURL(photoPreview.value)
+    photoPreview.value = null
+  }
+  props.formData.photo_url = ''
+}
+
+// ─── Cover handlers ────────────────────────────────────────────────────────────
+
+const onCoverSelect = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  const file = target.files?.[0]
+  if (file) {
+    rawCoverFile.value = file
+    showCoverEditor.value = true
+  }
+  target.value = ''
+}
+
+const onCoverEditorSave = (variants: ImageVariants) => {
+  const file = new File([variants.high], 'cover-photo.jpg', { type: variants.high.type })
+  coverFile.value = file
+  emit('update:coverFile', file)
+
+  if (coverPreview.value) URL.revokeObjectURL(coverPreview.value)
+  coverPreview.value = URL.createObjectURL(variants.high)
+
+  showCoverEditor.value = false
+  rawCoverFile.value = null
+}
+
+const onCoverEditorCancel = () => {
+  showCoverEditor.value = false
+  rawCoverFile.value = null
+}
+
+const removeCover = () => {
+  coverFile.value = null
+  emit('update:coverFile', null)
+  if (coverPreview.value) {
+    URL.revokeObjectURL(coverPreview.value)
+    coverPreview.value = null
+  }
+  props.formData.cover_url = ''
+}
+
+// Computed : image source effective (preview locale > URL existante)
+const effectivePhotoSrc = computed(() => photoPreview.value || props.formData.photo_url || '')
+const effectiveCoverSrc = computed(() => coverPreview.value || props.formData.cover_url || '')
+
+// Cleanup
+onUnmounted(() => {
+  if (photoPreview.value) URL.revokeObjectURL(photoPreview.value)
+  if (coverPreview.value) URL.revokeObjectURL(coverPreview.value)
+})
+
+// ─── Validation ────────────────────────────────────────────────────────────────
+
 const errors = reactive<Partial<Record<keyof ProfileFormData, string>>>({})
 
-// Validate a single field
 const validateField = (field: keyof ProfileFormData): boolean => {
   errors[field] = ''
 
@@ -67,7 +172,6 @@ const validateField = (field: keyof ProfileFormData): boolean => {
   return true
 }
 
-// Validate all fields
 const validateForm = (): boolean => {
   let isValid = true
   const fields: (keyof ProfileFormData)[] = ['prenom', 'nom', 'telephone', 'linkedin_url', 'twitter_url', 'github_url', 'site_web']
@@ -103,24 +207,65 @@ const handleSubmit = () => {
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Photo de profil
           </label>
-          <div class="flex items-center gap-4">
+
+          <!-- ImageEditor pour photo -->
+          <ImageEditor
+            v-if="showPhotoEditor && rawPhotoFile"
+            :image-file="rawPhotoFile"
+            :aspect-ratio="1"
+            :low-width="150"
+            :medium-width="300"
+            @save="onPhotoEditorSave"
+            @cancel="onPhotoEditorCancel"
+          />
+
+          <!-- Aperçu photo existante ou nouvelle -->
+          <div v-else-if="effectivePhotoSrc" class="flex items-center gap-4">
             <img
-              :src="formData.photo_url || 'https://i.pravatar.cc/150'"
+              :src="effectivePhotoSrc"
               alt="Photo de profil"
               class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 dark:border-repae-gray-600"
             />
-            <div class="flex-1">
-              <input
-                v-model="formData.photo_url"
-                type="url"
-                placeholder="URL de la photo"
-                class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors"
-              />
-              <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-                Entrez l'URL d'une image (recommandé : 150x150px)
-              </p>
+            <div class="flex gap-2">
+              <label
+                class="px-3 py-2 rounded-lg bg-repae-blue-500 hover:bg-repae-blue-600 text-white text-sm font-brand transition-colors cursor-pointer flex items-center gap-2"
+              >
+                <font-awesome-icon icon="fa-solid fa-pen" class="text-xs" />
+                Modifier
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="hidden"
+                  @change="onPhotoSelect"
+                />
+              </label>
+              <button
+                type="button"
+                class="px-3 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-brand transition-colors cursor-pointer flex items-center gap-2"
+                @click="removePhoto"
+              >
+                <font-awesome-icon icon="fa-solid fa-trash" class="text-xs" />
+                Supprimer
+              </button>
             </div>
           </div>
+
+          <!-- Zone d'upload (pas de photo) -->
+          <label
+            v-else
+            class="flex flex-col items-center justify-center w-full h-28 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-repae-blue-400 dark:hover:border-repae-blue-500 transition-colors cursor-pointer"
+          >
+            <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-2xl text-repae-gray-400 mb-2" />
+            <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand">
+              Ajouter une photo de profil
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="onPhotoSelect"
+            />
+          </label>
         </div>
 
         <!-- Photo de couverture -->
@@ -128,18 +273,59 @@ const handleSubmit = () => {
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Photo de couverture
           </label>
-          <div class="space-y-2">
+
+          <!-- ImageEditor pour couverture -->
+          <ImageEditor
+            v-if="showCoverEditor && rawCoverFile"
+            :image-file="rawCoverFile"
+            @save="onCoverEditorSave"
+            @cancel="onCoverEditorCancel"
+          />
+
+          <!-- Aperçu couverture existante ou nouvelle -->
+          <div v-else-if="effectiveCoverSrc" class="relative">
             <div
-              class="h-20 rounded-lg bg-cover bg-center border border-gray-200 dark:border-repae-gray-600"
-              :style="{ backgroundImage: `url(${formData.cover_url || 'https://picsum.photos/1200/400'})` }"
+              class="h-28 rounded-xl bg-cover bg-center border border-gray-200 dark:border-repae-gray-600"
+              :style="{ backgroundImage: `url(${effectiveCoverSrc})` }"
             />
-            <input
-              v-model="formData.cover_url"
-              type="url"
-              placeholder="URL de la couverture"
-              class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors"
-            />
+            <div class="absolute top-2 right-2 flex gap-2">
+              <label
+                class="p-2 rounded-lg bg-repae-blue-500 hover:bg-repae-blue-600 text-white transition-colors cursor-pointer"
+              >
+                <font-awesome-icon icon="fa-solid fa-pen" class="text-sm" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="hidden"
+                  @change="onCoverSelect"
+                />
+              </label>
+              <button
+                type="button"
+                class="p-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors cursor-pointer"
+                @click="removeCover"
+              >
+                <font-awesome-icon icon="fa-solid fa-trash" class="text-sm" />
+              </button>
+            </div>
           </div>
+
+          <!-- Zone d'upload (pas de couverture) -->
+          <label
+            v-else
+            class="flex flex-col items-center justify-center w-full h-28 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-repae-blue-400 dark:hover:border-repae-blue-500 transition-colors cursor-pointer"
+          >
+            <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-2xl text-repae-gray-400 mb-2" />
+            <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand">
+              Ajouter une photo de couverture
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="onCoverSelect"
+            />
+          </label>
         </div>
       </div>
     </div>
