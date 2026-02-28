@@ -48,6 +48,8 @@ export default defineNuxtConfig({
     public: {
       contentApiBase: '',
       identityApiBase: '',
+      umamiId: '',
+      umamiHost: '',
     },
   },
 
