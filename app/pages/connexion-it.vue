@@ -56,8 +56,19 @@ const handleSubmit = async () => {
       role: response.role,
     }))
 
-    // Redirect to intended destination
-    await navigateTo(redirectPath.value)
+    // Vérifier si un profil Alumni existe
+    try {
+      await $fetch(`${config.public.identityApiBase}/alumnis/my`, {
+        headers: { Authorization: `Bearer ${response.accessToken}` },
+      })
+      // Profil existe → s'assurer que le flag est nettoyé et rediriger normalement
+      localStorage.removeItem('it-profile-incomplete')
+      await navigateTo(redirectPath.value)
+    } catch {
+      // Profil inexistant → rediriger vers la complétion de profil
+      localStorage.setItem('it-profile-incomplete', 'true')
+      await navigateTo('/espace-it/completer-profil')
+    }
   } catch (e: any) {
     const status = e?.response?.status || e?.statusCode
     if (status === 401) {

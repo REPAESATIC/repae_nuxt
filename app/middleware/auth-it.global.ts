@@ -23,4 +23,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
       }
     })
   }
+
+  // Bloquer l'acces aux autres pages si le profil Alumni n'est pas complete
+  const isProfileIncomplete = localStorage.getItem('it-profile-incomplete') === 'true'
+
+  if (isProfileIncomplete && to.path !== '/espace-it/completer-profil') {
+    return navigateTo('/espace-it/completer-profil')
+  }
 })

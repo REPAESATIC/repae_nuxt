@@ -181,6 +181,24 @@ export interface ProjectItem {
   updatedAt?: string
 }
 
+// ─── Create Alumni Payload ───────────────────────────────────────────────────
+
+export interface CreateAlumniPayload {
+  userId: string
+  firstName: string
+  lastName: string
+  promotionId: string
+  countryId?: string
+  departmentId?: string
+  phoneNumber?: string
+  city?: string
+  address?: string
+  bio?: string
+  degree?: string
+  linkedinUrl?: string
+  githubUrl?: string
+}
+
 // ─── Update Alumni Payload ───────────────────────────────────────────────────
 
 export interface UpdateAlumniPayload {
@@ -229,6 +247,14 @@ export function useIdentityApi() {
 
   const fetchMyAlumni = async (): Promise<AlumniItem> => {
     return await $fetch<AlumniItem>(`${baseUrl}/alumnis/my`, {
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const createAlumni = async (payload: CreateAlumniPayload): Promise<AlumniItem> => {
+    return await $fetch<AlumniItem>(`${baseUrl}/alumnis`, {
+      method: 'POST',
+      body: payload,
       headers: getItAuthHeaders(),
     })
   }
@@ -424,6 +450,7 @@ export function useIdentityApi() {
 
   return {
     registerAlumni,
+    createAlumni,
     fetchMyAlumni,
     updateMyAlumni,
     fetchAlumniList,
