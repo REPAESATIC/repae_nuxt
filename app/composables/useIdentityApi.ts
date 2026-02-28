@@ -122,6 +122,7 @@ export interface RegisterAlumniPayload {
   lastName: string
   phoneNumber: string
   promotionId: string
+  countryId: string
   degree?: string
 }
 

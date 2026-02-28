@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PromotionItem } from '~/composables/useIdentityApi'
+import type { PromotionItem, CountryItem } from '~/composables/useIdentityApi'
 
 useHead({
   title: 'Adhésion - L\'Association REPAE',
@@ -8,22 +8,30 @@ useHead({
   ]
 })
 
-const { registerAlumni, fetchPromotions } = useIdentityApi()
+const { registerAlumni, fetchPromotions, fetchCountries } = useIdentityApi()
 const toast = useToast()
 
-// Promotions from API
+// Promotions & Countries from API
 const promotions = ref<PromotionItem[]>([])
 const loadingPromotions = ref(true)
+const countries = ref<CountryItem[]>([])
+const loadingCountries = ref(true)
 
 onMounted(async () => {
-  try {
-    const result = await fetchPromotions()
-    promotions.value = result.data
-  } catch {
-    // Fallback silencieux — le select restera vide
-  } finally {
-    loadingPromotions.value = false
+  const [promosResult, countriesResult] = await Promise.allSettled([
+    fetchPromotions(),
+    fetchCountries(),
+  ])
+
+  if (promosResult.status === 'fulfilled') {
+    promotions.value = promosResult.value.data
   }
+  if (countriesResult.status === 'fulfilled') {
+    countries.value = countriesResult.value.data
+  }
+
+  loadingPromotions.value = false
+  loadingCountries.value = false
 })
 
 // Form state
@@ -33,6 +41,7 @@ const form = reactive({
   email: '',
   phoneNumber: '',
   promotionId: '',
+  countryId: '',
   degree: '',
   message: '',
   acceptTerms: false,
@@ -44,7 +53,7 @@ const submitted = ref(false)
 // Form submission
 const handleSubmit = async () => {
   // Validation frontend basique
-  if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim() || !form.phoneNumber.trim() || !form.promotionId) {
+  if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim() || !form.phoneNumber.trim() || !form.promotionId || !form.countryId) {
     toast.error('Champs requis', 'Veuillez remplir tous les champs obligatoires.')
     return
   }
@@ -69,6 +78,7 @@ const handleSubmit = async () => {
       lastName: form.lastName.trim(),
       phoneNumber: phone,
       promotionId: form.promotionId,
+      countryId: form.countryId,
       degree: form.degree || undefined,
     })
     submitted.value = true
@@ -248,16 +258,34 @@ function formatPhoneE164(raw: string): string | null {
             </div>
             <div>
               <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-                Diplôme obtenu
+                Pays de résidence *
               </label>
-              <input
-                v-model="form.degree"
-                type="text"
-                maxlength="100"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
-                placeholder="Ex: Licence, Master, Ingénieur..."
-              />
+              <select
+                v-model="form.countryId"
+                required
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors cursor-pointer"
+              >
+                <option value="">
+                  {{ loadingCountries ? 'Chargement...' : 'Sélectionnez votre pays' }}
+                </option>
+                <option v-for="country in countries" :key="country.id" :value="country.id">
+                  {{ country.name }}
+                </option>
+              </select>
             </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
+              Diplôme obtenu
+            </label>
+            <input
+              v-model="form.degree"
+              type="text"
+              maxlength="100"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
+              placeholder="Ex: Licence, Master, Ingénieur..."
+            />
           </div>
 
           <div>
