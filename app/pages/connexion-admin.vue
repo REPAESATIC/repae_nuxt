@@ -178,9 +178,9 @@ const handleSubmit = async () => {
                 Se souvenir de moi
               </span>
             </label>
-            <a href="#" class="text-sm text-violet-600 dark:text-violet-400 hover:underline">
-              Mot de passe oublie ?
-            </a>
+            <NuxtLink to="/mot-de-passe-oublie?from=admin" class="text-sm text-violet-600 dark:text-violet-400 hover:underline">
+              Mot de passe oublié ?
+            </NuxtLink>
           </div>
 
           <!-- Submit -->

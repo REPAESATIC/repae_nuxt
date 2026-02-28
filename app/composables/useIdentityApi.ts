@@ -448,6 +448,13 @@ export function useIdentityApi() {
     })
   }
 
+  const resetPassword = async (token: string, newPassword: string): Promise<{ message: string }> => {
+    return await $fetch<{ message: string }>(`${baseUrl}/users/password/reset`, {
+      method: 'POST',
+      body: { token, newPassword },
+    })
+  }
+
   return {
     registerAlumni,
     createAlumni,
@@ -464,6 +471,7 @@ export function useIdentityApi() {
     registerUser,
     updateUser,
     requestPasswordReset,
+    resetPassword,
     fetchPromotions,
     createPromotion,
     updatePromotion,

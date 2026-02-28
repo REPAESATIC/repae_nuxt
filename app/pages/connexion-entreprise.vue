@@ -157,9 +157,9 @@ const features = [
                   Se souvenir de moi
                 </span>
               </label>
-              <a href="#" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
-                Mot de passe oublie ?
-              </a>
+              <NuxtLink to="/mot-de-passe-oublie?from=entreprise" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+                Mot de passe oublié ?
+              </NuxtLink>
             </div>
 
             <!-- Submit -->
