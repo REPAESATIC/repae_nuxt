@@ -10,11 +10,12 @@ interface ProfileFormData {
   cover_url: string
   poste_actuel: string
   entreprise_actuelle: string
-  pays: string
+  countryId: string
   ville: string
   adresse: string
   disponibilite: 'disponible' | 'en_poste' | 'ouvert_opportunites'
   biographie: string
+  diplome: string
   site_web: string
   linkedin_url: string
   twitter_url: string
@@ -24,7 +25,7 @@ interface ProfileFormData {
 const props = defineProps<{
   formData: ProfileFormData
   isSubmitting: boolean
-  countriesList?: string[]
+  countries?: { id: string; name: string }[]
 }>()
 
 const emit = defineEmits<{
@@ -49,7 +50,7 @@ const validateField = (field: keyof ProfileFormData): boolean => {
       break
     case 'telephone':
       if (!props.formData.telephone.trim()) {
-        errors.telephone = 'Le telephone est requis'
+        errors.telephone = 'Le téléphone est requis'
         return false
       }
       break
@@ -85,30 +86,6 @@ const handleSubmit = () => {
     emit('submit')
   }
 }
-
-// Pays disponibles : depuis l'API si fourni, sinon fallback statique
-const paysOptionsFallback = [
-  'Cote d\'Ivoire',
-  'Senegal',
-  'Mali',
-  'Burkina Faso',
-  'Benin',
-  'Togo',
-  'Niger',
-  'Guinee',
-  'Ghana',
-  'Nigeria',
-  'Cameroun',
-  'France',
-  'Canada',
-  'Autre'
-]
-
-const paysOptions = computed(() =>
-  props.countriesList && props.countriesList.length > 0
-    ? props.countriesList
-    : paysOptionsFallback
-)
 </script>
 
 <template>
@@ -140,7 +117,7 @@ const paysOptions = computed(() =>
                 class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors"
               />
               <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-                Entrez l'URL d'une image (recommande: 150x150px)
+                Entrez l'URL d'une image (recommandé : 150x150px)
               </p>
             </div>
           </div>
@@ -178,7 +155,7 @@ const paysOptions = computed(() =>
         <!-- Prenom -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-            Prenom <span class="text-red-500">*</span>
+            Prénom <span class="text-red-500">*</span>
           </label>
           <input
             v-model="formData.prenom"
@@ -211,7 +188,7 @@ const paysOptions = computed(() =>
           <p v-if="errors.nom" class="text-red-500 text-xs mt-1">{{ errors.nom }}</p>
         </div>
 
-        <!-- Email (lecture seule — gere via le compte utilisateur) -->
+        <!-- Email (lecture seule — géré via le compte utilisateur) -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Email
@@ -223,14 +200,14 @@ const paysOptions = computed(() =>
             class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-gray-100 dark:bg-repae-gray-600 text-repae-gray-500 dark:text-repae-gray-400 cursor-not-allowed"
           />
           <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-            L'email est lie a votre compte et ne peut pas etre modifie ici
+            L'email est lié à votre compte et ne peut pas être modifié ici
           </p>
         </div>
 
         <!-- Telephone -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-            Telephone <span class="text-red-500">*</span>
+            Téléphone <span class="text-red-500">*</span>
           </label>
           <input
             v-model="formData.telephone"
@@ -256,7 +233,20 @@ const paysOptions = computed(() =>
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Poste actuel (lecture seule — derive des experiences) -->
+        <!-- Diplome -->
+        <div>
+          <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
+            Diplôme
+          </label>
+          <input
+            v-model="formData.diplome"
+            type="text"
+            placeholder="Ex: Ingénieur en Informatique"
+            class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors"
+          />
+        </div>
+
+        <!-- Poste actuel (lecture seule — dérivé des expériences) -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Poste actuel
@@ -269,11 +259,11 @@ const paysOptions = computed(() =>
             class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-gray-100 dark:bg-repae-gray-600 text-repae-gray-500 dark:text-repae-gray-400 cursor-not-allowed"
           />
           <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-            Gere via vos experiences professionnelles
+            Géré via vos expériences professionnelles
           </p>
         </div>
 
-        <!-- Entreprise actuelle (lecture seule — derive des experiences) -->
+        <!-- Entreprise actuelle (lecture seule — dérivé des expériences) -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Entreprise actuelle
@@ -286,14 +276,14 @@ const paysOptions = computed(() =>
             class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-gray-100 dark:bg-repae-gray-600 text-repae-gray-500 dark:text-repae-gray-400 cursor-not-allowed"
           />
           <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-            Gere via vos experiences professionnelles
+            Géré via vos expériences professionnelles
           </p>
         </div>
 
         <!-- Disponibilite -->
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-            Disponibilite
+            Disponibilité
           </label>
           <div class="flex flex-wrap gap-3">
             <label
@@ -336,11 +326,16 @@ const paysOptions = computed(() =>
             Pays
           </label>
           <select
-            v-model="formData.pays"
+            v-model="formData.countryId"
             class="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors cursor-pointer"
           >
-            <option v-for="pays in paysOptions" :key="pays" :value="pays">
-              {{ pays }}
+            <option value="">-- Sélectionner un pays --</option>
+            <option
+              v-for="country in countries"
+              :key="country.id"
+              :value="country.id"
+            >
+              {{ country.name }}
             </option>
           </select>
         </div>
@@ -377,7 +372,7 @@ const paysOptions = computed(() =>
     <div class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-repae-gray-700">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2 mb-6">
         <font-awesome-icon icon="fa-solid fa-file-alt" class="text-repae-blue-500" />
-        A propos de moi
+        À propos de moi
       </h2>
 
       <div>
@@ -387,11 +382,11 @@ const paysOptions = computed(() =>
         <textarea
           v-model="formData.biographie"
           rows="5"
-          placeholder="Decrivez votre parcours, vos competences et vos objectifs..."
+          placeholder="Décrivez votre parcours, vos compétences et vos objectifs..."
           class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors resize-none"
         />
         <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-          {{ formData.biographie.length }} / 1000 caracteres
+          {{ formData.biographie.length }} / 1000 caractères
         </p>
       </div>
     </div>
@@ -400,7 +395,7 @@ const paysOptions = computed(() =>
     <div class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-repae-gray-700">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2 mb-6">
         <font-awesome-icon icon="fa-solid fa-globe" class="text-repae-blue-500" />
-        Liens & reseaux sociaux
+        Liens & réseaux sociaux
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -408,7 +403,7 @@ const paysOptions = computed(() =>
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             <font-awesome-icon icon="fa-solid fa-globe" class="mr-2 text-repae-gray-400" />
-            Site web personnel(portfolio)
+            Site web / portfolio
           </label>
           <input
             v-model="formData.site_web"

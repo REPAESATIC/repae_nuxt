@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AlumniItem } from '@/composables/useIdentityApi'
+import type { AlumniItem, CountryItem } from '@/composables/useIdentityApi'
 
 definePageMeta({
   layout: 'espace-it'
@@ -26,19 +26,20 @@ const formData = reactive({
   cover_url: '',
   poste_actuel: '',
   entreprise_actuelle: '',
-  pays: '',
+  countryId: '',
   ville: '',
   adresse: '',
   disponibilite: 'en_poste' as 'disponible' | 'en_poste' | 'ouvert_opportunites',
   biographie: '',
+  diplome: '',
   site_web: '',
   linkedin_url: '',
   twitter_url: '',
   github_url: '',
 })
 
-// Liste des pays depuis l'API
-const countriesList = ref<string[]>([])
+// Liste des pays depuis l'API (avec ID pour le mapping)
+const countriesList = ref<{ id: string; name: string }[]>([])
 
 const loadProfile = async () => {
   isLoading.value = true
@@ -48,11 +49,11 @@ const loadProfile = async () => {
     // Charger le profil et les pays en parallele
     const [alumni, countriesResult] = await Promise.all([
       fetchMyAlumni(),
-      fetchCountries({ limit: 200 }).catch(() => ({ data: [] as { name: string }[] })),
+      fetchCountries({ limit: 200 }).catch(() => ({ data: [] as CountryItem[] })),
     ])
 
     alumniRaw.value = alumni
-    countriesList.value = countriesResult.data.map((c: { name: string }) => c.name)
+    countriesList.value = countriesResult.data.map((c) => ({ id: c.id, name: c.name }))
 
     // Remplir le formulaire avec les donnees du profil
     formData.prenom = alumni.firstName
@@ -61,7 +62,7 @@ const loadProfile = async () => {
     formData.telephone = alumni.phoneNumber || ''
     formData.photo_url = alumni.photoUrl || ''
     formData.cover_url = alumni.coverPicUrl || ''
-    formData.pays = alumni.country || ''
+    formData.diplome = alumni.degree || ''
     formData.ville = alumni.city || ''
     formData.adresse = alumni.address || ''
     formData.disponibilite = alumni.isOpenToMentoring ? 'ouvert_opportunites' : 'en_poste'
@@ -70,6 +71,12 @@ const loadProfile = async () => {
     formData.linkedin_url = alumni.linkedinUrl || ''
     formData.twitter_url = alumni.xUrl || ''
     formData.github_url = alumni.githubUrl || ''
+
+    // Résoudre le countryId depuis le nom du pays
+    if (alumni.country) {
+      const match = countriesList.value.find(c => c.name === alumni.country)
+      formData.countryId = match?.id || ''
+    }
 
     // Recuperer le poste actuel depuis les experiences
     try {
@@ -118,6 +125,7 @@ const handleSubmit = async () => {
       city: formData.ville || undefined,
       address: formData.adresse || undefined,
       bio: formData.biographie || undefined,
+      degree: formData.diplome || undefined,
       photoUrl: formData.photo_url || undefined,
       coverPicUrl: formData.cover_url || undefined,
       portfolioUrl: formData.site_web || undefined,
@@ -125,6 +133,7 @@ const handleSubmit = async () => {
       linkedinUrl: formData.linkedin_url || undefined,
       xUrl: formData.twitter_url || undefined,
       isOpenToMentoring: formData.disponibilite === 'ouvert_opportunites',
+      countryId: formData.countryId || undefined,
     })
 
     showSuccessMessage.value = true
@@ -133,7 +142,8 @@ const handleSubmit = async () => {
     }, 3000)
   } catch (e: any) {
     console.error('Erreur sauvegarde profil:', e)
-    submitError.value = e?.data?.message || 'Erreur lors de la sauvegarde du profil.'
+    const msg = e?.data?.message
+    submitError.value = Array.isArray(msg) ? msg[0] : (msg || 'Erreur lors de la sauvegarde du profil.')
   } finally {
     isSubmitting.value = false
   }
@@ -241,7 +251,7 @@ const handleCancel = () => {
       <EspaceItProfilProfileEditForm
         :form-data="formData"
         :is-submitting="isSubmitting"
-        :countries-list="countriesList"
+        :countries="countriesList"
         @submit="handleSubmit"
         @cancel="handleCancel"
       />
