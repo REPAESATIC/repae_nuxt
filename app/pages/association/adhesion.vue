@@ -43,7 +43,7 @@ const form = reactive({
   promotionId: '',
   countryId: '',
   degree: '',
-  message: '',
+  bio: '',
   acceptTerms: false,
 })
 
@@ -290,13 +290,13 @@ function formatPhoneE164(raw: string): string | null {
 
           <div>
             <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-              Message (optionnel)
+              Biographie (optionnelle)
             </label>
             <textarea
-              v-model="form.message"
+              v-model="form.bio"
               rows="4"
               class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors resize-none"
-              placeholder="Partagez vos motivations ou toute information supplémentaire..."
+              placeholder="Présentez-vous en quelques lignes (parcours, compétences, centres d'intérêt...)"
             ></textarea>
           </div>
 
