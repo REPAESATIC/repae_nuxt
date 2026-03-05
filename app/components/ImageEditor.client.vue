@@ -603,7 +603,9 @@ async function save() {
 </script>
 
 <template>
-  <div class="rounded-2xl overflow-hidden border border-gray-200 dark:border-repae-gray-700 bg-repae-gray-900">
+  <Teleport to="body">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" @mousedown.self="emit('cancel')">
+      <div class="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl border border-gray-200 dark:border-repae-gray-700 bg-repae-gray-900 shadow-2xl">
     <!-- Toolbar -->
     <div class="flex flex-wrap items-center justify-between gap-3 p-3 bg-repae-gray-800 border-b border-repae-gray-700">
       <div class="flex items-center gap-2">
@@ -814,7 +816,9 @@ async function save() {
         </div>
       </div>
     </div>
-  </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>

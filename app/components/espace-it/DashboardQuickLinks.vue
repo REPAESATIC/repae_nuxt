@@ -19,8 +19,13 @@ defineProps<{
       <NuxtLink
         v-for="(link, index) in links"
         :key="link.id"
-        :to="link.href"
-        class="group flex items-center gap-4 p-4 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 hover:border-repae-blue-300 dark:hover:border-repae-blue-500/50 hover:shadow-lg hover:shadow-repae-blue-500/10 transition-all duration-200 animate__animated animate__fadeInUp"
+        :to="link.comingSoon ? undefined : link.href"
+        :class="[
+          'group flex items-center gap-4 p-4 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 transition-all duration-200 animate__animated animate__fadeInUp',
+          link.comingSoon
+            ? 'opacity-60 cursor-default'
+            : 'hover:border-repae-blue-300 dark:hover:border-repae-blue-500/50 hover:shadow-lg hover:shadow-repae-blue-500/10'
+        ]"
         :style="{ animationDelay: `${index * 50}ms` }"
       >
         <div class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center group-hover:bg-repae-blue-100 dark:group-hover:bg-repae-blue-500/20 transition-colors">
@@ -30,9 +35,18 @@ defineProps<{
           />
         </div>
         <div class="flex-1">
-          <h3 class="font-medium font-brand text-repae-gray-900 dark:text-white group-hover:text-repae-blue-500 dark:group-hover:text-repae-blue-400 transition-colors">
-            {{ link.label }}
-          </h3>
+          <div class="flex items-center gap-2">
+            <h3 class="font-medium font-brand text-repae-gray-900 dark:text-white group-hover:text-repae-blue-500 dark:group-hover:text-repae-blue-400 transition-colors">
+              {{ link.label }}
+            </h3>
+            <span
+              v-if="link.comingSoon"
+              class="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400 text-[10px] font-bold rounded-md"
+            >
+              <font-awesome-icon icon="fa-solid fa-clock" class="text-[8px]" />
+              Bientôt disponible
+            </span>
+          </div>
           <p
             v-if="link.description"
             class="text-sm text-repae-gray-500 dark:text-repae-gray-400"
@@ -41,6 +55,7 @@ defineProps<{
           </p>
         </div>
         <font-awesome-icon
+          v-if="!link.comingSoon"
           icon="fa-solid fa-chevron-right"
           class="text-repae-gray-400 dark:text-repae-gray-500 group-hover:text-repae-blue-500 group-hover:translate-x-1 transition-all"
         />

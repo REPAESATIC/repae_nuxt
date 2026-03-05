@@ -36,6 +36,7 @@ export interface NavItem {
   href: string
   icon: string
   description?: string
+  comingSoon?: boolean
 }
 
 export const espaceItNavItems: NavItem[] = [
@@ -65,35 +66,40 @@ export const espaceItNavItems: NavItem[] = [
     label: 'Entreprises des IT',
     href: '/espace-it/entreprises',
     icon: 'fa-solid fa-building',
-    description: 'Entreprises creees par les alumni'
+    description: 'Entreprises créées par les alumni',
+    comingSoon: true
   },
   {
     id: 'offres',
     label: 'Offres d\'emploi',
     href: '/espace-it/offres',
     icon: 'fa-solid fa-briefcase',
-    description: 'Consulter les offres'
+    description: 'Consulter les offres',
+    comingSoon: true
   },
   {
     id: 'publier',
     label: 'Publier une offre',
     href: '/espace-it/offres/publier',
     icon: 'fa-solid fa-plus-circle',
-    description: 'Proposer un emploi'
+    description: 'Proposer un emploi',
+    comingSoon: true
   },
   {
     id: 'candidatures',
     label: 'Mes candidatures',
     href: '/espace-it/mes-candidatures',
     icon: 'fa-solid fa-paper-plane',
-    description: 'Suivre mes candidatures'
+    description: 'Suivre mes candidatures',
+    comingSoon: true
   },
   {
     id: 'forum',
     label: 'Forum d\'entraide',
     href: '/espace-it/forum',
     icon: 'fa-solid fa-comments',
-    description: 'Poser vos questions'
+    description: 'Poser vos questions',
+    comingSoon: true
   },
   {
     id: 'parametres',

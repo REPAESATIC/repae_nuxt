@@ -118,7 +118,10 @@ const isActiveRoute = (href: string) => {
             :to="item.href"
             :class="[
               'flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group',
-              isActiveRoute(item.href)
+              item.comingSoon
+                ? 'opacity-60'
+                : '',
+              isActiveRoute(item.href) && !item.comingSoon
                 ? 'bg-repae-blue-50 dark:bg-repae-blue-500/10 text-repae-blue-600 dark:text-repae-blue-400'
                 : 'text-repae-gray-600 dark:text-repae-gray-400 hover:bg-gray-100 dark:hover:bg-repae-gray-800 hover:text-repae-gray-900 dark:hover:text-white'
             ]"
@@ -126,8 +129,8 @@ const isActiveRoute = (href: string) => {
           >
             <div
               :class="[
-                'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors',
-                isActiveRoute(item.href)
+                'w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors',
+                isActiveRoute(item.href) && !item.comingSoon
                   ? 'bg-repae-blue-500 text-white'
                   : 'bg-gray-100 dark:bg-repae-gray-800 text-repae-gray-500 dark:text-repae-gray-400 group-hover:bg-repae-blue-100 dark:group-hover:bg-repae-blue-500/20 group-hover:text-repae-blue-500'
               ]"
@@ -136,9 +139,18 @@ const isActiveRoute = (href: string) => {
             </div>
             <div
               v-if="!isCollapsed || isMobileOpen"
-              class="flex flex-col"
+              class="flex flex-col flex-1 min-w-0"
             >
-              <span class="font-medium font-brand text-sm">{{ item.label }}</span>
+              <div class="flex items-center gap-2">
+                <span class="font-medium font-brand text-sm truncate">{{ item.label }}</span>
+                <span
+                  v-if="item.comingSoon"
+                  class="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400 text-[10px] font-bold rounded-md"
+                >
+                  <font-awesome-icon icon="fa-solid fa-clock" class="text-[8px]" />
+                  Bientôt disponible
+                </span>
+              </div>
               <span
                 v-if="item.description"
                 class="text-xs text-repae-gray-400 dark:text-repae-gray-500"
