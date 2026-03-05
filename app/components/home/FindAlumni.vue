@@ -2,17 +2,21 @@
 import World from '@svg-maps/world'
 import { mainCountry, alumniData as alumniDataImported } from '@/data/alumni'
 
-const formData = ref({
-  firstName: '',
-  name: '',
-  company: '',
-  email: '',
-  promotion: ''
-})
+const {
+  promotions,
+  loadingPromotions,
+  countries,
+  loadingCountries,
+  form,
+  submitting,
+  submitted,
+  loadReferenceData,
+  handleSubmit,
+} = useAlumniRegistration()
 
-const handleSearch = () => {
-  console.log('Search alumni:', formData.value)
-}
+onMounted(() => {
+  loadReferenceData()
+})
 
 // World map data
 const map = World
@@ -317,102 +321,168 @@ const totalAlumni = computed(() => {
                 <img class="w-24 h-24 sm:w-32 sm:h-32 rounded-full shadow-lg" src="/image/logos_REAPE/DECLINAISON/logo_BBL.png" alt="Logo REPAE">
               </div>
 
-              <!-- Titre du formulaire responsive -->
-              <div class="text-center mb-6 sm:mb-8 mt-6 sm:mt-10">
-                <h3 class="text-lg sm:text-xl font-bold text-white font-brand">
-                  Créer un compte ALUMNI
+              <!-- Success state -->
+              <div v-if="submitted" class="text-center mt-6 sm:mt-10 py-8">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/15 flex items-center justify-center">
+                  <font-awesome-icon icon="fa-solid fa-check-circle" class="text-green-400 text-3xl" />
+                </div>
+                <h3 class="text-lg font-bold text-white font-brand mb-2">
+                  Demande envoyée !
                 </h3>
-                <p class="text-xs sm:text-sm text-gray-300 font-brand mt-2">
-                  Connectez-vous à notre réseau professionnel d'excellence
+                <p class="text-xs text-gray-300 font-brand mb-4">
+                  Un email de confirmation vous a été envoyé. L'équipe REPAE vous contactera bientôt.
                 </p>
+                <NuxtLink
+                  to="/association/presentation"
+                  class="inline-flex items-center gap-2 px-4 py-2 bg-repae-blue-500 hover:bg-repae-blue-600 text-white text-sm font-brand font-semibold rounded-lg transition-colors cursor-pointer"
+                >
+                  <font-awesome-icon icon="fa-solid fa-arrow-left" />
+                  Voir l'association
+                </NuxtLink>
               </div>
 
-              <!-- Formulaire responsive -->
-              <form @submit.prevent="handleSearch" class="space-y-3 sm:space-y-4">
-                <!-- Champ Prénom -->
-                <div class="relative">
-                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500 text-base sm:text-lg" />
-                  </div>
-                  <input
-                    v-model="formData.firstName"
-                    type="text"
-                    class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                    placeholder="Entrez un prénom..."
-                  >
+              <!-- Formulaire -->
+              <template v-else>
+                <!-- Titre du formulaire responsive -->
+                <div class="text-center mb-6 sm:mb-8 mt-6 sm:mt-10">
+                  <h3 class="text-lg sm:text-xl font-bold text-white font-brand">
+                    Créer un compte ALUMNI
+                  </h3>
+                  <p class="text-xs sm:text-sm text-gray-300 font-brand mt-2">
+                    Connectez-vous à notre réseau professionnel d'excellence
+                  </p>
                 </div>
 
-                <!-- Champ Nom -->
-                <div class="relative">
-                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500 text-base sm:text-lg" />
+                <form @submit.prevent="handleSubmit" class="space-y-3 sm:space-y-4">
+                  <!-- Champ Prénom -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <input
+                      v-model="form.firstName"
+                      type="text"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
+                      placeholder="Prénom *"
+                    >
                   </div>
-                  <input
-                    v-model="formData.name"
-                    type="text"
-                    class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                    placeholder="Entrez un nom..."
-                  >
-                </div>
 
-                <!-- Champ Entreprise -->
-                <div class="relative">
-                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    <font-awesome-icon icon="fa-solid fa-building" class="text-repae-blue-500 text-base sm:text-lg" />
+                  <!-- Champ Nom -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <input
+                      v-model="form.lastName"
+                      type="text"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
+                      placeholder="Nom *"
+                    >
                   </div>
-                  <input
-                    v-model="formData.company"
-                    type="text"
-                    class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                    placeholder="Entrez une entreprise..."
-                  >
-                </div>
 
-                <!-- Champ Email -->
-                <div class="relative">
-                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    <font-awesome-icon icon="fa-solid fa-envelope" class="text-repae-blue-500 text-base sm:text-lg" />
+                  <!-- Champ Email -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-envelope" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <input
+                      v-model="form.email"
+                      type="email"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
+                      placeholder="Email *"
+                    >
                   </div>
-                  <input
-                    v-model="formData.email"
-                    type="email"
-                    class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                    placeholder="Entrez votre email..."
-                  >
-                </div>
 
-                <!-- Champ Promotion/Formation -->
-                <div class="relative">
-                  <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-repae-blue-500 text-base sm:text-lg" />
+                  <!-- Champ Téléphone -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-phone" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <input
+                      v-model="form.phoneNumber"
+                      type="tel"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
+                      placeholder="+225 07 00 00 00 00 *"
+                    >
                   </div>
-                  <select
-                    v-model="formData.promotion"
-                    class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand border-0 appearance-none text-sm sm:text-base"
-                  >
-                    <option value="">Sélectionnez une promotion</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
-                  </select>
-                  <!-- Flèche personnalisée pour le select -->
-                  <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                    <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
-                  </div>
-                </div>
 
-                <!-- Bouton de recherche responsive -->
-                <button
-                  type="submit"
-                  class="w-full bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold py-2.5 sm:py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg mt-4 sm:mt-6 text-sm sm:text-base cursor-pointer"
-                >
-                  <font-awesome-icon icon="fa-solid fa-user-plus" class="mr-2" />
-                  S'inscrire
-                </button>
-              </form>
+                  <!-- Champ Promotion -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <select
+                      v-model="form.promotionId"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-8 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand border-0 appearance-none text-sm sm:text-base cursor-pointer"
+                    >
+                      <option value="">
+                        {{ loadingPromotions ? 'Chargement...' : 'Promotion ESATIC *' }}
+                      </option>
+                      <option v-for="promo in promotions" :key="promo.id" :value="promo.id">
+                        Promotion {{ promo.year }}{{ promo.nickname ? ` — ${promo.nickname}` : '' }}
+                      </option>
+                    </select>
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
+                    </div>
+                  </div>
+
+                  <!-- Champ Pays -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-globe" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <select
+                      v-model="form.countryId"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-8 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand border-0 appearance-none text-sm sm:text-base cursor-pointer"
+                    >
+                      <option value="">
+                        {{ loadingCountries ? 'Chargement...' : 'Pays de résidence *' }}
+                      </option>
+                      <option v-for="country in countries" :key="country.id" :value="country.id">
+                        {{ country.name }}
+                      </option>
+                    </select>
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
+                    </div>
+                  </div>
+
+                  <!-- Acceptation conditions -->
+                  <div class="flex items-start gap-2">
+                    <input
+                      v-model="form.acceptTerms"
+                      type="checkbox"
+                      required
+                      class="mt-1 w-4 h-4 rounded border-gray-300 text-repae-blue-500 focus:ring-repae-blue-500 cursor-pointer"
+                    />
+                    <label class="text-xs font-brand text-gray-300">
+                      J'accepte les <NuxtLink to="/association/statuts" class="text-repae-blue-400 hover:underline">statuts</NuxtLink>
+                      et le <NuxtLink to="/association/reglement" class="text-repae-blue-400 hover:underline">règlement intérieur</NuxtLink> *
+                    </label>
+                  </div>
+
+                  <!-- Bouton de soumission -->
+                  <button
+                    type="submit"
+                    :disabled="submitting"
+                    class="w-full bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold py-2.5 sm:py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg mt-4 sm:mt-6 text-sm sm:text-base cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    <font-awesome-icon
+                      :icon="submitting ? 'fa-solid fa-spinner' : 'fa-solid fa-user-plus'"
+                      :class="{ 'animate-spin': submitting }"
+                      class="mr-2"
+                    />
+                    {{ submitting ? 'Envoi en cours...' : 'S\'inscrire' }}
+                  </button>
+                </form>
+              </template>
             </div>
 
             <!-- Card du pays sélectionné - Style Notebook -->

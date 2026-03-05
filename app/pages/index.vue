@@ -8,7 +8,7 @@
     <HomeHeroSection />
     <HomeAlumniTestimonials />
     <HomeFindAlumni />
-    <HomeJobOffers />
+    <!-- <HomeJobOffers /> -->
     <HomeUpcomingEvents />
     <HomePartnerships />
     <AppFooter />
