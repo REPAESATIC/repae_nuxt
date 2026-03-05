@@ -182,6 +182,48 @@ export interface ProjectItem {
   updatedAt?: string
 }
 
+// ─── CRUD Payloads ──────────────────────────────────────────────────────────
+
+export interface CreateWorkExperiencePayload {
+  alumniId: string
+  companyName: string
+  position: string
+  startDate: string
+  location?: string
+  endDate?: string
+  description?: string
+  contractType?: 'CDI' | 'CDD' | 'INTERNSHIP' | 'FREELANCE' | 'PART_TIME' | 'ALTERNATION' | 'VOLUNTEER'
+}
+
+export interface CreateEducationPayload {
+  alumniId: string
+  schoolName: string
+  degree: string
+  fieldOfStudy: string
+  startDate: string
+  schoolAddress?: string
+  grade?: string
+  endDate?: string
+  description?: string
+}
+
+export interface CreateProjectPayload {
+  alumniId: string
+  title: string
+  description: string
+  client?: string
+  endDate?: string
+  projectUrl?: string
+  imageUrl?: string
+  skillIds?: string[]
+}
+
+export interface SkillCatalogItem {
+  id: string
+  name: string
+  group?: { id: string; name: string }
+}
+
 // ─── Create Alumni Payload ───────────────────────────────────────────────────
 
 export interface CreateAlumniPayload {
@@ -293,6 +335,135 @@ export function useIdentityApi() {
 
   const fetchProjects = async (alumniId: string): Promise<ProjectItem[]> => {
     return await $fetch<ProjectItem[]>(`${baseUrl}/projects/alumni/${alumniId}`)
+  }
+
+  // ─── Work Experiences CRUD ────────────────────────────────────────────────────
+
+  const createWorkExperience = async (payload: CreateWorkExperiencePayload): Promise<WorkExperienceItem> => {
+    return await $fetch<WorkExperienceItem>(`${baseUrl}/work-experiences`, {
+      method: 'POST',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const updateWorkExperience = async (id: string, payload: Partial<Omit<CreateWorkExperiencePayload, 'alumniId'>>): Promise<WorkExperienceItem> => {
+    return await $fetch<WorkExperienceItem>(`${baseUrl}/work-experiences/${id}`, {
+      method: 'PUT',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const deleteWorkExperience = async (id: string): Promise<void> => {
+    await $fetch(`${baseUrl}/work-experiences/${id}`, {
+      method: 'DELETE',
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  // ─── Educations CRUD ─────────────────────────────────────────────────────────
+
+  const createEducation = async (payload: CreateEducationPayload): Promise<EducationItem> => {
+    return await $fetch<EducationItem>(`${baseUrl}/educations`, {
+      method: 'POST',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const updateEducation = async (id: string, payload: Partial<Omit<CreateEducationPayload, 'alumniId'>>): Promise<EducationItem> => {
+    return await $fetch<EducationItem>(`${baseUrl}/educations/${id}`, {
+      method: 'PUT',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const deleteEducation = async (id: string): Promise<void> => {
+    await $fetch(`${baseUrl}/educations/${id}`, {
+      method: 'DELETE',
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  // ─── Projects CRUD ───────────────────────────────────────────────────────────
+
+  const createProject = async (payload: CreateProjectPayload | FormData): Promise<ProjectItem> => {
+    if (payload instanceof FormData) {
+      const token = import.meta.client ? localStorage.getItem('it-token') : null
+      return await $fetch<ProjectItem>(`${baseUrl}/projects`, {
+        method: 'POST',
+        body: payload,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      })
+    }
+    return await $fetch<ProjectItem>(`${baseUrl}/projects`, {
+      method: 'POST',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const updateProject = async (id: string, payload: Partial<Omit<CreateProjectPayload, 'alumniId'>> | FormData): Promise<ProjectItem> => {
+    if (payload instanceof FormData) {
+      const token = import.meta.client ? localStorage.getItem('it-token') : null
+      return await $fetch<ProjectItem>(`${baseUrl}/projects/${id}`, {
+        method: 'PUT',
+        body: payload,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      })
+    }
+    return await $fetch<ProjectItem>(`${baseUrl}/projects/${id}`, {
+      method: 'PUT',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const deleteProject = async (id: string): Promise<void> => {
+    await $fetch(`${baseUrl}/projects/${id}`, {
+      method: 'DELETE',
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  // ─── Skills Catalog ──────────────────────────────────────────────────────────
+
+  const fetchSkillsCatalog = async (params?: { search?: string; limit?: number }): Promise<SkillCatalogItem[]> => {
+    const query = new URLSearchParams()
+    if (params?.search) query.set('search', params.search)
+    query.set('limit', String(params?.limit ?? 200))
+    const qs = query.toString()
+    const result = await $fetch<{ data: SkillCatalogItem[] }>(`${baseUrl}/skills${qs ? `?${qs}` : ''}`, {
+      headers: getItAuthHeaders(),
+    })
+    return result.data || result as any
+  }
+
+  // ─── Alumni Skills CRUD ──────────────────────────────────────────────────────
+
+  const addAlumniSkill = async (alumniId: string, skillId: string, level: string): Promise<AlumniSkillItem> => {
+    return await $fetch<AlumniSkillItem>(`${baseUrl}/alumnis/${alumniId}/skills`, {
+      method: 'POST',
+      body: { skillId, level },
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const updateAlumniSkill = async (alumniId: string, skillId: string, level: string): Promise<AlumniSkillItem> => {
+    return await $fetch<AlumniSkillItem>(`${baseUrl}/alumnis/${alumniId}/skills/${skillId}`, {
+      method: 'PUT',
+      body: { level },
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const deleteAlumniSkill = async (alumniId: string, skillId: string): Promise<void> => {
+    await $fetch(`${baseUrl}/alumnis/${alumniId}/skills/${skillId}`, {
+      method: 'DELETE',
+      headers: getItAuthHeaders(),
+    })
   }
 
   // ─── Alumni ──────────────────────────────────────────────────────────────────
@@ -482,8 +653,21 @@ export function useIdentityApi() {
     fetchAlumni,
     verifyAlumni,
     fetchWorkExperiences,
+    createWorkExperience,
+    updateWorkExperience,
+    deleteWorkExperience,
     fetchEducations,
+    createEducation,
+    updateEducation,
+    deleteEducation,
     fetchProjects,
+    createProject,
+    updateProject,
+    deleteProject,
+    fetchSkillsCatalog,
+    addAlumniSkill,
+    updateAlumniSkill,
+    deleteAlumniSkill,
     fetchUsers,
     fetchUser,
     registerUser,

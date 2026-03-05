@@ -6,6 +6,10 @@ const props = defineProps<{
   competences: Competence[]
 }>()
 
+const emit = defineEmits<{
+  (e: 'edit'): void
+}>()
+
 const competencesByCategorie = computed(() => getCompetencesByCategorie(props.competences))
 
 const activeCategories = computed(() => {
@@ -22,6 +26,7 @@ const activeCategories = computed(() => {
       </h2>
       <button
         class="text-sm text-repae-blue-500 hover:text-repae-blue-600 font-medium font-brand cursor-pointer"
+        @click="emit('edit')"
       >
         Modifier
       </button>

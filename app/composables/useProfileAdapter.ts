@@ -145,6 +145,27 @@ export function useProfileAdapter() {
     return profile
   }
 
+  // ─── Mappings inverses (formulaire francais → payload API) ─────────────────
+
+  const contratFrToApi: Record<string, WorkExperienceItem['contractType']> = {
+    'CDI': 'CDI',
+    'CDD': 'CDD',
+    'Stage': 'INTERNSHIP',
+    'Freelance': 'FREELANCE',
+    'Consultant': 'VOLUNTEER',
+  }
+
+  const niveauFrToApi: Record<string, string> = {
+    'debutant': 'BEGINNER',
+    'intermediaire': 'INTERMEDIATE',
+    'avance': 'ADVANCED',
+    'expert': 'EXPERT',
+  }
+
+  const monthToIsoDate = (yearMonth: string): string => {
+    return yearMonth ? `${yearMonth}-01` : ''
+  }
+
   return {
     alumniToUserProfile,
     workExperienceToExperience,
@@ -152,5 +173,10 @@ export function useProfileAdapter() {
     alumniSkillToCompetence,
     projectToPortfolio,
     enrichProfileWithCurrentJob,
+    contractTypeMap,
+    contratFrToApi,
+    levelMap,
+    niveauFrToApi,
+    monthToIsoDate,
   }
 }

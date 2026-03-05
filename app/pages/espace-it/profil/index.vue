@@ -28,11 +28,26 @@ const {
 // Etat reactif
 const isLoading = ref(true)
 const error = ref<string | null>(null)
+const alumniId = ref('')
 const userProfile = ref<UserProfile | null>(null)
 const formations = ref<Formation[]>([])
 const experiences = ref<Experience[]>([])
 const competences = ref<Competence[]>([])
 const portfolio = ref<ProjetPortfolio[]>([])
+
+// Modals
+const showFormationModal = ref(false)
+const showExperienceModal = ref(false)
+const showPortfolioModal = ref(false)
+const showCompetenceModal = ref(false)
+
+const onSectionSaved = async () => {
+  showFormationModal.value = false
+  showExperienceModal.value = false
+  showPortfolioModal.value = false
+  showCompetenceModal.value = false
+  await loadProfile()
+}
 
 const loadProfile = async () => {
   isLoading.value = true
@@ -41,6 +56,7 @@ const loadProfile = async () => {
   try {
     // 1. Recuperer le profil alumni authentifie
     const alumni = await fetchMyAlumni()
+    alumniId.value = alumni.id
 
     // 2. Recuperer les donnees liees en parallele
     const [workExps, edus, projs] = await Promise.all([
@@ -146,13 +162,13 @@ useSeoMeta({
           <EspaceItProfilProfileAbout :biographie="userProfile.biographie" />
 
           <!-- Formations -->
-          <EspaceItProfilProfileFormation :formations="formations" />
+          <EspaceItProfilProfileFormation :formations="formations" @edit="showFormationModal = true" />
 
           <!-- Experiences professionnelles -->
-          <EspaceItProfilProfileExperience :experiences="experiences" />
+          <EspaceItProfilProfileExperience :experiences="experiences" @edit="showExperienceModal = true" />
 
           <!-- Portfolio -->
-          <EspaceItProfilProfilePortfolio :projets="portfolio" />
+          <EspaceItProfilProfilePortfolio :projets="portfolio" @edit="showPortfolioModal = true" />
         </div>
 
         <!-- Sidebar -->
@@ -161,9 +177,62 @@ useSeoMeta({
           <EspaceItProfilProfileContact :profile="userProfile" />
 
           <!-- Competences -->
-          <EspaceItProfilProfileCompetences :competences="competences" />
+          <EspaceItProfilProfileCompetences :competences="competences" @edit="showCompetenceModal = true" />
         </div>
       </div>
+
+      <!-- Modals CRUD -->
+      <EspaceItProfilProfileSectionModal
+        :show="showFormationModal"
+        title="Formations"
+        icon="fa-solid fa-graduation-cap"
+        @close="showFormationModal = false"
+      >
+        <EspaceItProfilProfileFormationManager
+          :formations="formations"
+          :alumni-id="alumniId"
+          @saved="onSectionSaved"
+        />
+      </EspaceItProfilProfileSectionModal>
+
+      <EspaceItProfilProfileSectionModal
+        :show="showExperienceModal"
+        title="Expériences professionnelles"
+        icon="fa-solid fa-briefcase"
+        @close="showExperienceModal = false"
+      >
+        <EspaceItProfilProfileExperienceManager
+          :experiences="experiences"
+          :alumni-id="alumniId"
+          @saved="onSectionSaved"
+        />
+      </EspaceItProfilProfileSectionModal>
+
+      <EspaceItProfilProfileSectionModal
+        :show="showPortfolioModal"
+        title="Portfolio"
+        icon="fa-solid fa-layer-group"
+        @close="showPortfolioModal = false"
+      >
+        <EspaceItProfilProfilePortfolioManager
+          :projets="portfolio"
+          :alumni-id="alumniId"
+          @saved="onSectionSaved"
+        />
+      </EspaceItProfilProfileSectionModal>
+
+      <EspaceItProfilProfileSectionModal
+        :show="showCompetenceModal"
+        title="Compétences"
+        icon="fa-solid fa-star"
+        @close="showCompetenceModal = false"
+      >
+        <EspaceItProfilProfileCompetenceManager
+          :competences="competences"
+          :alumni-id="alumniId"
+          @saved="onSectionSaved"
+        />
+      </EspaceItProfilProfileSectionModal>
     </template>
   </div>
 </template>

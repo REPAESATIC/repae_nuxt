@@ -5,6 +5,10 @@ import { formatExperienceDates, calculateDuration, contratConfig } from '@/data/
 defineProps<{
   experiences: Experience[]
 }>()
+
+const emit = defineEmits<{
+  (e: 'edit'): void
+}>()
 </script>
 
 <template>
@@ -16,6 +20,7 @@ defineProps<{
       </h2>
       <button
         class="text-sm text-repae-blue-500 hover:text-repae-blue-600 font-medium font-brand cursor-pointer"
+        @click="emit('edit')"
       >
         Modifier
       </button>
