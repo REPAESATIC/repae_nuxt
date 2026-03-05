@@ -1,9 +1,7 @@
 // Liens des réseaux sociaux
 export const socialLinks = [
-  { icon: 'fa-brands fa-facebook', url: '#', label: 'Facebook' },
-  { icon: 'fa-brands fa-twitter', url: '#', label: 'Twitter' },
-  { icon: 'fa-brands fa-linkedin', url: '#', label: 'LinkedIn' },
-  { icon: 'fa-brands fa-instagram', url: '#', label: 'Instagram' }
+  { icon: 'fa-brands fa-facebook', url: 'https://web.facebook.com/repaesatic', label: 'Facebook' },
+  { icon: 'fa-brands fa-linkedin', url: 'https://www.linkedin.com/company/repaesatic/', label: 'LinkedIn' }
 ]
 
 // Articles d'actualités

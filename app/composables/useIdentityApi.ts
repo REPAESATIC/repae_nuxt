@@ -224,6 +224,23 @@ export interface SkillCatalogItem {
   group?: { id: string; name: string }
 }
 
+// ─── User Preferences ───────────────────────────────────────────────────────
+
+export interface UserPreferenceItem {
+  id: string
+  theme: 'LIGHT' | 'DARK' | 'SYSTEM'
+  notifyJobOffers: boolean
+  notifyApplicationViewed: boolean
+  notifyInterviewReminders: boolean
+  notifyNewsletter: boolean
+  isProfilePublic: boolean
+  displayEmail: boolean
+  displayPhone: boolean
+  displayAvailability: boolean
+  createdAt: string
+  updatedAt: string
+}
+
 // ─── Create Alumni Payload ───────────────────────────────────────────────────
 
 export interface CreateAlumniPayload {
@@ -466,6 +483,24 @@ export function useIdentityApi() {
     })
   }
 
+  // ─── User Preferences ────────────────────────────────────────────────────────
+
+  const fetchMyPreferences = async (): Promise<UserPreferenceItem> => {
+    return await $fetch<UserPreferenceItem>(`${baseUrl}/user-preferences/my`, {
+      headers: getItAuthHeaders(),
+    })
+  }
+
+  const updateMyPreferences = async (
+    payload: Partial<Omit<UserPreferenceItem, 'id' | 'createdAt' | 'updatedAt'>>
+  ): Promise<UserPreferenceItem> => {
+    return await $fetch<UserPreferenceItem>(`${baseUrl}/user-preferences/my`, {
+      method: 'PUT',
+      body: payload,
+      headers: getItAuthHeaders(),
+    })
+  }
+
   // ─── Alumni ──────────────────────────────────────────────────────────────────
 
   const fetchAlumniList = async (params?: {
@@ -668,6 +703,8 @@ export function useIdentityApi() {
     addAlumniSkill,
     updateAlumniSkill,
     deleteAlumniSkill,
+    fetchMyPreferences,
+    updateMyPreferences,
     fetchUsers,
     fetchUser,
     registerUser,
