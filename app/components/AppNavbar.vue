@@ -7,6 +7,12 @@ const isScrolled = ref(false)
 const isAssociationDropdownOpen = ref(false)
 const isMobileAssociationOpen = ref(false)
 const isJoinModalOpen = ref(false)
+const isSearchOpen = ref(false)
+
+const openSearch = () => {
+  isSearchOpen.value = true
+  isMobileMenuOpen.value = false
+}
 
 const openJoinModal = () => {
   isJoinModalOpen.value = true
@@ -39,7 +45,20 @@ onMounted(() => {
     isScrolled.value = window.scrollY > 20
   }
   window.addEventListener('scroll', handleScroll)
-  onUnmounted(() => window.removeEventListener('scroll', handleScroll))
+
+  // Raccourci clavier Cmd+K / Ctrl+K
+  const handleKeydown = (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault()
+      isSearchOpen.value = !isSearchOpen.value
+    }
+  }
+  window.addEventListener('keydown', handleKeydown)
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('keydown', handleKeydown)
+  })
 })
 </script>
 
@@ -157,18 +176,15 @@ onMounted(() => {
 
         <!-- Actions Desktop -->
         <div class="hidden lg:flex items-center gap-3">
-          <!-- Search Bar -->
-          <div class="relative group">
-            <input
-              type="text"
-              placeholder="Rechercher..."
-              class="w-48 focus:w-64 px-4 py-2.5 pl-10 text-sm bg-gray-100/80 dark:bg-repae-gray-800/80 border border-gray-200 dark:border-repae-gray-700 rounded-xl focus:ring-2 focus:ring-repae-blue-500/50 focus:border-repae-blue-500 text-repae-gray-900 dark:text-white placeholder-repae-gray-400 font-brand transition-all duration-300"
-            />
-            <font-awesome-icon
-              icon="fa-solid fa-search"
-              class="absolute left-3.5 top-1/2 -translate-y-1/2 text-repae-gray-400 text-sm transition-colors group-focus-within:text-repae-blue-500"
-            />
-          </div>
+          <!-- Search Button -->
+          <button
+            @click="openSearch"
+            class="flex items-center gap-2 px-4 py-2.5 text-sm bg-gray-100/80 dark:bg-repae-gray-800/80 border border-gray-200 dark:border-repae-gray-700 rounded-xl hover:border-repae-blue-500/50 text-repae-gray-400 font-brand transition-all duration-300 cursor-pointer group"
+          >
+            <font-awesome-icon icon="fa-solid fa-search" class="text-sm group-hover:text-repae-blue-500 transition-colors" />
+            <span class="group-hover:text-repae-gray-500 dark:group-hover:text-repae-gray-300 transition-colors">Rechercher...</span>
+            <kbd class="ml-2 px-1.5 py-0.5 text-[10px] font-mono bg-white/60 dark:bg-repae-gray-700/60 rounded border border-gray-200/50 dark:border-repae-gray-600/50 text-repae-gray-400">⌘K</kbd>
+          </button>
 
           <!-- Theme Toggle -->
           <button
@@ -302,17 +318,13 @@ onMounted(() => {
 
           <div class="pt-4 mt-4 border-t border-gray-200 dark:border-repae-gray-700">
             <!-- Mobile Search -->
-            <div class="relative mb-4">
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                class="w-full px-4 py-3 pl-11 text-sm bg-gray-100 dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 rounded-xl focus:ring-2 focus:ring-repae-blue-500/50 focus:border-repae-blue-500 text-repae-gray-900 dark:text-white placeholder-repae-gray-400 font-brand transition-all"
-              />
-              <font-awesome-icon
-                icon="fa-solid fa-search"
-                class="absolute left-4 top-1/2 -translate-y-1/2 text-repae-gray-400"
-              />
-            </div>
+            <button
+              @click="openSearch"
+              class="w-full flex items-center gap-3 px-4 py-3 mb-4 text-sm bg-gray-100 dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 rounded-xl text-repae-gray-400 font-brand transition-all cursor-pointer"
+            >
+              <font-awesome-icon icon="fa-solid fa-search" />
+              <span>Rechercher...</span>
+            </button>
 
             <!-- Mobile CTA -->
             <button
@@ -329,6 +341,12 @@ onMounted(() => {
 
   <!-- Spacer pour compenser la navbar fixed -->
   <div class="h-18" />
+
+  <!-- Search Modal -->
+  <SearchModal
+    :is-open="isSearchOpen"
+    @close="isSearchOpen = false"
+  />
 
   <!-- Join Modal -->
   <UiJoinModal
