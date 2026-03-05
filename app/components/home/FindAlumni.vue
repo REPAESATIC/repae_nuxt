@@ -1,6 +1,5 @@
 <script setup>
 import World from '@svg-maps/world'
-import { mainCountry, alumniData as alumniDataImported } from '@/data/alumni'
 
 const {
   promotions,
@@ -14,8 +13,17 @@ const {
   handleSubmit,
 } = useAlumniRegistration()
 
+const {
+  alumniData,
+  loading: loadingMap,
+  mainCountry,
+  totalAlumni,
+  loadMapData,
+} = useAlumniMap()
+
 onMounted(() => {
   loadReferenceData()
+  loadMapData()
 })
 
 // World map data
@@ -44,9 +52,6 @@ const handleMouseMove = (event) => {
     y: event.clientY - rect.top
   }
 }
-
-// Alumni data (imported from external file)
-const alumniData = ref(alumniDataImported)
 
 // Countries with alumni (colored)
 const countriesWithAlumni = computed(() => Object.keys(alumniData.value))
@@ -202,10 +207,6 @@ const selectCountryFromList = (data) => {
   selectedCountry.value = data
 }
 
-// Total alumni count
-const totalAlumni = computed(() => {
-  return Object.values(alumniData.value).reduce((sum, country) => sum + country.alumniCount, 0)
-})
 </script>
 
 <template>
@@ -241,7 +242,10 @@ const totalAlumni = computed(() => {
         </div>
         <div class="flex items-center gap-2">
           <font-awesome-icon icon="fa-solid fa-users" class="text-repae-blue-500" />
-          <span class="text-sm text-repae-gray-600 dark:text-repae-gray-400">{{ totalAlumni }}+ alumni dans {{ countriesWithAlumni.length }} pays</span>
+          <span class="text-sm text-repae-gray-600 dark:text-repae-gray-400">
+            <template v-if="loadingMap">Chargement...</template>
+            <template v-else>{{ totalAlumni }}+ alumni dans {{ countriesWithAlumni.length }} pays</template>
+          </span>
         </div>
       </div>
 
@@ -257,6 +261,17 @@ const totalAlumni = computed(() => {
 
           <!-- Map -->
           <div class="map-container relative" @mousemove="handleMouseMove">
+            <!-- Loading overlay -->
+            <div
+              v-if="loadingMap"
+              class="absolute inset-0 flex items-center justify-center z-30 bg-white/50 dark:bg-repae-gray-900/50 rounded-xl"
+            >
+              <div class="flex items-center gap-2 text-repae-blue-500 font-brand text-sm">
+                <font-awesome-icon icon="fa-solid fa-spinner" class="animate-spin" />
+                Chargement des données alumni...
+              </div>
+            </div>
+
             <svg
               :viewBox="map.viewBox"
               class="world-map w-full h-auto"
@@ -488,12 +503,31 @@ const totalAlumni = computed(() => {
             <!-- Card du pays sélectionné - Style Notebook -->
             <div v-else :key="'country-' + selectedCountry.id" class="notebook-card-wrapper">
               <div class="notebook-card">
-                <!-- Image du pays avec effet scotch -->
+                <!-- Avatars alumni -->
                 <div class="notebook-card-image">
-                  <img
-                    :src="selectedCountry.image"
-                    :alt="selectedCountry.country"
-                  >
+                  <div class="w-full h-full grid grid-cols-2 gap-1 p-1">
+                    <template v-for="(member, idx) in selectedCountry.alumni.slice(0, 4)" :key="member.id">
+                      <img
+                        v-if="member.photoUrl"
+                        :src="member.photoUrl"
+                        :alt="`${member.firstName} ${member.lastName}`"
+                        class="w-full h-full object-cover rounded"
+                      >
+                      <div
+                        v-else
+                        class="w-full h-full rounded flex items-center justify-center text-white font-brand font-bold text-lg"
+                        :class="['bg-repae-blue-500', 'bg-repae-blue-600', 'bg-repae-blue-700', 'bg-repae-blue-800'][idx]"
+                      >
+                        {{ member.firstName[0] }}{{ member.lastName[0] }}
+                      </div>
+                    </template>
+                    <!-- Remplir les cases vides si moins de 4 alumni -->
+                    <div
+                      v-for="n in Math.max(0, 4 - selectedCountry.alumni.length)"
+                      :key="'empty-' + n"
+                      class="w-full h-full rounded bg-gray-200 dark:bg-repae-gray-600"
+                    />
+                  </div>
                   <!-- Bouton fermer -->
                   <button
                     @click="closeCountryCard"
@@ -509,9 +543,9 @@ const totalAlumni = computed(() => {
                   <h3 class="notebook-card-title">
                     {{ selectedCountry.country }}
                   </h3>
-                  <p class="notebook-card-location">
+                  <p v-if="selectedCountry.mainCity" class="notebook-card-location">
                     <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-repae-blue-500" />
-                    {{ selectedCountry.city }}
+                    {{ selectedCountry.mainCity }}
                   </p>
 
                   <!-- Stats -->
@@ -521,42 +555,46 @@ const totalAlumni = computed(() => {
                     <span class="notebook-card-stats-label">Alumni actifs</span>
                   </div>
 
-                  <!-- Top entreprises -->
-                  <p class="notebook-card-section-title">
-                    <font-awesome-icon icon="fa-solid fa-building" class="text-repae-blue-500" />
-                    Top Entreprises
-                  </p>
-                  <div class="notebook-card-tags">
-                    <span
-                      v-for="company in selectedCountry.topCompanies"
-                      :key="company"
-                      class="notebook-card-tag"
-                    >
-                      {{ company }}
-                    </span>
-                  </div>
+                  <!-- Top compétences -->
+                  <template v-if="selectedCountry.topSkills?.length">
+                    <p class="notebook-card-section-title">
+                      <font-awesome-icon icon="fa-solid fa-code" class="text-repae-blue-500" />
+                      Top Compétences
+                    </p>
+                    <div class="notebook-card-tags">
+                      <span
+                        v-for="skill in selectedCountry.topSkills"
+                        :key="skill"
+                        class="notebook-card-tag"
+                      >
+                        {{ skill }}
+                      </span>
+                    </div>
+                  </template>
 
-                  <!-- Secteurs -->
-                  <p class="notebook-card-section-title">
-                    <font-awesome-icon icon="fa-solid fa-briefcase" class="text-repae-blue-500" />
-                    Secteurs d'activité
-                  </p>
-                  <div class="notebook-card-tags">
-                    <span
-                      v-for="sector in selectedCountry.sectors"
-                      :key="sector"
-                      class="notebook-card-tag notebook-card-tag--blue"
-                    >
-                      {{ sector }}
-                    </span>
-                  </div>
+                  <!-- Départements ESATIC -->
+                  <template v-if="selectedCountry.departments?.length">
+                    <p class="notebook-card-section-title">
+                      <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-repae-blue-500" />
+                      Départements ESATIC
+                    </p>
+                    <div class="notebook-card-tags">
+                      <span
+                        v-for="dept in selectedCountry.departments"
+                        :key="dept"
+                        class="notebook-card-tag notebook-card-tag--blue"
+                      >
+                        {{ dept }}
+                      </span>
+                    </div>
+                  </template>
 
                   <!-- Bouton voir les alumni -->
-                  <button class="notebook-card-cta">
+                  <NuxtLink :to="`/espace-it/annuaire`" class="notebook-card-cta">
                     <font-awesome-icon icon="fa-solid fa-search" />
                     Voir les alumni
                     <font-awesome-icon icon="fa-solid fa-arrow-right" />
-                  </button>
+                  </NuxtLink>
                 </div>
               </div>
             </div>
@@ -565,7 +603,7 @@ const totalAlumni = computed(() => {
       </div>
 
       <!-- Liste des pays avec alumni - Style Post-it -->
-      <div class="mt-12">
+      <div v-if="!loadingMap && Object.keys(alumniData).length > 0" class="mt-12">
         <div class="countries-scroll-container flex flex-nowrap gap-3 overflow-x-auto pb-4 px-2">
           <button
             v-for="(data, countryId) in alumniData"
