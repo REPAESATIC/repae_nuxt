@@ -18,6 +18,10 @@ const formatDate = (dateString) => {
     year: 'numeric'
   })
 }
+
+const formatContenu = (text) => {
+  return text.replace(/\n/g, '<br>')
+}
 </script>
 
 <template>
@@ -33,7 +37,7 @@ const formatDate = (dateString) => {
             <div class="flex flex-wrap items-center gap-4 text-sm font-brand text-repae-gray-500 dark:text-repae-gray-400">
               <span class="flex items-center gap-1">
                 <font-awesome-icon icon="fa-solid fa-calendar" />
-                Publie le {{ formatDate(document.date_publication) }}
+                Publié le {{ formatDate(document.date_publication) }}
               </span>
               <span class="flex items-center gap-1">
                 <font-awesome-icon icon="fa-solid fa-tag" />
@@ -46,8 +50,8 @@ const formatDate = (dateString) => {
             target="_blank"
             class="inline-flex items-center gap-2 px-6 py-3 bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-medium rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer"
           >
-            <font-awesome-icon icon="fa-solid fa-arrow-right" />
-            Telecharger le PDF
+            <font-awesome-icon icon="fa-solid fa-download" />
+            Télécharger le PDF
           </a>
         </div>
       </div>
@@ -60,33 +64,71 @@ const formatDate = (dateString) => {
       </div>
 
       <!-- Document Content (if available) -->
-      <div v-if="contenu" class="space-y-8">
-        <!-- Preambule -->
+      <div v-if="contenu" class="space-y-10">
+        <!-- Préambule -->
         <div v-if="contenu.preambule" class="bg-repae-blue-50 dark:bg-repae-blue-900/20 rounded-xl p-6 border-l-4 border-repae-blue-500">
           <h3 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white mb-3">
-            Preambule
+            Préambule
           </h3>
-          <p class="font-brand text-repae-gray-600 dark:text-repae-gray-300 italic">
+          <p class="font-brand text-repae-gray-600 dark:text-repae-gray-300 italic leading-relaxed">
             {{ contenu.preambule }}
           </p>
         </div>
 
-        <!-- Articles -->
-        <div v-if="contenu.articles" class="space-y-6">
+        <!-- Sections avec articles (nouvelle structure) -->
+        <template v-if="contenu.sections">
+          <div
+            v-for="(section, sIndex) in contenu.sections"
+            :key="sIndex"
+            class="space-y-5"
+          >
+            <!-- Section Header -->
+            <div class="border-b-2 border-repae-blue-500 pb-3 mt-8">
+              <h3 class="text-xl font-bold font-brand text-repae-blue-600 dark:text-repae-blue-400">
+                {{ section.titre }}
+              </h3>
+            </div>
+
+            <!-- Articles dans la section -->
+            <div
+              v-for="article in section.articles"
+              :key="`${sIndex}-${article.numero}`"
+              class="bg-gray-50 dark:bg-repae-gray-700 rounded-xl p-6"
+            >
+              <div class="flex items-start gap-4">
+                <div class="shrink-0 min-w-10 h-10 px-3 rounded-full bg-repae-blue-500 flex items-center justify-center">
+                  <span class="text-sm font-bold text-white font-brand">{{ article.numero }}</span>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white mb-3">
+                    Article {{ article.numero }} – {{ article.titre }}
+                  </h4>
+                  <div
+                    class="font-brand text-repae-gray-600 dark:text-repae-gray-300 leading-relaxed"
+                    v-html="formatContenu(article.contenu)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- Articles plats (ancienne structure rétrocompatible) -->
+        <div v-else-if="contenu.articles" class="space-y-6">
           <div
             v-for="article in contenu.articles"
             :key="article.numero"
             class="bg-gray-50 dark:bg-repae-gray-700 rounded-xl p-6"
           >
             <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-repae-blue-500 flex items-center justify-center">
+              <div class="shrink-0 w-10 h-10 rounded-full bg-repae-blue-500 flex items-center justify-center">
                 <span class="text-sm font-bold text-white font-brand">{{ article.numero }}</span>
               </div>
               <div class="flex-1">
                 <h4 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white mb-2">
-                  Article {{ article.numero }} - {{ article.titre }}
+                  Article {{ article.numero }} – {{ article.titre }}
                 </h4>
-                <p class="font-brand text-repae-gray-600 dark:text-repae-gray-300">
+                <p class="font-brand text-repae-gray-600 dark:text-repae-gray-300 leading-relaxed">
                   {{ article.contenu }}
                 </p>
               </div>
@@ -97,14 +139,14 @@ const formatDate = (dateString) => {
         <!-- Note -->
         <div class="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-6 border-l-4 border-amber-500">
           <div class="flex items-start gap-3">
-            <font-awesome-icon icon="fa-solid fa-circle" class="text-amber-500 mt-1" />
+            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-amber-500 mt-1" />
             <div>
               <h4 class="text-sm font-bold font-brand text-repae-gray-900 dark:text-white mb-1">
                 Note importante
               </h4>
               <p class="text-sm font-brand text-repae-gray-600 dark:text-repae-gray-300">
-                Ce document est un extrait. Pour consulter la version complete et officielle,
-                veuillez telecharger le document PDF ci-dessus.
+                Ce document est un extrait. Pour consulter la version complète et officielle,
+                veuillez télécharger le document PDF ci-dessus.
               </p>
             </div>
           </div>
@@ -122,8 +164,8 @@ const formatDate = (dateString) => {
           target="_blank"
           class="inline-flex items-center gap-2 px-6 py-3 bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-medium rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer"
         >
-          <font-awesome-icon icon="fa-solid fa-arrow-right" />
-          Telecharger le document
+          <font-awesome-icon icon="fa-solid fa-download" />
+          Télécharger le document
         </a>
       </div>
     </div>

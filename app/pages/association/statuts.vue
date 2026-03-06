@@ -23,7 +23,7 @@ useHead({
     <AssociationNavbar />
 
     <!-- Document Viewer -->
-    <DocumentViewer
+    <AssociationDocumentViewer
       v-if="statuts"
       :document="statuts"
       :contenu="statutsContenu"

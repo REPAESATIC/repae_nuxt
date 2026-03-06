@@ -4,12 +4,11 @@ export interface MembreBureau {
   id: string
   prenom: string
   nom: string
-  photo_url: string
   poste: string
-  poste_actuel: string
-  entreprise: string
+  poste_actuel?: string
+  entreprise?: string
   linkedin_url?: string
-  responsabilites: string
+  responsabilites?: string
   ordre_affichage: number
   actif: boolean
 }
@@ -17,106 +16,138 @@ export interface MembreBureau {
 export const membresBureau: MembreBureau[] = [
   {
     id: '1',
-    prenom: 'Kouamé',
-    nom: 'ASSI',
-    photo_url: 'https://i.pravatar.cc/300?img=11',
-    poste: 'Président',
-    poste_actuel: 'Directeur des Systèmes d\'Information',
-    entreprise: 'Orange Côte d\'Ivoire',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Direction générale du réseau, représentation officielle, présidence des assemblées.',
+    prenom: 'Zéla',
+    nom: 'TRAORÉ',
+    poste: 'Présidente',
     ordre_affichage: 1,
     actif: true
   },
   {
     id: '2',
-    prenom: 'Aminata',
-    nom: 'COULIBALY',
-    photo_url: 'https://i.pravatar.cc/300?img=5',
-    poste: 'Vice-Présidente',
-    poste_actuel: 'Chef de Projet IT',
-    entreprise: 'MTN Côte d\'Ivoire',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Suppléance du président, coordination des commissions.',
+    prenom: 'Kouassi Thierry',
+    nom: 'KOUAMÉ',
+    poste: 'Vice-Président',
     ordre_affichage: 2,
     actif: true
   },
   {
     id: '3',
-    prenom: 'Jean-Marc',
-    nom: 'TOURÉ',
-    photo_url: 'https://i.pravatar.cc/300?img=12',
-    poste: 'Secrétaire Général',
-    poste_actuel: 'Architecte Cloud',
-    entreprise: 'Société Générale',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Gestion administrative, rédaction des procès-verbaux, coordination des réunions.',
+    prenom: 'Léon',
+    nom: 'DOTANA SILUÉ',
+    poste: 'Responsable Diaspora',
     ordre_affichage: 3,
     actif: true
   },
   {
     id: '4',
-    prenom: 'Fatou',
-    nom: 'DIALLO',
-    photo_url: 'https://i.pravatar.cc/300?img=9',
-    poste: 'Trésorière',
-    poste_actuel: 'Consultante FinTech',
-    entreprise: 'Deloitte',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Gestion financière, comptabilité, rapport financier annuel.',
+    prenom: 'Dominique',
+    nom: 'ADJÉ',
+    poste: 'Commission Diaspora',
     ordre_affichage: 4,
     actif: true
   },
   {
     id: '5',
-    prenom: 'Serge',
-    nom: 'KOFFI',
-    photo_url: 'https://i.pravatar.cc/300?img=13',
-    poste: 'Responsable Communication',
-    poste_actuel: 'Digital Marketing Manager',
-    entreprise: 'Jumia',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Stratégie de communication, gestion des réseaux sociaux, relations presse.',
+    prenom: 'Sévan',
+    nom: 'AKOUMIA',
+    poste: 'Secrétaire Général',
     ordre_affichage: 5,
     actif: true
   },
   {
     id: '6',
-    prenom: 'Marie',
-    nom: 'BAMBA',
-    photo_url: 'https://i.pravatar.cc/300?img=10',
-    poste: 'Responsable Partenariats',
-    poste_actuel: 'Business Developer',
-    entreprise: 'Microsoft Afrique',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Développement des partenariats, relations entreprises, sponsoring.',
+    prenom: 'Amani Judicaël',
+    nom: 'KOFFI',
+    poste: 'Secrétaire Général Adjoint',
     ordre_affichage: 6,
     actif: true
   },
   {
     id: '7',
-    prenom: 'Yao',
-    nom: 'GNAMBA',
-    photo_url: 'https://i.pravatar.cc/300?img=14',
-    poste: 'Responsable Événements',
-    poste_actuel: 'Lead Developer',
-    entreprise: 'Ecobank',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Organisation des événements, coordination logistique, networking.',
+    prenom: 'Archel Olivier',
+    nom: 'ILBOUDO',
+    poste: 'Trésorier',
     ordre_affichage: 7,
     actif: true
   },
   {
     id: '8',
-    prenom: 'Awa',
-    nom: 'SYLLA',
-    photo_url: 'https://i.pravatar.cc/300?img=16',
-    poste: 'Responsable Mentorat',
-    poste_actuel: 'Data Scientist',
-    entreprise: 'Google',
-    linkedin_url: 'https://linkedin.com/in/',
-    responsabilites: 'Programme de mentorat, accompagnement des jeunes diplômés, formations.',
+    prenom: 'Junior',
+    nom: 'DIOMANDÉ',
+    poste: 'Trésorier Adjoint',
     ordre_affichage: 8,
+    actif: true
+  },
+  {
+    id: '9',
+    prenom: 'Oï',
+    nom: 'KAMBEL',
+    poste: 'Responsable Organisation',
+    ordre_affichage: 9,
+    actif: true
+  },
+  {
+    id: '10',
+    prenom: 'Kader',
+    nom: 'SANOGO',
+    poste: 'Responsable Commission Expertise & Compétences',
+    ordre_affichage: 10,
+    actif: true
+  },
+  {
+    id: '11',
+    prenom: 'Cédric',
+    nom: 'MANOUAN',
+    poste: 'Responsable Commission Affaires Extérieures & Partenariats',
+    ordre_affichage: 11,
+    actif: true
+  },
+  {
+    id: '12',
+    prenom: 'Linda',
+    nom: 'BABRI',
+    poste: 'Commission Affaires Extérieures & Partenariats',
+    ordre_affichage: 12,
+    actif: true
+  },
+  {
+    id: '13',
+    prenom: 'Serge',
+    nom: 'N\'DRAMAN',
+    poste: 'Responsable Commission Insertion Professionnelle',
+    ordre_affichage: 13,
+    actif: true
+  },
+  {
+    id: '14',
+    prenom: 'Aboubacar',
+    nom: 'CHÉRIF',
+    poste: 'Commission Insertion Professionnelle',
+    ordre_affichage: 14,
+    actif: true
+  },
+  {
+    id: '15',
+    prenom: 'Okou',
+    nom: 'BISSO',
+    poste: 'Commission Consultative',
+    ordre_affichage: 15,
+    actif: true
+  },
+  {
+    id: '16',
+    prenom: 'Ben',
+    nom: 'NAMOGO',
+    poste: 'Commission Consultative',
+    ordre_affichage: 16,
+    actif: true
+  },
+  {
+    id: '17',
+    prenom: 'Diby',
+    nom: 'KOUADIO',
+    poste: 'Commission Consultative',
+    ordre_affichage: 17,
     actif: true
   }
 ]

@@ -33,7 +33,7 @@ useHead({
     </section>
 
     <!-- Bureau Grid -->
-    <BureauGrid />
+    <AssociationBureauGrid />
 
     <!-- CTA Section -->
     <section class="py-16 bg-white dark:bg-repae-gray-800">
