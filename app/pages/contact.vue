@@ -46,19 +46,13 @@ const contactInfos = [
   {
     icon: 'fa-solid fa-envelope',
     label: 'Email',
-    value: 'contact@repae.org',
-    href: 'mailto:contact@repae.org'
-  },
-  {
-    icon: 'fa-solid fa-phone',
-    label: 'Téléphone',
-    value: '+225 05-45-29-28-02',
-    href: 'tel:+2250545292802'
+    value: 'repaesatic@gmail.com',
+    href: 'mailto:repaesatic@gmail.com'
   },
   {
     icon: 'fa-solid fa-location-dot',
     label: 'Adresse',
-    value: '01 Bp V 03 Abidjan 01, Côte d\'Ivoire',
+    value: 'Treichville – Abidjan – Côte d\'Ivoire',
     href: null
   }
 ]

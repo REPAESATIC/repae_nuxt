@@ -92,7 +92,7 @@ const handleSubmit = async () => {
               <img
                 src="/image/logos_REAPE/ICONE/ICONE_REPAE_BBL.png"
                 alt="REPAE"
-                class="h-14 w-14 transition-transform duration-300 group-hover:scale-110"
+                class="h-14 w-14 rounded-lg transition-transform duration-300 group-hover:scale-110"
               />
             </div>
             <div class="text-left">

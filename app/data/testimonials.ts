@@ -1,9 +1,9 @@
-// Données mock des statistiques
+// Statistiques réelles (recensement décembre 2024)
 export const stats = [
-  { value: '+150', label: 'Membres actifs', numericValue: 150, prefix: '+', suffix: '', key: 'members' },
-  { value: '87%', label: "Taux d'insertion", numericValue: 87, prefix: '', suffix: '%', key: 'insertionRate' },
-  { value: '13', label: 'Promotions', numericValue: 13, prefix: '', suffix: '', key: 'promotions' },
-  { value: '+5', label: 'Partenariats', numericValue: 5, prefix: '+', suffix: '', key: 'partnerships' }
+  { value: '+1115', label: 'Membres', numericValue: 1115, prefix: '+', suffix: '', key: 'members' },
+  { value: '+251', label: 'Membres adhérents', numericValue: 251, prefix: '+', suffix: '', key: 'adherents' },
+  { value: '+75%', label: "Taux d'insertion", numericValue: 75, prefix: '+', suffix: '%', key: 'insertionRate' },
+  { value: '13', label: 'Promotions', numericValue: 13, prefix: '', suffix: '', key: 'promotions' }
 ]
 
 // Témoignages - rangée 1

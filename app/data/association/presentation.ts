@@ -102,23 +102,23 @@ export const valeurs = [
 
 export const statistiques = [
   {
-    valeur: '~500',
-    label: 'Membres actifs',
+    valeur: '+1115',
+    label: 'Membres',
     description: 'Alumni inscrits au réseau'
+  },
+  {
+    valeur: '+251',
+    label: 'Membres adhérents',
+    description: 'Membres actifs de l\'association'
   },
   {
     valeur: '13',
     label: 'Promotions',
-    description: "Générations d'anciens étudiants"
+    description: 'Générations d\'anciens étudiants'
   },
   {
-    valeur: '+50',
-    label: 'Entreprises',
-    description: 'Partenaires du réseau'
-  },
-  {
-    valeur: '87%',
-    label: "Taux d'insertion",
-    description: 'Membres en emploi'
+    valeur: '+75%',
+    label: 'Taux d\'insertion',
+    description: 'Selon le recensement de décembre 2024'
   }
 ]

@@ -50,7 +50,7 @@ const formatDate = (dateString?: string) => {
             <img
               src="/image/logos_REAPE/ICONE/ICONE_REPAE_BBL.png"
               alt="REPAE"
-              class="h-10 w-10 mr-2"
+              class="h-10 w-10 mr-2 rounded-lg"
             />
             <h3 class="text-2xl font-bold text-repae-blue-400 font-brand">REPAE</h3>
           </div>
@@ -76,17 +76,11 @@ const formatDate = (dateString?: string) => {
           <ul class="space-y-2 text-repae-gray-300 font-brand">
             <li class="flex items-center">
               <font-awesome-icon icon="fa-solid fa-envelope" class="mr-2 text-repae-blue-400" />
-              contact@repae.org
-            </li>
-            <li class="flex items-center">
-              <font-awesome-icon icon="fa-solid fa-phone" class="mr-2 text-repae-blue-400" />
-              +225 05-45-29-28-02
+              repaesatic@gmail.com
             </li>
             <li class="flex items-start">
               <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="mr-2 mt-1 text-repae-blue-400" />
-              <span>
-                01 Bp V 03 Abidjan 01<br>
-              </span>
+              <span>Treichville – Abidjan – Côte d'Ivoire</span>
             </li>
           </ul>
         </div>
@@ -164,11 +158,11 @@ const formatDate = (dateString?: string) => {
       </div>
 
       <div class="border-t border-repae-gray-700 mt-8 pt-8">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-repae-gray-400 font-brand text-sm mb-4 md:mb-0">
+        <div class="text-center">
+          <p class="text-repae-gray-400 font-brand text-sm">
             © {{ currentYear }} REPAE. Tous droits réservés
           </p>
-          <div class="flex space-x-6">
+          <!-- <div class="flex space-x-6">
             <a href="#" class="text-repae-gray-400 hover:text-repae-blue-400 font-brand text-sm transition-colors">
               Confidentialité
             </a>
@@ -178,7 +172,7 @@ const formatDate = (dateString?: string) => {
             <a href="#" class="text-repae-gray-400 hover:text-repae-blue-400 font-brand text-sm transition-colors">
               Cookies
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
