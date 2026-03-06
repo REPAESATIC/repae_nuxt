@@ -19,6 +19,10 @@ export default defineNuxtConfig({
   // App configuration with dark mode script
   app: {
     head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+      ],
       script: [
         {
           // Inline script to prevent flash of wrong theme
