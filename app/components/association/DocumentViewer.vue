@@ -131,7 +131,7 @@ const collapseAll = () => {
             >
               <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-repae-blue-500 flex items-center justify-center shrink-0">
-                  <font-awesome-icon icon="fa-solid fa-bookmark" class="text-sm text-white" />
+                  <span class="text-xs font-bold text-white font-brand">{{ sIndex + 1 }}</span>
                 </div>
                 <h3 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white text-left">
                   {{ section.titre }}
