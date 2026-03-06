@@ -61,12 +61,12 @@ export function useAlumniMap() {
 
     const [countriesResult, alumniResult] = await Promise.allSettled([
       fetchCountries({ limit: 200 }),
-      fetchAlumniList({ limit: 500 }),
+      fetchAlumniList({ limit: 2000 }),
     ])
 
     // Si les deux échouent, fallback vers les données mock
     if (countriesResult.status === 'rejected' && alumniResult.status === 'rejected') {
-      alumniData.value = mockAlumniData as any
+      alumniData.value = mockAlumniData
       loading.value = false
       return
     }
@@ -76,7 +76,7 @@ export function useAlumniMap() {
 
     // Si pas d'alumni, fallback mock
     if (alumnis.length === 0) {
-      alumniData.value = mockAlumniData as any
+      alumniData.value = mockAlumniData
       loading.value = false
       return
     }

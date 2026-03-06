@@ -1,97 +1,98 @@
+import type { MapCountryData } from '~/composables/useAlumniMap'
+
 // Pays principal (siège)
 export const mainCountry = 'ci'
 
-// Données mock des alumni par pays
-export const alumniData = {
+// Données mock de fallback (utilisées si l'API identity-service est indisponible)
+export const alumniData: Record<string, MapCountryData> = {
   ci: {
     id: 'ci',
     country: 'Côte d\'Ivoire',
-    city: 'Abidjan',
-    alumniCount: 120,
-    topCompanies: ['Orange CI', 'BICICI', 'CIE', 'SODECI', 'Bolloré'],
-    sectors: ['Télécoms', 'Banque', 'Énergie', 'Logistique'],
-    image: 'https://picsum.photos/400/200?random=1',
-    isMain: true
-  },
-  ma: {
-    id: 'ma',
-    country: 'Maroc',
-    city: 'Casablanca',
-    alumniCount: 35,
-    topCompanies: ['OCP Group', 'Attijariwafa Bank', 'Maroc Telecom'],
-    sectors: ['Industrie', 'Banque', 'Télécoms'],
-    image: 'https://picsum.photos/400/200?random=2'
-  },
-  tn: {
-    id: 'tn',
-    country: 'Tunisie',
-    city: 'Tunis',
-    alumniCount: 28,
-    topCompanies: ['Tunisie Telecom', 'BIAT', 'Groupe Poulina'],
-    sectors: ['Télécoms', 'Banque', 'Industrie'],
-    image: 'https://picsum.photos/400/200?random=3'
+    mainCity: 'Abidjan',
+    alumniCount: 850,
+    topSkills: ['Développement Web', 'Réseaux', 'Cybersécurité', 'Cloud Computing', 'Data Science'],
+    departments: ['Informatique', 'Télécoms', 'Digital'],
+    alumni: [],
   },
   fr: {
     id: 'fr',
     country: 'France',
-    city: 'Paris',
-    alumniCount: 22,
-    topCompanies: ['Orange', 'TotalEnergies', 'BNP Paribas'],
-    sectors: ['Finance', 'Énergie', 'Télécoms'],
-    image: 'https://picsum.photos/400/200?random=4'
+    mainCity: 'Paris',
+    alumniCount: 45,
+    topSkills: ['Cloud Computing', 'DevOps', 'Intelligence Artificielle'],
+    departments: ['Informatique', 'Télécoms'],
+    alumni: [],
+  },
+  ma: {
+    id: 'ma',
+    country: 'Maroc',
+    mainCity: 'Casablanca',
+    alumniCount: 35,
+    topSkills: ['Développement Web', 'Réseaux', 'Sécurité'],
+    departments: ['Informatique', 'Télécoms'],
+    alumni: [],
   },
   sn: {
     id: 'sn',
     country: 'Sénégal',
-    city: 'Dakar',
-    alumniCount: 18,
-    topCompanies: ['Sonatel', 'BCEAO', 'Port de Dakar'],
-    sectors: ['Télécoms', 'Banque', 'Logistique'],
-    image: 'https://picsum.photos/400/200?random=5'
+    mainCity: 'Dakar',
+    alumniCount: 28,
+    topSkills: ['Télécoms', 'Réseaux', 'Développement Mobile'],
+    departments: ['Télécoms', 'Informatique'],
+    alumni: [],
   },
-  be: {
-    id: 'be',
-    country: 'Belgique',
-    city: 'Bruxelles',
-    alumniCount: 12,
-    topCompanies: ['Commission Européenne', 'BNP Paribas Fortis'],
-    sectors: ['Institutions', 'Banque'],
-    image: 'https://picsum.photos/400/200?random=6'
+  tn: {
+    id: 'tn',
+    country: 'Tunisie',
+    mainCity: 'Tunis',
+    alumniCount: 22,
+    topSkills: ['Développement Web', 'Réseaux', 'Cloud'],
+    departments: ['Informatique', 'Télécoms'],
+    alumni: [],
   },
   ca: {
     id: 'ca',
     country: 'Canada',
-    city: 'Montréal',
-    alumniCount: 8,
-    topCompanies: ['Desjardins', 'Hydro-Québec', 'CGI'],
-    sectors: ['Banque', 'Énergie', 'Technologies'],
-    image: 'https://picsum.photos/400/200?random=7'
+    mainCity: 'Montréal',
+    alumniCount: 18,
+    topSkills: ['Intelligence Artificielle', 'Cloud', 'DevOps'],
+    departments: ['Informatique'],
+    alumni: [],
+  },
+  be: {
+    id: 'be',
+    country: 'Belgique',
+    mainCity: 'Bruxelles',
+    alumniCount: 12,
+    topSkills: ['Cybersécurité', 'Réseaux', 'Cloud'],
+    departments: ['Informatique', 'Télécoms'],
+    alumni: [],
   },
   cm: {
     id: 'cm',
     country: 'Cameroun',
-    city: 'Douala',
-    alumniCount: 6,
-    topCompanies: ['MTN Cameroon', 'Afriland First Bank'],
-    sectors: ['Télécoms', 'Banque'],
-    image: 'https://picsum.photos/400/200?random=8'
-  },
-  ch: {
-    id: 'ch',
-    country: 'Suisse',
-    city: 'Genève',
-    alumniCount: 5,
-    topCompanies: ['ONU', 'Nestlé', 'UBS'],
-    sectors: ['Institutions', 'Industrie', 'Finance'],
-    image: 'https://picsum.photos/400/200?random=9'
+    mainCity: 'Douala',
+    alumniCount: 10,
+    topSkills: ['Télécoms', 'Réseaux', 'Développement Web'],
+    departments: ['Télécoms', 'Informatique'],
+    alumni: [],
   },
   us: {
     id: 'us',
     country: 'États-Unis',
-    city: 'New York',
-    alumniCount: 4,
-    topCompanies: ['World Bank', 'Goldman Sachs'],
-    sectors: ['Institutions', 'Finance'],
-    image: 'https://picsum.photos/400/200?random=10'
-  }
+    mainCity: 'New York',
+    alumniCount: 8,
+    topSkills: ['Data Science', 'Cloud', 'Intelligence Artificielle'],
+    departments: ['Informatique'],
+    alumni: [],
+  },
+  ch: {
+    id: 'ch',
+    country: 'Suisse',
+    mainCity: 'Genève',
+    alumniCount: 6,
+    topSkills: ['Cybersécurité', 'Réseaux', 'Cloud'],
+    departments: ['Informatique', 'Télécoms'],
+    alumni: [],
+  },
 }
