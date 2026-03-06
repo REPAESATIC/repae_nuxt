@@ -8,6 +8,9 @@ useHead({
   ]
 })
 
+const { identityApiBase } = useRuntimeConfig().public
+const toast = useToast()
+
 // Données du formulaire
 const form = reactive({
   nom: '',
@@ -30,15 +33,28 @@ const isSubmitted = ref(false)
 
 const handleSubmit = async () => {
   isSubmitting.value = true
-  // Simulation d'envoi
-  await new Promise(resolve => setTimeout(resolve, 1500))
-  isSubmitting.value = false
-  isSubmitted.value = true
-  // Reset form
-  form.nom = ''
-  form.email = ''
-  form.sujet = ''
-  form.message = ''
+  try {
+    await $fetch(`${identityApiBase}/contact`, {
+      method: 'POST',
+      body: {
+        nom: form.nom,
+        email: form.email,
+        sujet: form.sujet,
+        message: form.message,
+      },
+    })
+    isSubmitted.value = true
+    toast.success('Message envoyé avec succès !')
+    form.nom = ''
+    form.email = ''
+    form.sujet = ''
+    form.message = ''
+  } catch (error) {
+    const msg = error && typeof error === 'object' && 'data' in error ? error.data?.message : null
+    toast.error(msg || 'Une erreur est survenue lors de l\'envoi du message.')
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 // Informations de contact
