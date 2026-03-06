@@ -15,13 +15,20 @@ import { partners } from '@/data/partners'
       </div>
 
       <div class="flex justify-center items-center gap-8 flex-wrap">
-        <img
+        <a
           v-for="partner in partners"
           :key="partner.id"
-          :src="partner.logo"
-          :alt="partner.name"
-          class="h-32 w-auto object-contain opacity-70 hover:opacity-100 transition-all dark:brightness-0 dark:invert"
-        />
+          :href="partner.website"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cursor-pointer rounded-xl p-4 dark:bg-white/10 dark:backdrop-blur-sm"
+        >
+          <img
+            :src="partner.logo"
+            :alt="partner.name"
+            class="h-32 w-auto object-contain opacity-70 hover:opacity-100 transition-all"
+          />
+        </a>
       </div>
     </div>
   </section>

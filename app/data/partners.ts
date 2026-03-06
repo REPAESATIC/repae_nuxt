@@ -1,24 +1,24 @@
-// Données mock des partenaires
+// Données des partenaires
 export const partners = [
   {
     id: 1,
-    name: 'Partenaire 1',
-    logo: '/image/logos_partenaires/partenaire1.png',
-    description: "École d'ingénieurs formant l'élite technologique",
-    website: '#'
+    name: 'ESATIC',
+    logo: '/image/logos_partenaires/ESATIC.webp',
+    description: "École Supérieure Africaine des Technologies de l'Information et de la Communication",
+    website: 'https://esatic.ci/'
   },
   {
     id: 2,
-    name: 'Partenaire 2',
-    logo: '/image/logos_partenaires/partenaire2.png',
-    description: 'Leader dans les solutions technologiques innovantes',
-    website: '#'
+    name: 'SLAM 2026',
+    logo: '/image/logos_partenaires/slam_logo.jpg',
+    description: 'SLAM 2026',
+    website: 'https://web.facebook.com/profile.php?id=61573859167927'
   },
   {
     id: 3,
-    name: 'Partenaire 3',
-    logo: '/image/logos_partenaires/partenaire3.png',
-    description: "Réseau national d'écoles d'ingénieurs",
-    website: '#'
+    name: 'COETRIC',
+    logo: '/image/logos_partenaires/coetric.webp',
+    description: 'COETRIC',
+    website: 'https://coetric.com/'
   }
 ]
