@@ -41,6 +41,17 @@ const formatValue = (stat) => {
 // Intersection Observer for stats
 let statsObserver = null
 
+// Expanded testimonials tracking
+const expandedCards = ref(new Set())
+
+const toggleExpand = (id) => {
+  if (expandedCards.value.has(id)) {
+    expandedCards.value.delete(id)
+  } else {
+    expandedCards.value.add(id)
+  }
+}
+
 // Pause on hover
 const isPaused = ref(false)
 
@@ -174,16 +185,28 @@ onUnmounted(() => {
               </div>
 
               <!-- Contenu du témoignage -->
-              <p class="text-repae-gray-600 dark:text-repae-gray-300 font-brand text-sm leading-relaxed mb-6">
-                "{{ testimonial.content }}"
-              </p>
+              <div class="mb-6">
+                <p
+                  class="text-repae-gray-600 dark:text-repae-gray-300 font-brand text-sm leading-relaxed"
+                  :class="{ 'line-clamp-4': !expandedCards.has(`row1-${index}`) }"
+                >
+                  "{{ testimonial.content }}"
+                </p>
+                <button
+                  v-if="testimonial.content.length > 150"
+                  class="text-repae-blue-500 dark:text-repae-blue-400 text-xs font-brand mt-1 cursor-pointer hover:underline"
+                  @click.stop="toggleExpand(`row1-${index}`)"
+                >
+                  {{ expandedCards.has(`row1-${index}`) ? 'Moins' : 'Plus' }}
+                </button>
+              </div>
 
               <!-- Auteur -->
               <div class="flex items-center mt-auto">
                 <img
                   :src="testimonial.image"
                   :alt="testimonial.name"
-                  class="w-12 h-12 rounded-full ring-2 ring-repae-blue-500/20 mr-4"
+                  class="w-12 h-12 rounded-full ring-2 ring-repae-blue-500/20 mr-4 object-cover"
                 >
                 <div>
                   <h4 class="font-bold text-repae-gray-900 dark:text-white font-brand text-sm">
@@ -221,16 +244,28 @@ onUnmounted(() => {
               </div>
 
               <!-- Contenu du témoignage -->
-              <p class="text-repae-gray-600 dark:text-repae-gray-300 font-brand text-sm leading-relaxed mb-6">
-                "{{ testimonial.content }}"
-              </p>
+              <div class="mb-6">
+                <p
+                  class="text-repae-gray-600 dark:text-repae-gray-300 font-brand text-sm leading-relaxed"
+                  :class="{ 'line-clamp-4': !expandedCards.has(`row2-${index}`) }"
+                >
+                  "{{ testimonial.content }}"
+                </p>
+                <button
+                  v-if="testimonial.content.length > 150"
+                  class="text-repae-blue-500 dark:text-repae-blue-400 text-xs font-brand mt-1 cursor-pointer hover:underline"
+                  @click.stop="toggleExpand(`row2-${index}`)"
+                >
+                  {{ expandedCards.has(`row2-${index}`) ? 'Moins' : 'Plus' }}
+                </button>
+              </div>
 
               <!-- Auteur -->
               <div class="flex items-center mt-auto">
                 <img
                   :src="testimonial.image"
                   :alt="testimonial.name"
-                  class="w-12 h-12 rounded-full ring-2 ring-repae-blue-500/20 mr-4"
+                  class="w-12 h-12 rounded-full ring-2 ring-repae-blue-500/20 mr-4 object-cover"
                 >
                 <div>
                   <h4 class="font-bold text-repae-gray-900 dark:text-white font-brand text-sm">
