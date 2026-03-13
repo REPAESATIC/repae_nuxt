@@ -52,4 +52,20 @@ export const testimonialsRow2 = [
     image: '/image/photos_temoignages/photo3.jpeg',
     content: 'Grâce au REPAE et son activité de afterwork, j\'ai pu étoffer mon carnet d\'adresses professionnelles. Gratitude et courage au réseau.',
   },
+  {
+    id: 6,
+    name: 'KONAN Ahoundjueh Daniela Priscille',
+    role: 'IT09',
+    company: 'Ingénieur Cyber Sécurité (PKI)',
+    image: '/image/photos_temoignages/Photo5.jpeg',
+    content: 'Lorsque je suis arrivée au Maroc, je ne connaissais personne. Les aînés du REPAE ont rapidement pris contact avec moi et m\'ont accueillie très chaleureusement. Grâce aux rencontres et aux échanges avec les alumni, j\'ai pu bénéficier de nombreux conseils qui m\'ont aidée à prendre mes marques, à mieux m\'adapter à mon nouvel environnement. Au-delà des échanges et de la convivialité, le REPAE c\'est aussi un véritable soutien professionnel. Partage d\'offres de stages, d\'opportunités d\'emploi… Je suis très heureuse de faire partie de ce réseau dynamique, aussi bien en Côte d\'Ivoire qu\'à l\'international. Merci à toutes celles et ceux qui œuvrent chaque jour à sa consolidation et à son rayonnement.',
+  },
+  {
+    id: 7,
+    name: 'Line Esther KOUASSI',
+    role: 'ITX',
+    company: 'Étudiante',
+    image: '/image/photos_temoignages/Photo6.jpeg',
+    content: 'Le REPAE a été un véritable soutien dans mon intégration au Maroc. Grâce à ce réseau, j\'ai pu rencontrer des personnes bienveillantes qui m\'ont conseillée et orientée, que ce soit sur le plan académique et professionnel. Les échanges avec les parrains m\'ont permis de mieux comprendre l\'environnement et de me sentir moins seule dans cette nouvelle expérience. Aujourd\'hui, je suis reconnaissante pour cet accompagnement qui contribue à rendre mon installation et mon parcours un peu plus agréables.',
+  },
 ]
