@@ -68,4 +68,12 @@ export const testimonialsRow2 = [
     image: '/image/photos_temoignages/Photo6.jpeg',
     content: 'Le REPAE a été un véritable soutien dans mon intégration au Maroc. Grâce à ce réseau, j\'ai pu rencontrer des personnes bienveillantes qui m\'ont conseillée et orientée, que ce soit sur le plan académique et professionnel. Les échanges avec les parrains m\'ont permis de mieux comprendre l\'environnement et de me sentir moins seule dans cette nouvelle expérience. Aujourd\'hui, je suis reconnaissante pour cet accompagnement qui contribue à rendre mon installation et mon parcours un peu plus agréables.',
   },
+  {
+    id: 8,
+    name: 'Nanlourougo Yaya COULIBALY',
+    role: 'ITX',
+    company: 'Étudiant Master Big Data et Intelligence Artificielle',
+    image: '/image/photos_temoignages/Photo7.jpeg',
+    content: 'J\'ai une reconnaissance grande envers le REPAE qui m\'a aidé de manière déterminante et sans délai dans ma procédure pour venir en France. Ce réseau s\'active aisément et s\'est montré utile dans l\'atteinte de ce qui a été toujours un objectif pour moi.',
+  },
 ]
