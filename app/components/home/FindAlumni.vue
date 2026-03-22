@@ -254,10 +254,16 @@ const selectCountryFromList = (data) => {
         <!-- Map Container -->
         <div ref="mapContainerRef" class="relative flex-1 bg-linear-to-br from-gray-50 to-gray-100 dark:from-repae-gray-700 dark:to-repae-gray-900 rounded-3xl p-4 lg:p-8 border border-gray-200/50 dark:border-repae-gray-600/50 shadow-xl lg:-mr-20 z-10">
           <!-- Instruction (top) -->
-          <p class="text-center text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-4">
+          <p class="text-center text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-2">
             <font-awesome-icon icon="fa-solid fa-hand-point-down" class="mr-1" />
             Cliquez sur un pays coloré pour voir les alumni
           </p>
+          <div class="flex justify-center mb-4">
+            <span class="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-lg py-1.5 px-3 inline-flex items-center gap-1.5">
+              <font-awesome-icon icon="fa-solid fa-circle-info" class="text-[10px]" />
+              Carte en cours d'enrichissement — données complètes bientôt disponibles
+            </span>
+          </div>
 
           <!-- Map -->
           <div class="map-container relative" @mousemove="handleMouseMove">

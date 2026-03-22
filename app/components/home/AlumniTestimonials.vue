@@ -123,7 +123,7 @@ onUnmounted(() => {
           <div class="stat-icon absolute -top-2 -right-2 text-white/20 text-6xl animate-pulse">
             <font-awesome-icon
               :icon="stat.key === 'members' ? 'fa-solid fa-users' :
-                     stat.key === 'adherents' ? 'fa-solid fa-user-check' :
+                     stat.key === 'countries' ? 'fa-solid fa-globe-africa' :
                      stat.key === 'insertionRate' ? 'fa-solid fa-chart-line' :
                      'fa-solid fa-trophy'"
             />

@@ -1,7 +1,7 @@
 // Statistiques réelles (recensement décembre 2024)
 export const stats = [
   { value: '+1115', label: 'Membres', numericValue: 1115, prefix: '+', suffix: '', key: 'members' },
-  { value: '+251', label: 'Membres adhérents', numericValue: 251, prefix: '+', suffix: '', key: 'adherents' },
+  { value: '+10', label: 'Pays de présence', numericValue: 10, prefix: '+', suffix: '', key: 'countries' },
   { value: '+75%', label: "Taux d'insertion", numericValue: 75, prefix: '+', suffix: '%', key: 'insertionRate' },
   { value: '13', label: 'Promotions', numericValue: 13, prefix: '', suffix: '', key: 'promotions' }
 ]
