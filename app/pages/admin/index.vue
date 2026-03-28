@@ -86,7 +86,7 @@ const loadDashboardData = async () => {
       recentEventsResult,
     ] = await Promise.all([
       // Compteurs
-      fetchAlumniList({ isVerified: true, limit: 1 }),
+      fetchAlumniList({ limit: 1 }),
       fetchAlumniList({ isVerified: false, limit: 1 }),
       fetchUsers({ limit: 1 }),
       fetchNewsList({ status: 'PUBLISHED', limit: 1 }),
