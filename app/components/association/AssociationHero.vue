@@ -10,7 +10,7 @@ defineProps({
   },
   backgroundImage: {
     type: String,
-    default: '/image/background/background-image-hero-section.jpg'
+    default: '/image/1_Proposition_Banniere_reduit.jpg'
   }
 })
 

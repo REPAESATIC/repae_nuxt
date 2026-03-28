@@ -14,7 +14,7 @@ onMounted(() => {
   <section class="relative min-h-[600px] pb-32 bg-gradient-to-br from-repae-gray-800 to-repae-gray-900 dark:from-repae-gray-900 dark:to-black overflow-hidden">
     <div
       class="absolute inset-0 bg-cover bg-center hero-background"
-      :style="{ backgroundImage: 'url(/image/hero_v2.jpeg)' }"
+      :style="{ backgroundImage: 'url(/image/1_Proposition_Banniere_reduit.jpg)' }"
     ></div>
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
