@@ -12,7 +12,7 @@ const realAlumniCount = ref<number | null>(null)
 
 onMounted(async () => {
   try {
-    const result = await fetchAlumniList({ limit: 1 })
+    const result = await fetchAlumniList({ limit: 1, isVerified: true })
     realAlumniCount.value = result.total
   } catch {
     // Fallback silencieux
