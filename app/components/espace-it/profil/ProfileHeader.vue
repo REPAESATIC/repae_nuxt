@@ -2,9 +2,12 @@
 import type { UserProfile } from '@/data/espace-it/user-profile'
 import { disponibiliteConfig } from '@/data/espace-it/user-profile'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   profile: UserProfile
-}>()
+  editable?: boolean
+}>(), {
+  editable: true,
+})
 
 const disponibilite = computed(() => disponibiliteConfig[props.profile.disponibilite])
 </script>
@@ -81,6 +84,7 @@ const disponibilite = computed(() => disponibiliteConfig[props.profile.disponibi
         <!-- Actions -->
         <div class="flex flex-wrap gap-2">
           <NuxtLink
+            v-if="props.editable"
             to="/espace-it/profil/edit"
             class="inline-flex items-center gap-2 px-4 py-2.5 bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-medium font-brand text-sm rounded-xl transition-colors"
           >
