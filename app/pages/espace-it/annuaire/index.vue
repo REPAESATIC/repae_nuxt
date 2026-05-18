@@ -55,6 +55,7 @@ const loadAlumni = async () => {
   try {
     const result = await fetchAlumniList({
       search: filters.search || undefined,
+      isVerified: true,
       promotionId: filters.promotionId || undefined,
       countryId: filters.countryId || undefined,
       isOpenToMentoring: filters.isOpenToMentoring ?? undefined,

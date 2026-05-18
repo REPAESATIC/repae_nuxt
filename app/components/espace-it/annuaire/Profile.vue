@@ -17,7 +17,7 @@ const props = defineProps<{
 <template>
   <div class="space-y-6">
     <!-- Profile Header -->
-    <EspaceItProfilProfileHeader :profile="profile" />
+    <EspaceItProfilProfileHeader :profile="profile" :editable="false" />
 
     <!-- Content Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

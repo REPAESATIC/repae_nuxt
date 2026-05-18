@@ -285,7 +285,7 @@ export interface UpdateAlumniPayload {
 
 export function useIdentityApi() {
   const config = useRuntimeConfig()
-  const baseUrl = config.public.identityApiBase as string
+  const baseUrl = (config.public.identityApiBase as string).replace(/\/+$/, '')
 
   // ─── Auth / Registration ────────────────────────────────────────────────────
 

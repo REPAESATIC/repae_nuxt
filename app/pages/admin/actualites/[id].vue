@@ -324,10 +324,6 @@ onUnmounted(() => {
             label="Contenu de l'actualite"
             placeholder="Redigez le contenu de l'actualite..."
           />
-          <p v-if="original.status !== 'DRAFT'" class="text-xs text-amber-500 mt-2">
-            <font-awesome-icon icon="fa-solid fa-info-circle" class="mr-1" />
-            Le contenu ne peut etre modifie que pour les brouillons.
-          </p>
         </div>
 
         <!-- Meta info -->

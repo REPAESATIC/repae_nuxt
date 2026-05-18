@@ -56,8 +56,8 @@ export const membresBureau: MembreBureau[] = [
   },
   {
     id: '6',
-    prenom: 'Amani Judicaël',
-    nom: 'KOFFI',
+    prenom: 'Koffi Judicaël',
+    nom: 'AMANI',
     poste: 'Secrétaire Général Adjoint',
     ordre_affichage: 6,
     actif: true

@@ -10,6 +10,49 @@ const emit = defineEmits<{
 const { isDark, toggle: toggleDarkMode } = useDarkMode()
 
 const route = useRoute()
+const router = useRouter()
+
+// ─── Menu utilisateur ────────────────────────────────────────────────────────
+
+const isUserMenuOpen = ref(false)
+const userMenuRef = ref<HTMLElement | null>(null)
+
+const toggleUserMenu = () => {
+  isUserMenuOpen.value = !isUserMenuOpen.value
+}
+
+const adminEmail = computed(() => {
+  if (import.meta.client) {
+    try {
+      const userData = localStorage.getItem('admin-user')
+      if (userData) return JSON.parse(userData).email
+    } catch {}
+  }
+  return 'admin@repae.ci'
+})
+
+const logout = () => {
+  localStorage.removeItem('admin-auth')
+  localStorage.removeItem('admin-token')
+  localStorage.removeItem('admin-user')
+  isUserMenuOpen.value = false
+  navigateTo('/connexion-admin')
+}
+
+// Fermer le menu au clic exterieur
+const onClickOutside = (e: MouseEvent) => {
+  if (userMenuRef.value && !userMenuRef.value.contains(e.target as Node)) {
+    isUserMenuOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', onClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', onClickOutside)
+})
 
 const pageTitle = computed(() => {
   const path = route.path
@@ -89,14 +132,83 @@ const pageTitle = computed(() => {
           />
         </button>
 
-        <!-- Admin avatar -->
-        <div class="flex items-center gap-3 p-1.5 pr-3 rounded-xl bg-gray-100 dark:bg-repae-gray-800">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
-            <font-awesome-icon icon="fa-solid fa-user-cog" class="text-white text-xs" />
-          </div>
-          <span class="hidden sm:block text-sm font-medium font-brand text-repae-gray-900 dark:text-white">
-            Admin
-          </span>
+        <!-- Admin avatar + menu -->
+        <div ref="userMenuRef" class="relative">
+          <button
+            class="flex items-center gap-3 p-1.5 pr-3 rounded-xl bg-gray-100 dark:bg-repae-gray-800 hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer"
+            @click="toggleUserMenu"
+          >
+            <div class="w-8 h-8 rounded-lg bg-linear-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+              <font-awesome-icon icon="fa-solid fa-user-cog" class="text-white text-xs" />
+            </div>
+            <span class="hidden sm:block text-sm font-medium font-brand text-repae-gray-900 dark:text-white">
+              Admin
+            </span>
+            <font-awesome-icon
+              icon="fa-solid fa-chevron-down"
+              :class="[
+                'hidden sm:block text-xs text-repae-gray-400 transition-transform duration-200',
+                isUserMenuOpen ? 'rotate-180' : ''
+              ]"
+            />
+          </button>
+
+          <!-- Dropdown menu -->
+          <Transition
+            enter-active-class="transition duration-150 ease-out"
+            enter-from-class="opacity-0 scale-95 -translate-y-1"
+            enter-to-class="opacity-100 scale-100 translate-y-0"
+            leave-active-class="transition duration-100 ease-in"
+            leave-from-class="opacity-100 scale-100 translate-y-0"
+            leave-to-class="opacity-0 scale-95 -translate-y-1"
+          >
+            <div
+              v-if="isUserMenuOpen"
+              class="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 shadow-xl overflow-hidden z-50"
+            >
+              <!-- Info admin -->
+              <div class="px-4 py-3 border-b border-gray-200 dark:border-repae-gray-700">
+                <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
+                  Administrateur
+                </p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 truncate">
+                  {{ adminEmail }}
+                </p>
+              </div>
+
+              <!-- Actions -->
+              <div class="py-1">
+                <NuxtLink
+                  to="/admin/parametres"
+                  class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-repae-gray-700/50 transition-colors cursor-pointer"
+                  @click="isUserMenuOpen = false"
+                >
+                  <font-awesome-icon icon="fa-solid fa-cog" class="text-repae-gray-400 w-4" />
+                  <span class="text-sm font-brand text-repae-gray-700 dark:text-repae-gray-300">Paramètres</span>
+                </NuxtLink>
+
+                <NuxtLink
+                  to="/"
+                  class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-repae-gray-700/50 transition-colors cursor-pointer"
+                  @click="isUserMenuOpen = false"
+                >
+                  <font-awesome-icon icon="fa-solid fa-arrow-left" class="text-repae-gray-400 w-4" />
+                  <span class="text-sm font-brand text-repae-gray-700 dark:text-repae-gray-300">Retour au site</span>
+                </NuxtLink>
+              </div>
+
+              <!-- Deconnexion -->
+              <div class="border-t border-gray-200 dark:border-repae-gray-700 py-1">
+                <button
+                  class="flex items-center gap-3 px-4 py-2.5 w-full hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer"
+                  @click="logout"
+                >
+                  <font-awesome-icon icon="fa-solid fa-sign-out-alt" class="text-red-500 w-4" />
+                  <span class="text-sm font-brand text-red-500">Déconnexion</span>
+                </button>
+              </div>
+            </div>
+          </Transition>
         </div>
       </div>
     </div>
