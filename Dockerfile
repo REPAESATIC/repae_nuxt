@@ -1,8 +1,8 @@
 # ─── Stage 1 : build ────────────────────────────────────────────────────────
 FROM node:22-alpine AS builder
 
-# Installer pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Installer pnpm (version figée pour éviter les changements de comportement)
+RUN corepack enable && corepack prepare pnpm@10.10.0 --activate
 
 WORKDIR /app
 
