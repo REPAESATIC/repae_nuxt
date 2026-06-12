@@ -331,7 +331,7 @@ onMounted(() => {
               @click="openJoinModal"
               class="block w-full px-4 py-3 bg-gradient-to-r from-repae-blue-500 to-repae-blue-600 text-white text-center font-semibold font-brand rounded-xl hover:shadow-lg transition-all cursor-pointer"
             >
-              Nous rejoindre
+              Nous rejoindre (s)
             </button>
           </div>
         </div>
