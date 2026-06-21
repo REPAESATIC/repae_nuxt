@@ -281,6 +281,18 @@ export interface UpdateAlumniPayload {
   promotionId?: string
 }
 
+// ─── Import Alumni (Excel/CSV) ───────────────────────────────────────────────
+
+export interface ImportAlumnisError {
+  row: number
+  error: string
+}
+
+export interface ImportAlumnisResult {
+  success: number
+  errors: ImportAlumnisError[]
+}
+
 // ─── Composable ────────────────────────────────────────────────────────────────
 
 export function useIdentityApi() {
@@ -539,6 +551,19 @@ export function useIdentityApi() {
     })
   }
 
+  // Import en masse d'alumni adherents via fichier Excel/CSV (admin)
+  const importAlumnis = async (file: File): Promise<ImportAlumnisResult> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    const formData = new FormData()
+    formData.append('file', file)
+    // Ne pas fixer Content-Type manuellement : $fetch gere le boundary multipart
+    return await $fetch<ImportAlumnisResult>(`${baseUrl}/alumnis/import`, {
+      method: 'POST',
+      body: formData,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+  }
+
   // ─── Promotions ──────────────────────────────────────────────────────────────
 
   const fetchPromotions = async (params?: {
@@ -687,6 +712,7 @@ export function useIdentityApi() {
     fetchAlumniList,
     fetchAlumni,
     verifyAlumni,
+    importAlumnis,
     fetchWorkExperiences,
     createWorkExperience,
     updateWorkExperience,

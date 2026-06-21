@@ -121,6 +121,14 @@ const formatDate = (date: string) => {
           {{ total }} alumni au total
         </p>
       </div>
+
+      <NuxtLink
+        to="/admin/alumni/import"
+        class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold text-sm transition-colors cursor-pointer shrink-0"
+      >
+        <font-awesome-icon icon="fa-solid fa-file-import" />
+        Importer des alumni
+      </NuxtLink>
     </div>
 
     <!-- Filters -->
