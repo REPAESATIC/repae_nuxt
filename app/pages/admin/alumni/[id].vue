@@ -36,9 +36,9 @@ const handleVerify = async () => {
   verifying.value = true
   try {
     alumni.value = await verifyAlumni(alumniId)
-    toast.success('Alumni verifie', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant verifie.`)
+    toast.success('Alumni vérifié', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant vérifié.`)
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de verifier cet alumni.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de vérifier cet alumni.')
   } finally {
     verifying.value = false
   }
@@ -49,9 +49,9 @@ const handleAdhere = async () => {
   adhering.value = true
   try {
     alumni.value = await adhereAlumni(alumniId)
-    toast.success('Adhesion validee', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant adherent.`)
+    toast.success('Adhésion validée', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant adhérent.`)
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adherent.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adhérent.')
   } finally {
     adhering.value = false
   }
@@ -67,9 +67,9 @@ const formatDate = (date: string) => {
 }
 
 const skillLevelConfig: Record<string, { label: string; class: string }> = {
-  BEGINNER: { label: 'Debutant', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
-  INTERMEDIATE: { label: 'Intermediaire', class: 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400' },
-  ADVANCED: { label: 'Avance', class: 'bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400' },
+  BEGINNER: { label: 'Débutant', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+  INTERMEDIATE: { label: 'Intermédiaire', class: 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400' },
+  ADVANCED: { label: 'Avancé', class: 'bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400' },
   EXPERT: { label: 'Expert', class: 'bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400' },
 }
 </script>
@@ -105,7 +105,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 ]"
               >
                 <font-awesome-icon :icon="alumni.isVerified ? 'fa-solid fa-circle-check' : 'fa-solid fa-clock'" class="text-[10px]" />
-                {{ alumni.isVerified ? 'Verifie' : 'Non verifie' }}
+                {{ alumni.isVerified ? 'Vérifié' : 'Non vérifié' }}
               </span>
               <span
                 :class="[
@@ -116,7 +116,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 ]"
               >
                 <font-awesome-icon :icon="alumni.isAdherent ? 'fa-solid fa-medal' : 'fa-solid fa-circle-xmark'" class="text-[10px]" />
-                {{ alumni.isAdherent ? 'Adherent' : 'Non adherent' }}
+                {{ alumni.isAdherent ? 'Adhérent' : 'Non adhérent' }}
               </span>
               <span v-if="alumni.isOpenToMentoring" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-400">
                 <font-awesome-icon icon="fa-solid fa-handshake" class="text-[10px]" />
@@ -136,7 +136,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               :icon="verifying ? 'fa-solid fa-spinner' : 'fa-solid fa-user-check'"
               :class="{ 'animate-spin': verifying }"
             />
-            {{ verifying ? 'Verification...' : 'Verifier ce profil' }}
+            {{ verifying ? 'Vérification...' : 'Vérifier ce profil' }}
           </button>
           <button
             v-if="!alumni.isAdherent"
@@ -148,7 +148,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               :icon="adhering ? 'fa-solid fa-spinner' : 'fa-solid fa-medal'"
               :class="{ 'animate-spin': adhering }"
             />
-            {{ adhering ? 'Validation...' : 'Marquer adherent' }}
+            {{ adhering ? 'Validation...' : 'Marquer adhérent' }}
           </button>
         </div>
       </div>
@@ -252,7 +252,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 <font-awesome-icon icon="fa-solid fa-phone" class="text-violet-500 text-xs" />
               </div>
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Telephone</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Téléphone</p>
                 <p class="text-sm font-medium text-repae-gray-900 dark:text-white">{{ alumni.phoneNumber }}</p>
               </div>
             </div>
@@ -290,7 +290,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 <font-awesome-icon icon="fa-solid fa-briefcase" class="text-violet-500 text-xs" />
               </div>
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Departement</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Département</p>
                 <p class="text-sm font-medium text-repae-gray-900 dark:text-white">{{ alumni.department }}</p>
               </div>
             </div>
@@ -320,7 +320,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 <font-awesome-icon icon="fa-solid fa-hashtag" class="text-emerald-500 text-xs" />
               </div>
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Reference</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Référence</p>
                 <p class="text-sm font-medium text-repae-gray-900 dark:text-white break-all">{{ alumni.paymentReference }}</p>
               </div>
             </div>
@@ -350,7 +350,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
         <!-- Skills -->
         <div v-if="alumni.skills && alumni.skills.length > 0" class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <h4 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
-            Competences
+            Compétences
           </h4>
           <div class="flex flex-wrap gap-2">
             <div
@@ -376,7 +376,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
         <!-- Meta -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <h4 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
-            Informations systeme
+            Informations système
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
             <div>
@@ -384,11 +384,11 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               <p class="font-medium text-repae-gray-900 dark:text-white font-mono text-xs mt-0.5">{{ alumni.userId }}</p>
             </div>
             <div>
-              <p class="text-repae-gray-500 dark:text-repae-gray-400">Cree le</p>
+              <p class="text-repae-gray-500 dark:text-repae-gray-400">Créé le</p>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">{{ formatDate(alumni.createdAt) }}</p>
             </div>
             <div>
-              <p class="text-repae-gray-500 dark:text-repae-gray-400">Modifie le</p>
+              <p class="text-repae-gray-500 dark:text-repae-gray-400">Modifié le</p>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">{{ formatDate(alumni.updatedAt) }}</p>
             </div>
           </div>

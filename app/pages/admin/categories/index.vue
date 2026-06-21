@@ -31,7 +31,7 @@ const loadCategories = async () => {
     const result = await fetchCategories()
     categories.value = result.data
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de charger les categories.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de charger les catégories.')
   } finally {
     loading.value = false
   }
@@ -79,7 +79,7 @@ const submit = async () => {
         hexColor: form.hexColor,
         bgHexColor: form.bgHexColor,
       })
-      toast.success('Categorie modifiee', `"${form.name}" a ete mise a jour.`)
+      toast.success('Catégorie modifiée', `"${form.name}" a été mise à jour.`)
     } else {
       await createCategory({
         name: form.name,
@@ -87,12 +87,12 @@ const submit = async () => {
         hexColor: form.hexColor,
         bgHexColor: form.bgHexColor,
       })
-      toast.success('Categorie creee', `"${form.name}" a ete ajoutee.`)
+      toast.success('Catégorie créée', `"${form.name}" a été ajoutée.`)
     }
     closeModal()
     await loadCategories()
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de sauvegarder la categorie.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de sauvegarder la catégorie.')
   } finally {
     saving.value = false
   }
@@ -105,10 +105,10 @@ const submit = async () => {
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
       <div>
         <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white">
-          Categories
+          Catégories
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-          Gerez les categories du contenu (actualites, evenements)
+          Gérez les catégories du contenu (actualités, événements)
         </p>
       </div>
       <button
@@ -116,7 +116,7 @@ const submit = async () => {
         @click="openCreate"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Nouvelle categorie
+        Nouvelle catégorie
       </button>
     </div>
 
@@ -134,17 +134,17 @@ const submit = async () => {
         <font-awesome-icon icon="fa-solid fa-tag" class="text-violet-500 text-2xl" />
       </div>
       <h3 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-        Aucune categorie
+        Aucune catégorie
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-6">
-        Creez votre premiere categorie pour organiser votre contenu.
+        Créez votre première catégorie pour organiser votre contenu.
       </p>
       <button
         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
         @click="openCreate"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Creer une categorie
+        Créer une catégorie
       </button>
     </div>
 
@@ -221,7 +221,7 @@ const submit = async () => {
             <!-- Header -->
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-repae-gray-700">
               <h3 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white">
-                {{ editingCategory ? 'Modifier la categorie' : 'Nouvelle categorie' }}
+                {{ editingCategory ? 'Modifier la catégorie' : 'Nouvelle catégorie' }}
               </h3>
               <button
                 class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer"
@@ -254,7 +254,7 @@ const submit = async () => {
                 <input
                   v-model="form.slug"
                   type="text"
-                  placeholder="Genere automatiquement si vide"
+                  placeholder="Généré automatiquement si vide"
                   class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
                 />
               </div>
@@ -302,13 +302,13 @@ const submit = async () => {
               <!-- Preview -->
               <div>
                 <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-                  Apercu
+                  Aperçu
                 </label>
                 <div
                   class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold"
                   :style="{ backgroundColor: form.bgHexColor, color: form.hexColor }"
                 >
-                  {{ form.name || 'Categorie' }}
+                  {{ form.name || 'Catégorie' }}
                 </div>
               </div>
 
@@ -330,7 +330,7 @@ const submit = async () => {
                     :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
                     :class="{ 'animate-spin': saving }"
                   />
-                  {{ saving ? 'Enregistrement...' : (editingCategory ? 'Modifier' : 'Creer') }}
+                  {{ saving ? 'Enregistrement...' : (editingCategory ? 'Modifier' : 'Créer') }}
                 </button>
               </div>
             </form>

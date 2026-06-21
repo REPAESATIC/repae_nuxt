@@ -64,8 +64,8 @@ const handleToggleStatus = async (item: UserItem) => {
     const newStatus = item.status === 'BANNED' ? 'PENDING' : 'BANNED'
     await updateUser(item.id, { status: newStatus })
     toast.success(
-      newStatus === 'BANNED' ? 'Compte banni' : 'Compte reactive',
-      `Le compte ${item.email} a ete ${newStatus === 'BANNED' ? 'banni' : 'reactive'}.`,
+      newStatus === 'BANNED' ? 'Compte banni' : 'Compte réactivé',
+      `Le compte ${item.email} a été ${newStatus === 'BANNED' ? 'banni' : 'réactivé'}.`,
     )
     await loadComptes()
   } catch (e: any) {
@@ -80,7 +80,7 @@ const handleToggleStatus = async (item: UserItem) => {
 const roleConfig: Record<string, { label: string; class: string }> = {
   ADMIN: { label: 'Admin', class: 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400' },
   ALUMNI: { label: 'Alumni', class: 'bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400' },
-  STUDENT: { label: 'Etudiant', class: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400' },
+  STUDENT: { label: 'Étudiant', class: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400' },
 }
 
 const statusConfig: Record<string, { label: string; icon: string; class: string }> = {
@@ -141,10 +141,10 @@ const formatDate = (date: string | null | undefined) => {
         v-model="roleFilter"
         class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
       >
-        <option value="">Tous les roles</option>
+        <option value="">Tous les rôles</option>
         <option value="ADMIN">Admin</option>
         <option value="ALUMNI">Alumni</option>
-        <option value="STUDENT">Etudiant</option>
+        <option value="STUDENT">Étudiant</option>
       </select>
 
       <!-- Status filter -->
@@ -176,7 +176,7 @@ const formatDate = (date: string | null | undefined) => {
         Aucun compte
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-        {{ searchQuery || roleFilter || statusFilter ? 'Aucun resultat pour ces filtres.' : 'Aucun compte utilisateur enregistre pour le moment.' }}
+        {{ searchQuery || roleFilter || statusFilter ? 'Aucun résultat pour ces filtres.' : 'Aucun compte utilisateur enregistré pour le moment.' }}
       </p>
       <NuxtLink
         v-if="!searchQuery && !roleFilter && !statusFilter"
@@ -184,7 +184,7 @@ const formatDate = (date: string | null | undefined) => {
         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Creer un compte
+        Créer un compte
       </NuxtLink>
     </div>
 
@@ -198,16 +198,16 @@ const formatDate = (date: string | null | undefined) => {
                 Utilisateur
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
-                Role
+                Rôle
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
                 Statut
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden md:table-cell">
-                Derniere connexion
+                Dernière connexion
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden lg:table-cell">
-                Date creation
+                Date création
               </th>
               <th class="px-6 py-4" />
             </tr>
@@ -260,14 +260,14 @@ const formatDate = (date: string | null | undefined) => {
                 </span>
               </td>
 
-              <!-- Derniere connexion -->
+              <!-- Dernière connexion -->
               <td class="px-6 py-4 hidden md:table-cell">
                 <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
                   {{ formatDate(item.lastLogin) }}
                 </span>
               </td>
 
-              <!-- Date creation -->
+              <!-- Date création -->
               <td class="px-6 py-4 hidden lg:table-cell">
                 <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
                   {{ formatDate(item.createdAt) }}

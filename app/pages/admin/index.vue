@@ -148,7 +148,7 @@ const stats = computed<AdminDashboardStat[]>(() => [
   },
   {
     id: 'actualites',
-    label: 'Actualites publiees',
+    label: 'Actualités publiées',
     value: String(newsCount.value),
     icon: 'fa-solid fa-bullhorn',
     color: 'orange',
@@ -156,7 +156,7 @@ const stats = computed<AdminDashboardStat[]>(() => [
   },
   {
     id: 'evenements',
-    label: 'Evenements',
+    label: 'Événements',
     value: String(eventsCount.value),
     icon: 'fa-solid fa-calendar-alt',
     color: 'amber',
@@ -164,11 +164,11 @@ const stats = computed<AdminDashboardStat[]>(() => [
   },
   {
     id: 'verifications',
-    label: 'En attente de verification',
+    label: 'En attente de vérification',
     value: String(pendingVerifications.value),
     icon: 'fa-solid fa-hourglass-half',
     color: 'red',
-    trend: pendingVerifications.value > 0 ? 'A traiter' : undefined,
+    trend: pendingVerifications.value > 0 ? 'À traiter' : undefined,
     href: '/admin/alumni',
   },
 ])
@@ -178,8 +178,8 @@ const stats = computed<AdminDashboardStat[]>(() => [
 const overviewItems = computed(() => [
   { label: 'Alumni', value: alumniCount.value, icon: 'fa-solid fa-user-graduate', color: 'text-violet-500', href: '/admin/alumni' },
   { label: 'Comptes', value: usersCount.value, icon: 'fa-solid fa-users', color: 'text-repae-blue-500', href: '/admin/comptes' },
-  { label: 'Actualites', value: newsCount.value, icon: 'fa-solid fa-bullhorn', color: 'text-orange-500', href: '/admin/actualites' },
-  { label: 'Evenements', value: eventsCount.value, icon: 'fa-solid fa-calendar-alt', color: 'text-amber-500', href: '/admin/evenements' },
+  { label: 'Actualités', value: newsCount.value, icon: 'fa-solid fa-bullhorn', color: 'text-orange-500', href: '/admin/actualites' },
+  { label: 'Événements', value: eventsCount.value, icon: 'fa-solid fa-calendar-alt', color: 'text-amber-500', href: '/admin/evenements' },
   { label: 'Entreprises', value: entreprisesCount.value, icon: 'fa-solid fa-building', color: 'text-green-500', href: '/admin/entreprises' },
 ])
 
@@ -192,7 +192,7 @@ const formatRelativeDate = (dateStr: string): string => {
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
-  if (diffHours < 1) return 'A l\'instant'
+  if (diffHours < 1) return 'À l\'instant'
   if (diffHours < 24) return `Il y a ${diffHours}h`
   if (diffDays === 1) return 'Hier'
   if (diffDays < 7) return `Il y a ${diffDays} jours`
@@ -252,7 +252,7 @@ onMounted(() => {
       <div class="bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white">
-            Activite recente
+            Activité récente
           </h2>
           <span class="text-xs text-repae-gray-400 dark:text-repae-gray-500">
             Derniers ajouts
@@ -288,7 +288,7 @@ onMounted(() => {
         <div v-if="recentActivity.length === 0" class="text-center py-6">
           <font-awesome-icon icon="fa-solid fa-inbox" class="text-3xl text-repae-gray-300 dark:text-repae-gray-600 mb-2" />
           <p class="text-sm text-repae-gray-400 dark:text-repae-gray-500 font-brand">
-            Aucune activite recente
+            Aucune activité récente
           </p>
         </div>
       </div>
@@ -332,7 +332,7 @@ onMounted(() => {
             to="/admin/parametres"
             class="text-sm text-violet-500 hover:text-violet-600 font-medium font-brand inline-flex items-center gap-2"
           >
-            Parametres de la plateforme
+            Paramètres de la plateforme
             <font-awesome-icon icon="fa-solid fa-arrow-right" />
           </NuxtLink>
         </div>

@@ -36,7 +36,7 @@ const loadNews = async () => {
     news.value = result.data
     total.value = result.total
   } catch (e: any) {
-    toast.error('Erreur de chargement', e?.data?.message || 'Impossible de charger les actualites.')
+    toast.error('Erreur de chargement', e?.data?.message || 'Impossible de charger les actualités.')
   } finally {
     loading.value = false
   }
@@ -72,8 +72,8 @@ const getCategoryName = (categoryId: string) => {
 
 const statusConfig: Record<string, { label: string; class: string }> = {
   DRAFT: { label: 'Brouillon', class: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-400' },
-  PUBLISHED: { label: 'Publie', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
-  ARCHIVED: { label: 'Archive', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+  PUBLISHED: { label: 'Publié', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
+  ARCHIVED: { label: 'Archivé', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
 }
 
 const formatDate = (date: string) => {
@@ -91,10 +91,10 @@ const formatDate = (date: string) => {
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
       <div>
         <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white">
-          Actualites
+          Actualités
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-          {{ total }} actualite{{ total > 1 ? 's' : '' }} au total
+          {{ total }} actualité{{ total > 1 ? 's' : '' }} au total
         </p>
       </div>
       <NuxtLink
@@ -102,7 +102,7 @@ const formatDate = (date: string) => {
         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Nouvelle actualite
+        Nouvelle actualité
       </NuxtLink>
     </div>
 
@@ -117,7 +117,7 @@ const formatDate = (date: string) => {
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="Rechercher une actualite..."
+          placeholder="Rechercher une actualité..."
           class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
         />
       </div>
@@ -129,8 +129,8 @@ const formatDate = (date: string) => {
       >
         <option value="">Tous les statuts</option>
         <option value="DRAFT">Brouillon</option>
-        <option value="PUBLISHED">Publie</option>
-        <option value="ARCHIVED">Archive</option>
+        <option value="PUBLISHED">Publié</option>
+        <option value="ARCHIVED">Archivé</option>
       </select>
 
       <!-- Category filter -->
@@ -138,7 +138,7 @@ const formatDate = (date: string) => {
         v-model="categoryFilter"
         class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
       >
-        <option value="">Toutes les categories</option>
+        <option value="">Toutes les catégories</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.id">
           {{ cat.name }}
         </option>
@@ -159,10 +159,10 @@ const formatDate = (date: string) => {
         <font-awesome-icon icon="fa-solid fa-bullhorn" class="text-violet-500 text-2xl" />
       </div>
       <h3 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-        Aucune actualite
+        Aucune actualité
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-6">
-        {{ searchQuery || statusFilter || categoryFilter ? 'Aucun resultat pour ces filtres.' : 'Commencez par creer votre premiere actualite.' }}
+        {{ searchQuery || statusFilter || categoryFilter ? 'Aucun résultat pour ces filtres.' : 'Commencez par créer votre première actualité.' }}
       </p>
       <NuxtLink
         v-if="!searchQuery && !statusFilter && !categoryFilter"
@@ -170,7 +170,7 @@ const formatDate = (date: string) => {
         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Creer une actualite
+        Créer une actualité
       </NuxtLink>
     </div>
 
@@ -181,10 +181,10 @@ const formatDate = (date: string) => {
           <thead>
             <tr class="border-b border-gray-200 dark:border-repae-gray-700">
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider">
-                Actualite
+                Actualité
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden md:table-cell">
-                Categorie
+                Catégorie
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
                 Statut
@@ -224,7 +224,7 @@ const formatDate = (date: string) => {
                     </p>
                     <p v-if="item.isFeatured" class="text-xs text-amber-500 font-medium mt-0.5">
                       <font-awesome-icon icon="fa-solid fa-star" class="mr-1" />
-                      A la une
+                      À la une
                     </p>
                   </div>
                 </div>

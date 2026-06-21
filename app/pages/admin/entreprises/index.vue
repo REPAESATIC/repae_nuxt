@@ -68,12 +68,12 @@ const handleVerify = async (item: CurrentEntreprise) => {
     const found = entreprisesMock.find(e => e.id === item.id)
     if (found) found.verifie = !found.verifie
     toast.success(
-      found?.verifie ? 'Entreprise verifiee' : 'Verification retiree',
-      `${item.nom} a ete ${found?.verifie ? 'verifiee' : 'deverifiee'} avec succes.`,
+      found?.verifie ? 'Entreprise vérifiée' : 'Vérification retirée',
+      `${item.nom} a été ${found?.verifie ? 'vérifiée' : 'dévérifiée'} avec succès.`,
     )
     await loadEntreprises()
   } catch {
-    toast.error('Erreur', 'Impossible de modifier le statut de verification.')
+    toast.error('Erreur', 'Impossible de modifier le statut de vérification.')
   } finally {
     verifying.value = null
   }
@@ -81,8 +81,8 @@ const handleVerify = async (item: CurrentEntreprise) => {
 
 // Helpers
 const verifiedConfig: Record<string, { label: string; class: string }> = {
-  true: { label: 'Verifiee', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
-  false: { label: 'Non verifiee', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
+  true: { label: 'Vérifiée', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
+  false: { label: 'Non vérifiée', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
 }
 
 const tailleConfig: Record<string, { label: string; class: string }> = {
@@ -150,8 +150,8 @@ const formatDate = (date: string) => {
         class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
       >
         <option value="">Tous les statuts</option>
-        <option value="true">Verifiee</option>
-        <option value="false">Non verifiee</option>
+        <option value="true">Vérifiée</option>
+        <option value="false">Non vérifiée</option>
       </select>
 
       <!-- Taille filter -->
@@ -194,7 +194,7 @@ const formatDate = (date: string) => {
         Aucune entreprise
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-        {{ searchQuery || verifiedFilter || tailleFilter || secteurFilter ? 'Aucun resultat pour ces filtres.' : 'Aucune entreprise partenaire enregistree pour le moment.' }}
+        {{ searchQuery || verifiedFilter || tailleFilter || secteurFilter ? 'Aucun résultat pour ces filtres.' : 'Aucune entreprise partenaire enregistrée pour le moment.' }}
       </p>
       <NuxtLink
         v-if="!searchQuery && !verifiedFilter && !tailleFilter && !secteurFilter"
@@ -202,7 +202,7 @@ const formatDate = (date: string) => {
         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Creer une entreprise
+        Créer une entreprise
       </NuxtLink>
     </div>
 
@@ -339,7 +339,7 @@ const formatDate = (date: string) => {
                       :icon="verifying === item.id ? 'fa-solid fa-spinner' : (item.verifie ? 'fa-solid fa-times-circle' : 'fa-solid fa-check-circle')"
                       :class="{ 'animate-spin': verifying === item.id }"
                     />
-                    {{ item.verifie ? 'Deverifier' : 'Verifier' }}
+                    {{ item.verifie ? 'Dévérifier' : 'Vérifier' }}
                   </button>
                 </div>
               </td>

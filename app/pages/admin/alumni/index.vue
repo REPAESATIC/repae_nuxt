@@ -89,10 +89,10 @@ const handleVerify = async (item: AlumniItem) => {
   verifying.value = item.id
   try {
     await verifyAlumni(item.id)
-    toast.success('Alumni verifie', `${item.firstName} ${item.lastName} a ete verifie avec succes.`)
+    toast.success('Alumni vérifié', `${item.firstName} ${item.lastName} a été vérifié avec succès.`)
     await loadAlumni()
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de verifier cet alumni.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de vérifier cet alumni.')
   } finally {
     verifying.value = null
   }
@@ -102,10 +102,10 @@ const handleAdhere = async (item: AlumniItem) => {
   adhering.value = item.id
   try {
     await adhereAlumni(item.id)
-    toast.success('Adhesion validee', `${item.firstName} ${item.lastName} est maintenant adherent.`)
+    toast.success('Adhésion validée', `${item.firstName} ${item.lastName} est maintenant adhérent.`)
     await loadAlumni()
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adherent.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adhérent.')
   } finally {
     adhering.value = null
   }
@@ -113,13 +113,13 @@ const handleAdhere = async (item: AlumniItem) => {
 
 // Helpers
 const verifiedConfig: Record<string, { label: string; class: string }> = {
-  true: { label: 'Verifie', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
-  false: { label: 'Non verifie', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
+  true: { label: 'Vérifié', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
+  false: { label: 'Non vérifié', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
 }
 
 const adherentConfig: Record<string, { label: string; class: string }> = {
-  true: { label: 'Adherent', class: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400' },
-  false: { label: 'Non adherent', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+  true: { label: 'Adhérent', class: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400' },
+  false: { label: 'Non adhérent', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
 }
 
 const formatDate = (date: string) => {
@@ -175,8 +175,8 @@ const formatDate = (date: string) => {
         class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
       >
         <option value="">Tous les statuts</option>
-        <option value="true">Verifie</option>
-        <option value="false">Non verifie</option>
+        <option value="true">Vérifié</option>
+        <option value="false">Non vérifié</option>
       </select>
 
       <!-- Adherent filter -->
@@ -184,9 +184,9 @@ const formatDate = (date: string) => {
         v-model="adherentFilter"
         class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
       >
-        <option value="">Adhesion : tous</option>
-        <option value="true">Adherent</option>
-        <option value="false">Non adherent</option>
+        <option value="">Adhésion : tous</option>
+        <option value="true">Adhérent</option>
+        <option value="false">Non adhérent</option>
       </select>
 
       <!-- Promotion filter -->
@@ -205,7 +205,7 @@ const formatDate = (date: string) => {
         v-model="departmentFilter"
         class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
       >
-        <option value="">Tous les departements</option>
+        <option value="">Tous les départements</option>
         <option v-for="dept in departments" :key="dept.id" :value="dept.id">
           {{ dept.name }}{{ dept.acronym ? ` (${dept.acronym})` : '' }}
         </option>
@@ -240,7 +240,7 @@ const formatDate = (date: string) => {
         Aucun alumni
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
-        {{ searchQuery || verifiedFilter || adherentFilter || promotionFilter || departmentFilter || countryFilter ? 'Aucun resultat pour ces filtres.' : 'Aucun profil alumni enregistre pour le moment.' }}
+        {{ searchQuery || verifiedFilter || adherentFilter || promotionFilter || departmentFilter || countryFilter ? 'Aucun résultat pour ces filtres.' : 'Aucun profil alumni enregistré pour le moment.' }}
       </p>
     </div>
 
@@ -257,13 +257,13 @@ const formatDate = (date: string) => {
                 Promotion
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden md:table-cell">
-                Departement
+                Département
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
                 Statut
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
-                Adhesion
+                Adhésion
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden lg:table-cell">
                 Date
@@ -309,7 +309,7 @@ const formatDate = (date: string) => {
                 </span>
               </td>
 
-              <!-- Departement -->
+              <!-- Département -->
               <td class="px-6 py-4 hidden md:table-cell">
                 <span class="text-sm text-repae-gray-600 dark:text-repae-gray-300">
                   {{ item.department || '-' }}
@@ -328,7 +328,7 @@ const formatDate = (date: string) => {
                 </span>
               </td>
 
-              <!-- Adhesion -->
+              <!-- Adhésion -->
               <td class="px-6 py-4 hidden sm:table-cell">
                 <span
                   :class="[
@@ -367,7 +367,7 @@ const formatDate = (date: string) => {
                       :icon="verifying === item.id ? 'fa-solid fa-spinner' : 'fa-solid fa-user-check'"
                       :class="{ 'animate-spin': verifying === item.id }"
                     />
-                    Verifier
+                    Vérifier
                   </button>
                   <button
                     v-if="!item.isAdherent"
@@ -379,7 +379,7 @@ const formatDate = (date: string) => {
                       :icon="adhering === item.id ? 'fa-solid fa-spinner' : 'fa-solid fa-medal'"
                       :class="{ 'animate-spin': adhering === item.id }"
                     />
-                    Adherer
+                    Adhérer
                   </button>
                 </div>
               </td>

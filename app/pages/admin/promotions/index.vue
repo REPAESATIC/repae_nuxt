@@ -60,7 +60,7 @@ const closeModal = () => {
 // Submit
 const submit = async () => {
   if (!form.year || form.year < 1900 || form.year > 2100) {
-    toast.warning('Annee invalide', 'L\'annee doit etre entre 1900 et 2100.')
+    toast.warning('Année invalide', 'L\'année doit être entre 1900 et 2100.')
     return
   }
 
@@ -71,20 +71,20 @@ const submit = async () => {
         year: form.year,
         nickname: form.nickname.trim() || null,
       })
-      toast.success('Promotion modifiee', `La promotion ${form.year} a ete mise a jour.`)
+      toast.success('Promotion modifiée', `La promotion ${form.year} a été mise à jour.`)
     } else {
       await createPromotion({
         year: form.year,
         nickname: form.nickname.trim() || undefined,
       })
-      toast.success('Promotion creee', `La promotion ${form.year} a ete ajoutee.`)
+      toast.success('Promotion créée', `La promotion ${form.year} a été ajoutée.`)
     }
     closeModal()
     await loadPromotions()
   } catch (e: any) {
     const status = e?.response?.status || e?.statusCode
     if (status === 409) {
-      toast.error('Conflit', `Une promotion avec l'annee ${form.year} existe deja.`)
+      toast.error('Conflit', `Une promotion avec l'année ${form.year} existe déjà.`)
     } else {
       toast.error('Erreur', e?.data?.message || 'Impossible de sauvegarder la promotion.')
     }
@@ -112,7 +112,7 @@ const formatDate = (date: string) => {
           Promotions
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-          Gerez les promotions de l'ESATIC (annee, surnom)
+          Gérez les promotions de l'ESATIC (année, surnom)
         </p>
       </div>
       <button
@@ -141,14 +141,14 @@ const formatDate = (date: string) => {
         Aucune promotion
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-6">
-        Creez votre premiere promotion pour les alumni.
+        Créez votre première promotion pour les alumni.
       </p>
       <button
         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
         @click="openCreate"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Creer une promotion
+        Créer une promotion
       </button>
     </div>
 
@@ -184,7 +184,7 @@ const formatDate = (date: string) => {
         </div>
 
         <div class="text-xs text-repae-gray-500 dark:text-repae-gray-400">
-          <span class="font-medium text-repae-gray-600 dark:text-repae-gray-300">Creee le :</span>
+          <span class="font-medium text-repae-gray-600 dark:text-repae-gray-300">Créée le :</span>
           {{ formatDate(promo.createdAt) }}
         </div>
       </div>
@@ -230,7 +230,7 @@ const formatDate = (date: string) => {
               <!-- Year -->
               <div>
                 <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-                  Annee *
+                  Année *
                 </label>
                 <input
                   v-model.number="form.year"
@@ -256,14 +256,14 @@ const formatDate = (date: string) => {
                   class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
                 />
                 <p class="text-xs text-repae-gray-400 mt-1">
-                  Optionnel. Un surnom donne a la promotion (max 100 caracteres).
+                  Optionnel. Un surnom donné à la promotion (max 100 caractères).
                 </p>
               </div>
 
               <!-- Preview -->
               <div>
                 <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-                  Apercu
+                  Aperçu
                 </label>
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-100 dark:bg-violet-500/15">
                   <font-awesome-icon icon="fa-solid fa-flag" class="text-violet-500 text-sm" />
@@ -291,7 +291,7 @@ const formatDate = (date: string) => {
                     :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
                     :class="{ 'animate-spin': saving }"
                   />
-                  {{ saving ? 'Enregistrement...' : (editingPromotion ? 'Modifier' : 'Creer') }}
+                  {{ saving ? 'Enregistrement...' : (editingPromotion ? 'Modifier' : 'Créer') }}
                 </button>
               </div>
             </form>

@@ -39,7 +39,7 @@ const isValidFile = (f: File) => {
 
 const setFile = (f: File) => {
   if (!isValidFile(f)) {
-    toast.error('Format invalide', 'Veuillez selectionner un fichier Excel (.xlsx, .xls) ou CSV (.csv).')
+    toast.error('Format invalide', 'Veuillez sélectionner un fichier Excel (.xlsx, .xls) ou CSV (.csv).')
     return
   }
   file.value = f
@@ -87,7 +87,7 @@ const downloadTemplate = () => {
 
 const submit = async () => {
   if (!file.value) {
-    toast.warning('Aucun fichier', 'Veuillez selectionner un fichier a importer.')
+    toast.warning('Aucun fichier', 'Veuillez sélectionner un fichier à importer.')
     return
   }
   importing.value = true
@@ -96,11 +96,11 @@ const submit = async () => {
     const res = await importAlumnis(file.value)
     result.value = res
     if (res.errors.length === 0) {
-      toast.success('Import termine', `${res.success} alumni importe(s) avec succes.`)
+      toast.success('Import terminé', `${res.success} alumni importé(s) avec succès.`)
     } else if (res.success > 0) {
-      toast.warning('Import partiel', `${res.success} importe(s), ${res.errors.length} en erreur.`)
+      toast.warning('Import partiel', `${res.success} importé(s), ${res.errors.length} en erreur.`)
     } else {
-      toast.error('Import echoue', `Aucun alumni importe. ${res.errors.length} erreur(s).`)
+      toast.error('Import échoué', `Aucun alumni importé. ${res.errors.length} erreur(s).`)
     }
   } catch (e: any) {
     toast.error('Erreur', e?.data?.message || "Impossible d'importer le fichier.")
@@ -130,7 +130,7 @@ const importAnother = () => {
             Importer des alumni
           </h2>
           <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-            Importez en masse les alumni ayant paye leur droit d'adhesion via un fichier Excel ou CSV.
+            Importez en masse les alumni ayant payé leur droit d'adhésion via un fichier Excel ou CSV.
           </p>
         </div>
       </div>
@@ -159,10 +159,10 @@ const importAnother = () => {
           </div>
           <div class="flex-1">
             <h3 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white">
-              Import termine
+              Import terminé
             </h3>
             <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-              <span class="font-semibold text-green-600 dark:text-green-400">{{ result.success }}</span> alumni importe(s),
+              <span class="font-semibold text-green-600 dark:text-green-400">{{ result.success }}</span> alumni importé(s),
               <span class="font-semibold text-red-600 dark:text-red-400">{{ result.errors.length }}</span> erreur(s).
             </p>
           </div>
@@ -238,12 +238,12 @@ const importAnother = () => {
             @click="downloadTemplate"
           >
             <font-awesome-icon icon="fa-solid fa-download" />
-            Modele CSV
+            Modèle CSV
           </button>
         </div>
 
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-          La premiere ligne du fichier doit contenir les en-tetes. Les alumni importes sont automatiquement marques comme adherents.
+          La première ligne du fichier doit contenir les en-têtes. Les alumni importés sont automatiquement marqués comme adhérents.
         </p>
 
         <div class="flex flex-wrap gap-2">
@@ -288,10 +288,10 @@ const importAnother = () => {
             <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-violet-500 text-2xl" />
           </div>
           <p class="text-sm font-semibold text-repae-gray-900 dark:text-white mb-1">
-            Glissez-deposez votre fichier ici
+            Glissez-déposez votre fichier ici
           </p>
           <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-            Formats acceptes : Excel (.xlsx, .xls) ou CSV (.csv)
+            Formats acceptés : Excel (.xlsx, .xls) ou CSV (.csv)
           </p>
           <button
             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold transition-colors cursor-pointer"

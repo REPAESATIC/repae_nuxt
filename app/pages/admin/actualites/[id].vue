@@ -30,8 +30,8 @@ const form = reactive({
 
 const statusOptions = [
   { value: 'DRAFT', label: 'Brouillon', icon: 'fa-solid fa-file-pen', class: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400' },
-  { value: 'PUBLISHED', label: 'Publie', icon: 'fa-solid fa-globe', class: 'border-green-500 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' },
-  { value: 'ARCHIVED', label: 'Archive', icon: 'fa-solid fa-box-archive', class: 'border-gray-500 bg-gray-50 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400' },
+  { value: 'PUBLISHED', label: 'Publié', icon: 'fa-solid fa-globe', class: 'border-green-500 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' },
+  { value: 'ARCHIVED', label: 'Archivé', icon: 'fa-solid fa-box-archive', class: 'border-gray-500 bg-gray-50 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400' },
 ] as const
 
 const rawImageFile = ref<File | null>(null)
@@ -62,7 +62,7 @@ onMounted(async () => {
       existingCoverImage.value = newsData.coverImage
     }
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de charger l\'actualite.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de charger l\'actualité.')
     router.push('/admin/actualites')
   } finally {
     loading.value = false
@@ -127,10 +127,10 @@ const submit = async () => {
       status: form.status,
       coverImage: coverImageFile.value,
     })
-    toast.success('Actualite mise a jour', 'Les modifications ont ete enregistrees.')
+    toast.success('Actualité mise à jour', 'Les modifications ont été enregistrées.')
     router.push('/admin/actualites')
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de mettre a jour l\'actualite.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de mettre à jour l\'actualité.')
   } finally {
     saving.value = false
   }
@@ -139,8 +139,8 @@ const submit = async () => {
 // Status display
 const statusConfig: Record<string, { label: string; class: string }> = {
   DRAFT: { label: 'Brouillon', class: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-400' },
-  PUBLISHED: { label: 'Publie', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
-  ARCHIVED: { label: 'Archive', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+  PUBLISHED: { label: 'Publié', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
+  ARCHIVED: { label: 'Archivé', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
 }
 
 // Cleanup
@@ -170,7 +170,7 @@ onUnmounted(() => {
           </NuxtLink>
           <div class="min-w-0">
             <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white truncate">
-              Modifier l'actualite
+              Modifier l'actualité
             </h2>
             <div class="flex items-center gap-2 mt-1">
               <span
@@ -183,7 +183,7 @@ onUnmounted(() => {
               </span>
               <span v-if="original.isFeatured" class="text-xs text-amber-500 font-medium">
                 <font-awesome-icon icon="fa-solid fa-star" class="mr-0.5" />
-                A la une
+                À la une
               </span>
             </div>
           </div>
@@ -200,7 +200,7 @@ onUnmounted(() => {
           <input
             v-model="form.title"
             type="text"
-            placeholder="Titre de l'actualite"
+            placeholder="Titre de l'actualité"
             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
           />
         </div>
@@ -221,13 +221,13 @@ onUnmounted(() => {
 
           <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
             <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-              Categorie
+              Catégorie
             </label>
             <select
               v-model="form.categoryId"
               class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
             >
-              <option value="" disabled>Selectionner une categorie</option>
+              <option value="" disabled>Sélectionner une catégorie</option>
               <option v-for="cat in categories" :key="cat.id" :value="cat.id">
                 {{ cat.name }}
               </option>
@@ -300,12 +300,12 @@ onUnmounted(() => {
         <!-- Summary -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Resume
+            Résumé
           </label>
           <textarea
             v-model="form.summary"
             rows="3"
-            placeholder="Court resume de l'actualite (max 500 caracteres)"
+            placeholder="Court résumé de l'actualité (max 500 caractères)"
             maxlength="500"
             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 resize-none transition-all"
           />
@@ -321,8 +321,8 @@ onUnmounted(() => {
           </label>
           <UiToastEditor
             v-model="form.content"
-            label="Contenu de l'actualite"
-            placeholder="Redigez le contenu de l'actualite..."
+            label="Contenu de l'actualité"
+            placeholder="Rédigez le contenu de l'actualité..."
           />
         </div>
 
@@ -339,19 +339,19 @@ onUnmounted(() => {
               </p>
             </div>
             <div>
-              <span class="text-repae-gray-500 dark:text-repae-gray-400">Cree le</span>
+              <span class="text-repae-gray-500 dark:text-repae-gray-400">Créé le</span>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">
                 {{ new Date(original.createdAt).toLocaleDateString('fr-FR') }}
               </p>
             </div>
             <div v-if="original.publishedAt">
-              <span class="text-repae-gray-500 dark:text-repae-gray-400">Publie le</span>
+              <span class="text-repae-gray-500 dark:text-repae-gray-400">Publié le</span>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">
                 {{ new Date(original.publishedAt).toLocaleDateString('fr-FR') }}
               </p>
             </div>
             <div>
-              <span class="text-repae-gray-500 dark:text-repae-gray-400">Derniere modification</span>
+              <span class="text-repae-gray-500 dark:text-repae-gray-400">Dernière modification</span>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">
                 {{ new Date(original.updatedAt).toLocaleDateString('fr-FR') }}
               </p>

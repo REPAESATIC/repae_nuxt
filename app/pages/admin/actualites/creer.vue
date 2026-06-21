@@ -66,7 +66,7 @@ onMounted(async () => {
     const result = await fetchCategories()
     categories.value = result.data
   } catch {
-    toast.error('Erreur', 'Impossible de charger les categories.')
+    toast.error('Erreur', 'Impossible de charger les catégories.')
   }
 })
 
@@ -118,7 +118,7 @@ const submit = async () => {
     return
   }
   if (!form.categoryId) {
-    toast.warning('Champ requis', 'Veuillez selectionner une categorie.')
+    toast.warning('Champ requis', 'Veuillez sélectionner une catégorie.')
     return
   }
 
@@ -135,10 +135,10 @@ const submit = async () => {
       status: form.status,
       coverImage: coverImageFile.value,
     })
-    toast.success('Actualite creee', 'L\'actualite a ete creee avec succes.')
+    toast.success('Actualité créée', 'L\'actualité a été créée avec succès.')
     router.push('/admin/actualites')
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de creer l\'actualite.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'actualité.')
   } finally {
     loading.value = false
   }
@@ -162,10 +162,10 @@ onUnmounted(() => {
       </NuxtLink>
       <div>
         <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white">
-          Nouvelle actualite
+          Nouvelle actualité
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-          Redigez et publiez une nouvelle actualite
+          Rédigez et publiez une nouvelle actualité
         </p>
       </div>
     </div>
@@ -180,7 +180,7 @@ onUnmounted(() => {
         <input
           v-model="form.title"
           type="text"
-          placeholder="Titre de l'actualite"
+          placeholder="Titre de l'actualité"
           class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
         />
       </div>
@@ -194,7 +194,7 @@ onUnmounted(() => {
           <input
             v-model="form.slug"
             type="text"
-            placeholder="Genere automatiquement depuis le titre"
+            placeholder="Généré automatiquement depuis le titre"
             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
             @input="onSlugInput"
           />
@@ -202,13 +202,13 @@ onUnmounted(() => {
 
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Categorie *
+            Catégorie *
           </label>
           <select
             v-model="form.categoryId"
             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
           >
-            <option value="" disabled>Selectionner une categorie</option>
+            <option value="" disabled>Sélectionner une catégorie</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">
               {{ cat.name }}
             </option>
@@ -281,12 +281,12 @@ onUnmounted(() => {
       <!-- Summary -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-          Resume
+          Résumé
         </label>
         <textarea
           v-model="form.summary"
           rows="3"
-          placeholder="Court resume de l'actualite (max 500 caracteres)"
+          placeholder="Court résumé de l'actualité (max 500 caractères)"
           maxlength="500"
           class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 resize-none transition-all"
         />
@@ -302,8 +302,8 @@ onUnmounted(() => {
         </label>
         <UiToastEditor
           v-model="form.content"
-          label="Contenu de l'actualite"
-          placeholder="Redigez le contenu de l'actualite..."
+          label="Contenu de l'actualité"
+          placeholder="Rédigez le contenu de l'actualité..."
         />
       </div>
 
@@ -346,7 +346,7 @@ onUnmounted(() => {
               :icon="loading ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
               :class="{ 'animate-spin': loading }"
             />
-            {{ loading ? 'Creation...' : 'Creer l\'actualite' }}
+            {{ loading ? 'Création...' : 'Créer l\'actualité' }}
           </button>
         </div>
       </div>

@@ -21,7 +21,7 @@ const form = reactive({
 const roleOptions = [
   { value: 'ADMIN' as const, label: 'Admin', icon: 'fa-solid fa-shield-alt', class: 'border-violet-500 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400' },
   { value: 'ALUMNI' as const, label: 'Alumni', icon: 'fa-solid fa-user-graduate', class: 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400' },
-  { value: 'STUDENT' as const, label: 'Etudiant', icon: 'fa-solid fa-graduation-cap', class: 'border-amber-500 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' },
+  { value: 'STUDENT' as const, label: 'Étudiant', icon: 'fa-solid fa-graduation-cap', class: 'border-amber-500 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' },
 ]
 
 const statusOptions = [
@@ -37,7 +37,7 @@ const submit = async () => {
     return
   }
   if (!form.password || form.password.length < 8) {
-    toast.warning('Champ requis', 'Le mot de passe doit contenir au moins 8 caracteres.')
+    toast.warning('Champ requis', 'Le mot de passe doit contenir au moins 8 caractères.')
     return
   }
 
@@ -55,14 +55,14 @@ const submit = async () => {
       await updateUser(created.id, { status: form.status })
     }
 
-    toast.success('Compte cree', 'Le compte a ete cree avec succes.')
+    toast.success('Compte créé', 'Le compte a été créé avec succès.')
     router.push('/admin/comptes')
   } catch (e: any) {
     const status = e?.response?.status || e?.statusCode
     if (status === 409) {
-      toast.error('Email deja utilise', 'Un compte avec cet email existe deja.')
+      toast.error('Email déjà utilisé', 'Un compte avec cet email existe déjà.')
     } else {
-      const msg = e?.data?.message || 'Impossible de creer le compte.'
+      const msg = e?.data?.message || 'Impossible de créer le compte.'
       toast.error('Erreur', Array.isArray(msg) ? msg[0] : msg)
     }
   } finally {
@@ -86,7 +86,7 @@ const submit = async () => {
           Nouveau compte
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-          Creez un nouveau compte utilisateur
+          Créez un nouveau compte utilisateur
         </p>
       </div>
     </div>
@@ -131,7 +131,7 @@ const submit = async () => {
               <input
                 v-model="form.password"
                 :type="showPassword ? 'text' : 'password'"
-                placeholder="Minimum 8 caracteres"
+                placeholder="Minimum 8 caractères"
                 class="w-full pl-11 pr-11 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
               />
               <button
@@ -212,7 +212,7 @@ const submit = async () => {
               :icon="loading ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
               :class="{ 'animate-spin': loading }"
             />
-            {{ loading ? 'Creation...' : 'Creer le compte' }}
+            {{ loading ? 'Création...' : 'Créer le compte' }}
           </button>
         </div>
       </div>

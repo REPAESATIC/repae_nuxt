@@ -37,7 +37,7 @@ export interface AdminQuickAction {
 export const adminQuickActions: AdminQuickAction[] = [
   {
     id: 'creer-actualite',
-    label: 'Creer une actualite',
+    label: 'Créer une actualité',
     description: 'Publier un nouvel article',
     icon: 'fa-solid fa-bullhorn',
     href: '/admin/actualites/creer',
@@ -45,24 +45,24 @@ export const adminQuickActions: AdminQuickAction[] = [
   },
   {
     id: 'creer-evenement',
-    label: 'Creer un evenement',
-    description: 'Planifier un evenement',
+    label: 'Créer un événement',
+    description: 'Planifier un événement',
     icon: 'fa-solid fa-calendar-alt',
     href: '/admin/evenements/creer',
     color: 'from-blue-500 to-cyan-500',
   },
   {
     id: 'gerer-alumni',
-    label: 'Gerer les alumni',
-    description: 'Verifier et gerer les profils',
+    label: 'Gérer les alumni',
+    description: 'Vérifier et gérer les profils',
     icon: 'fa-solid fa-user-graduate',
     href: '/admin/alumni',
     color: 'from-green-500 to-emerald-500',
   },
   {
     id: 'gerer-comptes',
-    label: 'Gerer les comptes',
-    description: 'Utilisateurs et roles',
+    label: 'Gérer les comptes',
+    description: 'Utilisateurs et rôles',
     icon: 'fa-solid fa-user-cog',
     href: '/admin/comptes',
     color: 'from-orange-500 to-amber-500',
@@ -78,7 +78,7 @@ export const adminQuickActions: AdminQuickAction[] = [
   {
     id: 'notifications',
     label: 'Notifications',
-    description: 'Gerer les alertes',
+    description: 'Gérer les alertes',
     icon: 'fa-solid fa-bell',
     href: '/admin/notifications',
     color: 'from-amber-500 to-yellow-500',
