@@ -55,6 +55,12 @@ export function useEventsApi() {
   const config = useRuntimeConfig()
   const baseUrl = config.public.contentApiBase as string
 
+  // Token admin (JWT) pour les routes protegees (create/update)
+  const getAuthHeaders = (): Record<string, string> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return token ? { Authorization: `Bearer ${token}` } : {}
+  }
+
   const fetchEventsList = async (params?: {
     search?: string
     categoryId?: string
@@ -92,6 +98,7 @@ export function useEventsApi() {
     return await $fetch<EventItem>(`${baseUrl}/events`, {
       method: 'POST',
       body: formData,
+      headers: getAuthHeaders(),
     })
   }
 
@@ -110,6 +117,7 @@ export function useEventsApi() {
     return await $fetch<EventItem>(`${baseUrl}/events/${id}`, {
       method: 'PUT',
       body: formData,
+      headers: getAuthHeaders(),
     })
   }
 

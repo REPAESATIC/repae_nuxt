@@ -87,6 +87,12 @@ export function useNewsApi() {
   const config = useRuntimeConfig()
   const baseUrl = config.public.contentApiBase as string
 
+  // Token admin (JWT) pour les routes protegees (create/update)
+  const getAuthHeaders = (): Record<string, string> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return token ? { Authorization: `Bearer ${token}` } : {}
+  }
+
   const fetchNewsList = async (params?: {
     search?: string
     categoryId?: string
@@ -127,6 +133,7 @@ export function useNewsApi() {
     return await $fetch<NewsItem>(`${baseUrl}/news`, {
       method: 'POST',
       body: formData,
+      headers: getAuthHeaders(),
     })
   }
 
@@ -143,6 +150,7 @@ export function useNewsApi() {
     return await $fetch<NewsItem>(`${baseUrl}/news/${id}`, {
       method: 'PUT',
       body: formData,
+      headers: getAuthHeaders(),
     })
   }
 
@@ -168,6 +176,7 @@ export function useNewsApi() {
     return await $fetch<CategoryItem>(`${baseUrl}/categories`, {
       method: 'POST',
       body: payload,
+      headers: getAuthHeaders(),
     })
   }
 
@@ -175,6 +184,7 @@ export function useNewsApi() {
     return await $fetch<CategoryItem>(`${baseUrl}/categories/${id}`, {
       method: 'PUT',
       body: payload,
+      headers: getAuthHeaders(),
     })
   }
 

@@ -43,7 +43,7 @@ onMounted(async () => {
     const result = await fetchCategories()
     categories.value = result.data
   } catch {
-    toast.error('Erreur', 'Impossible de charger les categories.')
+    toast.error('Erreur', 'Impossible de charger les catégories.')
   }
 })
 
@@ -61,7 +61,7 @@ const accessUrlPlaceholder = computed(() =>
 )
 
 const accessUrlLabel = computed(() =>
-  form.locationType === 'ONLINE' ? 'Lien de la reunion' : 'Lien Google Maps',
+  form.locationType === 'ONLINE' ? 'Lien de la réunion' : 'Lien Google Maps',
 )
 
 // Image handling
@@ -111,19 +111,19 @@ const submit = async () => {
     return
   }
   if (!form.eventDate) {
-    toast.warning('Champ requis', 'La date de l\'evenement est obligatoire.')
+    toast.warning('Champ requis', 'La date de l\'événement est obligatoire.')
     return
   }
   if (!form.categoryId) {
-    toast.warning('Champ requis', 'Veuillez selectionner une categorie.')
+    toast.warning('Champ requis', 'Veuillez sélectionner une catégorie.')
     return
   }
   if (form.locationType === 'PHYSICAL' && !form.locationName.trim()) {
-    toast.warning('Champ requis', 'Le lieu est obligatoire pour un evenement en presentiel.')
+    toast.warning('Champ requis', 'Le lieu est obligatoire pour un événement en présentiel.')
     return
   }
   if (form.locationType === 'ONLINE' && !form.accessUrl.trim()) {
-    toast.warning('Champ requis', 'Le lien de la reunion est obligatoire pour un evenement en ligne.')
+    toast.warning('Champ requis', 'Le lien de la réunion est obligatoire pour un événement en ligne.')
     return
   }
 
@@ -140,10 +140,10 @@ const submit = async () => {
       status: form.status,
       image: coverImageFile.value,
     })
-    toast.success('Evenement cree', 'L\'evenement a ete cree avec succes.')
+    toast.success('Événement créé', 'L\'événement a été créé avec succès.')
     router.push('/admin/evenements')
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de creer l\'evenement.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'événement.')
   } finally {
     loading.value = false
   }
@@ -167,10 +167,10 @@ onUnmounted(() => {
       </NuxtLink>
       <div>
         <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white">
-          Nouvel evenement
+          Nouvel événement
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-          Creez et planifiez un nouvel evenement
+          Créez et planifiez un nouvel événement
         </p>
       </div>
     </div>
@@ -185,7 +185,7 @@ onUnmounted(() => {
         <input
           v-model="form.title"
           type="text"
-          placeholder="Titre de l'evenement"
+          placeholder="Titre de l'événement"
           class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
         />
       </div>
@@ -194,7 +194,7 @@ onUnmounted(() => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Date de l'evenement *
+            Date de l'événement *
           </label>
           <input
             v-model="form.eventDate"
@@ -205,13 +205,13 @@ onUnmounted(() => {
 
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Categorie *
+            Catégorie *
           </label>
           <select
             v-model="form.categoryId"
             class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
           >
-            <option value="" disabled>Selectionner une categorie</option>
+            <option value="" disabled>Sélectionner une catégorie</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">
               {{ cat.name }}
             </option>
@@ -238,7 +238,7 @@ onUnmounted(() => {
             @click="form.locationType = 'PHYSICAL'"
           >
             <font-awesome-icon icon="fa-solid fa-location-dot" />
-            Presentiel
+            Présentiel
           </button>
           <button
             type="button"
@@ -351,8 +351,8 @@ onUnmounted(() => {
         </label>
         <UiToastEditor
           v-model="form.description"
-          label="Description de l'evenement"
-          placeholder="Decrivez l'evenement en detail..."
+          label="Description de l'événement"
+          placeholder="Décrivez l'événement en détail..."
         />
       </div>
 
@@ -395,7 +395,7 @@ onUnmounted(() => {
               :icon="loading ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
               :class="{ 'animate-spin': loading }"
             />
-            {{ loading ? 'Creation...' : 'Creer l\'evenement' }}
+            {{ loading ? 'Création...' : 'Créer l\'événement' }}
           </button>
         </div>
       </div>
