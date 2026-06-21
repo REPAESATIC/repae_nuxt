@@ -7,7 +7,7 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const { fetchAlumni, verifyAlumni } = useIdentityApi()
+const { fetchAlumni, verifyAlumni, adhereAlumni } = useIdentityApi()
 const toast = useToast()
 
 const alumniId = route.params.id as string
@@ -16,6 +16,7 @@ const alumniId = route.params.id as string
 const loading = ref(true)
 const alumni = ref<AlumniItem | null>(null)
 const verifying = ref(false)
+const adhering = ref(false)
 
 // Load data
 onMounted(async () => {
@@ -40,6 +41,19 @@ const handleVerify = async () => {
     toast.error('Erreur', e?.data?.message || 'Impossible de verifier cet alumni.')
   } finally {
     verifying.value = false
+  }
+}
+
+const handleAdhere = async () => {
+  if (!alumni.value) return
+  adhering.value = true
+  try {
+    alumni.value = await adhereAlumni(alumniId)
+    toast.success('Adhesion validee', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant adherent.`)
+  } catch (e: any) {
+    toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adherent.')
+  } finally {
+    adhering.value = false
   }
 }
 
@@ -93,6 +107,17 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 <font-awesome-icon :icon="alumni.isVerified ? 'fa-solid fa-circle-check' : 'fa-solid fa-clock'" class="text-[10px]" />
                 {{ alumni.isVerified ? 'Verifie' : 'Non verifie' }}
               </span>
+              <span
+                :class="[
+                  'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold',
+                  alumni.isAdherent
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400'
+                    : 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400'
+                ]"
+              >
+                <font-awesome-icon :icon="alumni.isAdherent ? 'fa-solid fa-medal' : 'fa-solid fa-circle-xmark'" class="text-[10px]" />
+                {{ alumni.isAdherent ? 'Adherent' : 'Non adherent' }}
+              </span>
               <span v-if="alumni.isOpenToMentoring" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-400">
                 <font-awesome-icon icon="fa-solid fa-handshake" class="text-[10px]" />
                 Mentor
@@ -100,18 +125,32 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
             </div>
           </div>
         </div>
-        <button
-          v-if="!alumni.isVerified"
-          :disabled="verifying"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500 hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
-          @click="handleVerify"
-        >
-          <font-awesome-icon
-            :icon="verifying ? 'fa-solid fa-spinner' : 'fa-solid fa-user-check'"
-            :class="{ 'animate-spin': verifying }"
-          />
-          {{ verifying ? 'Verification...' : 'Verifier ce profil' }}
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            v-if="!alumni.isVerified"
+            :disabled="verifying"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500 hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+            @click="handleVerify"
+          >
+            <font-awesome-icon
+              :icon="verifying ? 'fa-solid fa-spinner' : 'fa-solid fa-user-check'"
+              :class="{ 'animate-spin': verifying }"
+            />
+            {{ verifying ? 'Verification...' : 'Verifier ce profil' }}
+          </button>
+          <button
+            v-if="!alumni.isAdherent"
+            :disabled="adhering"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+            @click="handleAdhere"
+          >
+            <font-awesome-icon
+              :icon="adhering ? 'fa-solid fa-spinner' : 'fa-solid fa-medal'"
+              :class="{ 'animate-spin': adhering }"
+            />
+            {{ adhering ? 'Validation...' : 'Marquer adherent' }}
+          </button>
+        </div>
       </div>
 
       <!-- Content -->
@@ -256,6 +295,46 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Paiement de la cotisation -->
+        <div
+          v-if="alumni.paymentMethod || alumni.paymentReference || alumni.paymentProofUrl"
+          class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6"
+        >
+          <h4 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
+            Paiement de la cotisation
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div v-if="alumni.paymentMethod" class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-money-bill-wave" class="text-emerald-500 text-xs" />
+              </div>
+              <div>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Moyen de paiement</p>
+                <p class="text-sm font-medium text-repae-gray-900 dark:text-white">{{ alumni.paymentMethod }}</p>
+              </div>
+            </div>
+            <div v-if="alumni.paymentReference" class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-hashtag" class="text-emerald-500 text-xs" />
+              </div>
+              <div>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Reference</p>
+                <p class="text-sm font-medium text-repae-gray-900 dark:text-white break-all">{{ alumni.paymentReference }}</p>
+              </div>
+            </div>
+          </div>
+          <a
+            v-if="alumni.paymentProofUrl"
+            :href="alumni.paymentProofUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 font-semibold text-sm transition-colors cursor-pointer"
+          >
+            <font-awesome-icon icon="fa-solid fa-file-invoice" />
+            Voir la preuve de paiement
+          </a>
         </div>
 
         <!-- Bio -->

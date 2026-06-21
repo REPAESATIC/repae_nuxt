@@ -1,5 +1,19 @@
 import type { PromotionItem, CountryItem } from '~/composables/useIdentityApi'
 
+/** Moyens de paiement acceptés pour la cotisation. */
+export const PAYMENT_METHODS = [
+  'Djamo',
+  'Orange Money',
+  'MTN Mobile Money',
+  'Moov Money',
+  'Wave',
+  'Autre',
+] as const
+
+/** Contraintes de la preuve de paiement (alignées sur l'API). */
+const MAX_PROOF_SIZE = 5 * 1024 * 1024 // 5 Mo
+const ALLOWED_PROOF_TYPES = ['application/pdf', 'image/jpeg', 'image/png']
+
 /**
  * Composable partagé pour la logique d'inscription alumni.
  * Utilisé par la page adhésion et le formulaire de la page d'accueil.
@@ -24,11 +38,45 @@ export function useAlumniRegistration() {
     countryId: '',
     degree: '',
     bio: '',
+    paymentMethod: '',
+    paymentReference: '',
     acceptTerms: false,
   })
 
+  // Preuve de paiement (gardée hors de `reactive` pour ne pas proxifier l'objet File)
+  const paymentProofFile = ref<File | null>(null)
+  const paymentProofError = ref('')
+
   const submitting = ref(false)
   const submitted = ref(false)
+
+  // Gérer la sélection du fichier de preuve de paiement (validation type + taille)
+  const handleProofChange = (event: Event) => {
+    const input = event.target as HTMLInputElement
+    const file = input.files?.[0] ?? null
+    paymentProofError.value = ''
+
+    if (!file) {
+      paymentProofFile.value = null
+      return
+    }
+
+    if (!ALLOWED_PROOF_TYPES.includes(file.type)) {
+      paymentProofError.value = 'Format non supporté. Formats acceptés : PDF, JPG ou PNG.'
+      paymentProofFile.value = null
+      input.value = ''
+      return
+    }
+
+    if (file.size > MAX_PROOF_SIZE) {
+      paymentProofError.value = 'Le fichier est trop volumineux (5 Mo maximum).'
+      paymentProofFile.value = null
+      input.value = ''
+      return
+    }
+
+    paymentProofFile.value = file
+  }
 
   // Charger les données de référence
   const loadReferenceData = async () => {
@@ -73,7 +121,7 @@ export function useAlumniRegistration() {
   // Soumission du formulaire
   const handleSubmit = async () => {
     // Validation frontend basique
-    if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim() || !form.phoneNumber.trim() || !form.promotionId || !form.countryId) {
+    if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim() || !form.phoneNumber.trim() || !form.promotionId || !form.countryId || !form.degree.trim()) {
       toast.error('Champs requis', 'Veuillez remplir tous les champs obligatoires.')
       return
     }
@@ -90,6 +138,17 @@ export function useAlumniRegistration() {
       return
     }
 
+    // Validation des informations de paiement (désormais requises par l'API)
+    if (!form.paymentMethod || !form.paymentReference.trim()) {
+      toast.error('Paiement requis', 'Veuillez indiquer le moyen et la référence du paiement de la cotisation.')
+      return
+    }
+
+    if (!paymentProofFile.value) {
+      toast.error('Preuve de paiement requise', 'Veuillez joindre une preuve de paiement (PDF, JPG ou PNG, max 5 Mo).')
+      return
+    }
+
     submitting.value = true
     try {
       await registerAlumni({
@@ -99,7 +158,10 @@ export function useAlumniRegistration() {
         phoneNumber: phone,
         promotionId: form.promotionId,
         countryId: form.countryId,
-        degree: form.degree || undefined,
+        degree: form.degree.trim(),
+        paymentMethod: form.paymentMethod,
+        paymentReference: form.paymentReference.trim(),
+        paymentProofFile: paymentProofFile.value,
       })
       submitted.value = true
       toast.success('Demande envoyée', 'Votre demande d\'adhésion a été soumise avec succès. Consultez votre boîte mail.')
@@ -124,6 +186,10 @@ export function useAlumniRegistration() {
     countries,
     loadingCountries,
     form,
+    paymentProofFile,
+    paymentProofError,
+    paymentMethods: PAYMENT_METHODS,
+    handleProofChange,
     submitting,
     submitted,
     loadReferenceData,

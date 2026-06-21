@@ -118,6 +118,9 @@ import {
   faArrowsLeftRight,
   faHouseLaptop,
   faMoneyBillWave,
+  faHashtag,
+  faCircleXmark,
+  faFileInvoice,
   faFileContract,
   faLocationDot,
   // Sprint 11 Offre Detail & Candidature icons
@@ -311,6 +314,9 @@ library.add(
   faArrowsLeftRight,
   faHouseLaptop,
   faMoneyBillWave,
+  faHashtag,
+  faCircleXmark,
+  faFileInvoice,
   faFileContract,
   faLocationDot,
   // Sprint 11 Offre Detail & Candidature icons

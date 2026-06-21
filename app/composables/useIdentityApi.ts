@@ -26,6 +26,10 @@ export interface AlumniItem {
   xUrl?: string
   isVerified: boolean
   isOpenToMentoring: boolean
+  isAdherent: boolean
+  paymentMethod?: string
+  paymentReference?: string
+  paymentProofUrl?: string
   country?: string
   department?: string
   promotion?: number
@@ -124,6 +128,12 @@ export interface RegisterAlumniPayload {
   promotionId: string
   countryId: string
   degree?: string
+  /** Moyen de paiement de la cotisation (Djamo, Orange Money, MTN Mobile Money, Moov Money, Wave, Autre) */
+  paymentMethod: string
+  /** Référence / numéro de transaction du paiement */
+  paymentReference: string
+  /** Preuve de paiement (PDF, JPG ou PNG — max 5 Mo) */
+  paymentProofFile: File
 }
 
 // ─── Work Experiences ────────────────────────────────────────────────────────
@@ -302,9 +312,23 @@ export function useIdentityApi() {
   // ─── Auth / Registration ────────────────────────────────────────────────────
 
   const registerAlumni = async (payload: RegisterAlumniPayload): Promise<AlumniItem> => {
+    // L'API attend désormais un multipart/form-data (preuve de paiement à uploader)
+    const formData = new FormData()
+    formData.append('email', payload.email)
+    formData.append('firstName', payload.firstName)
+    formData.append('lastName', payload.lastName)
+    formData.append('phoneNumber', payload.phoneNumber)
+    formData.append('promotionId', payload.promotionId)
+    formData.append('countryId', payload.countryId)
+    if (payload.degree) formData.append('degree', payload.degree)
+    formData.append('paymentMethod', payload.paymentMethod)
+    formData.append('paymentReference', payload.paymentReference)
+    formData.append('paymentProofFile', payload.paymentProofFile)
+
+    // Ne pas définir Content-Type : ofetch ajoute automatiquement la boundary multipart
     return await $fetch<AlumniItem>(`${baseUrl}/auth/register/alumni`, {
       method: 'POST',
-      body: payload,
+      body: formData,
     })
   }
 
@@ -519,6 +543,7 @@ export function useIdentityApi() {
     search?: string
     isVerified?: boolean
     isOpenToMentoring?: boolean
+    isAdherent?: boolean
     promotionId?: string
     departmentId?: string
     countryId?: string
@@ -529,6 +554,7 @@ export function useIdentityApi() {
     if (params?.search) query.set('search', params.search)
     if (params?.isVerified !== undefined) query.set('isVerified', String(params.isVerified))
     if (params?.isOpenToMentoring !== undefined) query.set('isOpenToMentoring', String(params.isOpenToMentoring))
+    if (params?.isAdherent !== undefined) query.set('isAdherent', String(params.isAdherent))
     if (params?.promotionId) query.set('promotionId', params.promotionId)
     if (params?.departmentId) query.set('departmentId', params.departmentId)
     if (params?.countryId) query.set('countryId', params.countryId)
@@ -546,6 +572,15 @@ export function useIdentityApi() {
   const verifyAlumni = async (id: string): Promise<AlumniItem> => {
     const token = import.meta.client ? localStorage.getItem('admin-token') : null
     return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}/verify`, {
+      method: 'PATCH',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+  }
+
+  // Marquer un alumni comme adherent (cotisation validee) - admin
+  const adhereAlumni = async (id: string): Promise<AlumniItem> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}/adhere`, {
       method: 'PATCH',
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
@@ -712,6 +747,7 @@ export function useIdentityApi() {
     fetchAlumniList,
     fetchAlumni,
     verifyAlumni,
+    adhereAlumni,
     importAlumnis,
     fetchWorkExperiences,
     createWorkExperience,

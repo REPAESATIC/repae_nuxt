@@ -12,6 +12,10 @@ const {
   countries,
   loadingCountries,
   form,
+  paymentProofFile,
+  paymentProofError,
+  paymentMethods,
+  handleProofChange,
   submitting,
   submitted,
   loadReferenceData,
@@ -178,11 +182,12 @@ onMounted(() => {
 
           <div>
             <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-              Diplôme obtenu
+              Diplôme obtenu *
             </label>
             <input
               v-model="form.degree"
               type="text"
+              required
               maxlength="100"
               class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
               placeholder="Ex: Licence, Master, Ingénieur..."
@@ -199,6 +204,69 @@ onMounted(() => {
               class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors resize-none"
               placeholder="Présentez-vous en quelques lignes (parcours, compétences, centres d'intérêt...)"
             ></textarea>
+          </div>
+
+          <!-- Informations de paiement de la cotisation -->
+          <div class="pt-2 border-t border-gray-200 dark:border-repae-gray-600">
+            <h3 class="text-base font-bold font-brand text-repae-gray-900 dark:text-white mt-4 mb-1">
+              Paiement de la cotisation
+            </h3>
+            <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mb-4">
+              Renseignez le paiement de votre cotisation et joignez-en la preuve pour finaliser votre adhésion.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
+                  Moyen de paiement *
+                </label>
+                <select
+                  v-model="form.paymentMethod"
+                  required
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors cursor-pointer"
+                >
+                  <option value="">Sélectionnez un moyen de paiement</option>
+                  <option v-for="method in paymentMethods" :key="method" :value="method">
+                    {{ method }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
+                  Référence du paiement *
+                </label>
+                <input
+                  v-model="form.paymentReference"
+                  type="text"
+                  required
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
+                  placeholder="N° de transaction (ex: TXN-123456789)"
+                />
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
+                Preuve de paiement *
+              </label>
+              <input
+                type="file"
+                accept="application/pdf,image/jpeg,image/png"
+                required
+                @change="handleProofChange"
+                class="block w-full text-sm text-repae-gray-600 dark:text-repae-gray-300 font-brand file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-repae-blue-500 file:text-white hover:file:bg-repae-blue-600 file:cursor-pointer cursor-pointer rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 p-2"
+              />
+              <p v-if="paymentProofError" class="text-xs text-red-500 mt-1">
+                {{ paymentProofError }}
+              </p>
+              <p v-else-if="paymentProofFile" class="text-xs text-green-600 dark:text-green-400 mt-1">
+                <font-awesome-icon icon="fa-solid fa-check-circle" class="mr-1" />
+                {{ paymentProofFile.name }}
+              </p>
+              <p v-else class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
+                Formats acceptés : PDF, JPG ou PNG — 5 Mo maximum.
+              </p>
+            </div>
           </div>
 
           <div class="flex items-start gap-3">

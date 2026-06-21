@@ -7,6 +7,10 @@ const {
   countries,
   loadingCountries,
   form,
+  paymentProofFile,
+  paymentProofError,
+  paymentMethods,
+  handleProofChange,
   submitting,
   submitted,
   loadReferenceData,
@@ -473,6 +477,76 @@ const selectCountryFromList = (data) => {
                     <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                       <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
                     </div>
+                  </div>
+
+                  <!-- Champ Diplôme obtenu -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <input
+                      v-model="form.degree"
+                      type="text"
+                      required
+                      maxlength="100"
+                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
+                      placeholder="Diplôme obtenu *"
+                    >
+                  </div>
+
+                  <!-- Champ Moyen de paiement -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-money-bill-wave" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <select
+                      v-model="form.paymentMethod"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-8 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand border-0 appearance-none text-sm sm:text-base cursor-pointer"
+                    >
+                      <option value="">Moyen de paiement *</option>
+                      <option v-for="method in paymentMethods" :key="method" :value="method">
+                        {{ method }}
+                      </option>
+                    </select>
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
+                    </div>
+                  </div>
+
+                  <!-- Champ Référence de paiement -->
+                  <div class="relative">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                      <font-awesome-icon icon="fa-solid fa-hashtag" class="text-repae-blue-500 text-base sm:text-lg" />
+                    </div>
+                    <input
+                      v-model="form.paymentReference"
+                      type="text"
+                      required
+                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
+                      placeholder="Référence du paiement *"
+                    >
+                  </div>
+
+                  <!-- Champ Preuve de paiement -->
+                  <div>
+                    <label class="block text-xs font-brand text-gray-300 mb-1">
+                      Preuve de paiement * <span class="text-gray-400">(PDF, JPG, PNG — 5 Mo max)</span>
+                    </label>
+                    <input
+                      type="file"
+                      accept="application/pdf,image/jpeg,image/png"
+                      required
+                      @change="handleProofChange"
+                      class="block w-full text-xs text-gray-300 font-brand file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-repae-blue-500 file:text-white hover:file:bg-repae-blue-600 file:cursor-pointer cursor-pointer rounded-lg bg-white/10 p-2"
+                    >
+                    <p v-if="paymentProofError" class="text-xs text-red-400 mt-1">
+                      {{ paymentProofError }}
+                    </p>
+                    <p v-else-if="paymentProofFile" class="text-xs text-green-400 mt-1 truncate">
+                      <font-awesome-icon icon="fa-solid fa-check-circle" class="mr-1" />
+                      {{ paymentProofFile.name }}
+                    </p>
                   </div>
 
                   <!-- Acceptation conditions -->

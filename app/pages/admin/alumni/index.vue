@@ -5,7 +5,7 @@ definePageMeta({
   layout: 'admin',
 })
 
-const { fetchAlumniList, verifyAlumni, fetchPromotions, fetchDepartments, fetchCountries } = useIdentityApi()
+const { fetchAlumniList, verifyAlumni, adhereAlumni, fetchPromotions, fetchDepartments, fetchCountries } = useIdentityApi()
 const toast = useToast()
 
 // State
@@ -19,12 +19,15 @@ const limit = ref(20)
 const loading = ref(true)
 const searchQuery = ref('')
 const verifiedFilter = ref<'' | 'true' | 'false'>('')
+const adherentFilter = ref<'' | 'true' | 'false'>('')
 const promotionFilter = ref('')
 const departmentFilter = ref('')
 const countryFilter = ref('')
 
 // Verify action
 const verifying = ref<string | null>(null)
+// Adhere action
+const adhering = ref<string | null>(null)
 
 // Computed
 const totalPages = computed(() => Math.ceil(total.value / limit.value))
@@ -36,6 +39,7 @@ const loadAlumni = async () => {
     const result = await fetchAlumniList({
       search: searchQuery.value || undefined,
       isVerified: verifiedFilter.value === '' ? undefined : verifiedFilter.value === 'true',
+      isAdherent: adherentFilter.value === '' ? undefined : adherentFilter.value === 'true',
       promotionId: promotionFilter.value || undefined,
       departmentId: departmentFilter.value || undefined,
       countryId: countryFilter.value || undefined,
@@ -67,7 +71,7 @@ const loadReferenceData = async () => {
 }
 
 // Watchers
-watch([searchQuery, verifiedFilter, promotionFilter, departmentFilter, countryFilter], () => {
+watch([searchQuery, verifiedFilter, adherentFilter, promotionFilter, departmentFilter, countryFilter], () => {
   page.value = 1
   loadAlumni()
 })
@@ -94,10 +98,28 @@ const handleVerify = async (item: AlumniItem) => {
   }
 }
 
+const handleAdhere = async (item: AlumniItem) => {
+  adhering.value = item.id
+  try {
+    await adhereAlumni(item.id)
+    toast.success('Adhesion validee', `${item.firstName} ${item.lastName} est maintenant adherent.`)
+    await loadAlumni()
+  } catch (e: any) {
+    toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adherent.')
+  } finally {
+    adhering.value = null
+  }
+}
+
 // Helpers
 const verifiedConfig: Record<string, { label: string; class: string }> = {
   true: { label: 'Verifie', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
   false: { label: 'Non verifie', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
+}
+
+const adherentConfig: Record<string, { label: string; class: string }> = {
+  true: { label: 'Adherent', class: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400' },
+  false: { label: 'Non adherent', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
 }
 
 const formatDate = (date: string) => {
@@ -157,6 +179,16 @@ const formatDate = (date: string) => {
         <option value="false">Non verifie</option>
       </select>
 
+      <!-- Adherent filter -->
+      <select
+        v-model="adherentFilter"
+        class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
+      >
+        <option value="">Adhesion : tous</option>
+        <option value="true">Adherent</option>
+        <option value="false">Non adherent</option>
+      </select>
+
       <!-- Promotion filter -->
       <select
         v-model="promotionFilter"
@@ -208,7 +240,7 @@ const formatDate = (date: string) => {
         Aucun alumni
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
-        {{ searchQuery || verifiedFilter || promotionFilter || departmentFilter || countryFilter ? 'Aucun resultat pour ces filtres.' : 'Aucun profil alumni enregistre pour le moment.' }}
+        {{ searchQuery || verifiedFilter || adherentFilter || promotionFilter || departmentFilter || countryFilter ? 'Aucun resultat pour ces filtres.' : 'Aucun profil alumni enregistre pour le moment.' }}
       </p>
     </div>
 
@@ -229,6 +261,9 @@ const formatDate = (date: string) => {
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
                 Statut
+              </th>
+              <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
+                Adhesion
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden lg:table-cell">
                 Date
@@ -293,6 +328,18 @@ const formatDate = (date: string) => {
                 </span>
               </td>
 
+              <!-- Adhesion -->
+              <td class="px-6 py-4 hidden sm:table-cell">
+                <span
+                  :class="[
+                    'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold',
+                    adherentConfig[String(item.isAdherent)]?.class || ''
+                  ]"
+                >
+                  {{ adherentConfig[String(item.isAdherent)]?.label || '-' }}
+                </span>
+              </td>
+
               <!-- Date -->
               <td class="px-6 py-4 hidden lg:table-cell">
                 <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
@@ -321,6 +368,18 @@ const formatDate = (date: string) => {
                       :class="{ 'animate-spin': verifying === item.id }"
                     />
                     Verifier
+                  </button>
+                  <button
+                    v-if="!item.isAdherent"
+                    :disabled="adhering === item.id"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                    @click="handleAdhere(item)"
+                  >
+                    <font-awesome-icon
+                      :icon="adhering === item.id ? 'fa-solid fa-spinner' : 'fa-solid fa-medal'"
+                      :class="{ 'animate-spin': adhering === item.id }"
+                    />
+                    Adherer
                   </button>
                 </div>
               </td>
