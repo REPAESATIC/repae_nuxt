@@ -48,7 +48,7 @@ const performSearch = async (query) => {
   // Appels API en parallèle
   const [alumniRes, eventsRes, newsRes] = await Promise.allSettled([
     fetchAlumniList({ search: query, limit: 5 }),
-    fetchEventsList({ search: query, limit: 5 }),
+    fetchEventsList({ search: query, status: 'PUBLISHED', limit: 5 }),
     fetchNewsList({ search: query, status: 'PUBLISHED', limit: 5 }),
   ])
 

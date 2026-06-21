@@ -11,7 +11,7 @@ export interface EventItem {
   title: string
   description: string
   eventDate: string
-  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED'
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | 'FINISHED'
   isFeatured: boolean
   location: EventLocation
   imageUrl?: string
@@ -58,12 +58,14 @@ export function useEventsApi() {
   const fetchEventsList = async (params?: {
     search?: string
     categoryId?: string
+    status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | 'FINISHED'
     page?: number
     limit?: number
   }): Promise<PaginatedEvents> => {
     const query = new URLSearchParams()
     if (params?.search) query.set('search', params.search)
     if (params?.categoryId) query.set('categoryId', params.categoryId)
+    if (params?.status) query.set('status', params.status)
     if (params?.page) query.set('page', String(params.page))
     if (params?.limit) query.set('limit', String(params.limit))
 

@@ -8,7 +8,7 @@ const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const result = await fetchEventsList({ limit: 7 })
+    const result = await fetchEventsList({ status: 'PUBLISHED', limit: 7 })
     events.value = result.data
   } catch {
     // Fail gracefully

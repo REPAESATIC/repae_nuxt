@@ -19,7 +19,7 @@ const loading = ref(true)
 onMounted(async () => {
   try {
     const [eventsResult, categoriesResult] = await Promise.all([
-      fetchEventsList({ limit: 50 }),
+      fetchEventsList({ status: 'PUBLISHED', limit: 50 }),
       fetchCategories(),
     ])
     events.value = eventsResult.data
@@ -53,9 +53,9 @@ const getDisplayStatus = (event: EventItem): 'completed' | 'ongoing' | 'upcoming
   return 'upcoming'
 }
 
-// Published events only (filter out DRAFT)
+// Published events only (DRAFT et ARCHIVED exclus, par securite cote client)
 const publishedEvents = computed(() =>
-  events.value.filter(e => e.status === 'PUBLISHED' || e.status === 'ARCHIVED')
+  events.value.filter(e => e.status === 'PUBLISHED')
 )
 
 // Trending: up to 4 upcoming/ongoing events

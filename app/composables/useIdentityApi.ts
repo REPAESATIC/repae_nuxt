@@ -562,11 +562,17 @@ export function useIdentityApi() {
     if (params?.limit) query.set('limit', String(params.limit))
 
     const qs = query.toString()
-    return await $fetch<PaginatedAlumnis>(`${baseUrl}/alumnis${qs ? `?${qs}` : ''}`)
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return await $fetch<PaginatedAlumnis>(`${baseUrl}/alumnis${qs ? `?${qs}` : ''}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
   }
 
   const fetchAlumni = async (id: string): Promise<AlumniItem> => {
-    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}`)
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
   }
 
   const verifyAlumni = async (id: string): Promise<AlumniItem> => {

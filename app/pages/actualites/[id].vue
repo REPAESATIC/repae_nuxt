@@ -18,6 +18,11 @@ onMounted(async () => {
       fetchNews(newsId),
       fetchCategories(),
     ])
+    // Seules les actualites publiees sont accessibles en front-office
+    if (newsData.status !== 'PUBLISHED') {
+      error.value = true
+      return
+    }
     article.value = newsData
     categories.value = categoriesResult.data
 

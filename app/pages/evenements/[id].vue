@@ -20,17 +20,23 @@ onMounted(async () => {
       fetchEvent(eventId),
       fetchCategories(),
     ])
+    // Seuls les evenements publies sont accessibles en front-office
+    if (eventData.status !== 'PUBLISHED') {
+      error.value = true
+      return
+    }
     event.value = eventData
     categories.value = categoriesResult.data
 
     // Load related events (same category, exclude current)
     const relatedResult = await fetchEventsList({
       categoryId: eventData.categoryId,
+      status: 'PUBLISHED',
       limit: 4,
     }).catch(() => null)
     if (relatedResult) {
       relatedEvents.value = relatedResult.data
-        .filter(e => e.id !== eventId && (e.status === 'PUBLISHED' || e.status === 'ARCHIVED'))
+        .filter(e => e.id !== eventId && e.status === 'PUBLISHED')
         .slice(0, 3)
     }
   } catch {
