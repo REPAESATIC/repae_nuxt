@@ -128,12 +128,12 @@ export interface RegisterAlumniPayload {
   promotionId: string
   countryId: string
   degree?: string
-  /** Moyen de paiement de la cotisation (Djamo, Orange Money, MTN Mobile Money, Moov Money, Wave, Autre) */
-  paymentMethod: string
-  /** Référence / numéro de transaction du paiement */
-  paymentReference: string
-  /** Preuve de paiement (PDF, JPG ou PNG — max 5 Mo) */
-  paymentProofFile: File
+  /** Moyen de paiement de la cotisation (Djamo, Orange Money, MTN Mobile Money, Moov Money, Wave, Autre) — uniquement en cas d'adhésion */
+  paymentMethod?: string
+  /** Référence / numéro de transaction du paiement — uniquement en cas d'adhésion */
+  paymentReference?: string
+  /** Preuve de paiement (PDF, JPG ou PNG — max 5 Mo) — uniquement en cas d'adhésion */
+  paymentProofFile?: File
 }
 
 // ─── Work Experiences ────────────────────────────────────────────────────────
@@ -321,9 +321,10 @@ export function useIdentityApi() {
     formData.append('promotionId', payload.promotionId)
     formData.append('countryId', payload.countryId)
     if (payload.degree) formData.append('degree', payload.degree)
-    formData.append('paymentMethod', payload.paymentMethod)
-    formData.append('paymentReference', payload.paymentReference)
-    formData.append('paymentProofFile', payload.paymentProofFile)
+    // Informations de paiement envoyées uniquement en cas d'adhésion (cotisation)
+    if (payload.paymentMethod) formData.append('paymentMethod', payload.paymentMethod)
+    if (payload.paymentReference) formData.append('paymentReference', payload.paymentReference)
+    if (payload.paymentProofFile) formData.append('paymentProofFile', payload.paymentProofFile)
 
     // Ne pas définir Content-Type : ofetch ajoute automatiquement la boundary multipart
     return await $fetch<AlumniItem>(`${baseUrl}/auth/register/alumni`, {

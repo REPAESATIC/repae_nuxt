@@ -38,9 +38,14 @@ export function useAlumniRegistration() {
     countryId: '',
     degree: '',
     bio: '',
+    // Adhésion (cotisation) optionnelle : si false, le profil reste un simple alumni
+    wantsMembership: false,
     paymentMethod: '',
     paymentReference: '',
+    // Engagements obligatoires
     acceptTerms: false,
+    certifyAccuracy: false,
+    acceptDataUsage: false,
   })
 
   // Preuve de paiement (gardée hors de `reactive` pour ne pas proxifier l'objet File)
@@ -131,6 +136,11 @@ export function useAlumniRegistration() {
       return
     }
 
+    if (!form.certifyAccuracy || !form.acceptDataUsage) {
+      toast.error('Engagements requis', 'Veuillez cocher toutes les cases d\'engagement obligatoires.')
+      return
+    }
+
     // Formater le numéro de téléphone en E.164
     const phone = formatPhoneE164(form.phoneNumber)
     if (!phone) {
@@ -138,15 +148,18 @@ export function useAlumniRegistration() {
       return
     }
 
-    // Validation des informations de paiement (désormais requises par l'API)
-    if (!form.paymentMethod || !form.paymentReference.trim()) {
-      toast.error('Paiement requis', 'Veuillez indiquer le moyen et la référence du paiement de la cotisation.')
-      return
-    }
+    // Les informations de paiement ne sont requises que si l'utilisateur souhaite adhérer (cotisation).
+    // Sinon, son profil reste un simple alumni (les restrictions seront appliquées plus tard).
+    if (form.wantsMembership) {
+      if (!form.paymentMethod || !form.paymentReference.trim()) {
+        toast.error('Paiement requis', 'Veuillez indiquer le moyen et la référence du paiement de la cotisation.')
+        return
+      }
 
-    if (!paymentProofFile.value) {
-      toast.error('Preuve de paiement requise', 'Veuillez joindre une preuve de paiement (PDF, JPG ou PNG, max 5 Mo).')
-      return
+      if (!paymentProofFile.value) {
+        toast.error('Preuve de paiement requise', 'Veuillez joindre une preuve de paiement (PDF, JPG ou PNG, max 5 Mo).')
+        return
+      }
     }
 
     submitting.value = true
@@ -159,9 +172,14 @@ export function useAlumniRegistration() {
         promotionId: form.promotionId,
         countryId: form.countryId,
         degree: form.degree.trim(),
-        paymentMethod: form.paymentMethod,
-        paymentReference: form.paymentReference.trim(),
-        paymentProofFile: paymentProofFile.value,
+        // Paiement transmis uniquement en cas d'adhésion
+        ...(form.wantsMembership
+          ? {
+              paymentMethod: form.paymentMethod,
+              paymentReference: form.paymentReference.trim(),
+              paymentProofFile: paymentProofFile.value ?? undefined,
+            }
+          : {}),
       })
       submitted.value = true
       toast.success('Demande envoyée', 'Votre demande d\'adhésion a été soumise avec succès. Consultez votre boîte mail.')

@@ -2,22 +2,6 @@
 import World from '@svg-maps/world'
 
 const {
-  promotions,
-  loadingPromotions,
-  countries,
-  loadingCountries,
-  form,
-  paymentProofFile,
-  paymentProofError,
-  paymentMethods,
-  handleProofChange,
-  submitting,
-  submitted,
-  loadReferenceData,
-  handleSubmit,
-} = useAlumniRegistration()
-
-const {
   alumniData,
   loading: loadingMap,
   mainCountry,
@@ -26,7 +10,6 @@ const {
 } = useAlumniMap()
 
 onMounted(() => {
-  loadReferenceData()
   loadMapData()
 })
 
@@ -339,245 +322,30 @@ const selectCountryFromList = (data) => {
             enter-active-class="card-zoom-enter"
             leave-active-class="card-zoom-leave"
           >
-            <!-- Formulaire d'inscription -->
-            <div v-if="!selectedCountry" key="form" class="bg-slate-700 dark:bg-slate-800 p-6 sm:p-8 rounded-xl shadow-xl relative mt-16 lg:mt-0">
+            <!-- Appel à l'adhésion -->
+            <div v-if="!selectedCountry" key="cta" class="bg-slate-700 dark:bg-slate-800 p-6 sm:p-8 rounded-xl shadow-xl relative mt-16 lg:mt-0">
               <!-- Logo responsive -->
               <div class="flex items-center justify-center mb-4 absolute -top-12 sm:-top-16 left-1/2 transform -translate-x-1/2">
                 <img class="w-24 h-24 sm:w-32 sm:h-32 rounded-full shadow-lg" src="/image/logos_REAPE/DECLINAISON/logo_BBL.png" alt="Logo REPAE">
               </div>
 
-              <!-- Success state -->
-              <div v-if="submitted" class="text-center mt-6 sm:mt-10 py-8">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/15 flex items-center justify-center">
-                  <font-awesome-icon icon="fa-solid fa-check-circle" class="text-green-400 text-3xl" />
-                </div>
-                <h3 class="text-lg font-bold text-white font-brand mb-2">
-                  Demande envoyée !
+              <div class="text-center mt-8 sm:mt-12 py-6">
+                <h3 class="text-lg sm:text-xl font-bold text-white font-brand mb-3">
+                  Rejoignez le réseau REPAE
                 </h3>
-                <p class="text-xs text-gray-300 font-brand mb-4">
-                  Un email de confirmation vous a été envoyé. L'équipe REPAE vous contactera bientôt.
+                <p class="text-xs sm:text-sm text-gray-300 font-brand mb-6">
+                  Connectez-vous à notre réseau professionnel d'excellence et accédez à l'annuaire, aux offres d'emploi et au forum des alumni ESATIC.
                 </p>
+
                 <NuxtLink
-                  to="/association/presentation"
-                  class="inline-flex items-center gap-2 px-4 py-2 bg-repae-blue-500 hover:bg-repae-blue-600 text-white text-sm font-brand font-semibold rounded-lg transition-colors cursor-pointer"
+                  to="/association/adhesion"
+                  class="inline-flex items-center justify-center gap-2 w-full bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold py-2.5 sm:py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base cursor-pointer"
                 >
-                  <font-awesome-icon icon="fa-solid fa-arrow-left" />
-                  Voir l'association
+                  <font-awesome-icon icon="fa-solid fa-user-plus" class="mr-1" />
+                  Devenir membre
+                  <font-awesome-icon icon="fa-solid fa-arrow-right" />
                 </NuxtLink>
               </div>
-
-              <!-- Formulaire -->
-              <template v-else>
-                <!-- Titre du formulaire responsive -->
-                <div class="text-center mb-6 sm:mb-8 mt-6 sm:mt-10">
-                  <h3 class="text-lg sm:text-xl font-bold text-white font-brand">
-                    Créer un compte ALUMNI
-                  </h3>
-                  <p class="text-xs sm:text-sm text-gray-300 font-brand mt-2">
-                    Connectez-vous à notre réseau professionnel d'excellence
-                  </p>
-                </div>
-
-                <form @submit.prevent="handleSubmit" class="space-y-3 sm:space-y-4">
-                  <!-- Champ Prénom -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <input
-                      v-model="form.firstName"
-                      type="text"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                      placeholder="Prénom *"
-                    >
-                  </div>
-
-                  <!-- Champ Nom -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <input
-                      v-model="form.lastName"
-                      type="text"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                      placeholder="Nom *"
-                    >
-                  </div>
-
-                  <!-- Champ Email -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-envelope" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <input
-                      v-model="form.email"
-                      type="email"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                      placeholder="Email *"
-                    >
-                  </div>
-
-                  <!-- Champ Téléphone -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-phone" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <input
-                      v-model="form.phoneNumber"
-                      type="tel"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                      placeholder="+225 07 00 00 00 00 *"
-                    >
-                  </div>
-
-                  <!-- Champ Promotion -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <select
-                      v-model="form.promotionId"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-8 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand border-0 appearance-none text-sm sm:text-base cursor-pointer"
-                    >
-                      <option value="">
-                        {{ loadingPromotions ? 'Chargement...' : 'Promotion ESATIC *' }}
-                      </option>
-                      <option v-for="promo in promotions" :key="promo.id" :value="promo.id">
-                        Promotion {{ promo.year }}{{ promo.nickname ? ` — ${promo.nickname}` : '' }}
-                      </option>
-                    </select>
-                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
-                    </div>
-                  </div>
-
-                  <!-- Champ Pays -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-globe" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <select
-                      v-model="form.countryId"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-8 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand border-0 appearance-none text-sm sm:text-base cursor-pointer"
-                    >
-                      <option value="">
-                        {{ loadingCountries ? 'Chargement...' : 'Pays de résidence *' }}
-                      </option>
-                      <option v-for="country in countries" :key="country.id" :value="country.id">
-                        {{ country.name }}
-                      </option>
-                    </select>
-                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
-                    </div>
-                  </div>
-
-                  <!-- Champ Diplôme obtenu -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <input
-                      v-model="form.degree"
-                      type="text"
-                      required
-                      maxlength="100"
-                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                      placeholder="Diplôme obtenu *"
-                    >
-                  </div>
-
-                  <!-- Champ Moyen de paiement -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-money-bill-wave" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <select
-                      v-model="form.paymentMethod"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-8 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand border-0 appearance-none text-sm sm:text-base cursor-pointer"
-                    >
-                      <option value="">Moyen de paiement *</option>
-                      <option v-for="method in paymentMethods" :key="method" :value="method">
-                        {{ method }}
-                      </option>
-                    </select>
-                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <font-awesome-icon icon="fa-solid fa-chevron-down" class="text-repae-gray-400 text-sm" />
-                    </div>
-                  </div>
-
-                  <!-- Champ Référence de paiement -->
-                  <div class="relative">
-                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                      <font-awesome-icon icon="fa-solid fa-hashtag" class="text-repae-blue-500 text-base sm:text-lg" />
-                    </div>
-                    <input
-                      v-model="form.paymentReference"
-                      type="text"
-                      required
-                      class="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-lg bg-white text-repae-gray-900 font-brand placeholder-repae-gray-400 border-0 text-sm sm:text-base"
-                      placeholder="Référence du paiement *"
-                    >
-                  </div>
-
-                  <!-- Champ Preuve de paiement -->
-                  <div>
-                    <label class="block text-xs font-brand text-gray-300 mb-1">
-                      Preuve de paiement * <span class="text-gray-400">(PDF, JPG, PNG — 5 Mo max)</span>
-                    </label>
-                    <input
-                      type="file"
-                      accept="application/pdf,image/jpeg,image/png"
-                      required
-                      @change="handleProofChange"
-                      class="block w-full text-xs text-gray-300 font-brand file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-repae-blue-500 file:text-white hover:file:bg-repae-blue-600 file:cursor-pointer cursor-pointer rounded-lg bg-white/10 p-2"
-                    >
-                    <p v-if="paymentProofError" class="text-xs text-red-400 mt-1">
-                      {{ paymentProofError }}
-                    </p>
-                    <p v-else-if="paymentProofFile" class="text-xs text-green-400 mt-1 truncate">
-                      <font-awesome-icon icon="fa-solid fa-check-circle" class="mr-1" />
-                      {{ paymentProofFile.name }}
-                    </p>
-                  </div>
-
-                  <!-- Acceptation conditions -->
-                  <div class="flex items-start gap-2">
-                    <input
-                      v-model="form.acceptTerms"
-                      type="checkbox"
-                      required
-                      class="mt-1 w-4 h-4 rounded border-gray-300 text-repae-blue-500 focus:ring-repae-blue-500 cursor-pointer"
-                    />
-                    <label class="text-xs font-brand text-gray-300">
-                      J'accepte les <NuxtLink to="/association/statuts" class="text-repae-blue-400 hover:underline">statuts</NuxtLink>
-                      et le <NuxtLink to="/association/reglement" class="text-repae-blue-400 hover:underline">règlement intérieur</NuxtLink> *
-                    </label>
-                  </div>
-
-                  <!-- Bouton de soumission -->
-                  <button
-                    type="submit"
-                    :disabled="submitting"
-                    class="w-full bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold py-2.5 sm:py-3 rounded-lg transition-all transform hover:scale-105 shadow-lg mt-4 sm:mt-6 text-sm sm:text-base cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  >
-                    <font-awesome-icon
-                      :icon="submitting ? 'fa-solid fa-spinner' : 'fa-solid fa-user-plus'"
-                      :class="{ 'animate-spin': submitting }"
-                      class="mr-2"
-                    />
-                    {{ submitting ? 'Envoi en cours...' : 'S\'inscrire' }}
-                  </button>
-                </form>
-              </template>
             </div>
 
             <!-- Card du pays sélectionné - Style Notebook -->
