@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import type { NewsItem, CategoryItem } from '~/composables/useNewsApi'
+import type { EventItem } from '~/composables/useEventsApi'
 
 definePageMeta({
   layout: 'admin',
 })
 
 const { fetchNewsList, fetchCategories } = useNewsApi()
+const { fetchEventsList } = useEventsApi()
 const toast = useToast()
+
+// Ligne unifiee du tableau : une actualite ou un evenement a venir
+type FeedRow =
+  | { kind: 'news'; data: NewsItem }
+  | { kind: 'event'; data: EventItem }
 
 // State
 const news = ref<NewsItem[]>([])
+const upcomingEvents = ref<EventItem[]>([])
 const categories = ref<CategoryItem[]>([])
 const total = ref(0)
 const page = ref(1)
@@ -21,6 +29,16 @@ const categoryFilter = ref('')
 
 // Computed
 const totalPages = computed(() => Math.ceil(total.value / limit.value))
+
+// Lignes affichees : les evenements a venir en tete (page 1 uniquement), puis les actualites
+const feedRows = computed<FeedRow[]>(() => {
+  const rows: FeedRow[] = []
+  if (page.value === 1) {
+    for (const event of upcomingEvents.value) rows.push({ kind: 'event', data: event })
+  }
+  for (const item of news.value) rows.push({ kind: 'news', data: item })
+  return rows
+})
 
 // Fetch data
 const loadNews = async () => {
@@ -42,6 +60,25 @@ const loadNews = async () => {
   }
 }
 
+// Un evenement dont la date est dans le futur constitue une actualite a venir
+const loadUpcomingEvents = async () => {
+  try {
+    const result = await fetchEventsList({
+      search: searchQuery.value || undefined,
+      status: statusFilter.value || undefined,
+      categoryId: categoryFilter.value || undefined,
+      limit: 100,
+    })
+    const now = Date.now()
+    upcomingEvents.value = result.data
+      .filter(e => new Date(e.eventDate).getTime() >= now)
+      .sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime())
+  } catch {
+    // silently fail - les evenements sont un complement non critique
+    upcomingEvents.value = []
+  }
+}
+
 const loadCategories = async () => {
   try {
     const result = await fetchCategories()
@@ -55,6 +92,7 @@ const loadCategories = async () => {
 watch([searchQuery, statusFilter, categoryFilter], () => {
   page.value = 1
   loadNews()
+  loadUpcomingEvents()
 })
 
 watch(page, () => loadNews())
@@ -62,6 +100,7 @@ watch(page, () => loadNews())
 // Init
 onMounted(() => {
   loadNews()
+  loadUpcomingEvents()
   loadCategories()
 })
 
@@ -74,6 +113,7 @@ const statusConfig: Record<string, { label: string; class: string }> = {
   DRAFT: { label: 'Brouillon', class: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-400' },
   PUBLISHED: { label: 'Publié', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
   ARCHIVED: { label: 'Archivé', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+  FINISHED: { label: 'Terminé', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
 }
 
 const formatDate = (date: string) => {
@@ -95,6 +135,9 @@ const formatDate = (date: string) => {
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-1">
           {{ total }} actualité{{ total > 1 ? 's' : '' }} au total
+          <span v-if="upcomingEvents.length" class="text-repae-blue-500 dark:text-repae-blue-400">
+            · {{ upcomingEvents.length }} événement{{ upcomingEvents.length > 1 ? 's' : '' }} à venir
+          </span>
         </p>
       </div>
       <NuxtLink
@@ -152,7 +195,7 @@ const formatDate = (date: string) => {
 
     <!-- Empty state -->
     <div
-      v-else-if="news.length === 0"
+      v-else-if="feedRows.length === 0"
       class="text-center py-20 bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700"
     >
       <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center">
@@ -183,6 +226,9 @@ const formatDate = (date: string) => {
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider">
                 Actualité
               </th>
+              <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
+                Type
+              </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden md:table-cell">
                 Catégorie
               </th>
@@ -200,18 +246,24 @@ const formatDate = (date: string) => {
           </thead>
           <tbody class="divide-y divide-gray-100 dark:divide-repae-gray-700/50">
             <tr
-              v-for="item in news"
-              :key="item.id"
+              v-for="row in feedRows"
+              :key="`${row.kind}-${row.data.id}`"
               class="hover:bg-gray-50 dark:hover:bg-repae-gray-700/30 transition-colors"
             >
               <!-- Title + cover -->
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
                   <div
-                    v-if="item.coverImage"
+                    v-if="row.kind === 'news' ? row.data.coverImage : row.data.imageUrl"
                     class="w-12 h-12 rounded-lg bg-cover bg-center shrink-0 hidden sm:block"
-                    :style="{ backgroundImage: `url(${item.coverImage})` }"
+                    :style="{ backgroundImage: `url(${row.kind === 'news' ? row.data.coverImage : row.data.imageUrl})` }"
                   />
+                  <div
+                    v-else-if="row.kind === 'event'"
+                    class="w-12 h-12 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 items-center justify-center shrink-0 hidden sm:flex"
+                  >
+                    <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-repae-blue-500 text-sm" />
+                  </div>
                   <div
                     v-else
                     class="w-12 h-12 rounded-lg bg-violet-100 dark:bg-violet-500/15 items-center justify-center shrink-0 hidden sm:flex"
@@ -220,9 +272,9 @@ const formatDate = (date: string) => {
                   </div>
                   <div class="min-w-0">
                     <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white truncate max-w-xs">
-                      {{ item.title }}
+                      {{ row.data.title }}
                     </p>
-                    <p v-if="item.isFeatured" class="text-xs text-amber-500 font-medium mt-0.5">
+                    <p v-if="row.data.isFeatured" class="text-xs text-amber-500 font-medium mt-0.5">
                       <font-awesome-icon icon="fa-solid fa-star" class="mr-1" />
                       À la une
                     </p>
@@ -230,10 +282,28 @@ const formatDate = (date: string) => {
                 </div>
               </td>
 
+              <!-- Type -->
+              <td class="px-6 py-4 hidden sm:table-cell">
+                <span
+                  v-if="row.kind === 'event'"
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-400"
+                >
+                  <font-awesome-icon icon="fa-solid fa-calendar-alt" />
+                  Événement
+                </span>
+                <span
+                  v-else
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400"
+                >
+                  <font-awesome-icon icon="fa-solid fa-bullhorn" />
+                  Actualité
+                </span>
+              </td>
+
               <!-- Category -->
               <td class="px-6 py-4 hidden md:table-cell">
                 <span class="text-sm text-repae-gray-600 dark:text-repae-gray-300">
-                  {{ getCategoryName(item.categoryId) }}
+                  {{ getCategoryName(row.data.categoryId) }}
                 </span>
               </td>
 
@@ -242,31 +312,39 @@ const formatDate = (date: string) => {
                 <span
                   :class="[
                     'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold',
-                    statusConfig[item.status]?.class || ''
+                    statusConfig[row.data.status]?.class || ''
                   ]"
                 >
-                  {{ statusConfig[item.status]?.label || item.status }}
+                  {{ statusConfig[row.data.status]?.label || row.data.status }}
                 </span>
               </td>
 
               <!-- Author -->
               <td class="px-6 py-4 hidden lg:table-cell">
                 <span class="text-sm text-repae-gray-600 dark:text-repae-gray-300">
-                  {{ item.author.fullName }}
+                  {{ row.kind === 'news' ? row.data.author.fullName : '—' }}
                 </span>
               </td>
 
               <!-- Date -->
               <td class="px-6 py-4 hidden lg:table-cell">
-                <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
-                  {{ formatDate(item.createdAt) }}
+                <span v-if="row.kind === 'event'" class="inline-flex flex-col">
+                  <span class="text-sm text-repae-gray-600 dark:text-repae-gray-300">
+                    {{ formatDate(row.data.eventDate) }}
+                  </span>
+                  <span class="text-xs text-repae-blue-500 dark:text-repae-blue-400 font-medium">
+                    À venir
+                  </span>
+                </span>
+                <span v-else class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
+                  {{ formatDate(row.data.createdAt) }}
                 </span>
               </td>
 
               <!-- Actions -->
               <td class="px-6 py-4 text-right">
                 <NuxtLink
-                  :to="`/admin/actualites/${item.id}`"
+                  :to="row.kind === 'event' ? `/admin/evenements/${row.data.id}` : `/admin/actualites/${row.data.id}`"
                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors cursor-pointer"
                 >
                   <font-awesome-icon icon="fa-solid fa-pen" />
