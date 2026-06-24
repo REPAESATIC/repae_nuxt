@@ -399,12 +399,19 @@ onMounted(() => {
                     </div>
                   </div>
 
+                  <!-- Logos des moyens de paiement disponibles via le bouton -->
+                  <img
+                    src="/image/logo_mobile_monney.png"
+                    alt="Moyens de paiement disponibles : Djamo, Moov, Orange Money, MTN, Wave"
+                    class="mt-5 mx-auto h-5 sm:h-6 w-auto opacity-90"
+                  />
+
                   <!-- Lien de paiement en ligne -->
                   <a
                     :href="cotisation.lienPaiement"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="mt-5 w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                    class="mt-3 w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-brand font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-solid fa-lock" />
                     Effectuer le paiement
