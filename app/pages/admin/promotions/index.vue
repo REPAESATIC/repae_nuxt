@@ -116,7 +116,7 @@ const formatDate = (date: string) => {
         </p>
       </div>
       <button
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
         @click="openCreate"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
@@ -126,7 +126,7 @@ const formatDate = (date: string) => {
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <!-- Empty state -->
@@ -134,8 +134,8 @@ const formatDate = (date: string) => {
       v-else-if="promotions.length === 0"
       class="text-center py-20 bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700"
     >
-      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center">
-        <font-awesome-icon icon="fa-solid fa-flag" class="text-violet-500 text-2xl" />
+      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center">
+        <font-awesome-icon icon="fa-solid fa-flag" class="text-repae-blue-500 text-2xl" />
       </div>
       <h3 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
         Aucune promotion
@@ -144,7 +144,7 @@ const formatDate = (date: string) => {
         Créez votre première promotion pour les alumni.
       </p>
       <button
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
         @click="openCreate"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
@@ -161,8 +161,8 @@ const formatDate = (date: string) => {
       >
         <div class="flex items-start justify-between mb-3">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center">
-              <span class="text-sm font-bold font-brand text-violet-600 dark:text-violet-400">
+            <div class="w-12 h-12 rounded-xl bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center">
+              <span class="text-sm font-bold font-brand text-repae-blue-600 dark:text-repae-blue-400">
                 {{ promo.year }}
               </span>
             </div>
@@ -176,7 +176,7 @@ const formatDate = (date: string) => {
             </div>
           </div>
           <button
-            class="p-2 rounded-lg text-repae-gray-400 hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors cursor-pointer"
+            class="p-2 rounded-lg text-repae-gray-400 hover:text-repae-blue-500 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer"
             @click="openEdit(promo)"
           >
             <font-awesome-icon icon="fa-solid fa-pen" class="text-sm" />
@@ -239,7 +239,7 @@ const formatDate = (date: string) => {
                   max="2100"
                   required
                   placeholder="Ex: 2024"
-                  class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+                  class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
                 />
               </div>
 
@@ -253,7 +253,7 @@ const formatDate = (date: string) => {
                   type="text"
                   maxlength="100"
                   placeholder="Ex: Les pionniers"
-                  class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+                  class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
                 />
                 <p class="text-xs text-repae-gray-400 mt-1">
                   Optionnel. Un surnom donné à la promotion (max 100 caractères).
@@ -265,9 +265,9 @@ const formatDate = (date: string) => {
                 <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
                   Aperçu
                 </label>
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-100 dark:bg-violet-500/15">
-                  <font-awesome-icon icon="fa-solid fa-flag" class="text-violet-500 text-sm" />
-                  <span class="text-sm font-semibold text-violet-600 dark:text-violet-400">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15">
+                  <font-awesome-icon icon="fa-solid fa-flag" class="text-repae-blue-500 text-sm" />
+                  <span class="text-sm font-semibold text-repae-blue-600 dark:text-repae-blue-400">
                     Promotion {{ form.year }}{{ form.nickname.trim() ? ` — ${form.nickname.trim()}` : '' }}
                   </span>
                 </div>
@@ -285,7 +285,7 @@ const formatDate = (date: string) => {
                 <button
                   type="submit"
                   :disabled="saving"
-                  class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
                 >
                   <font-awesome-icon
                     :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"

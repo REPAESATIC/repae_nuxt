@@ -69,7 +69,7 @@ const formatDate = (date: string) => {
 const skillLevelConfig: Record<string, { label: string; class: string }> = {
   BEGINNER: { label: 'Débutant', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
   INTERMEDIATE: { label: 'Intermédiaire', class: 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400' },
-  ADVANCED: { label: 'Avancé', class: 'bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400' },
+  ADVANCED: { label: 'Avancé', class: 'bg-repae-blue-100 text-repae-blue-600 dark:bg-repae-blue-500/15 dark:text-repae-blue-400' },
   EXPERT: { label: 'Expert', class: 'bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400' },
 }
 </script>
@@ -78,7 +78,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
   <div>
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <template v-else-if="alumni">
@@ -159,7 +159,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 overflow-hidden">
           <!-- Cover -->
           <div
-            class="h-32 sm:h-40 bg-gradient-to-r from-violet-500 to-indigo-600"
+            class="h-32 sm:h-40 bg-gradient-to-r from-repae-blue-500 to-repae-blue-700"
             :style="alumni.coverPicUrl ? { backgroundImage: `url(${alumni.coverPicUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}"
           />
 
@@ -173,9 +173,9 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               />
               <div
                 v-else
-                class="w-20 h-20 rounded-2xl bg-violet-100 dark:bg-violet-500/15 border-4 border-white dark:border-repae-gray-800 flex items-center justify-center shrink-0"
+                class="w-20 h-20 rounded-2xl bg-repae-blue-100 dark:bg-repae-blue-500/15 border-4 border-white dark:border-repae-gray-800 flex items-center justify-center shrink-0"
               >
-                <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-violet-500 text-2xl" />
+                <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-repae-blue-500 text-2xl" />
               </div>
               <div class="min-w-0 pb-1">
                 <h3 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white">
@@ -215,7 +215,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 :href="alumni.portfolioUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center text-repae-gray-500 hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors cursor-pointer"
+                class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center text-repae-gray-500 hover:text-repae-blue-500 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer"
               >
                 <font-awesome-icon icon="fa-solid fa-globe" />
               </a>
@@ -239,8 +239,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div v-if="alumni.email" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-envelope" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-envelope" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Email</p>
@@ -248,8 +248,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.phoneNumber" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-phone" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-phone" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Téléphone</p>
@@ -257,8 +257,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.city || alumni.country" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Localisation</p>
@@ -268,8 +268,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.address" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Adresse</p>
@@ -277,8 +277,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.promotion" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Promotion</p>
@@ -286,8 +286,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.department" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-briefcase" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-briefcase" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Département</p>

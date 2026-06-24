@@ -72,13 +72,13 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-violet-50 dark:from-repae-gray-950 dark:via-repae-gray-900 dark:to-violet-950/20 flex items-center justify-center px-4 py-12">
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-repae-blue-50 dark:from-repae-gray-950 dark:via-repae-gray-900 dark:to-repae-blue-950/20 flex items-center justify-center px-4 py-12">
     <div class="w-full max-w-md">
       <!-- Logo -->
       <div class="text-center mb-8">
         <NuxtLink to="/" class="inline-flex items-center gap-3 group">
           <div class="relative">
-            <div class="w-14 h-14 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/25 group-hover:shadow-violet-500/40 transition-shadow">
+            <div class="w-14 h-14 bg-gradient-to-br from-repae-blue-500 to-repae-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-repae-blue-500/25 group-hover:shadow-repae-blue-500/40 transition-shadow">
               <font-awesome-icon icon="fa-solid fa-shield-alt" class="text-2xl text-white" />
             </div>
           </div>
@@ -86,7 +86,7 @@ const handleSubmit = async () => {
             <span class="block text-2xl font-bold font-brand text-repae-gray-900 dark:text-white">
               REPAE
             </span>
-            <span class="block text-sm text-violet-600 dark:text-violet-400 font-medium">
+            <span class="block text-sm text-repae-blue-600 dark:text-repae-blue-400 font-medium">
               Administration
             </span>
           </div>
@@ -128,7 +128,7 @@ const handleSubmit = async () => {
                 v-model="form.email"
                 type="email"
                 placeholder="admin@repae.ci"
-                class="w-full px-4 py-3 pl-11 bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 rounded-xl focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 text-repae-gray-900 dark:text-white placeholder-repae-gray-400 transition-colors"
+                class="w-full px-4 py-3 pl-11 bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 rounded-xl focus:ring-2 focus:ring-repae-blue-500/50 focus:border-repae-blue-500 text-repae-gray-900 dark:text-white placeholder-repae-gray-400 transition-colors"
                 required
               />
               <font-awesome-icon
@@ -149,7 +149,7 @@ const handleSubmit = async () => {
                 v-model="form.password"
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Votre mot de passe"
-                class="w-full px-4 py-3 pl-11 pr-11 bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 rounded-xl focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500 text-repae-gray-900 dark:text-white placeholder-repae-gray-400 transition-colors"
+                class="w-full px-4 py-3 pl-11 pr-11 bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 rounded-xl focus:ring-2 focus:ring-repae-blue-500/50 focus:border-repae-blue-500 text-repae-gray-900 dark:text-white placeholder-repae-gray-400 transition-colors"
                 required
               />
               <font-awesome-icon
@@ -172,13 +172,13 @@ const handleSubmit = async () => {
               <input
                 v-model="form.rememberMe"
                 type="checkbox"
-                class="w-4 h-4 rounded border-gray-300 text-violet-500 focus:ring-violet-500 cursor-pointer"
+                class="w-4 h-4 rounded border-gray-300 text-repae-blue-500 focus:ring-repae-blue-500 cursor-pointer"
               />
               <span class="text-sm text-repae-gray-600 dark:text-repae-gray-400">
                 Se souvenir de moi
               </span>
             </label>
-            <NuxtLink to="/mot-de-passe-oublie?from=admin" class="text-sm text-violet-600 dark:text-violet-400 hover:underline">
+            <NuxtLink to="/mot-de-passe-oublie?from=admin" class="text-sm text-repae-blue-600 dark:text-repae-blue-400 hover:underline">
               Mot de passe oublié ?
             </NuxtLink>
           </div>
@@ -187,7 +187,7 @@ const handleSubmit = async () => {
           <button
             type="submit"
             :disabled="isLoading"
-            class="w-full px-6 py-3 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 disabled:from-violet-300 disabled:to-indigo-400 text-white font-semibold rounded-xl shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2"
+            class="w-full px-6 py-3 bg-gradient-to-r from-repae-blue-500 to-repae-blue-700 hover:from-repae-blue-600 hover:to-repae-blue-800 disabled:from-repae-blue-300 disabled:to-repae-blue-400 text-white font-semibold rounded-xl shadow-lg shadow-repae-blue-500/25 hover:shadow-repae-blue-500/40 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2"
           >
             <font-awesome-icon
               v-if="isLoading"
@@ -207,7 +207,7 @@ const handleSubmit = async () => {
       <p class="text-center mt-6">
         <NuxtLink
           to="/"
-          class="inline-flex items-center gap-2 text-sm text-repae-gray-500 dark:text-repae-gray-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
+          class="inline-flex items-center gap-2 text-sm text-repae-gray-500 dark:text-repae-gray-400 hover:text-repae-blue-600 dark:hover:text-repae-blue-400 transition-colors"
         >
           <font-awesome-icon icon="fa-solid fa-arrow-left" />
           Retour au site REPAE

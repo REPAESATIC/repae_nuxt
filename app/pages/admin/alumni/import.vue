@@ -174,7 +174,7 @@ const importAnother = () => {
               Importer un autre fichier
             </button>
             <button
-              class="px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold transition-colors cursor-pointer"
+              class="px-4 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white text-sm font-semibold transition-colors cursor-pointer"
               @click="router.push('/admin/alumni')"
             >
               Voir les alumni
@@ -228,13 +228,13 @@ const importAnother = () => {
       <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <div class="flex items-start justify-between gap-4 mb-4">
           <div class="flex items-center gap-2">
-            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-violet-500" />
+            <font-awesome-icon icon="fa-solid fa-circle-info" class="text-repae-blue-500" />
             <h3 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
               Colonnes attendues
             </h3>
           </div>
           <button
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-violet-200 dark:border-violet-500/30 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors cursor-pointer shrink-0"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-repae-blue-200 dark:border-repae-blue-500/30 text-sm font-semibold text-repae-blue-600 dark:text-repae-blue-400 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer shrink-0"
             @click="downloadTemplate"
           >
             <font-awesome-icon icon="fa-solid fa-download" />
@@ -252,7 +252,7 @@ const importAnother = () => {
             :key="col.name"
             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium"
             :class="col.required
-              ? 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300'
+              ? 'bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-300'
               : 'bg-gray-100 text-repae-gray-600 dark:bg-repae-gray-700 dark:text-repae-gray-300'"
           >
             {{ col.name }}
@@ -268,7 +268,7 @@ const importAnother = () => {
       <div
         class="relative rounded-2xl border-2 border-dashed transition-colors p-8"
         :class="isDragging
-          ? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10'
+          ? 'border-repae-blue-500 bg-repae-blue-50 dark:bg-repae-blue-500/10'
           : 'border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800'"
         @dragover.prevent="isDragging = true"
         @dragleave.prevent="isDragging = false"
@@ -284,8 +284,8 @@ const importAnother = () => {
 
         <!-- Aucun fichier -->
         <div v-if="!file" class="text-center">
-          <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center">
-            <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-violet-500 text-2xl" />
+          <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center">
+            <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-repae-blue-500 text-2xl" />
           </div>
           <p class="text-sm font-semibold text-repae-gray-900 dark:text-white mb-1">
             Glissez-déposez votre fichier ici
@@ -294,7 +294,7 @@ const importAnother = () => {
             Formats acceptés : Excel (.xlsx, .xls) ou CSV (.csv)
           </p>
           <button
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold transition-colors cursor-pointer"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white text-sm font-semibold transition-colors cursor-pointer"
             @click="fileInput?.click()"
           >
             <font-awesome-icon icon="fa-solid fa-file-import" />
@@ -337,7 +337,7 @@ const importAnother = () => {
         </NuxtLink>
         <button
           :disabled="!file || importing"
-          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors cursor-pointer"
+          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors cursor-pointer"
           @click="submit"
         >
           <font-awesome-icon

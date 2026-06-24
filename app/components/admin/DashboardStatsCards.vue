@@ -8,8 +8,8 @@ defineProps<{
 
 const colorClasses: Record<string, { bg: string; text: string }> = {
   violet: {
-    bg: 'bg-violet-100 dark:bg-violet-500/20',
-    text: 'text-violet-500',
+    bg: 'bg-repae-blue-100 dark:bg-repae-blue-500/20',
+    text: 'text-repae-blue-500',
   },
   blue: {
     bg: 'bg-repae-blue-100 dark:bg-repae-blue-500/20',
@@ -40,7 +40,7 @@ const colorClasses: Record<string, { bg: string; text: string }> = {
       v-for="(stat, index) in stats"
       :key="stat.id"
       :to="stat.href"
-      class="bg-white dark:bg-repae-gray-800 rounded-xl p-4 border border-gray-200 dark:border-repae-gray-700 hover:shadow-md hover:border-violet-300 dark:hover:border-violet-500/50 transition-all cursor-pointer group animate__animated animate__fadeInUp"
+      class="bg-white dark:bg-repae-gray-800 rounded-xl p-4 border border-gray-200 dark:border-repae-gray-700 hover:shadow-md hover:border-repae-blue-300 dark:hover:border-repae-blue-500/50 transition-all cursor-pointer group animate__animated animate__fadeInUp"
       :style="{ animationDelay: `${index * 80}ms` }"
     >
       <!-- Squelette de chargement -->
@@ -68,7 +68,7 @@ const colorClasses: Record<string, { bg: string; text: string }> = {
           </div>
           <font-awesome-icon
             icon="fa-solid fa-arrow-right"
-            class="text-xs text-repae-gray-300 dark:text-repae-gray-600 group-hover:text-violet-500 group-hover:translate-x-1 transition-all"
+            class="text-xs text-repae-gray-300 dark:text-repae-gray-600 group-hover:text-repae-blue-500 group-hover:translate-x-1 transition-all"
           />
         </div>
         <p class="mt-3 text-2xl font-bold font-brand text-repae-gray-900 dark:text-white">

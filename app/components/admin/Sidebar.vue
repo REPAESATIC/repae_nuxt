@@ -85,14 +85,14 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
         class="flex items-center gap-3"
         @click="emit('closeMobile')"
       >
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/25">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-repae-blue-500 to-repae-blue-700 flex items-center justify-center flex-shrink-0 shadow-lg shadow-repae-blue-500/25">
           <font-awesome-icon icon="fa-solid fa-shield-alt" class="text-white text-lg" />
         </div>
         <div v-if="showLabel" class="flex flex-col">
           <span class="text-sm font-bold font-brand text-white tracking-wide">
             REPAE
           </span>
-          <span class="text-[10px] font-medium text-violet-400 tracking-widest uppercase">
+          <span class="text-[10px] font-medium text-repae-blue-400 tracking-widest uppercase">
             Administration
           </span>
         </div>
@@ -131,7 +131,7 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
             :class="[
               'relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group',
               isActiveRoute(item.href)
-                ? 'bg-violet-500/15 text-white'
+                ? 'bg-repae-blue-500/15 text-white'
                 : 'text-slate-400 hover:bg-white/5 hover:text-white'
             ]"
             @click="emit('closeMobile')"
@@ -139,14 +139,14 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
             <!-- Active indicator -->
             <div
               v-if="isActiveRoute(item.href)"
-              class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-violet-500 rounded-r-full"
+              class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-repae-blue-500 rounded-r-full"
             />
             <div
               :class="[
                 'w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200',
                 isActiveRoute(item.href)
-                  ? 'bg-violet-500 text-white shadow-lg shadow-violet-500/30'
-                  : 'bg-slate-800/80 text-slate-400 group-hover:bg-slate-800 group-hover:text-violet-400'
+                  ? 'bg-repae-blue-500 text-white shadow-lg shadow-repae-blue-500/30'
+                  : 'bg-slate-800/80 text-slate-400 group-hover:bg-slate-800 group-hover:text-repae-blue-400'
               ]"
             >
               <font-awesome-icon :icon="item.icon" class="text-sm" />
@@ -172,7 +172,7 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
         <button
           :class="[
             'w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer',
-            isGroupActive(group.id) ? 'text-violet-400' : 'text-slate-500 hover:text-slate-300'
+            isGroupActive(group.id) ? 'text-repae-blue-400' : 'text-slate-500 hover:text-slate-300'
           ]"
           @click="toggleGroup(group.id)"
         >
@@ -218,7 +218,7 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
                 :class="[
                   'relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group',
                   isActiveRoute(item.href)
-                    ? 'bg-violet-500/15 text-white'
+                    ? 'bg-repae-blue-500/15 text-white'
                     : 'text-slate-400 hover:bg-white/5 hover:text-white'
                 ]"
                 @click="emit('closeMobile')"
@@ -226,14 +226,14 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
                 <!-- Active indicator -->
                 <div
                   v-if="isActiveRoute(item.href)"
-                  class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-violet-500 rounded-r-full"
+                  class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-repae-blue-500 rounded-r-full"
                 />
                 <div
                   :class="[
                     'w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200',
                     isActiveRoute(item.href)
-                      ? 'bg-violet-500 text-white shadow-lg shadow-violet-500/30'
-                      : 'bg-slate-800/80 text-slate-400 group-hover:bg-slate-800 group-hover:text-violet-400'
+                      ? 'bg-repae-blue-500 text-white shadow-lg shadow-repae-blue-500/30'
+                      : 'bg-slate-800/80 text-slate-400 group-hover:bg-slate-800 group-hover:text-repae-blue-400'
                   ]"
                 >
                   <font-awesome-icon :icon="item.icon" class="text-sm" />
@@ -247,7 +247,7 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
                   </span>
                   <span
                     v-if="item.badge"
-                    class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-violet-500/20 text-violet-400 border border-violet-500/20 whitespace-nowrap"
+                    class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-repae-blue-500/20 text-repae-blue-400 border border-repae-blue-500/20 whitespace-nowrap"
                   >
                     {{ item.badge }}
                   </span>
@@ -267,7 +267,7 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
         class="mb-3 px-3 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800/50"
       >
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-repae-blue-500 to-repae-blue-700 flex items-center justify-center flex-shrink-0">
             <font-awesome-icon icon="fa-solid fa-user-cog" class="text-white text-xs" />
           </div>
           <div class="flex flex-col min-w-0">

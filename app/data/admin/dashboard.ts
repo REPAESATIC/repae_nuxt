@@ -41,7 +41,7 @@ export const adminQuickActions: AdminQuickAction[] = [
     description: 'Publier un nouvel article',
     icon: 'fa-solid fa-bullhorn',
     href: '/admin/actualites/creer',
-    color: 'from-violet-500 to-indigo-600',
+    color: 'from-repae-blue-500 to-repae-blue-700',
   },
   {
     id: 'creer-evenement',

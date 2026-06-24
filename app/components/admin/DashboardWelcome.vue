@@ -13,7 +13,7 @@ const formattedDate = today.toLocaleDateString('fr-FR', {
 </script>
 
 <template>
-  <div class="bg-linear-to-r from-violet-500 to-indigo-600 rounded-2xl p-6 text-white animate__animated animate__fadeIn">
+  <div class="bg-linear-to-r from-repae-blue-500 to-repae-blue-700 rounded-2xl p-6 text-white animate__animated animate__fadeIn">
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
       <div class="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
         <font-awesome-icon icon="fa-solid fa-shield-alt" class="text-white text-2xl" />

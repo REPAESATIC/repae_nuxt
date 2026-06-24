@@ -107,7 +107,7 @@ const formatEventDate = (date: string) => {
       </div>
       <NuxtLink
         to="/admin/evenements/creer"
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
         Nouvel événement
@@ -126,14 +126,14 @@ const formatEventDate = (date: string) => {
           v-model="searchQuery"
           type="text"
           placeholder="Rechercher un événement..."
-          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
         />
       </div>
 
       <!-- Category filter -->
       <select
         v-model="categoryFilter"
-        class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
+        class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer"
       >
         <option value="">Toutes les catégories</option>
         <option v-for="cat in categories" :key="cat.id" :value="cat.id">
@@ -144,7 +144,7 @@ const formatEventDate = (date: string) => {
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <!-- Empty state -->
@@ -152,8 +152,8 @@ const formatEventDate = (date: string) => {
       v-else-if="events.length === 0"
       class="text-center py-20 bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700"
     >
-      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center">
-        <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-violet-500 text-2xl" />
+      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center">
+        <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-repae-blue-500 text-2xl" />
       </div>
       <h3 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
         Aucun événement
@@ -164,7 +164,7 @@ const formatEventDate = (date: string) => {
       <NuxtLink
         v-if="!searchQuery && !categoryFilter"
         to="/admin/evenements/creer"
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
         Créer un événement
@@ -211,9 +211,9 @@ const formatEventDate = (date: string) => {
                   />
                   <div
                     v-else
-                    class="w-12 h-12 rounded-lg bg-violet-100 dark:bg-violet-500/15 items-center justify-center shrink-0 hidden sm:flex"
+                    class="w-12 h-12 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 items-center justify-center shrink-0 hidden sm:flex"
                   >
-                    <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-violet-500 text-sm" />
+                    <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-repae-blue-500 text-sm" />
                   </div>
                   <div class="min-w-0">
                     <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white truncate max-w-xs">
@@ -270,7 +270,7 @@ const formatEventDate = (date: string) => {
               <td class="px-6 py-4 text-right">
                 <NuxtLink
                   :to="`/admin/evenements/${item.id}`"
-                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors cursor-pointer"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-repae-blue-600 dark:text-repae-blue-400 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer"
                 >
                   <font-awesome-icon icon="fa-solid fa-pen" />
                   Modifier

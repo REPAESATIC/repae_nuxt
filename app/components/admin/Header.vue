@@ -97,7 +97,7 @@ const pageTitle = computed(() => {
 
         <div class="flex items-center gap-3">
           <div class="hidden sm:flex items-center gap-2">
-            <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400">
+            <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md bg-repae-blue-100 dark:bg-repae-blue-500/15 text-repae-blue-600 dark:text-repae-blue-400">
               Admin
             </span>
             <span class="text-slate-300 dark:text-slate-600">/</span>
@@ -118,7 +118,7 @@ const pageTitle = computed(() => {
         >
           <font-awesome-icon
             :icon="isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"
-            :class="isDark ? 'text-amber-400' : 'text-violet-500'"
+            :class="isDark ? 'text-amber-400' : 'text-repae-blue-500'"
           />
         </button>
 
@@ -138,7 +138,7 @@ const pageTitle = computed(() => {
             class="flex items-center gap-3 p-1.5 pr-3 rounded-xl bg-gray-100 dark:bg-repae-gray-800 hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer"
             @click="toggleUserMenu"
           >
-            <div class="w-8 h-8 rounded-lg bg-linear-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-linear-to-br from-repae-blue-500 to-repae-blue-700 flex items-center justify-center">
               <font-awesome-icon icon="fa-solid fa-user-cog" class="text-white text-xs" />
             </div>
             <span class="hidden sm:block text-sm font-medium font-brand text-repae-gray-900 dark:text-white">

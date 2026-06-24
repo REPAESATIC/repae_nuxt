@@ -54,7 +54,7 @@ const buildActivityFromNews = (news: NewsItem[]): AdminActivityItem[] => {
     description: item.title,
     date: item.publishedAt || item.createdAt,
     icon: 'fa-solid fa-bullhorn',
-    color: 'bg-violet-100 dark:bg-violet-500/20 text-violet-600 dark:text-violet-400',
+    color: 'bg-repae-blue-100 dark:bg-repae-blue-500/20 text-repae-blue-600 dark:text-repae-blue-400',
   }))
 }
 
@@ -176,7 +176,7 @@ const stats = computed<AdminDashboardStat[]>(() => [
 // ─── Donnees vue d'ensemble ──────────────────────────────────────────────────
 
 const overviewItems = computed(() => [
-  { label: 'Alumni', value: alumniCount.value, icon: 'fa-solid fa-user-graduate', color: 'text-violet-500', href: '/admin/alumni' },
+  { label: 'Alumni', value: alumniCount.value, icon: 'fa-solid fa-user-graduate', color: 'text-repae-blue-500', href: '/admin/alumni' },
   { label: 'Comptes', value: usersCount.value, icon: 'fa-solid fa-users', color: 'text-repae-blue-500', href: '/admin/comptes' },
   { label: 'Actualités', value: newsCount.value, icon: 'fa-solid fa-bullhorn', color: 'text-orange-500', href: '/admin/actualites' },
   { label: 'Événements', value: eventsCount.value, icon: 'fa-solid fa-calendar-alt', color: 'text-amber-500', href: '/admin/evenements' },
@@ -224,7 +224,7 @@ onMounted(() => {
           v-for="action in adminQuickActions"
           :key="action.id"
           :to="action.href"
-          class="group flex flex-col items-center gap-3 p-4 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 hover:border-violet-300 dark:hover:border-violet-500/50 hover:shadow-lg transition-all cursor-pointer text-center"
+          class="group flex flex-col items-center gap-3 p-4 bg-white dark:bg-repae-gray-800 rounded-xl border border-gray-200 dark:border-repae-gray-700 hover:border-repae-blue-300 dark:hover:border-repae-blue-500/50 hover:shadow-lg transition-all cursor-pointer text-center"
         >
           <div
             :class="[
@@ -299,8 +299,8 @@ onMounted(() => {
           <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white">
             Vue d'ensemble
           </h2>
-          <div class="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-500/20 flex items-center justify-center">
-            <font-awesome-icon icon="fa-solid fa-chart-line" class="text-violet-500" />
+          <div class="w-10 h-10 rounded-xl bg-repae-blue-100 dark:bg-repae-blue-500/20 flex items-center justify-center">
+            <font-awesome-icon icon="fa-solid fa-chart-line" class="text-repae-blue-500" />
           </div>
         </div>
         <div class="space-y-3">
@@ -322,7 +322,7 @@ onMounted(() => {
               </span>
               <font-awesome-icon
                 icon="fa-solid fa-chevron-right"
-                class="text-xs text-repae-gray-400 group-hover:text-violet-500 group-hover:translate-x-1 transition-all"
+                class="text-xs text-repae-gray-400 group-hover:text-repae-blue-500 group-hover:translate-x-1 transition-all"
               />
             </div>
           </NuxtLink>
@@ -330,7 +330,7 @@ onMounted(() => {
         <div class="mt-4 pt-4 border-t border-gray-200 dark:border-repae-gray-700 text-center">
           <NuxtLink
             to="/admin/parametres"
-            class="text-sm text-violet-500 hover:text-violet-600 font-medium font-brand inline-flex items-center gap-2"
+            class="text-sm text-repae-blue-500 hover:text-repae-blue-600 font-medium font-brand inline-flex items-center gap-2"
           >
             Paramètres de la plateforme
             <font-awesome-icon icon="fa-solid fa-arrow-right" />

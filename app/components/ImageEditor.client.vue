@@ -633,7 +633,7 @@ async function save() {
         <button
           type="button"
           :disabled="isProcessing || !!sizeWarning"
-          class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-semibold font-brand bg-violet-500 text-white rounded-xl hover:bg-violet-600 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          class="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-semibold font-brand bg-repae-blue-500 text-white rounded-xl hover:bg-repae-blue-600 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           @click="save"
         >
           <font-awesome-icon
@@ -682,7 +682,7 @@ async function save() {
               class="px-3 py-1.5 text-xs rounded-lg font-brand transition-colors cursor-pointer"
               :class="[
                 outputFormat === fmt
-                  ? 'bg-violet-500 text-white'
+                  ? 'bg-repae-blue-500 text-white'
                   : 'bg-repae-gray-700 text-repae-gray-300 hover:bg-repae-gray-600'
               ]"
               @click="outputFormat = fmt"
@@ -704,7 +704,7 @@ async function save() {
             min="10"
             max="100"
             step="5"
-            class="w-full accent-violet-500"
+            class="w-full accent-repae-blue-500"
           />
           <div class="flex justify-between text-xs text-repae-gray-500 mt-1">
             <span>Compresse</span>
@@ -769,7 +769,7 @@ async function save() {
                 min="100"
                 max="800"
                 step="20"
-                class="w-full accent-violet-500"
+                class="w-full accent-repae-blue-500"
               />
             </div>
             <div>
@@ -783,7 +783,7 @@ async function save() {
                 min="400"
                 max="2000"
                 step="50"
-                class="w-full accent-violet-500"
+                class="w-full accent-repae-blue-500"
               />
             </div>
           </div>
