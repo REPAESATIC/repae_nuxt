@@ -20,5 +20,12 @@ export const partners = [
     logo: '/image/logos_partenaires/coetric.webp',
     description: 'COETRIC',
     website: 'https://coetric.com/'
+  },
+  {
+    id: 4,
+    name: 'Open Ivoire',
+    logo: '/image/logos_partenaires/open-ivoire.png',
+    description: 'Hébergement VPS, noms de domaine et emails professionnels en Afrique de l\'Ouest',
+    website: 'https://open-ivoire.com/'
   }
 ]
