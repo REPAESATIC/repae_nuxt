@@ -9,6 +9,7 @@ definePageMeta({
 const route = useRoute()
 const router = useRouter()
 const { fetchNews, updateNews, fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 const newsId = route.params.id as string
@@ -130,6 +131,7 @@ const submit = async () => {
     toast.success('Actualité mise à jour', 'Les modifications ont été enregistrées.')
     router.push('/admin/actualites')
   } catch (e: any) {
+    if (handleAuthError(e)) return
     toast.error('Erreur', e?.data?.message || 'Impossible de mettre à jour l\'actualité.')
   } finally {
     saving.value = false

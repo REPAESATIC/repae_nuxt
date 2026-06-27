@@ -9,6 +9,7 @@ definePageMeta({
 const router = useRouter()
 const { createEvent } = useEventsApi()
 const { fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 // State
@@ -143,6 +144,7 @@ const submit = async () => {
     toast.success('Événement créé', 'L\'événement a été créé avec succès.')
     router.push('/admin/evenements')
   } catch (e: any) {
+    if (handleAuthError(e)) return
     toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'événement.')
   } finally {
     loading.value = false

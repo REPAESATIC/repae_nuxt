@@ -87,11 +87,8 @@ export function useNewsApi() {
   const config = useRuntimeConfig()
   const baseUrl = config.public.contentApiBase as string
 
-  // Token admin (JWT) pour les routes protegees (create/update)
-  const getAuthHeaders = (): Record<string, string> => {
-    const token = import.meta.client ? localStorage.getItem('admin-token') : null
-    return token ? { Authorization: `Bearer ${token}` } : {}
-  }
+  // En-tetes Authorization (JWT admin) centralises pour les routes protegees
+  const { getAuthHeaders } = useAdminAuth()
 
   const fetchNewsList = async (params?: {
     search?: string

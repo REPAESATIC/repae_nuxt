@@ -31,10 +31,10 @@ const adminEmail = computed(() => {
   return 'admin@repae.ci'
 })
 
+const { clearSession } = useAdminAuth()
+
 const logout = () => {
-  localStorage.removeItem('admin-auth')
-  localStorage.removeItem('admin-token')
-  localStorage.removeItem('admin-user')
+  clearSession()
   isUserMenuOpen.value = false
   navigateTo('/connexion-admin')
 }

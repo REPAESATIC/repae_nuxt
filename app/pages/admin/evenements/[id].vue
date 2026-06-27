@@ -11,6 +11,7 @@ const route = useRoute()
 const router = useRouter()
 const { fetchEvent, updateEvent } = useEventsApi()
 const { fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 const eventId = route.params.id as string
@@ -161,6 +162,7 @@ const submit = async () => {
     toast.success('Événement mis à jour', 'Les modifications ont été enregistrées.')
     router.push('/admin/evenements')
   } catch (e: any) {
+    if (handleAuthError(e)) return
     toast.error('Erreur', e?.data?.message || 'Impossible de mettre à jour l\'événement.')
   } finally {
     saving.value = false

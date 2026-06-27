@@ -1,6 +1,6 @@
 // Middleware global de protection de l'Administration
 // Protege automatiquement toutes les routes /admin/**
-// Simule l'authentification pour le developpement (sera remplace par une vraie auth)
+// Verifie la presence ET la validite (expiration) du token JWT admin.
 
 export default defineNuxtRouteMiddleware((to, from) => {
   // Ne s'applique qu'aux routes admin
@@ -13,17 +13,25 @@ export default defineNuxtRouteMiddleware((to, from) => {
     return
   }
 
-  // TODO: Remplacer par une vraie verification d'authentification (JWT + role ADMIN)
+  const { isTokenExpired, clearSession } = useAdminAuth()
+
   const isAuthenticated = localStorage.getItem('admin-auth') === 'true'
 
+  // Non connecte -> page de connexion
   if (!isAuthenticated) {
-    // Rediriger vers la page de connexion admin si non authentifie
     return navigateTo('/connexion-admin', {
-      query: {
-        redirect: to.fullPath
-      }
+      query: { redirect: to.fullPath },
     })
   }
 
-  // Admin authentifie, autoriser l'acces
+  // Connecte mais token expire -> on nettoie la session et on redirige
+  // (evite de laisser l'admin sur l'interface avec un token mort = erreurs "unauthorised")
+  if (isTokenExpired()) {
+    clearSession()
+    return navigateTo('/connexion-admin', {
+      query: { redirect: to.fullPath, expired: '1' },
+    })
+  }
+
+  // Admin authentifie avec token valide, autoriser l'acces
 })

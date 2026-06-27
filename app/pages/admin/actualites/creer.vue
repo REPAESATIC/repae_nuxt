@@ -8,6 +8,7 @@ definePageMeta({
 
 const router = useRouter()
 const { createNews, fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 // State
@@ -138,6 +139,7 @@ const submit = async () => {
     toast.success('Actualité créée', 'L\'actualité a été créée avec succès.')
     router.push('/admin/actualites')
   } catch (e: any) {
+    if (handleAuthError(e)) return
     toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'actualité.')
   } finally {
     loading.value = false

@@ -55,11 +55,8 @@ export function useEventsApi() {
   const config = useRuntimeConfig()
   const baseUrl = config.public.contentApiBase as string
 
-  // Token admin (JWT) pour les routes protegees (create/update)
-  const getAuthHeaders = (): Record<string, string> => {
-    const token = import.meta.client ? localStorage.getItem('admin-token') : null
-    return token ? { Authorization: `Bearer ${token}` } : {}
-  }
+  // En-tetes Authorization (JWT admin) centralises pour les routes protegees
+  const { getAuthHeaders } = useAdminAuth()
 
   const fetchEventsList = async (params?: {
     search?: string
