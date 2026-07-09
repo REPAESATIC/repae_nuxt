@@ -38,8 +38,7 @@ export function useAlumniRegistration() {
     countryId: '',
     degree: '',
     bio: '',
-    // Adhésion (cotisation) optionnelle : si false, le profil reste un simple alumni
-    wantsMembership: false,
+    // Adhésion (cotisation) obligatoire : le backend exige le paiement pour toute inscription
     paymentMethod: '',
     paymentReference: '',
     // Engagements obligatoires
@@ -148,18 +147,15 @@ export function useAlumniRegistration() {
       return
     }
 
-    // Les informations de paiement ne sont requises que si l'utilisateur souhaite adhérer (cotisation).
-    // Sinon, son profil reste un simple alumni (les restrictions seront appliquées plus tard).
-    if (form.wantsMembership) {
-      if (!form.paymentMethod || !form.paymentReference.trim()) {
-        toast.error('Paiement requis', 'Veuillez indiquer le moyen et la référence du paiement de la cotisation.')
-        return
-      }
+    // Le paiement de la cotisation est obligatoire : le backend exige moyen + référence + preuve.
+    if (!form.paymentMethod || !form.paymentReference.trim()) {
+      toast.error('Paiement requis', 'Veuillez indiquer le moyen et la référence du paiement de la cotisation.')
+      return
+    }
 
-      if (!paymentProofFile.value) {
-        toast.error('Preuve de paiement requise', 'Veuillez joindre une preuve de paiement (PDF, JPG ou PNG, max 5 Mo).')
-        return
-      }
+    if (!paymentProofFile.value) {
+      toast.error('Preuve de paiement requise', 'Veuillez joindre une preuve de paiement (PDF, JPG ou PNG, max 5 Mo).')
+      return
     }
 
     submitting.value = true
@@ -172,14 +168,10 @@ export function useAlumniRegistration() {
         promotionId: form.promotionId,
         countryId: form.countryId,
         degree: form.degree.trim(),
-        // Paiement transmis uniquement en cas d'adhésion
-        ...(form.wantsMembership
-          ? {
-              paymentMethod: form.paymentMethod,
-              paymentReference: form.paymentReference.trim(),
-              paymentProofFile: paymentProofFile.value ?? undefined,
-            }
-          : {}),
+        // Paiement de la cotisation (obligatoire)
+        paymentMethod: form.paymentMethod,
+        paymentReference: form.paymentReference.trim(),
+        paymentProofFile: paymentProofFile.value ?? undefined,
       })
       submitted.value = true
       toast.success('Demande envoyée', 'Votre demande d\'adhésion a été soumise avec succès. Consultez votre boîte mail.')

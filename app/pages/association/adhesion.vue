@@ -202,35 +202,13 @@ onMounted(() => {
             ></textarea>
           </div>
 
-          <!-- Choix de l'adhésion (cotisation) -->
-          <div class="pt-2 border-t border-gray-200 dark:border-repae-gray-600">
-            <label
-              class="flex items-start gap-3 mt-4 p-4 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 cursor-pointer hover:border-repae-blue-500 transition-colors"
-            >
-              <input
-                v-model="form.wantsMembership"
-                type="checkbox"
-                class="mt-1 w-4 h-4 rounded border-gray-300 dark:border-repae-gray-600 text-repae-blue-500 focus:ring-repae-blue-500 cursor-pointer"
-              />
-              <span>
-                <span class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
-                  Je souhaite devenir membre adhérent (cotisation)
-                </span>
-                <span class="block text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-                  Optionnel. Sans adhésion, votre profil reste un compte alumni simple ; vous pourrez adhérer plus tard.
-                  Cochez cette case pour renseigner le paiement de votre cotisation.
-                </span>
-              </span>
-            </label>
-          </div>
-
-          <!-- Informations de paiement de la cotisation (uniquement si adhésion) -->
-          <div v-if="form.wantsMembership" class="pt-2">
+          <!-- Informations de paiement de la cotisation (obligatoire) -->
+          <div class="pt-4 border-t border-gray-200 dark:border-repae-gray-600">
             <h3 class="text-base font-bold font-brand text-repae-gray-900 dark:text-white mt-2 mb-1">
               Paiement de la cotisation
             </h3>
             <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-              Renseignez le paiement de votre cotisation et joignez-en la preuve pour finaliser votre adhésion.
+              L'adhésion au REPAE nécessite le règlement de la cotisation. Renseignez le paiement et joignez-en la preuve pour finaliser votre demande.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -240,7 +218,7 @@ onMounted(() => {
                 </label>
                 <select
                   v-model="form.paymentMethod"
-                  :required="form.wantsMembership"
+                  required
                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors cursor-pointer"
                 >
                   <option value="">Sélectionnez un moyen de paiement</option>
@@ -256,7 +234,7 @@ onMounted(() => {
                 <input
                   v-model="form.paymentReference"
                   type="text"
-                  :required="form.wantsMembership"
+                  required
                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 text-repae-gray-900 dark:text-white font-brand focus:ring-2 focus:ring-repae-blue-500 focus:border-repae-blue-500 transition-colors"
                   placeholder="N° de transaction (ex: TXN-123456789)"
                 />
@@ -270,7 +248,7 @@ onMounted(() => {
               <input
                 type="file"
                 accept="application/pdf,image/jpeg,image/png"
-                :required="form.wantsMembership"
+                required
                 @change="handleProofChange"
                 class="block w-full text-sm text-repae-gray-600 dark:text-repae-gray-300 font-brand file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-repae-blue-500 file:text-white hover:file:bg-repae-blue-600 file:cursor-pointer cursor-pointer rounded-lg border border-gray-300 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-800 p-2"
               />

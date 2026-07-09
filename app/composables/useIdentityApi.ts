@@ -128,11 +128,11 @@ export interface RegisterAlumniPayload {
   promotionId: string
   countryId: string
   degree?: string
-  /** Moyen de paiement de la cotisation (Djamo, Orange Money, MTN Mobile Money, Moov Money, Wave, Autre) — uniquement en cas d'adhésion */
+  /** Moyen de paiement de la cotisation (Djamo, Orange Money, MTN Mobile Money, Moov Money, Wave, Autre) — obligatoire */
   paymentMethod?: string
-  /** Référence / numéro de transaction du paiement — uniquement en cas d'adhésion */
+  /** Référence / numéro de transaction du paiement — obligatoire */
   paymentReference?: string
-  /** Preuve de paiement (PDF, JPG ou PNG — max 5 Mo) — uniquement en cas d'adhésion */
+  /** Preuve de paiement (PDF, JPG ou PNG — max 5 Mo) — obligatoire */
   paymentProofFile?: File
 }
 
