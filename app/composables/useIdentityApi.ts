@@ -46,6 +46,14 @@ export interface PaginatedAlumnis {
   limit: number
 }
 
+/** Préfixe UUID réservé aux comptes seed/système (admin, comptes de test). Un alumni réel a un UUID aléatoire. */
+export const SYSTEM_UUID_PREFIX = '00000000-0000-0000-0000-'
+
+/** Vrai si l'entrée correspond à un compte admin/système (seed) plutôt qu'à un véritable alumni. */
+export function isSystemAccount(a: Pick<AlumniItem, 'id' | 'userId'>): boolean {
+  return Boolean(a.id?.startsWith(SYSTEM_UUID_PREFIX) || a.userId?.startsWith(SYSTEM_UUID_PREFIX))
+}
+
 // ─── Promotions ────────────────────────────────────────────────────────────────
 
 export interface PromotionItem {
@@ -564,9 +572,17 @@ export function useIdentityApi() {
 
     const qs = query.toString()
     const token = import.meta.client ? localStorage.getItem('admin-token') : null
-    return await $fetch<PaginatedAlumnis>(`${baseUrl}/alumnis${qs ? `?${qs}` : ''}`, {
+    const result = await $fetch<PaginatedAlumnis>(`${baseUrl}/alumnis${qs ? `?${qs}` : ''}`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
+
+    // L'annuaire ne doit contenir que des alumni, pas les comptes admin/système.
+    // L'API n'expose pas le rôle et n'offre aucun filtre `role`, donc on écarte ici les comptes
+    // seed : leurs UUID sont réservés (préfixe `00000000-0000-0000-0000-`), là où tout alumni réel
+    // reçoit un UUID aléatoire. Filtrage centralisé -> vaut pour annuaire, carte, recherche, accueil.
+    const filtered = result.data.filter((a) => !isSystemAccount(a))
+    const removed = result.data.length - filtered.length
+    return { ...result, data: filtered, total: Math.max(0, result.total - removed) }
   }
 
   const fetchAlumni = async (id: string): Promise<AlumniItem> => {
