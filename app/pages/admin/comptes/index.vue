@@ -308,30 +308,7 @@ const formatDate = (date: string | null | undefined) => {
       </div>
 
       <!-- Pagination -->
-      <div
-        v-if="totalPages > 1"
-        class="flex items-center justify-between px-6 py-4 border-t border-gray-200 dark:border-repae-gray-700"
-      >
-        <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
-          Page {{ page }} sur {{ totalPages }}
-        </p>
-        <div class="flex items-center gap-2">
-          <button
-            :disabled="page <= 1"
-            class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-repae-gray-700 text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-200 dark:hover:bg-repae-gray-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            @click="page--"
-          >
-            <font-awesome-icon icon="fa-solid fa-chevron-left" class="text-xs" />
-          </button>
-          <button
-            :disabled="page >= totalPages"
-            class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-repae-gray-700 text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-200 dark:hover:bg-repae-gray-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            @click="page++"
-          >
-            <font-awesome-icon icon="fa-solid fa-chevron-right" class="text-xs" />
-          </button>
-        </div>
-      </div>
+      <UiPagination v-model:page="page" :total-pages="totalPages" />
     </div>
   </div>
 </template>
