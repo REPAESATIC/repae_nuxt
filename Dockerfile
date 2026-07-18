@@ -3,6 +3,8 @@ FROM node:22-alpine AS builder
 
 # Installer pnpm (version figée pour éviter les changements de comportement)
 RUN corepack enable && corepack prepare pnpm@10.10.0 --activate
+# Install OpenTelemetry
+RUN pnpm install @opentelemetry/api @opentelemetry/auto-instrumentations-node
 
 WORKDIR /app
 
