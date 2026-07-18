@@ -91,12 +91,6 @@ const disponibilite = computed(() => disponibiliteConfig[props.profile.disponibi
             <font-awesome-icon icon="fa-solid fa-pencil-alt" />
             <span>Modifier le profil</span>
           </NuxtLink>
-          <button
-            class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-repae-gray-700 hover:bg-gray-200 dark:hover:bg-repae-gray-600 text-repae-gray-700 dark:text-repae-gray-300 font-medium font-brand text-sm rounded-xl transition-colors cursor-pointer"
-          >
-            <font-awesome-icon icon="fa-solid fa-share" />
-            <span>Partager</span>
-          </button>
         </div>
       </div>
 
