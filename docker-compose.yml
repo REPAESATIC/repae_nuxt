@@ -15,6 +15,13 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - HOST=0.0.0.0
+      - OTEL_TRACES_EXPORTER=${OTEL_TRACES_EXPORTER:-otlp}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT:-http://otel-collector:4318}
+      - OTEL_NODE_RESOURCE_DETECTORS=${OTEL_NODE_RESOURCE_DETECTORS:-env,host,os}
+      - OTEL_SERVICE_NAME=${OTEL_SERVICE_NAME:-repae-frontend}
+      - OTEL_RESOURCE_ATTRIBUTES=${OTEL_RESOURCE_ATTRIBUTES:-service.version=dev}
+      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS:-}
+      - NODE_OPTIONS=${NODE_OPTIONS:---require @opentelemetry/auto-instrumentations-node/register}
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
       interval: 30s

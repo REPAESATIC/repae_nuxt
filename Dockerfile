@@ -30,6 +30,13 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOST=0.0.0.0
 
+# OpenTelemetry: defaults can be overridden at runtime via docker compose or .env
+ENV OTEL_TRACES_EXPORTER="otlp"
+ENV OTEL_NODE_RESOURCE_DETECTORS="env,host,os"
+ENV OTEL_SERVICE_NAME="repae-frontend"
+ENV OTEL_RESOURCE_ATTRIBUTES="service.version=dev"
+ENV NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
+
 EXPOSE 3000
 
 CMD ["node", "server/index.mjs"]
