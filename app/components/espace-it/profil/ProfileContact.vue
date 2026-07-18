@@ -5,13 +5,9 @@ defineProps<{
   profile: UserProfile
 }>()
 
-interface ContactItem {
-  icon: string
-  label: string
-  value: string
-  href?: string
-  isExternal?: boolean
-}
+defineEmits<{
+  edit: []
+}>()
 </script>
 
 <template>
@@ -23,6 +19,7 @@ interface ContactItem {
       </h2>
       <button
         class="text-sm text-repae-blue-500 hover:text-repae-blue-600 font-medium font-brand cursor-pointer"
+        @click="$emit('edit')"
       >
         Modifier
       </button>

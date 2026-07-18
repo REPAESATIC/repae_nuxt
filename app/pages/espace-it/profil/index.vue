@@ -40,12 +40,14 @@ const showFormationModal = ref(false)
 const showExperienceModal = ref(false)
 const showPortfolioModal = ref(false)
 const showCompetenceModal = ref(false)
+const showContactModal = ref(false)
 
 const onSectionSaved = async () => {
   showFormationModal.value = false
   showExperienceModal.value = false
   showPortfolioModal.value = false
   showCompetenceModal.value = false
+  showContactModal.value = false
   await loadProfile()
 }
 
@@ -174,7 +176,7 @@ useSeoMeta({
         <!-- Sidebar -->
         <div class="space-y-6">
           <!-- Contact Info -->
-          <EspaceItProfilProfileContact :profile="userProfile" />
+          <EspaceItProfilProfileContact :profile="userProfile" @edit="showContactModal = true" />
 
           <!-- Competences -->
           <EspaceItProfilProfileCompetences :competences="competences" @edit="showCompetenceModal = true" />
@@ -182,6 +184,18 @@ useSeoMeta({
       </div>
 
       <!-- Modals CRUD -->
+      <EspaceItProfilProfileSectionModal
+        :show="showContactModal"
+        title="Coordonnées"
+        icon="fa-solid fa-address-book"
+        @close="showContactModal = false"
+      >
+        <EspaceItProfilProfileContactManager
+          :profile="userProfile"
+          @saved="onSectionSaved"
+        />
+      </EspaceItProfilProfileSectionModal>
+
       <EspaceItProfilProfileSectionModal
         :show="showFormationModal"
         title="Formations"
