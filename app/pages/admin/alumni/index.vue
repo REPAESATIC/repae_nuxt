@@ -6,7 +6,11 @@ definePageMeta({
 })
 
 const { fetchAlumniList, verifyAlumni, adhereAlumni, fetchPromotions, fetchDepartments, fetchCountries } = useIdentityApi()
+const { isAdhesionRequest, pendingCount, refreshPendingCount } = useAdhesionRequests()
 const toast = useToast()
+
+// Onglets : liste complete / demandes d'adhesion issues du formulaire public
+const activeTab = ref<'all' | 'requests'>('all')
 
 // State
 const alumni = ref<AlumniItem[]>([])
@@ -82,7 +86,11 @@ watch(page, () => loadAlumni())
 onMounted(() => {
   loadAlumni()
   loadReferenceData()
+  refreshPendingCount()
 })
+
+// Une validation depuis l'onglet demandes change aussi la liste complete
+const onRequestValidated = () => loadAlumni()
 
 // Actions
 const handleVerify = async (item: AlumniItem) => {
@@ -103,7 +111,7 @@ const handleAdhere = async (item: AlumniItem) => {
   try {
     await adhereAlumni(item.id)
     toast.success('Adhésion validée', `${item.firstName} ${item.lastName} est maintenant adhérent.`)
-    await loadAlumni()
+    await Promise.all([loadAlumni(), refreshPendingCount()])
   } catch (e: any) {
     toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adhérent.')
   } finally {
@@ -117,9 +125,15 @@ const verifiedConfig: Record<string, { label: string; class: string }> = {
   false: { label: 'Non vérifié', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
 }
 
-const adherentConfig: Record<string, { label: string; class: string }> = {
-  true: { label: 'Adhérent', class: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400' },
-  false: { label: 'Non adhérent', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+// Trois etats : adherent, demande recue via le formulaire, non adherent
+const adhesionBadge = (item: AlumniItem): { label: string; class: string } => {
+  if (item.isAdherent) {
+    return { label: 'Adhérent', class: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400' }
+  }
+  if (isAdhesionRequest(item)) {
+    return { label: 'Demande reçue', class: 'bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-400' }
+  }
+  return { label: 'Non adhérent', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' }
 }
 
 const formatDate = (date: string) => {
@@ -153,6 +167,45 @@ const formatDate = (date: string) => {
       </NuxtLink>
     </div>
 
+    <!-- Onglets -->
+    <div class="flex items-center gap-1 mb-6 border-b border-gray-200 dark:border-repae-gray-700">
+      <button
+        :class="[
+          'px-4 py-3 text-sm font-semibold font-brand border-b-2 -mb-px transition-colors cursor-pointer',
+          activeTab === 'all'
+            ? 'border-repae-blue-500 text-repae-blue-500'
+            : 'border-transparent text-repae-gray-500 dark:text-repae-gray-400 hover:text-repae-gray-700 dark:hover:text-repae-gray-200'
+        ]"
+        @click="activeTab = 'all'"
+      >
+        Tous les alumni
+      </button>
+      <button
+        :class="[
+          'px-4 py-3 text-sm font-semibold font-brand border-b-2 -mb-px transition-colors cursor-pointer flex items-center gap-2',
+          activeTab === 'requests'
+            ? 'border-repae-blue-500 text-repae-blue-500'
+            : 'border-transparent text-repae-gray-500 dark:text-repae-gray-400 hover:text-repae-gray-700 dark:hover:text-repae-gray-200'
+        ]"
+        @click="activeTab = 'requests'"
+      >
+        Demandes d'adhésion
+        <span
+          v-if="pendingCount > 0"
+          class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-repae-blue-500 text-white"
+        >
+          {{ pendingCount }}
+        </span>
+      </button>
+    </div>
+
+    <!-- Onglet : demandes d'adhesion -->
+    <AdminAlumniAdhesionRequests
+      v-if="activeTab === 'requests'"
+      @validated="onRequestValidated"
+    />
+
+    <template v-else>
     <!-- Filters -->
     <div class="flex flex-col sm:flex-row gap-3 mb-6">
       <!-- Search -->
@@ -333,10 +386,10 @@ const formatDate = (date: string) => {
                 <span
                   :class="[
                     'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold',
-                    adherentConfig[String(item.isAdherent)]?.class || ''
+                    adhesionBadge(item).class
                   ]"
                 >
-                  {{ adherentConfig[String(item.isAdherent)]?.label || '-' }}
+                  {{ adhesionBadge(item).label }}
                 </span>
               </td>
 
@@ -391,5 +444,6 @@ const formatDate = (date: string) => {
       <!-- Pagination -->
       <UiPagination v-model:page="page" :total-pages="totalPages" />
     </div>
+    </template>
   </div>
 </template>

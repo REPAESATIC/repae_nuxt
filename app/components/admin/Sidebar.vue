@@ -13,6 +13,21 @@ const emit = defineEmits<{
 
 const route = useRoute()
 
+// Demandes d'adhesion en attente, affichees en badge sur l'entree Alumni
+const { pendingCount, refreshPendingCount } = useAdhesionRequests()
+onMounted(refreshPendingCount)
+
+/**
+ * Badge d'un item : le compteur de demandes pour Alumni, sinon la valeur
+ * statique eventuellement definie dans navigation.ts.
+ */
+const itemBadge = (item: { id: string; badge?: string }): string | null => {
+  if (item.id === 'alumni') {
+    return pendingCount.value > 0 ? String(pendingCount.value) : null
+  }
+  return item.badge || null
+}
+
 // Track open state for each nav group
 const openGroups = ref<Record<string, boolean>>({
   contenu: true,
@@ -230,13 +245,20 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
                 />
                 <div
                   :class="[
-                    'w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200',
+                    'relative w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200',
                     isActiveRoute(item.href)
                       ? 'bg-repae-blue-500 text-white shadow-lg shadow-repae-blue-500/30'
                       : 'bg-slate-800/80 text-slate-400 group-hover:bg-slate-800 group-hover:text-repae-blue-400'
                   ]"
                 >
                   <font-awesome-icon :icon="item.icon" class="text-sm" />
+                  <!-- Sidebar repliee : le badge disparait avec le label, une pastille prend le relais -->
+                  <span
+                    v-if="!showLabel && itemBadge(item)"
+                    class="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-repae-blue-500 text-white text-[9px] font-bold flex items-center justify-center"
+                  >
+                    {{ itemBadge(item) }}
+                  </span>
                 </div>
                 <div
                   v-if="showLabel"
@@ -246,10 +268,10 @@ const showLabel = computed(() => !props.isCollapsed || props.isMobileOpen)
                     {{ item.label }}
                   </span>
                   <span
-                    v-if="item.badge"
+                    v-if="itemBadge(item)"
                     class="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-repae-blue-500/20 text-repae-blue-400 border border-repae-blue-500/20 whitespace-nowrap"
                   >
-                    {{ item.badge }}
+                    {{ itemBadge(item) }}
                   </span>
                 </div>
               </NuxtLink>
