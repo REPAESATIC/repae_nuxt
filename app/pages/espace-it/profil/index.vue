@@ -25,7 +25,7 @@ const {
   enrichProfileWithCurrentJob,
 } = useProfileAdapter()
 
-// Etat reactif
+// État réactif
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 const alumniId = ref('')
@@ -56,18 +56,18 @@ const loadProfile = async () => {
   error.value = null
 
   try {
-    // 1. Recuperer le profil alumni authentifie
+    // 1. Récupérer le profil alumni authentifié
     const alumni = await fetchMyAlumni()
     alumniId.value = alumni.id
 
-    // 2. Recuperer les donnees liees en parallele
+    // 2. Récupérer les données liées en parallèle
     const [workExps, edus, projs] = await Promise.all([
       fetchWorkExperiences(alumni.id).catch(() => []),
       fetchEducations(alumni.id).catch(() => []),
       fetchProjects(alumni.id).catch(() => []),
     ])
 
-    // 3. Transformer vers les types francais
+    // 3. Transformer vers les types français
     const mappedExperiences = workExps.map(workExperienceToExperience)
     const mappedFormations = edus.map(educationToFormation)
     const mappedCompetences = (alumni.skills || []).map(alumniSkillToCompetence)
@@ -130,13 +130,13 @@ useSeoMeta({
       <span class="text-repae-gray-900 dark:text-white">Mon profil</span>
     </nav>
 
-    <!-- Etat de chargement -->
+    <!-- État de chargement -->
     <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
       <font-awesome-icon icon="fa-solid fa-spinner" class="animate-spin text-3xl text-repae-blue-500 mb-3" />
       <span class="text-repae-gray-500 dark:text-repae-gray-400 font-brand">Chargement du profil...</span>
     </div>
 
-    <!-- Etat d'erreur -->
+    <!-- État d'erreur -->
     <div
       v-else-if="error"
       class="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl p-6 text-center"
@@ -147,7 +147,7 @@ useSeoMeta({
         @click="loadProfile"
         class="mt-4 px-4 py-2 bg-repae-blue-500 hover:bg-repae-blue-600 text-white rounded-lg font-brand text-sm transition-colors cursor-pointer"
       >
-        Reessayer
+        Réessayer
       </button>
     </div>
 
@@ -166,7 +166,7 @@ useSeoMeta({
           <!-- Formations -->
           <EspaceItProfilProfileFormation :formations="formations" @edit="showFormationModal = true" />
 
-          <!-- Experiences professionnelles -->
+          <!-- Expériences professionnelles -->
           <EspaceItProfilProfileExperience :experiences="experiences" @edit="showExperienceModal = true" />
 
           <!-- Portfolio -->
@@ -178,7 +178,7 @@ useSeoMeta({
           <!-- Contact Info -->
           <EspaceItProfilProfileContact :profile="userProfile" @edit="showContactModal = true" />
 
-          <!-- Competences -->
+          <!-- Compétences -->
           <EspaceItProfilProfileCompetences :competences="competences" @edit="showCompetenceModal = true" />
         </div>
       </div>

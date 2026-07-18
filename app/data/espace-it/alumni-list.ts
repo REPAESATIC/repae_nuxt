@@ -1,4 +1,4 @@
-// Donnees mock de la liste des alumni (Cote d'Ivoire - ESATIC)
+// Données mock de la liste des alumni (Côte d'Ivoire - ESATIC)
 
 export interface Alumni {
   id: string
@@ -14,7 +14,7 @@ export interface Alumni {
   disponibilite: 'disponible' | 'en_poste' | 'ouvert_opportunites'
   linkedin_url?: string
   competences: string[]
-  // Champs etendus (optionnels) pour le profil detaille
+  // Champs étendus (optionnels) pour le profil détaillé
   telephone?: string
   biographie?: string
   site_web?: string
@@ -29,21 +29,21 @@ export const alumniList: Alumni[] = [
     nom: 'Yao',
     email: 'Angenor99@gmail.com',
     photo_url: 'https://i.pravatar.cc/300?u=kouame',
-    poste_actuel: 'Developpeur Full Stack Senior',
-    entreprise_actuelle: 'MTN Cote d\'Ivoire',
+    poste_actuel: 'Développeur Full Stack Senior',
+    entreprise_actuelle: 'MTN Côte d\'Ivoire',
     promotion: 2018,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'ouvert_opportunites',
     linkedin_url: 'https://linkedin.com/in/kouameyao',
     competences: ['Vue.js', 'Node.js', 'PostgreSQL', 'TypeScript', 'Nuxt', 'Mobile Money'],
-    // Donnees etendues (meme que le profil utilisateur)
+    // Données étendues (même que le profil utilisateur)
     telephone: '+225 05 45 29 28 02',
-    biographie: `Passionne par le developpement web et mobile depuis plus de 6 ans, je me specialise dans la creation d'applications performantes et innovantes pour le secteur des telecommunications et de la fintech.
+    biographie: `Passionné par le développement web et mobile depuis plus de 6 ans, je me spécialise dans la création d'applications performantes et innovantes pour le secteur des télécommunications et de la fintech.
 
-Diplome de l'ESATIC promotion 2018, j'ai eu l'opportunite de travailler sur des projets majeurs chez Orange CI et MTN CI, notamment sur les plateformes de mobile money qui touchent des millions d'utilisateurs en Afrique de l'Ouest.
+Diplômé de l'ESATIC promotion 2018, j'ai eu l'opportunité de travailler sur des projets majeurs chez Orange CI et MTN CI, notamment sur les plateformes de mobile money qui touchent des millions d'utilisateurs en Afrique de l'Ouest.
 
-Je suis convaincu que la technologie peut transformer positivement notre societe africaine, et je m'engage a contribuer a cet elan a travers mes projets et mon mentorat aupres des jeunes developpeurs ivoiriens.`,
+Je suis convaincu que la technologie peut transformer positivement notre société africaine, et je m'engage à contribuer à cet élan à travers mes projets et mon mentorat auprès des jeunes développeurs ivoiriens.`,
     site_web: 'https://kouameyao.dev',
     twitter_url: 'https://twitter.com/kouameyao',
     github_url: 'https://github.com/kouameyao'
@@ -55,9 +55,9 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     email: 'aya.kouassi@email.ci',
     photo_url: 'https://i.pravatar.cc/150?u=aya',
     poste_actuel: 'Data Scientist',
-    entreprise_actuelle: 'Orange Cote d\'Ivoire',
+    entreprise_actuelle: 'Orange Côte d\'Ivoire',
     promotion: 2019,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/ayakouassi',
@@ -70,9 +70,9 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     email: 'seydou.traore@email.ci',
     photo_url: 'https://i.pravatar.cc/150?u=seydou',
     poste_actuel: 'DevOps Engineer',
-    entreprise_actuelle: 'Societe Generale CI',
+    entreprise_actuelle: 'Société Générale CI',
     promotion: 2017,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/seydoutraore',
@@ -87,7 +87,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     poste_actuel: 'Chef de Projet IT',
     entreprise_actuelle: 'Sonatel',
     promotion: 2016,
-    pays: 'Senegal',
+    pays: 'Sénégal',
     ville: 'Dakar',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/aminatadiallo',
@@ -102,7 +102,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     poste_actuel: 'Architecte Solutions',
     entreprise_actuelle: 'Ecobank CI',
     promotion: 2015,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'ouvert_opportunites',
     linkedin_url: 'https://linkedin.com/in/jbkoffi',
@@ -117,7 +117,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     poste_actuel: 'UX/UI Designer',
     entreprise_actuelle: 'Wave Mobile Money',
     promotion: 2020,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/fatoumatabamba',
@@ -129,14 +129,14 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     nom: 'Coulibaly',
     email: 'moussa.coulibaly@email.ml',
     photo_url: 'https://i.pravatar.cc/150?u=moussa',
-    poste_actuel: 'Consultant Cybersecurite',
+    poste_actuel: 'Consultant Cybersécurité',
     entreprise_actuelle: 'Deloitte Afrique',
     promotion: 2017,
     pays: 'Mali',
     ville: 'Bamako',
     disponibilite: 'disponible',
     linkedin_url: 'https://linkedin.com/in/moussacoulibaly',
-    competences: ['Securite', 'Pentesting', 'ISO 27001']
+    competences: ['Sécurité', 'Pentesting', 'ISO 27001']
   },
   {
     id: '8',
@@ -144,10 +144,10 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     nom: 'Aka',
     email: 'christelle.aka@email.ci',
     photo_url: 'https://i.pravatar.cc/150?u=christelle',
-    poste_actuel: 'Developpeuse Mobile',
-    entreprise_actuelle: 'CIE (Compagnie Ivoirienne d\'Electricite)',
+    poste_actuel: 'Développeuse Mobile',
+    entreprise_actuelle: 'CIE (Compagnie Ivoirienne d\'Électricité)',
     promotion: 2019,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/christelleaka',
@@ -159,7 +159,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     nom: 'Sangare',
     email: 'ibrahim.sangare@email.bf',
     photo_url: 'https://i.pravatar.cc/150?u=ibrahim',
-    poste_actuel: 'Ingenieur Big Data',
+    poste_actuel: 'Ingénieur Big Data',
     entreprise_actuelle: 'Orange Burkina',
     promotion: 2018,
     pays: 'Burkina Faso',
@@ -177,7 +177,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     poste_actuel: 'Product Manager',
     entreprise_actuelle: 'Jumia CI',
     promotion: 2016,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/mcnguessan',
@@ -190,9 +190,9 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     email: 'oumar.sow@email.sn',
     photo_url: 'https://i.pravatar.cc/150?u=oumar',
     poste_actuel: 'Backend Developer',
-    entreprise_actuelle: 'Atos Senegal',
+    entreprise_actuelle: 'Atos Sénégal',
     promotion: 2020,
-    pays: 'Senegal',
+    pays: 'Sénégal',
     ville: 'Dakar',
     disponibilite: 'disponible',
     linkedin_url: 'https://linkedin.com/in/oumarsow',
@@ -207,7 +207,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     poste_actuel: 'Analyste Business Intelligence',
     entreprise_actuelle: 'BCEAO',
     promotion: 2017,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/aissatoutoure',
@@ -237,7 +237,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     poste_actuel: 'QA Engineer',
     entreprise_actuelle: 'Moov Africa CI',
     promotion: 2021,
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     ville: 'Abidjan',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/salimatakone',
@@ -253,7 +253,7 @@ Je suis convaincu que la technologie peut transformer positivement notre societe
     entreprise_actuelle: 'AWS Canada',
     promotion: 2014,
     pays: 'Canada',
-    ville: 'Montreal',
+    ville: 'Montréal',
     disponibilite: 'en_poste',
     linkedin_url: 'https://linkedin.com/in/yvesassi',
     competences: ['AWS', 'Terraform', 'CloudFormation']
@@ -269,7 +269,7 @@ export const pays = [...new Set(alumniList.map(a => a.pays))].sort()
 // Liste des villes disponibles
 export const villes = [...new Set(alumniList.map(a => a.ville))].sort()
 
-// Configuration de la disponibilite
+// Configuration de la disponibilité
 export const disponibiliteConfig = {
   disponible: {
     label: 'Disponible',
@@ -299,7 +299,7 @@ export const filterAlumni = (
   }
 ): Alumni[] => {
   return alumni.filter(a => {
-    // Filtre par recherche (nom, prenom, poste, entreprise)
+    // Filtre par recherche (nom, prénom, poste, entreprise)
     if (filters.search) {
       const searchLower = filters.search.toLowerCase()
       const matchSearch =
@@ -320,7 +320,7 @@ export const filterAlumni = (
       return false
     }
 
-    // Filtre par disponibilite
+    // Filtre par disponibilité
     if (filters.disponibilite && a.disponibilite !== filters.disponibilite) {
       return false
     }

@@ -45,7 +45,7 @@ onMounted(async () => {
   }
 })
 
-// Suggestions filtrees
+// Suggestions filtrées
 const suggestions = computed(() => {
   if (searchQuery.value.length < 2) return []
   const query = searchQuery.value.toLowerCase()
@@ -119,7 +119,7 @@ const handleDelete = async (competence: Competence) => {
 
 <template>
   <div class="space-y-4">
-    <!-- Liste des competences existantes -->
+    <!-- Liste des compétences existantes -->
     <div v-if="competences.length > 0" class="space-y-2">
       <div
         v-for="comp in competences"
@@ -239,7 +239,7 @@ const handleDelete = async (competence: Competence) => {
             </p>
           </div>
 
-          <!-- Skill selectionnee - choisir le niveau -->
+          <!-- Skill sélectionnée - choisir le niveau -->
           <div v-else class="space-y-3">
             <div class="flex items-center gap-2">
               <span class="px-3 py-1 bg-repae-blue-100 dark:bg-repae-blue-500/20 text-repae-blue-700 dark:text-repae-blue-300 rounded-lg text-sm font-medium">

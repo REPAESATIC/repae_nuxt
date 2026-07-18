@@ -1,4 +1,4 @@
-// Donnees mock des entreprises creees par les alumni (Cote d'Ivoire - ESATIC)
+// Données mock des entreprises créées par les alumni (Côte d'Ivoire - ESATIC)
 
 export type SecteurActivite =
   | 'fintech'
@@ -38,14 +38,14 @@ export interface Entreprise {
     promotion: number
     poste: string
   }
-  // Co-fondateurs eventuels
+  // Co-fondateurs éventuels
   cofondateurs?: {
     prenom: string
     nom: string
     photo_url: string
     poste: string
   }[]
-  // Realisations / clients
+  // Réalisations / clients
   clients_notables?: string[]
   recompenses?: string[]
 }
@@ -56,23 +56,23 @@ export const entreprisesList: Entreprise[] = [
     nom: 'AfriPay Solutions',
     logo_url: 'https://picsum.photos/200/200?random=100',
     description: 'Solutions de paiement mobile innovantes pour l\'Afrique de l\'Ouest',
-    description_longue: `AfriPay Solutions est une fintech ivoirienne specialisee dans le developpement de solutions de paiement mobile adaptees aux realites africaines. Notre mission est de democratiser l'acces aux services financiers pour les populations non bancarisees.
+    description_longue: `AfriPay Solutions est une fintech ivoirienne spécialisée dans le développement de solutions de paiement mobile adaptées aux réalités africaines. Notre mission est de démocratiser l'accès aux services financiers pour les populations non bancarisées.
 
-Nous proposons une plateforme complete permettant aux commercants d'accepter les paiements via tous les operateurs de mobile money, ainsi qu'une API robuste pour l'integration dans les applications tierces.
+Nous proposons une plateforme complète permettant aux commerçants d'accepter les paiements via tous les opérateurs de mobile money, ainsi qu'une API robuste pour l'intégration dans les applications tierces.
 
-Depuis notre creation en 2020, nous avons traite plus de 5 millions de transactions et accompagnons plus de 2000 commercants dans leur transformation digitale.`,
+Depuis notre création en 2020, nous avons traité plus de 5 millions de transactions et accompagnons plus de 2000 commerçants dans leur transformation digitale.`,
     secteur: 'fintech',
     date_creation: '2020-03',
     site_web: 'https://afripay.ci',
     linkedin_url: 'https://linkedin.com/company/afripay-solutions',
     email_contact: 'contact@afripay.ci',
     telephone: '+225 27 22 00 00 01',
-    adresse: 'Plateau, Immeuble CCIA, 5eme etage',
+    adresse: 'Plateau, Immeuble CCIA, 5ème étage',
     ville: 'Abidjan',
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     nombre_employes: '15-25',
     chiffre_affaires: '500M - 1Md FCFA',
-    services: ['Paiement mobile', 'API d\'integration', 'Plateforme marchands', 'Solutions B2B'],
+    services: ['Paiement mobile', 'API d\'intégration', 'Plateforme marchands', 'Solutions B2B'],
     technologies: ['Node.js', 'React', 'PostgreSQL', 'AWS', 'Mobile Money API'],
     fondateur: {
       id: '5',
@@ -97,12 +97,12 @@ Depuis notre creation en 2020, nous avons traite plus de 5 millions de transacti
     id: '2',
     nom: 'EduTech Afrique',
     logo_url: 'https://picsum.photos/200/200?random=101',
-    description: 'Plateforme e-learning adaptee au contexte africain',
-    description_longue: `EduTech Afrique developpe des solutions d'apprentissage en ligne concues pour repondre aux defis specifiques du continent : acces limite a Internet, appareils a faibles specifications, et contenus adaptes aux programmes locaux.
+    description: 'Plateforme e-learning adaptée au contexte africain',
+    description_longue: `EduTech Afrique développe des solutions d'apprentissage en ligne conçues pour répondre aux défis spécifiques du continent : accès limité à Internet, appareils à faibles spécifications, et contenus adaptés aux programmes locaux.
 
-Notre plateforme permet aux etudiants d'acceder a des cours video optimises, des exercices interactifs et des certifications reconnues, meme avec une connexion Internet instable.
+Notre plateforme permet aux étudiants d'accéder à des cours vidéo optimisés, des exercices interactifs et des certifications reconnues, même avec une connexion Internet instable.
 
-Nous collaborons avec plusieurs universites et ecoles professionnelles pour digitaliser leurs formations et toucher un public plus large.`,
+Nous collaborons avec plusieurs universités et écoles professionnelles pour digitaliser leurs formations et toucher un public plus large.`,
     secteur: 'edtech',
     date_creation: '2019-09',
     site_web: 'https://edutech-afrique.com',
@@ -111,9 +111,9 @@ Nous collaborons avec plusieurs universites et ecoles professionnelles pour digi
     telephone: '+225 27 22 00 00 02',
     adresse: 'Cocody, Rue des Jardins',
     ville: 'Abidjan',
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     nombre_employes: '10-15',
-    services: ['E-learning', 'LMS personnalise', 'Production de contenus', 'Certifications'],
+    services: ['E-learning', 'LMS personnalisé', 'Production de contenus', 'Certifications'],
     technologies: ['Vue.js', 'Laravel', 'MySQL', 'Video streaming', 'PWA'],
     fondateur: {
       id: '10',
@@ -123,19 +123,19 @@ Nous collaborons avec plusieurs universites et ecoles professionnelles pour digi
       promotion: 2016,
       poste: 'CEO & Fondatrice'
     },
-    clients_notables: ['ESATIC', 'INP-HB', 'Universite FHB'],
-    recompenses: ['Laureat Orange Fab 2021']
+    clients_notables: ['ESATIC', 'INP-HB', 'Université FHB'],
+    recompenses: ['Lauréat Orange Fab 2021']
   },
   {
     id: '3',
     nom: 'AgriConnect CI',
     logo_url: 'https://picsum.photos/200/200?random=102',
-    description: 'Solutions digitales pour la chaine de valeur agricole',
-    description_longue: `AgriConnect CI met la technologie au service de l'agriculture ivoirienne. Notre plateforme connecte directement les agriculteurs aux acheteurs, elimine les intermediaires et garantit des prix justes pour les producteurs.
+    description: 'Solutions digitales pour la chaîne de valeur agricole',
+    description_longue: `AgriConnect CI met la technologie au service de l'agriculture ivoirienne. Notre plateforme connecte directement les agriculteurs aux acheteurs, élimine les intermédiaires et garantit des prix justes pour les producteurs.
 
-Nous proposons egalement des outils de gestion agricole : suivi des parcelles, previsions meteo localisees, conseils agronomiques personnalises et acces au financement via nos partenaires.
+Nous proposons également des outils de gestion agricole : suivi des parcelles, prévisions météo localisées, conseils agronomiques personnalisés et accès au financement via nos partenaires.
 
-Notre solution a deja beneficie a plus de 5000 agriculteurs dans les regions du centre et du nord de la Cote d'Ivoire.`,
+Notre solution a déjà bénéficié à plus de 5000 agriculteurs dans les régions du centre et du nord de la Côte d'Ivoire.`,
     secteur: 'agritech',
     date_creation: '2021-01',
     site_web: 'https://agriconnect.ci',
@@ -143,7 +143,7 @@ Notre solution a deja beneficie a plus de 5000 agriculteurs dans les regions du 
     telephone: '+225 27 22 00 00 03',
     adresse: 'Marcory, Zone 4',
     ville: 'Abidjan',
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     nombre_employes: '5-10',
     services: ['Marketplace agricole', 'Gestion de parcelles', 'Financement agricole', 'Formation'],
     technologies: ['React Native', 'Node.js', 'MongoDB', 'Google Maps API', 'SMS API'],
@@ -155,18 +155,18 @@ Notre solution a deja beneficie a plus de 5000 agriculteurs dans les regions du 
       promotion: 2017,
       poste: 'CEO & Fondateur'
     },
-    clients_notables: ['Cooperative CAPA', 'ANADER', 'FIRCA']
+    clients_notables: ['Coopérative CAPA', 'ANADER', 'FIRCA']
   },
   {
     id: '4',
     nom: 'SantePlus Digital',
     logo_url: 'https://picsum.photos/200/200?random=103',
-    description: 'Teleconsultation et gestion medicale numerique',
-    description_longue: `SantePlus Digital revolutionne l'acces aux soins en Cote d'Ivoire grace a la teleconsultation. Notre application permet aux patients de consulter des medecins certifies depuis leur smartphone, d'obtenir des ordonnances electroniques et de gerer leur dossier medical.
+    description: 'Téléconsultation et gestion médicale numérique',
+    description_longue: `SantePlus Digital révolutionne l'accès aux soins en Côte d'Ivoire grâce à la téléconsultation. Notre application permet aux patients de consulter des médecins certifiés depuis leur smartphone, d'obtenir des ordonnances électroniques et de gérer leur dossier médical.
 
-Pour les structures de sante, nous proposons un logiciel complet de gestion : dossiers patients, facturation, stocks de medicaments et statistiques.
+Pour les structures de santé, nous proposons un logiciel complet de gestion : dossiers patients, facturation, stocks de médicaments et statistiques.
 
-Notre objectif est de reduire les deserts medicaux et d'ameliorer la qualite des soins dans les zones rurales.`,
+Notre objectif est de réduire les déserts médicaux et d'améliorer la qualité des soins dans les zones rurales.`,
     secteur: 'healthtech',
     date_creation: '2020-06',
     site_web: 'https://santeplus.ci',
@@ -175,9 +175,9 @@ Notre objectif est de reduire les deserts medicaux et d'ameliorer la qualite des
     telephone: '+225 27 22 00 00 04',
     adresse: 'Cocody Angre',
     ville: 'Abidjan',
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     nombre_employes: '10-15',
-    services: ['Teleconsultation', 'Gestion clinique', 'Ordonnances electroniques', 'Dossier medical'],
+    services: ['Téléconsultation', 'Gestion clinique', 'Ordonnances électroniques', 'Dossier médical'],
     technologies: ['Flutter', 'Firebase', 'Node.js', 'WebRTC', 'PostgreSQL'],
     fondateur: {
       id: '8',
@@ -192,22 +192,22 @@ Notre objectif est de reduire les deserts medicaux et d'ameliorer la qualite des
         prenom: 'Dr. Kouadio',
         nom: 'Assouan',
         photo_url: 'https://i.pravatar.cc/150?u=drkouadio',
-        poste: 'Directeur Medical'
+        poste: 'Directeur Médical'
       }
     ],
     clients_notables: ['CHU Cocody', 'Clinique Procrea', 'Pharmacies Pharma+'],
-    recompenses: ['Prix Sante Digitale MUGEFCI 2022']
+    recompenses: ['Prix Santé Digitale MUGEFCI 2022']
   },
   {
     id: '5',
     nom: 'DevHub Africa',
     logo_url: 'https://picsum.photos/200/200?random=104',
-    description: 'Services de developpement logiciel et conseil IT',
-    description_longue: `DevHub Africa est une entreprise de services numeriques fondee par des alumni de l'ESATIC. Nous accompagnons les entreprises ivoiriennes et internationales dans leur transformation digitale.
+    description: 'Services de développement logiciel et conseil IT',
+    description_longue: `DevHub Africa est une entreprise de services numériques fondée par des alumni de l'ESATIC. Nous accompagnons les entreprises ivoiriennes et internationales dans leur transformation digitale.
 
-Notre equipe de developpeurs seniors maitrise les technologies modernes et suit les meilleures pratiques de l'industrie. Nous intervenons sur des projets web, mobile, cloud et data.
+Notre équipe de développeurs seniors maîtrise les technologies modernes et suit les meilleures pratiques de l'industrie. Nous intervenons sur des projets web, mobile, cloud et data.
 
-Notre force : une connaissance approfondie du contexte africain combinee a une expertise technique de niveau international.`,
+Notre force : une connaissance approfondie du contexte africain combinée à une expertise technique de niveau international.`,
     secteur: 'services_it',
     date_creation: '2018-05',
     site_web: 'https://devhub-africa.com',
@@ -216,10 +216,10 @@ Notre force : une connaissance approfondie du contexte africain combinee a une e
     telephone: '+225 27 22 00 00 05',
     adresse: 'Plateau, Avenue Noguès',
     ville: 'Abidjan',
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     nombre_employes: '25-50',
     chiffre_affaires: '1Md - 2Md FCFA',
-    services: ['Developpement web', 'Applications mobiles', 'Cloud & DevOps', 'Conseil IT'],
+    services: ['Développement web', 'Applications mobiles', 'Cloud & DevOps', 'Conseil IT'],
     technologies: ['Vue.js', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'Kubernetes'],
     fondateur: {
       id: '1',
@@ -237,7 +237,7 @@ Notre force : une connaissance approfondie du contexte africain combinee a une e
         poste: 'CTO & Co-fondatrice'
       }
     ],
-    clients_notables: ['MTN CI', 'Orange CI', 'Societe Generale', 'Total Energies'],
+    clients_notables: ['MTN CI', 'Orange CI', 'Société Générale', 'Total Energies'],
     recompenses: ['Certification ISO 27001', 'Partenaire AWS']
   },
   {
@@ -245,11 +245,11 @@ Notre force : une connaissance approfondie du contexte africain combinee a une e
     nom: 'LogiTrack West',
     logo_url: 'https://picsum.photos/200/200?random=105',
     description: 'Solutions de tracking et gestion logistique',
-    description_longue: `LogiTrack West propose des solutions de geolocalisation et de gestion de flottes adaptees aux entreprises de transport et de logistique en Afrique de l'Ouest.
+    description_longue: `LogiTrack West propose des solutions de géolocalisation et de gestion de flottes adaptées aux entreprises de transport et de logistique en Afrique de l'Ouest.
 
-Notre plateforme permet le suivi en temps reel des vehicules, l'optimisation des itineraires, la gestion des chauffeurs et l'analyse des donnees de transport. Compatible avec tous types de boitiers GPS.
+Notre plateforme permet le suivi en temps réel des véhicules, l'optimisation des itinéraires, la gestion des chauffeurs et l'analyse des données de transport. Compatible avec tous types de boîtiers GPS.
 
-Nous aidons nos clients a reduire leurs couts de carburant de 15 a 25% en moyenne grace a l'optimisation des trajets et au suivi du comportement de conduite.`,
+Nous aidons nos clients à réduire leurs coûts de carburant de 15 à 25% en moyenne grâce à l'optimisation des trajets et au suivi du comportement de conduite.`,
     secteur: 'logistique',
     date_creation: '2019-11',
     site_web: 'https://logitrack-west.com',
@@ -257,7 +257,7 @@ Nous aidons nos clients a reduire leurs couts de carburant de 15 a 25% en moyenn
     telephone: '+225 27 22 00 00 06',
     adresse: 'Yopougon, Zone Industrielle',
     ville: 'Abidjan',
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     nombre_employes: '10-15',
     services: ['Tracking GPS', 'Gestion de flottes', 'Optimisation trajets', 'Rapports analytiques'],
     technologies: ['Angular', 'Java Spring', 'PostgreSQL', 'Google Maps', 'IoT'],
@@ -269,18 +269,18 @@ Nous aidons nos clients a reduire leurs couts de carburant de 15 a 25% en moyenn
       promotion: 2018,
       poste: 'CEO & Fondateur'
     },
-    clients_notables: ['Bolore Transport', 'DHL CI', 'Ivoire Cargo']
+    clients_notables: ['Bolloré Transport', 'DHL CI', 'Ivoire Cargo']
   },
   {
     id: '7',
     nom: 'CyberShield CI',
     logo_url: 'https://picsum.photos/200/200?random=106',
-    description: 'Cabinet de conseil en cybersecurite',
-    description_longue: `CyberShield CI est un cabinet specialise dans la securite informatique. Nous accompagnons les entreprises et administrations ivoiriennes dans la protection de leurs systemes d'information.
+    description: 'Cabinet de conseil en cybersécurité',
+    description_longue: `CyberShield CI est un cabinet spécialisé dans la sécurité informatique. Nous accompagnons les entreprises et administrations ivoiriennes dans la protection de leurs systèmes d'information.
 
-Nos services couvrent l'audit de securite, les tests d'intrusion, la mise en conformite (ISO 27001, PCI-DSS) et la formation des equipes. Nous intervenons egalement en reponse aux incidents de securite.
+Nos services couvrent l'audit de sécurité, les tests d'intrusion, la mise en conformité (ISO 27001, PCI-DSS) et la formation des équipes. Nous intervenons également en réponse aux incidents de sécurité.
 
-Notre equipe est composee d'experts certifies (CISSP, CEH, OSCP) avec une experience internationale.`,
+Notre équipe est composée d'experts certifiés (CISSP, CEH, OSCP) avec une expérience internationale.`,
     secteur: 'services_it',
     date_creation: '2020-09',
     site_web: 'https://cybershield.ci',
@@ -289,9 +289,9 @@ Notre equipe est composee d'experts certifies (CISSP, CEH, OSCP) avec une experi
     telephone: '+225 27 22 00 00 07',
     adresse: 'Cocody II Plateaux',
     ville: 'Abidjan',
-    pays: 'Cote d\'Ivoire',
+    pays: 'Côte d\'Ivoire',
     nombre_employes: '5-10',
-    services: ['Audit securite', 'Tests d\'intrusion', 'Conformite ISO 27001', 'Formation securite'],
+    services: ['Audit sécurité', 'Tests d\'intrusion', 'Conformité ISO 27001', 'Formation sécurité'],
     technologies: ['Kali Linux', 'Nessus', 'Burp Suite', 'Splunk', 'SIEM'],
     fondateur: {
       id: '7',
@@ -301,7 +301,7 @@ Notre equipe est composee d'experts certifies (CISSP, CEH, OSCP) avec une experi
       promotion: 2017,
       poste: 'CEO & Fondateur'
     },
-    clients_notables: ['BCEAO', 'Ministere de l\'Economie', 'Bank of Africa'],
+    clients_notables: ['BCEAO', 'Ministère de l\'Économie', 'Bank of Africa'],
     recompenses: ['Agrément ARTCI 2022']
   }
 ]
@@ -391,9 +391,9 @@ export const filterEntreprises = (
   })
 }
 
-// Helper pour formater la date de creation
+// Helper pour formater la date de création
 export const formatDateCreation = (date: string): string => {
   const [year, month] = date.split('-')
-  const months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre']
+  const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
   return `${months[parseInt(month) - 1]} ${year}`
 }

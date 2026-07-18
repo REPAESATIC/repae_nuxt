@@ -74,7 +74,7 @@ const quickLinks = computed(() =>
     <!-- Quick Links -->
     <EspaceItDashboardQuickLinks
       :links="quickLinks"
-      title="Acces rapides"
+      title="Accès rapides"
     />
 
     <!-- Content sections -->

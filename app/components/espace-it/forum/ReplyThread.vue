@@ -75,7 +75,7 @@ const handleReply = () => {
           class="px-4 py-2 bg-green-100 dark:bg-green-500/10 border-b border-green-200 dark:border-green-500/30 flex items-center gap-2 text-green-700 dark:text-green-400"
         >
           <font-awesome-icon icon="fa-solid fa-check-circle" />
-          <span class="text-sm font-medium">Meilleure reponse</span>
+          <span class="text-sm font-medium">Meilleure réponse</span>
         </div>
 
         <div :class="depth > 0 ? 'p-4' : 'p-5'">
@@ -125,13 +125,13 @@ const handleReply = () => {
               @click="handleReply"
             >
               <font-awesome-icon icon="fa-solid fa-reply" />
-              <span>Repondre</span>
+              <span>Répondre</span>
             </button>
             <span
               v-if="reply.replies.length > 0"
               class="text-xs text-repae-gray-400 dark:text-repae-gray-500 ml-auto"
             >
-              {{ reply.replies.length }} reponse(s)
+              {{ reply.replies.length }} réponse(s)
             </span>
           </div>
         </div>

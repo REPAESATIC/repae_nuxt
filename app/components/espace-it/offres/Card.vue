@@ -69,7 +69,7 @@ const tempsPublication = computed(() => getTempsDepuisPublication(props.offre.da
       </p>
     </div>
 
-    <!-- Competences requises (apercu) -->
+    <!-- Compétences requises (aperçu) -->
     <div class="px-5 pb-4">
       <div class="flex flex-wrap gap-1.5">
         <span
@@ -90,7 +90,7 @@ const tempsPublication = computed(() => getTempsDepuisPublication(props.offre.da
 
     <!-- Infos pratiques -->
     <div class="px-5 pb-4 flex flex-wrap items-center gap-3 text-xs text-repae-gray-500 dark:text-repae-gray-400">
-      <!-- Experience -->
+      <!-- Expérience -->
       <div class="flex items-center gap-1.5">
         <font-awesome-icon icon="fa-solid fa-chart-line" class="text-repae-gray-400" />
         <span>{{ experience.label }}</span>
@@ -123,7 +123,7 @@ const tempsPublication = computed(() => getTempsDepuisPublication(props.offre.da
         <span>{{ offre.nombre_candidatures }} candidature(s)</span>
       </div>
 
-      <!-- Fleche -->
+      <!-- Flèche -->
       <div class="text-repae-blue-500 group-hover:translate-x-1 transition-transform">
         <font-awesome-icon icon="fa-solid fa-arrow-right" class="text-sm" />
       </div>

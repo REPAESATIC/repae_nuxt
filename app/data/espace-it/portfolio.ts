@@ -1,4 +1,4 @@
-// Donnees mock du portfolio de l'utilisateur (Cote d'Ivoire - ESATIC)
+// Données mock du portfolio de l'utilisateur (Côte d'Ivoire - ESATIC)
 
 export type TypeProjet = 'web' | 'mobile' | 'api' | 'desktop' | 'autre'
 
@@ -20,30 +20,30 @@ export const portfolio: ProjetPortfolio[] = [
   {
     id: '1',
     titre: 'MoMo Pay - Application Mobile Money',
-    description: 'Application mobile de paiement et transfert d\'argent pour MTN Cote d\'Ivoire. Gestion des transactions, historique, et integration avec les partenaires marchands.',
+    description: 'Application mobile de paiement et transfert d\'argent pour MTN Côte d\'Ivoire. Gestion des transactions, historique, et intégration avec les partenaires marchands.',
     image_url: 'https://picsum.photos/600/400?random=20',
     type: 'mobile',
     technologies: ['React Native', 'Node.js', 'PostgreSQL', 'Redis'],
     date_realisation: '2023-06',
-    client: 'MTN Cote d\'Ivoire',
+    client: 'MTN Côte d\'Ivoire',
     en_vedette: true
   },
   {
     id: '2',
     titre: 'Portail RH Orange CI',
-    description: 'Plateforme de gestion des ressources humaines incluant la gestion des conges, des formations et des evaluations pour les employes d\'Orange Cote d\'Ivoire.',
+    description: 'Plateforme de gestion des ressources humaines incluant la gestion des congés, des formations et des évaluations pour les employés d\'Orange Côte d\'Ivoire.',
     image_url: 'https://picsum.photos/600/400?random=21',
     type: 'web',
     technologies: ['Vue.js', 'Laravel', 'MySQL', 'Docker'],
     url_demo: 'https://rh.orange.ci',
     date_realisation: '2020-11',
-    client: 'Orange Cote d\'Ivoire',
+    client: 'Orange Côte d\'Ivoire',
     en_vedette: true
   },
   {
     id: '3',
     titre: 'API Paiement Marchand',
-    description: 'API RESTful pour l\'integration des paiements mobile money dans les applications tierces. Documentation Swagger, SDK JavaScript et Python.',
+    description: 'API RESTful pour l\'intégration des paiements mobile money dans les applications tierces. Documentation Swagger, SDK JavaScript et Python.',
     image_url: 'https://picsum.photos/600/400?random=22',
     type: 'api',
     technologies: ['Node.js', 'Express', 'MongoDB', 'Swagger'],
@@ -54,7 +54,7 @@ export const portfolio: ProjetPortfolio[] = [
   {
     id: '4',
     titre: 'Dashboard Analytics ESATIC',
-    description: 'Tableau de bord de visualisation des donnees pour le suivi des indicateurs de performance de l\'ESATIC. Graphiques interactifs et rapports exportables.',
+    description: 'Tableau de bord de visualisation des données pour le suivi des indicateurs de performance de l\'ESATIC. Graphiques interactifs et rapports exportables.',
     image_url: 'https://picsum.photos/600/400?random=23',
     type: 'web',
     technologies: ['Vue.js', 'Chart.js', 'Python', 'FastAPI'],
@@ -65,7 +65,7 @@ export const portfolio: ProjetPortfolio[] = [
   {
     id: '5',
     titre: 'App Gestion Stock Sifca',
-    description: 'Application de gestion des stocks et de la logistique pour les entrepots du groupe Sifca. Suivi en temps reel, alertes et rapports automatises.',
+    description: 'Application de gestion des stocks et de la logistique pour les entrepôts du groupe Sifca. Suivi en temps réel, alertes et rapports automatisés.',
     image_url: 'https://picsum.photos/600/400?random=24',
     type: 'web',
     technologies: ['Laravel', 'Vue.js', 'MySQL', 'WebSocket'],
@@ -76,12 +76,12 @@ export const portfolio: ProjetPortfolio[] = [
   {
     id: '6',
     titre: 'Chatbot Service Client',
-    description: 'Bot conversationnel pour le support client integre a WhatsApp et Telegram. Traitement automatique des requetes courantes et escalade vers agents.',
+    description: 'Bot conversationnel pour le support client intégré à WhatsApp et Telegram. Traitement automatique des requêtes courantes et escalade vers agents.',
     image_url: 'https://picsum.photos/600/400?random=25',
     type: 'autre',
     technologies: ['Node.js', 'Dialogflow', 'MongoDB', 'WhatsApp API'],
     date_realisation: '2023-01',
-    client: 'MTN Cote d\'Ivoire',
+    client: 'MTN Côte d\'Ivoire',
     en_vedette: false
   }
 ]
@@ -123,6 +123,6 @@ export const getFeaturedProjects = (projects: ProjetPortfolio[]): ProjetPortfoli
 // Helper pour formater la date
 export const formatProjectDate = (date: string): string => {
   const [year, month] = date.split('-')
-  const months = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre']
+  const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
   return `${months[parseInt(month) - 1]} ${year}`
 }

@@ -74,7 +74,7 @@ const validateForm = (): boolean => {
     errors.message = 'Veuillez saisir un message de motivation'
     isValid = false
   } else if (form.message.trim().length < 50) {
-    errors.message = 'Le message doit contenir au moins 50 caracteres'
+    errors.message = 'Le message doit contenir au moins 50 caractères'
     isValid = false
   }
 
@@ -155,13 +155,13 @@ const formatFileSize = (bytes: number): string => {
               <font-awesome-icon icon="fa-solid fa-check" class="text-4xl text-green-500" />
             </div>
             <h2 class="text-2xl font-bold font-brand text-repae-gray-900 dark:text-white mb-2">
-              Candidature envoyee !
+              Candidature envoyée !
             </h2>
             <p class="text-repae-gray-600 dark:text-repae-gray-400 mb-6">
-              Votre candidature pour le poste de <strong>{{ offre.titre }}</strong> chez <strong>{{ offre.entreprise.nom }}</strong> a bien ete envoyee.
+              Votre candidature pour le poste de <strong>{{ offre.titre }}</strong> chez <strong>{{ offre.entreprise.nom }}</strong> a bien été envoyée.
             </p>
             <p class="text-sm text-repae-gray-500 dark:text-repae-gray-500 mb-8">
-              Vous recevrez une confirmation par email a <strong>{{ currentUser.email }}</strong>
+              Vous recevrez une confirmation par email à <strong>{{ currentUser.email }}</strong>
             </p>
             <button
               class="px-6 py-3 bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-medium font-brand rounded-xl transition-colors cursor-pointer"
@@ -177,7 +177,7 @@ const formatFileSize = (bytes: number): string => {
             <div class="px-6 py-4 border-b border-gray-200 dark:border-repae-gray-700 flex items-center justify-between">
               <div>
                 <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white">
-                  Postuler a cette offre
+                  Postuler à cette offre
                 </h2>
                 <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
                   {{ offre.titre }} - {{ offre.entreprise.nom }}
@@ -193,7 +193,7 @@ const formatFileSize = (bytes: number): string => {
 
             <!-- Body -->
             <div class="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
-              <!-- Profil recap -->
+              <!-- Profil récap -->
               <div class="mb-6 p-4 bg-gray-50 dark:bg-repae-gray-900 rounded-xl">
                 <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-2">
                   Vous postulez en tant que :
@@ -223,7 +223,7 @@ const formatFileSize = (bytes: number): string => {
                 <textarea
                   v-model="form.message"
                   rows="5"
-                  placeholder="Expliquez pourquoi vous etes interesse par ce poste et ce que vous pouvez apporter a l'entreprise..."
+                  placeholder="Expliquez pourquoi vous êtes intéressé par ce poste et ce que vous pouvez apporter à l'entreprise..."
                   :class="[
                     'w-full px-4 py-3 bg-gray-50 dark:bg-repae-gray-900 border rounded-xl text-sm text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 transition-colors resize-none',
                     errors.message ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
@@ -233,7 +233,7 @@ const formatFileSize = (bytes: number): string => {
                   {{ errors.message }}
                 </p>
                 <p class="mt-1 text-xs text-repae-gray-400">
-                  {{ form.message.length }} caractere(s) - minimum 50
+                  {{ form.message.length }} caractère(s) - minimum 50
                 </p>
               </div>
 
@@ -278,7 +278,7 @@ const formatFileSize = (bytes: number): string => {
                 >
                   <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-3xl text-repae-gray-400 mb-2" />
                   <p class="text-sm text-repae-gray-600 dark:text-repae-gray-400">
-                    Cliquez pour telecharger votre CV
+                    Cliquez pour télécharger votre CV
                   </p>
                   <p class="text-xs text-repae-gray-400 mt-1">
                     PDF, DOC, DOCX (max 5 MB)
@@ -355,7 +355,7 @@ const formatFileSize = (bytes: number): string => {
                     class="mt-0.5 w-4 h-4 rounded border-gray-300 text-repae-blue-500 focus:ring-repae-blue-500 cursor-pointer"
                   />
                   <span class="text-sm text-repae-gray-600 dark:text-repae-gray-400">
-                    J'accepte que mes informations soient transmises a <strong>{{ offre.entreprise.nom }}</strong> dans le cadre de cette candidature. <span class="text-red-500">*</span>
+                    J'accepte que mes informations soient transmises à <strong>{{ offre.entreprise.nom }}</strong> dans le cadre de cette candidature. <span class="text-red-500">*</span>
                   </span>
                 </label>
                 <p v-if="errors.accepte_conditions" class="mt-1 text-sm text-red-500 ml-7">

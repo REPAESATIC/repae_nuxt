@@ -1,4 +1,4 @@
-// Donnees mock des candidatures pour l'Espace IT
+// Données mock des candidatures pour l'Espace IT
 
 export type StatutCandidature = 'en_attente' | 'vue' | 'entretien' | 'acceptee' | 'refusee' | 'retiree'
 
@@ -37,31 +37,31 @@ export const statutConfig: Record<StatutCandidature, { label: string; color: str
     label: 'Vue',
     color: 'bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400',
     icon: 'fa-solid fa-eye',
-    description: 'Le recruteur a consulte votre candidature'
+    description: 'Le recruteur a consulté votre candidature'
   },
   entretien: {
     label: 'Entretien',
     color: 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400',
     icon: 'fa-solid fa-calendar-check',
-    description: 'Un entretien a ete planifie'
+    description: 'Un entretien a été planifié'
   },
   acceptee: {
-    label: 'Acceptee',
+    label: 'Acceptée',
     color: 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400',
     icon: 'fa-solid fa-check-circle',
-    description: 'Felicitations ! Votre candidature a ete retenue'
+    description: 'Félicitations ! Votre candidature a été retenue'
   },
   refusee: {
-    label: 'Refusee',
+    label: 'Refusée',
     color: 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400',
     icon: 'fa-solid fa-times-circle',
-    description: 'Votre candidature n\'a pas ete retenue'
+    description: 'Votre candidature n\'a pas été retenue'
   },
   retiree: {
-    label: 'Retiree',
+    label: 'Retirée',
     color: 'bg-gray-100 text-gray-700 dark:bg-gray-500/20 dark:text-gray-400',
     icon: 'fa-solid fa-ban',
-    description: 'Vous avez retire votre candidature'
+    description: 'Vous avez retiré votre candidature'
   }
 }
 
@@ -71,7 +71,7 @@ export const candidaturesList: Candidature[] = [
     id: '1',
     offre: {
       id: '1',
-      titre: 'Developpeur Full Stack Senior',
+      titre: 'Développeur Full Stack Senior',
       entreprise: {
         id: '1',
         nom: 'AfriPay Solutions',
@@ -82,18 +82,18 @@ export const candidaturesList: Candidature[] = [
     },
     date_candidature: '2024-12-05',
     statut: 'entretien',
-    message: 'Je suis tres interesse par ce poste qui correspond parfaitement a mon profil. Fort de 5 ans d\'experience en developpement Full Stack, j\'ai travaille sur des projets similaires impliquant des systemes de paiement et des architectures microservices.',
+    message: 'Je suis très intéressé par ce poste qui correspond parfaitement à mon profil. Fort de 5 ans d\'expérience en développement Full Stack, j\'ai travaillé sur des projets similaires impliquant des systèmes de paiement et des architectures microservices.',
     cv_url: '/uploads/cv_kouame_yao.pdf',
     lettre_motivation_url: '/uploads/lm_kouame_yao.pdf',
     date_mise_a_jour: '2024-12-10',
-    notes_recruteur: 'Profil interessant, experience pertinente',
+    notes_recruteur: 'Profil intéressant, expérience pertinente',
     date_entretien: '2024-12-15T10:00:00'
   },
   {
     id: '2',
     offre: {
       id: '3',
-      titre: 'Ingenieur DevOps',
+      titre: 'Ingénieur DevOps',
       entreprise: {
         id: '5',
         nom: 'DevHub Africa',
@@ -104,7 +104,7 @@ export const candidaturesList: Candidature[] = [
     },
     date_candidature: '2024-12-02',
     statut: 'vue',
-    message: 'Passionne par l\'automatisation et l\'infrastructure cloud, je souhaite mettre mes competences Kubernetes et Terraform au service de votre equipe.',
+    message: 'Passionné par l\'automatisation et l\'infrastructure cloud, je souhaite mettre mes compétences Kubernetes et Terraform au service de votre équipe.',
     cv_url: '/uploads/cv_kouame_yao.pdf',
     date_mise_a_jour: '2024-12-08'
   },
@@ -112,7 +112,7 @@ export const candidaturesList: Candidature[] = [
     id: '3',
     offre: {
       id: '8',
-      titre: 'Developpeur Backend Python',
+      titre: 'Développeur Backend Python',
       entreprise: {
         id: '2',
         nom: 'EduTech Afrique',
@@ -123,10 +123,10 @@ export const candidaturesList: Candidature[] = [
     },
     date_candidature: '2024-11-28',
     statut: 'refusee',
-    message: 'Je suis motive par la mission educative de votre entreprise et souhaite contribuer au developpement de votre plateforme d\'e-learning.',
+    message: 'Je suis motivé par la mission éducative de votre entreprise et souhaite contribuer au développement de votre plateforme d\'e-learning.',
     cv_url: '/uploads/cv_kouame_yao.pdf',
     date_mise_a_jour: '2024-12-06',
-    notes_recruteur: 'Profil interessant mais nous recherchons plus d\'experience en Python/Django'
+    notes_recruteur: 'Profil intéressant mais nous recherchons plus d\'expérience en Python/Django'
   },
   {
     id: '4',
@@ -143,7 +143,7 @@ export const candidaturesList: Candidature[] = [
     },
     date_candidature: '2024-12-08',
     statut: 'en_attente',
-    message: 'Avec mon experience en architecture cloud et mes certifications AWS, je suis convaincu de pouvoir apporter une valeur ajoutee significative a votre equipe.',
+    message: 'Avec mon expérience en architecture cloud et mes certifications AWS, je suis convaincu de pouvoir apporter une valeur ajoutée significative à votre équipe.',
     cv_url: '/uploads/cv_kouame_yao.pdf',
     lettre_motivation_url: '/uploads/lm_kouame_yao.pdf',
     date_mise_a_jour: '2024-12-08'
@@ -152,7 +152,7 @@ export const candidaturesList: Candidature[] = [
     id: '5',
     offre: {
       id: '4',
-      titre: 'Developpeur Mobile React Native',
+      titre: 'Développeur Mobile React Native',
       entreprise: {
         id: '4',
         nom: 'SantePlus Digital',
@@ -163,10 +163,10 @@ export const candidaturesList: Candidature[] = [
     },
     date_candidature: '2024-11-20',
     statut: 'acceptee',
-    message: 'Le domaine de la e-sante me passionne et je souhaite contribuer a ameliorer l\'acces aux soins grace a la technologie.',
+    message: 'Le domaine de la e-santé me passionne et je souhaite contribuer à améliorer l\'accès aux soins grâce à la technologie.',
     cv_url: '/uploads/cv_kouame_yao.pdf',
     date_mise_a_jour: '2024-12-01',
-    notes_recruteur: 'Excellent profil, experience React Native solide. Proposition envoyee.'
+    notes_recruteur: 'Excellent profil, expérience React Native solide. Proposition envoyée.'
   }
 ]
 
@@ -240,7 +240,7 @@ export const formatDateTimeEntretien = (dateStr: string): string => {
   })
 }
 
-// Calcul du temps ecoule
+// Calcul du temps écoulé
 export const getTempsDepuisCandidature = (dateStr: string): string => {
   const now = new Date()
   const date = new Date(dateStr)

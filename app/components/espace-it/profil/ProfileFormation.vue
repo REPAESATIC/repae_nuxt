@@ -94,7 +94,7 @@ const emit = defineEmits<{
     >
       <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-4xl text-gray-300 dark:text-repae-gray-600 mb-3" />
       <p class="text-repae-gray-500 dark:text-repae-gray-400 font-brand">
-        Aucune formation renseignee
+        Aucune formation renseignée
       </p>
     </div>
   </div>

@@ -1,4 +1,4 @@
-// Donnees mock du profil complet de l'utilisateur connecte (Cote d'Ivoire - ESATIC)
+// Données mock du profil complet de l'utilisateur connecté (Côte d'Ivoire - ESATIC)
 
 export interface UserProfile {
   id: string
@@ -32,10 +32,10 @@ export const userProfile: UserProfile = {
   telephone: '+225 05 45 29 28 02',
   photo_url: 'https://i.pravatar.cc/300?u=kouame',
   cover_url: 'https://picsum.photos/1200/400?random=1',
-  poste_actuel: 'Developpeur Full Stack Senior',
-  entreprise_actuelle: 'MTN Cote d\'Ivoire',
+  poste_actuel: 'Développeur Full Stack Senior',
+  entreprise_actuelle: 'MTN Côte d\'Ivoire',
   promotion: 2018,
-  pays: 'Cote d\'Ivoire',
+  pays: 'Côte d\'Ivoire',
   ville: 'Abidjan',
   adresse: 'Cocody Riviera 3, Rue des Jardins',
   disponibilite: 'ouvert_opportunites',
@@ -52,10 +52,10 @@ Je suis convaincu que la technologie peut transformer positivement notre sociét
   derniere_connexion: '2025-01-10'
 }
 
-// Labels pour la disponibilite
+// Labels pour la disponibilité
 export const disponibiliteConfig = {
   disponible: {
-    label: 'Disponible immediatement',
+    label: 'Disponible immédiatement',
     color: 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400',
     dotColor: 'bg-green-500'
   },
@@ -65,7 +65,7 @@ export const disponibiliteConfig = {
     dotColor: 'bg-gray-500'
   },
   ouvert_opportunites: {
-    label: 'Ouvert aux opportunites',
+    label: 'Ouvert aux opportunités',
     color: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400',
     dotColor: 'bg-amber-500'
   }

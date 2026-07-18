@@ -16,7 +16,7 @@ const isLoading = ref(true)
 const error = ref<string | null>(null)
 const alumniRaw = ref<AlumniItem | null>(null)
 
-// Donnees de formulaire — initialisees apres chargement
+// Données de formulaire — initialisées après chargement
 const formData = reactive({
   prenom: '',
   nom: '',
@@ -46,7 +46,7 @@ const loadProfile = async () => {
   error.value = null
 
   try {
-    // Charger le profil et les pays en parallele
+    // Charger le profil et les pays en parallèle
     const [alumni, countriesResult] = await Promise.all([
       fetchMyAlumni(),
       fetchCountries({ limit: 200 }).catch(() => ({ data: [] as CountryItem[] })),
@@ -55,7 +55,7 @@ const loadProfile = async () => {
     alumniRaw.value = alumni
     countriesList.value = countriesResult.data.map((c) => ({ id: c.id, name: c.name }))
 
-    // Remplir le formulaire avec les donnees du profil
+    // Remplir le formulaire avec les données du profil
     formData.prenom = alumni.firstName
     formData.nom = alumni.lastName
     formData.email = alumni.email || ''
@@ -78,7 +78,7 @@ const loadProfile = async () => {
       formData.countryId = match?.id || ''
     }
 
-    // Recuperer le poste actuel depuis les experiences
+    // Récupérer le poste actuel depuis les expériences
     try {
       const workExps = await fetchWorkExperiences(alumni.id)
       const mappedExps = workExps.map(workExperienceToExperience)
@@ -88,7 +88,7 @@ const loadProfile = async () => {
         formData.entreprise_actuelle = currentJob.entreprise
       }
     } catch {
-      // Pas critique si les experiences echouent
+      // Pas critique si les expériences échouent
     }
   } catch (e: any) {
     console.error('Erreur chargement profil:', e)
@@ -225,13 +225,13 @@ const handleCancel = () => {
       </div>
     </div>
 
-    <!-- Etat de chargement -->
+    <!-- État de chargement -->
     <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
       <font-awesome-icon icon="fa-solid fa-spinner" class="animate-spin text-3xl text-repae-blue-500 mb-3" />
       <span class="text-repae-gray-500 dark:text-repae-gray-400 font-brand">Chargement du profil...</span>
     </div>
 
-    <!-- Etat d'erreur chargement -->
+    <!-- État d'erreur chargement -->
     <div
       v-else-if="error"
       class="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl p-6 text-center"
@@ -242,7 +242,7 @@ const handleCancel = () => {
         @click="loadProfile"
         class="mt-4 px-4 py-2 bg-repae-blue-500 hover:bg-repae-blue-600 text-white rounded-lg font-brand text-sm transition-colors cursor-pointer"
       >
-        Reessayer
+        Réessayer
       </button>
     </div>
 

@@ -16,7 +16,7 @@ const emit = defineEmits<{
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2">
         <font-awesome-icon icon="fa-solid fa-briefcase" class="text-repae-blue-500" />
-        Experiences professionnelles
+        Expériences professionnelles
       </h2>
       <button
         class="text-sm text-repae-blue-500 hover:text-repae-blue-600 font-medium font-brand cursor-pointer"
@@ -111,7 +111,7 @@ const emit = defineEmits<{
               {{ experience.description }}
             </p>
 
-            <!-- Competences -->
+            <!-- Compétences -->
             <div
               v-if="experience.competences && experience.competences.length > 0"
               class="flex flex-wrap gap-2 mt-3"
@@ -136,7 +136,7 @@ const emit = defineEmits<{
     >
       <font-awesome-icon icon="fa-solid fa-briefcase" class="text-4xl text-gray-300 dark:text-repae-gray-600 mb-3" />
       <p class="text-repae-gray-500 dark:text-repae-gray-400 font-brand">
-        Aucune experience renseignee
+        Aucune expérience renseignée
       </p>
     </div>
   </div>

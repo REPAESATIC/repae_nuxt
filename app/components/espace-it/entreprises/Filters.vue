@@ -124,7 +124,7 @@ const secteurOptions = Object.entries(secteurConfig).map(([key, value]) => ({
       <div class="flex items-center justify-between">
         <p class="text-sm text-repae-gray-600 dark:text-repae-gray-400">
           <span class="font-semibold text-repae-gray-900 dark:text-white">{{ totalResults }}</span>
-          entreprise{{ totalResults > 1 ? 's' : '' }} trouvee{{ totalResults > 1 ? 's' : '' }}
+          entreprise{{ totalResults > 1 ? 's' : '' }} trouvée{{ totalResults > 1 ? 's' : '' }}
         </p>
 
         <button
@@ -133,7 +133,7 @@ const secteurOptions = Object.entries(secteurConfig).map(([key, value]) => ({
           @click="resetFilters"
         >
           <font-awesome-icon icon="fa-solid fa-times" />
-          Reinitialiser
+          Réinitialiser
         </button>
       </div>
 

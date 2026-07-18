@@ -35,7 +35,7 @@ const disponibilite = computed(() => disponibiliteConfig[props.profile.disponibi
             :alt="`${profile.prenom} ${profile.nom}`"
             class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border-4 border-white dark:border-repae-gray-800 shadow-lg"
           />
-          <!-- Disponibilite indicator -->
+          <!-- Disponibilité indicator -->
           <div
             :class="[
               'absolute bottom-2 right-2 w-5 h-5 rounded-full border-2 border-white dark:border-repae-gray-800',
