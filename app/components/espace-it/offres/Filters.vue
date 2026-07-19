@@ -35,7 +35,7 @@ const typesContrat = Object.entries(contratConfig).map(([value, config]) => ({
   label: config.label
 }))
 
-// Niveaux d'experience pour le select
+// Niveaux d'expérience pour le select
 const niveauxExperience = Object.entries(experienceConfig).map(([value, config]) => ({
   value: value as NiveauExperience,
   label: `${config.label} (${config.annees})`
@@ -90,7 +90,7 @@ const removeFilter = (key: keyof Filters) => {
           <input
             type="text"
             :value="filters.search"
-            placeholder="Titre, entreprise, competence..."
+            placeholder="Titre, entreprise, compétence..."
             class="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 rounded-xl text-sm text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 transition-colors"
             @input="updateFilter('search', ($event.target as HTMLInputElement).value)"
           />
@@ -114,10 +114,10 @@ const removeFilter = (key: keyof Filters) => {
         </select>
       </div>
 
-      <!-- Niveau d'experience -->
+      <!-- Niveau d'expérience -->
       <div>
         <label class="block text-xs font-medium font-brand text-repae-gray-600 dark:text-repae-gray-400 mb-1.5">
-          Experience
+          Expérience
         </label>
         <select
           :value="filters.niveau_experience || ''"
@@ -189,7 +189,7 @@ const removeFilter = (key: keyof Filters) => {
       <!-- Results count -->
       <div class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand">
         <span class="font-semibold text-repae-gray-900 dark:text-white">{{ totalResults }}</span>
-        offre(s) trouvee(s)
+        offre(s) trouvée(s)
       </div>
     </div>
 
@@ -230,7 +230,7 @@ const removeFilter = (key: keyof Filters) => {
           </button>
         </span>
 
-        <!-- Experience tag -->
+        <!-- Expérience tag -->
         <span
           v-if="filters.niveau_experience"
           class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-repae-blue-50 dark:bg-repae-blue-500/10 text-repae-blue-600 dark:text-repae-blue-400 rounded-lg text-xs font-brand"

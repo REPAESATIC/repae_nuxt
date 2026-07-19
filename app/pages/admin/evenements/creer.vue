@@ -9,6 +9,7 @@ definePageMeta({
 const router = useRouter()
 const { createEvent } = useEventsApi()
 const { fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 // State
@@ -43,7 +44,7 @@ onMounted(async () => {
     const result = await fetchCategories()
     categories.value = result.data
   } catch {
-    toast.error('Erreur', 'Impossible de charger les categories.')
+    toast.error('Erreur', 'Impossible de charger les catégories.')
   }
 })
 
@@ -61,7 +62,7 @@ const accessUrlPlaceholder = computed(() =>
 )
 
 const accessUrlLabel = computed(() =>
-  form.locationType === 'ONLINE' ? 'Lien de la reunion' : 'Lien Google Maps',
+  form.locationType === 'ONLINE' ? 'Lien de la réunion' : 'Lien Google Maps',
 )
 
 // Image handling
@@ -111,19 +112,19 @@ const submit = async () => {
     return
   }
   if (!form.eventDate) {
-    toast.warning('Champ requis', 'La date de l\'evenement est obligatoire.')
+    toast.warning('Champ requis', 'La date de l\'événement est obligatoire.')
     return
   }
   if (!form.categoryId) {
-    toast.warning('Champ requis', 'Veuillez selectionner une categorie.')
+    toast.warning('Champ requis', 'Veuillez sélectionner une catégorie.')
     return
   }
   if (form.locationType === 'PHYSICAL' && !form.locationName.trim()) {
-    toast.warning('Champ requis', 'Le lieu est obligatoire pour un evenement en presentiel.')
+    toast.warning('Champ requis', 'Le lieu est obligatoire pour un événement en présentiel.')
     return
   }
   if (form.locationType === 'ONLINE' && !form.accessUrl.trim()) {
-    toast.warning('Champ requis', 'Le lien de la reunion est obligatoire pour un evenement en ligne.')
+    toast.warning('Champ requis', 'Le lien de la réunion est obligatoire pour un événement en ligne.')
     return
   }
 
@@ -140,10 +141,11 @@ const submit = async () => {
       status: form.status,
       image: coverImageFile.value,
     })
-    toast.success('Evenement cree', 'L\'evenement a ete cree avec succes.')
+    toast.success('Événement créé', 'L\'événement a été créé avec succès.')
     router.push('/admin/evenements')
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de creer l\'evenement.')
+    if (handleAuthError(e)) return
+    toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'événement.')
   } finally {
     loading.value = false
   }
@@ -167,10 +169,10 @@ onUnmounted(() => {
       </NuxtLink>
       <div>
         <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white">
-          Nouvel evenement
+          Nouvel événement
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-          Creez et planifiez un nouvel evenement
+          Créez et planifiez un nouvel événement
         </p>
       </div>
     </div>
@@ -185,8 +187,8 @@ onUnmounted(() => {
         <input
           v-model="form.title"
           type="text"
-          placeholder="Titre de l'evenement"
-          class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+          placeholder="Titre de l'événement"
+          class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
         />
       </div>
 
@@ -194,24 +196,24 @@ onUnmounted(() => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Date de l'evenement *
+            Date de l'événement *
           </label>
           <input
             v-model="form.eventDate"
             type="datetime-local"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer transition-all"
           />
         </div>
 
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Categorie *
+            Catégorie *
           </label>
           <select
             v-model="form.categoryId"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer transition-all"
           >
-            <option value="" disabled>Selectionner une categorie</option>
+            <option value="" disabled>Sélectionner une catégorie</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">
               {{ cat.name }}
             </option>
@@ -232,20 +234,20 @@ onUnmounted(() => {
             :class="[
               'flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold font-brand text-sm transition-all cursor-pointer',
               form.locationType === 'PHYSICAL'
-                ? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400'
+                ? 'border-repae-blue-500 bg-repae-blue-50 dark:bg-repae-blue-500/10 text-repae-blue-600 dark:text-repae-blue-400'
                 : 'border-gray-200 dark:border-repae-gray-700 text-repae-gray-500 dark:text-repae-gray-400 hover:border-gray-300 dark:hover:border-repae-gray-600'
             ]"
             @click="form.locationType = 'PHYSICAL'"
           >
             <font-awesome-icon icon="fa-solid fa-location-dot" />
-            Presentiel
+            Présentiel
           </button>
           <button
             type="button"
             :class="[
               'flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold font-brand text-sm transition-all cursor-pointer',
               form.locationType === 'ONLINE'
-                ? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400'
+                ? 'border-repae-blue-500 bg-repae-blue-50 dark:bg-repae-blue-500/10 text-repae-blue-600 dark:text-repae-blue-400'
                 : 'border-gray-200 dark:border-repae-gray-700 text-repae-gray-500 dark:text-repae-gray-400 hover:border-gray-300 dark:hover:border-repae-gray-600'
             ]"
             @click="form.locationType = 'ONLINE'"
@@ -264,7 +266,7 @@ onUnmounted(() => {
             v-model="form.locationName"
             type="text"
             :placeholder="locationNamePlaceholder"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
           />
         </div>
 
@@ -277,7 +279,7 @@ onUnmounted(() => {
             v-model="form.accessUrl"
             type="url"
             :placeholder="accessUrlPlaceholder"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
           />
         </div>
       </div>
@@ -306,7 +308,7 @@ onUnmounted(() => {
           />
           <div class="absolute top-2 right-2 flex gap-2">
             <label
-              class="p-2 rounded-lg bg-violet-500 hover:bg-violet-600 text-white transition-colors cursor-pointer"
+              class="p-2 rounded-lg bg-repae-blue-500 hover:bg-repae-blue-600 text-white transition-colors cursor-pointer"
             >
               <font-awesome-icon icon="fa-solid fa-pen" class="text-sm" />
               <input
@@ -329,7 +331,7 @@ onUnmounted(() => {
         <!-- Upload zone -->
         <label
           v-else
-          class="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-violet-400 dark:hover:border-violet-500 transition-colors cursor-pointer"
+          class="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-repae-blue-400 dark:hover:border-repae-blue-500 transition-colors cursor-pointer"
         >
           <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-2xl text-repae-gray-400 mb-2" />
           <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
@@ -351,8 +353,8 @@ onUnmounted(() => {
         </label>
         <UiToastEditor
           v-model="form.description"
-          label="Description de l'evenement"
-          placeholder="Decrivez l'evenement en detail..."
+          label="Description de l'événement"
+          placeholder="Décrivez l'événement en détail..."
         />
       </div>
 
@@ -389,13 +391,13 @@ onUnmounted(() => {
           <button
             type="submit"
             :disabled="loading"
-            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
           >
             <font-awesome-icon
               :icon="loading ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
               :class="{ 'animate-spin': loading }"
             />
-            {{ loading ? 'Creation...' : 'Creer l\'evenement' }}
+            {{ loading ? 'Création...' : 'Créer l\'événement' }}
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-// Donnees mock des competences de l'utilisateur (Cote d'Ivoire - ESATIC)
+// Données mock des compétences de l'utilisateur (Côte d'Ivoire - ESATIC)
 
 export type NiveauCompetence = 'debutant' | 'intermediaire' | 'avance' | 'expert'
 
@@ -132,17 +132,17 @@ export const competences: Competence[] = [
 // Configuration des niveaux
 export const niveauConfig: Record<NiveauCompetence, { label: string; color: string; percent: number }> = {
   debutant: {
-    label: 'Debutant',
+    label: 'Débutant',
     color: 'bg-gray-400 dark:bg-gray-500',
     percent: 25
   },
   intermediaire: {
-    label: 'Intermediaire',
+    label: 'Intermédiaire',
     color: 'bg-blue-500 dark:bg-blue-400',
     percent: 50
   },
   avance: {
-    label: 'Avance',
+    label: 'Avancé',
     color: 'bg-green-500 dark:bg-green-400',
     percent: 75
   },
@@ -153,18 +153,18 @@ export const niveauConfig: Record<NiveauCompetence, { label: string; color: stri
   }
 }
 
-// Configuration des categories
+// Configuration des catégories
 export const categorieConfig: Record<CategorieCompetence, { label: string; icon: string }> = {
   frontend: { label: 'Frontend', icon: 'fa-solid fa-palette' },
   backend: { label: 'Backend', icon: 'fa-solid fa-server' },
-  database: { label: 'Base de donnees', icon: 'fa-solid fa-database' },
+  database: { label: 'Base de données', icon: 'fa-solid fa-database' },
   devops: { label: 'DevOps', icon: 'fa-solid fa-cloud' },
   mobile: { label: 'Mobile', icon: 'fa-solid fa-mobile-screen-button' },
   soft_skills: { label: 'Soft Skills', icon: 'fa-solid fa-users' },
   autre: { label: 'Autre', icon: 'fa-solid fa-ellipsis' }
 }
 
-// Helper pour grouper les competences par categorie
+// Helper pour grouper les compétences par catégorie
 export const getCompetencesByCategorie = (competences: Competence[]): Record<CategorieCompetence, Competence[]> => {
   return competences.reduce((acc, comp) => {
     if (!acc[comp.categorie]) {

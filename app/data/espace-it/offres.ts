@@ -1,4 +1,4 @@
-// Donnees mock des offres d'emploi pour l'Espace IT
+// Données mock des offres d'emploi pour l'Espace IT
 
 export type TypeContrat = 'cdi' | 'cdd' | 'stage' | 'freelance' | 'Consultant'
 export type NiveauExperience = 'junior' | 'intermediaire' | 'senior' | 'expert'
@@ -69,17 +69,17 @@ export const contratConfig: Record<TypeContrat, { label: string; color: string; 
   }
 }
 
-// Configuration des niveaux d'experience
+// Configuration des niveaux d'expérience
 export const experienceConfig: Record<NiveauExperience, { label: string; annees: string }> = {
   junior: { label: 'Junior', annees: '0-2 ans' },
-  intermediaire: { label: 'Intermediaire', annees: '2-5 ans' },
+  intermediaire: { label: 'Intermédiaire', annees: '2-5 ans' },
   senior: { label: 'Senior', annees: '5-8 ans' },
   expert: { label: 'Expert', annees: '8+ ans' }
 }
 
 // Configuration des modes de travail
 export const remoteConfig: Record<ModeRemote, { label: string; icon: string }> = {
-  presentiel: { label: 'Presentiel', icon: 'fa-solid fa-building' },
+  presentiel: { label: 'Présentiel', icon: 'fa-solid fa-building' },
   hybride: { label: 'Hybride', icon: 'fa-solid fa-arrows-left-right' },
   full_remote: { label: 'Full Remote', icon: 'fa-solid fa-house-laptop' }
 }
@@ -88,13 +88,13 @@ export const remoteConfig: Record<ModeRemote, { label: string; icon: string }> =
 export const offresList: Offre[] = [
   {
     id: '1',
-    titre: 'Developpeur Full Stack Senior',
+    titre: 'Développeur Full Stack Senior',
     entreprise: {
       id: '1',
       nom: 'AfriPay Solutions',
       logo_url: 'https://picsum.photos/seed/afripay/200',
       ville: 'Abidjan',
-      pays: 'Cote d\'Ivoire'
+      pays: 'Côte d\'Ivoire'
     },
     type_contrat: 'cdi',
     niveau_experience: 'senior',
@@ -102,18 +102,18 @@ export const offresList: Offre[] = [
     salaire_min: 1500000,
     salaire_max: 2500000,
     devise: 'FCFA',
-    description: 'Rejoignez notre equipe technique pour developper des solutions de paiement innovantes pour l\'Afrique de l\'Ouest.',
-    description_complete: `AfriPay Solutions recherche un Developpeur Full Stack Senior pour rejoindre notre equipe technique en pleine croissance.
+    description: 'Rejoignez notre équipe technique pour développer des solutions de paiement innovantes pour l\'Afrique de l\'Ouest.',
+    description_complete: `AfriPay Solutions recherche un Développeur Full Stack Senior pour rejoindre notre équipe technique en pleine croissance.
 
-Vous travaillerez sur notre plateforme de paiement mobile utilisee par plus de 500 000 utilisateurs dans 5 pays d'Afrique de l'Ouest. Vous participerez a la conception et au developpement de nouvelles fonctionnalites, tout en assurant la maintenance et l'amelioration continue de nos systemes existants.
+Vous travaillerez sur notre plateforme de paiement mobile utilisée par plus de 500 000 utilisateurs dans 5 pays d'Afrique de l'Ouest. Vous participerez à la conception et au développement de nouvelles fonctionnalités, tout en assurant la maintenance et l'amélioration continue de nos systèmes existants.
 
-Notre stack technique inclut Vue.js/Nuxt pour le frontend, Node.js et Python pour le backend, avec PostgreSQL et Redis pour la persistance des donnees. Nous utilisons Kubernetes pour l'orchestration de nos microservices.`,
+Notre stack technique inclut Vue.js/Nuxt pour le frontend, Node.js et Python pour le backend, avec PostgreSQL et Redis pour la persistance des données. Nous utilisons Kubernetes pour l'orchestration de nos microservices.`,
     responsabilites: [
-      'Concevoir et developper de nouvelles fonctionnalites pour notre plateforme de paiement',
-      'Participer aux revues de code et maintenir des standards de qualite eleves',
-      'Collaborer avec les equipes produit et design pour definir les specifications techniques',
-      'Optimiser les performances et la scalabilite de nos systemes',
-      'Mentorer les developpeurs juniors de l\'equipe'
+      'Concevoir et développer de nouvelles fonctionnalités pour notre plateforme de paiement',
+      'Participer aux revues de code et maintenir des standards de qualité élevés',
+      'Collaborer avec les équipes produit et design pour définir les spécifications techniques',
+      'Optimiser les performances et la scalabilité de nos systèmes',
+      'Mentorer les développeurs juniors de l\'équipe'
     ],
     competences_requises: [
       'Vue.js / Nuxt.js',
@@ -128,11 +128,11 @@ Notre stack technique inclut Vue.js/Nuxt pour le frontend, Node.js et Python pou
       'Kubernetes',
       'Redis',
       'CI/CD',
-      'Tests automatises'
+      'Tests automatisés'
     ],
     avantages: [
-      'Teletravail 2 jours par semaine',
-      'Assurance sante complete',
+      'Télétravail 2 jours par semaine',
+      'Assurance santé complète',
       'Budget formation annuel',
       'Ordinateur portable fourni',
       'Tickets restaurant'
@@ -157,7 +157,7 @@ Notre stack technique inclut Vue.js/Nuxt pour le frontend, Node.js et Python pou
       nom: 'EduTech Afrique',
       logo_url: 'https://picsum.photos/seed/edutech/200',
       ville: 'Dakar',
-      pays: 'Senegal'
+      pays: 'Sénégal'
     },
     type_contrat: 'cdi',
     niveau_experience: 'intermediaire',
@@ -165,18 +165,18 @@ Notre stack technique inclut Vue.js/Nuxt pour le frontend, Node.js et Python pou
     salaire_min: 800000,
     salaire_max: 1200000,
     devise: 'FCFA',
-    description: 'Nous recherchons un designer talentueux pour creer des experiences d\'apprentissage engageantes sur notre plateforme educative.',
-    description_complete: `EduTech Afrique est une startup EdTech en pleine croissance qui revolutionne l'acces a l'education en Afrique francophone.
+    description: 'Nous recherchons un designer talentueux pour créer des expériences d\'apprentissage engageantes sur notre plateforme éducative.',
+    description_complete: `EduTech Afrique est une startup EdTech en pleine croissance qui révolutionne l'accès à l'éducation en Afrique francophone.
 
-Nous recherchons un Designer UX/UI passionne pour rejoindre notre equipe produit. Vous serez responsable de la conception de nos interfaces utilisateur, en veillant a ce qu'elles soient intuitives, accessibles et adaptees aux realites africaines (connexions intermittentes, diversite des appareils).
+Nous recherchons un Designer UX/UI passionné pour rejoindre notre équipe produit. Vous serez responsable de la conception de nos interfaces utilisateur, en veillant à ce qu'elles soient intuitives, accessibles et adaptées aux réalités africaines (connexions intermittentes, diversité des appareils).
 
-Vous travaillerez en etroite collaboration avec les equipes de developpement et de contenu pour creer des experiences d'apprentissage engageantes pour nos 100 000+ utilisateurs.`,
+Vous travaillerez en étroite collaboration avec les équipes de développement et de contenu pour créer des expériences d'apprentissage engageantes pour nos 100 000+ utilisateurs.`,
     responsabilites: [
       'Concevoir des interfaces utilisateur pour notre plateforme web et mobile',
-      'Mener des recherches utilisateurs et des tests d\'utilisabilite',
-      'Creer des wireframes, maquettes et prototypes interactifs',
-      'Developper et maintenir notre design system',
-      'Collaborer avec les developpeurs pour assurer une implementation fidele'
+      'Mener des recherches utilisateurs et des tests d\'utilisabilité',
+      'Créer des wireframes, maquettes et prototypes interactifs',
+      'Développer et maintenir notre design system',
+      'Collaborer avec les développeurs pour assurer une implémentation fidèle'
     ],
     competences_requises: [
       'Figma',
@@ -187,15 +187,15 @@ Vous travaillerez en etroite collaboration avec les equipes de developpement et 
     ],
     competences_souhaitees: [
       'Animation/Motion design',
-      'Accessibilite (WCAG)',
+      'Accessibilité (WCAG)',
       'HTML/CSS basique',
       'Illustration'
     ],
     avantages: [
       'Full remote',
       'Horaires flexibles',
-      'Budget equipement',
-      'Conges payes genereux',
+      'Budget équipement',
+      'Congés payés généreux',
       'Mission sociale impactante'
     ],
     date_publication: '2024-12-05',
@@ -212,13 +212,13 @@ Vous travaillerez en etroite collaboration avec les equipes de developpement et 
   },
   {
     id: '3',
-    titre: 'Ingenieur DevOps',
+    titre: 'Ingénieur DevOps',
     entreprise: {
       id: '5',
       nom: 'DevHub Africa',
       logo_url: 'https://picsum.photos/seed/devhub/200',
       ville: 'Abidjan',
-      pays: 'Cote d\'Ivoire'
+      pays: 'Côte d\'Ivoire'
     },
     type_contrat: 'cdi',
     niveau_experience: 'senior',
@@ -226,18 +226,18 @@ Vous travaillerez en etroite collaboration avec les equipes de developpement et 
     salaire_min: 1800000,
     salaire_max: 2800000,
     devise: 'FCFA',
-    description: 'Rejoignez notre equipe infrastructure pour automatiser et optimiser nos deploiements cloud.',
-    description_complete: `DevHub Africa recherche un Ingenieur DevOps experimente pour renforcer notre equipe infrastructure.
+    description: 'Rejoignez notre équipe infrastructure pour automatiser et optimiser nos déploiements cloud.',
+    description_complete: `DevHub Africa recherche un Ingénieur DevOps expérimenté pour renforcer notre équipe infrastructure.
 
-Vous serez responsable de la mise en place et de la maintenance de notre infrastructure cloud, de l'automatisation des deploiements et de la surveillance de nos systemes de production.
+Vous serez responsable de la mise en place et de la maintenance de notre infrastructure cloud, de l'automatisation des déploiements et de la surveillance de nos systèmes de production.
 
-Nous gerons une infrastructure complexe avec plus de 50 microservices deployes sur AWS et GCP, servant des clients dans 8 pays africains.`,
+Nous gérons une infrastructure complexe avec plus de 50 microservices déployés sur AWS et GCP, servant des clients dans 8 pays africains.`,
     responsabilites: [
       'Concevoir et maintenir l\'infrastructure cloud (AWS/GCP)',
       'Automatiser les pipelines CI/CD',
-      'Implementer les bonnes pratiques de securite',
-      'Surveiller et optimiser les performances des systemes',
-      'Gerer les incidents et assurer la haute disponibilite'
+      'Implémenter les bonnes pratiques de sécurité',
+      'Surveiller et optimiser les performances des systèmes',
+      'Gérer les incidents et assurer la haute disponibilité'
     ],
     competences_requises: [
       'Kubernetes',
@@ -251,14 +251,14 @@ Nous gerons une infrastructure complexe avec plus de 50 microservices deployes s
       'Prometheus/Grafana',
       'Ansible',
       'Python/Bash scripting',
-      'Securite cloud'
+      'Sécurité cloud'
     ],
     avantages: [
-      'Salaire competitif',
-      'Teletravail partiel',
-      'Certifications cloud financees',
+      'Salaire compétitif',
+      'Télétravail partiel',
+      'Certifications cloud financées',
       'Environnement technique stimulant',
-      'Equipe internationale'
+      'Équipe internationale'
     ],
     date_publication: '2024-11-28',
     date_expiration: '2025-01-10',
@@ -274,13 +274,13 @@ Nous gerons une infrastructure complexe avec plus de 50 microservices deployes s
   },
   {
     id: '4',
-    titre: 'Developpeur Mobile React Native',
+    titre: 'Développeur Mobile React Native',
     entreprise: {
       id: '4',
       nom: 'SantePlus Digital',
       logo_url: 'https://picsum.photos/seed/santeplus/200',
       ville: 'Abidjan',
-      pays: 'Cote d\'Ivoire'
+      pays: 'Côte d\'Ivoire'
     },
     type_contrat: 'cdd',
     niveau_experience: 'intermediaire',
@@ -288,16 +288,16 @@ Nous gerons une infrastructure complexe avec plus de 50 microservices deployes s
     salaire_min: 900000,
     salaire_max: 1400000,
     devise: 'FCFA',
-    description: 'Developpez notre application mobile de telesante pour connecter patients et professionnels de sante.',
-    description_complete: `SantePlus Digital recherche un Developpeur Mobile pour un CDD de 12 mois avec possibilite de CDI.
+    description: 'Développez notre application mobile de télésanté pour connecter patients et professionnels de santé.',
+    description_complete: `SantePlus Digital recherche un Développeur Mobile pour un CDD de 12 mois avec possibilité de CDI.
 
-Vous rejoindrez notre equipe technique pour developper notre application mobile de telemedicine. L'application permet aux patients de consulter des medecins a distance, de gerer leurs rendez-vous et d'acceder a leur dossier medical.
+Vous rejoindrez notre équipe technique pour développer notre application mobile de télémédecine. L'application permet aux patients de consulter des médecins à distance, de gérer leurs rendez-vous et d'accéder à leur dossier médical.
 
-C'est une opportunite unique de contribuer a l'amelioration de l'acces aux soins de sante en Afrique de l'Ouest.`,
+C'est une opportunité unique de contribuer à l'amélioration de l'accès aux soins de santé en Afrique de l'Ouest.`,
     responsabilites: [
-      'Developper de nouvelles fonctionnalites sur notre app React Native',
+      'Développer de nouvelles fonctionnalités sur notre app React Native',
       'Optimiser les performances de l\'application',
-      'Integrer les APIs backend',
+      'Intégrer les APIs backend',
       'Participer aux tests et au debugging',
       'Contribuer aux revues de code'
     ],
@@ -315,10 +315,10 @@ C'est une opportunite unique de contribuer a l'amelioration de l'acces aux soins
       'WebRTC'
     ],
     avantages: [
-      'Projet a fort impact social',
-      'Equipe dynamique',
+      'Projet à fort impact social',
+      'Équipe dynamique',
       'Formation continue',
-      'Possibilite de CDI'
+      'Possibilité de CDI'
     ],
     date_publication: '2024-12-03',
     date_expiration: '2025-01-25',
@@ -340,28 +340,28 @@ C'est une opportunite unique de contribuer a l'amelioration de l'acces aux soins
       nom: 'AgriConnect CI',
       logo_url: 'https://picsum.photos/seed/agriconnect/200',
       ville: 'Yamoussoukro',
-      pays: 'Cote d\'Ivoire'
+      pays: 'Côte d\'Ivoire'
     },
     type_contrat: 'stage',
     niveau_experience: 'junior',
     mode_remote: 'presentiel',
-    description: 'Stage de 6 mois pour analyser les donnees agricoles et aider nos agriculteurs partenaires.',
-    description_complete: `AgriConnect CI offre un stage de 6 mois au sein de notre equipe Data.
+    description: 'Stage de 6 mois pour analyser les données agricoles et aider nos agriculteurs partenaires.',
+    description_complete: `AgriConnect CI offre un stage de 6 mois au sein de notre équipe Data.
 
-Vous travaillerez sur l'analyse des donnees collectees aupres de nos 2000+ agriculteurs partenaires. Vos analyses aideront a optimiser les chaines d'approvisionnement et a fournir des recommandations personnalisees aux agriculteurs.
+Vous travaillerez sur l'analyse des données collectées auprès de nos 2000+ agriculteurs partenaires. Vos analyses aideront à optimiser les chaînes d'approvisionnement et à fournir des recommandations personnalisées aux agriculteurs.
 
-C'est une excellente opportunite pour un etudiant ou jeune diplome souhaitant acquerir une experience concrete en data analysis dans un contexte AgriTech.`,
+C'est une excellente opportunité pour un étudiant ou jeune diplômé souhaitant acquérir une expérience concrète en data analysis dans un contexte AgriTech.`,
     responsabilites: [
-      'Collecter et nettoyer les donnees agricoles',
-      'Creer des dashboards et rapports',
+      'Collecter et nettoyer les données agricoles',
+      'Créer des dashboards et rapports',
       'Analyser les tendances et patterns',
-      'Presenter les insights aux equipes metier',
+      'Présenter les insights aux équipes métier',
       'Documenter les processus d\'analyse'
     ],
     competences_requises: [
       'Python (Pandas, NumPy)',
       'SQL',
-      'Excel avance',
+      'Excel avancé',
       'Statistiques de base'
     ],
     competences_souhaitees: [
@@ -370,9 +370,9 @@ C'est une excellente opportunite pour un etudiant ou jeune diplome souhaitant ac
       'Connaissance du secteur agricole'
     ],
     avantages: [
-      'Indemnite de stage competitive',
+      'Indemnité de stage compétitive',
       'Mentorat par des seniors',
-      'Possibilite d\'embauche',
+      'Possibilité d\'embauche',
       'Transport pris en charge'
     ],
     date_publication: '2024-12-08',
@@ -395,7 +395,7 @@ C'est une excellente opportunite pour un etudiant ou jeune diplome souhaitant ac
       nom: 'LogiTrack West',
       logo_url: 'https://picsum.photos/seed/logitrack/200',
       ville: 'Abidjan',
-      pays: 'Cote d\'Ivoire'
+      pays: 'Côte d\'Ivoire'
     },
     type_contrat: 'cdi',
     niveau_experience: 'senior',
@@ -404,34 +404,34 @@ C'est une excellente opportunite pour un etudiant ou jeune diplome souhaitant ac
     salaire_max: 2200000,
     devise: 'FCFA',
     description: 'Pilotez nos projets de transformation digitale dans le secteur de la logistique.',
-    description_complete: `LogiTrack West recherche un Chef de Projet IT experimente pour piloter nos initiatives de transformation digitale.
+    description_complete: `LogiTrack West recherche un Chef de Projet IT expérimenté pour piloter nos initiatives de transformation digitale.
 
-Vous serez responsable de la gestion de projets strategiques, de la coordination des equipes et de la relation avec nos clients grands comptes dans le secteur de la logistique et du transport.
+Vous serez responsable de la gestion de projets stratégiques, de la coordination des équipes et de la relation avec nos clients grands comptes dans le secteur de la logistique et du transport.
 
-Notre plateforme de tracking GPS et de gestion de flotte est utilisee par plus de 200 entreprises en Afrique de l'Ouest.`,
+Notre plateforme de tracking GPS et de gestion de flotte est utilisée par plus de 200 entreprises en Afrique de l'Ouest.`,
     responsabilites: [
       'Piloter les projets IT de bout en bout',
-      'Coordonner les equipes techniques et metier',
-      'Gerer le budget et les plannings',
+      'Coordonner les équipes techniques et métier',
+      'Gérer le budget et les plannings',
       'Assurer la relation client',
-      'Mettre en place les methodologies Agile/Scrum'
+      'Mettre en place les méthodologies Agile/Scrum'
     ],
     competences_requises: [
       'Gestion de projet IT',
-      'Methodologies Agile/Scrum',
+      'Méthodologies Agile/Scrum',
       'Communication client',
       'Budget et planning',
-      'Leadership d\'equipe'
+      'Leadership d\'équipe'
     ],
     competences_souhaitees: [
-      'PMP ou certification equivalente',
+      'PMP ou certification équivalente',
       'Connaissance du secteur logistique',
       'Outils (Jira, Confluence)',
       'Notions techniques (dev, infra)'
     ],
     avantages: [
-      'Poste strategique',
-      'Vehicule de fonction',
+      'Poste stratégique',
+      'Véhicule de fonction',
       'Bonus annuel',
       'Formation management',
       'Assurance famille'
@@ -445,18 +445,18 @@ Notre plateforme de tracking GPS et de gestion de flotte est utilisee par plus d
       prenom: 'Mamadou',
       nom: 'Coulibaly',
       photo_url: 'https://i.pravatar.cc/150?u=mamadou',
-      poste: 'Directeur des Operations'
+      poste: 'Directeur des Opérations'
     }
   },
   {
     id: '7',
-    titre: 'Consultant Cybersecurite',
+    titre: 'Consultant Cybersécurité',
     entreprise: {
       id: '7',
       nom: 'CyberShield CI',
       logo_url: 'https://picsum.photos/seed/cybershield/200',
       ville: 'Abidjan',
-      pays: 'Cote d\'Ivoire'
+      pays: 'Côte d\'Ivoire'
     },
     type_contrat: 'freelance',
     niveau_experience: 'expert',
@@ -464,38 +464,38 @@ Notre plateforme de tracking GPS et de gestion de flotte est utilisee par plus d
     salaire_min: 500000,
     salaire_max: 800000,
     devise: 'FCFA/mission',
-    description: 'Missions de conseil en securite informatique pour nos clients grands comptes.',
-    description_complete: `CyberShield CI recherche des consultants cybersecurite pour des missions ponctuelles aupres de nos clients.
+    description: 'Missions de conseil en sécurité informatique pour nos clients grands comptes.',
+    description_complete: `CyberShield CI recherche des consultants cybersécurité pour des missions ponctuelles auprès de nos clients.
 
-En tant que consultant freelance, vous interviendrez sur des missions variees : audits de securite, tests d'intrusion, mise en conformite RGPD, sensibilisation des equipes.
+En tant que consultant freelance, vous interviendrez sur des missions variées : audits de sécurité, tests d'intrusion, mise en conformité RGPD, sensibilisation des équipes.
 
-Nous collaborons avec des banques, des operateurs telecom et des institutions gouvernementales en Afrique de l'Ouest.`,
+Nous collaborons avec des banques, des opérateurs télécom et des institutions gouvernementales en Afrique de l'Ouest.`,
     responsabilites: [
-      'Realiser des audits de securite',
+      'Réaliser des audits de sécurité',
       'Conduire des tests d\'intrusion',
-      'Rediger des rapports et recommandations',
-      'Former les equipes clients',
+      'Rédiger des rapports et recommandations',
+      'Former les équipes clients',
       'Assurer une veille sur les menaces'
     ],
     competences_requises: [
       'Pentest (Kali, Metasploit)',
-      'Securite reseau',
+      'Sécurité réseau',
       'Normes ISO 27001',
-      'Redaction de rapports',
+      'Rédaction de rapports',
       'Communication client'
     ],
     competences_souhaitees: [
       'Certifications (OSCP, CEH, CISSP)',
-      'Securite cloud',
+      'Sécurité cloud',
       'Forensics',
-      'Reponse aux incidents'
+      'Réponse aux incidents'
     ],
     avantages: [
-      'Missions variees',
+      'Missions variées',
       'Tarif journalier attractif',
-      'Flexibilite',
+      'Flexibilité',
       'Clients prestigieux',
-      'Developpement d\'expertise'
+      'Développement d\'expertise'
     ],
     date_publication: '2024-12-06',
     date_expiration: '2025-02-28',
@@ -511,13 +511,13 @@ Nous collaborons avec des banques, des operateurs telecom et des institutions go
   },
   {
     id: '8',
-    titre: 'Developpeur Backend Python',
+    titre: 'Développeur Backend Python',
     entreprise: {
       id: '2',
       nom: 'EduTech Afrique',
       logo_url: 'https://picsum.photos/seed/edutech/200',
       ville: 'Dakar',
-      pays: 'Senegal'
+      pays: 'Sénégal'
     },
     type_contrat: 'cdi',
     niveau_experience: 'intermediaire',
@@ -525,16 +525,16 @@ Nous collaborons avec des banques, des operateurs telecom et des institutions go
     salaire_min: 1000000,
     salaire_max: 1600000,
     devise: 'FCFA',
-    description: 'Developpez les APIs et services backend de notre plateforme d\'e-learning.',
-    description_complete: `EduTech Afrique recherche un Developpeur Backend Python pour renforcer notre equipe technique.
+    description: 'Développez les APIs et services backend de notre plateforme d\'e-learning.',
+    description_complete: `EduTech Afrique recherche un Développeur Backend Python pour renforcer notre équipe technique.
 
-Vous travaillerez sur le developpement de nos APIs REST, l'optimisation de nos bases de donnees et l'implementation de nouvelles fonctionnalites pour notre plateforme d'apprentissage en ligne.
+Vous travaillerez sur le développement de nos APIs REST, l'optimisation de nos bases de données et l'implémentation de nouvelles fonctionnalités pour notre plateforme d'apprentissage en ligne.
 
-Notre stack backend est basee sur Django/Django REST Framework avec PostgreSQL et Redis.`,
+Notre stack backend est basée sur Django/Django REST Framework avec PostgreSQL et Redis.`,
     responsabilites: [
-      'Developper et maintenir les APIs REST',
-      'Optimiser les requetes et performances',
-      'Implementer les tests unitaires et d\'integration',
+      'Développer et maintenir les APIs REST',
+      'Optimiser les requêtes et performances',
+      'Implémenter les tests unitaires et d\'intégration',
       'Participer aux code reviews',
       'Documenter les APIs'
     ],
@@ -557,7 +557,7 @@ Notre stack backend est basee sur Django/Django REST Framework avec PostgreSQL e
       'Horaires flexibles',
       'Stack moderne',
       'Impact social',
-      'Equipe bienveillante'
+      'Équipe bienveillante'
     ],
     date_publication: '2024-12-04',
     date_expiration: '2025-01-18',
@@ -573,35 +573,35 @@ Notre stack backend est basee sur Django/Django REST Framework avec PostgreSQL e
   },
   {
     id: '9',
-    titre: 'Alternant Developpeur Web',
+    titre: 'Alternant Développeur Web',
     entreprise: {
       id: '1',
       nom: 'AfriPay Solutions',
       logo_url: 'https://picsum.photos/seed/afripay/200',
       ville: 'Abidjan',
-      pays: 'Cote d\'Ivoire'
+      pays: 'Côte d\'Ivoire'
     },
     type_contrat: 'Consultant',
     niveau_experience: 'junior',
     mode_remote: 'presentiel',
-    description: 'Consultant de 12-24 mois pour apprendre le developpement web dans une FinTech en croissance.',
-    description_complete: `AfriPay Solutions propose un contrat d'Consultant pour un etudiant en informatique.
+    description: 'Consultant de 12-24 mois pour apprendre le développement web dans une FinTech en croissance.',
+    description_complete: `AfriPay Solutions propose un contrat d'Consultant pour un étudiant en informatique.
 
-Vous serez integre a notre equipe de developpement et participerez a des projets concrets tout en poursuivant vos etudes. Vous serez encadre par des developpeurs seniors qui vous accompagneront dans votre montee en competences.
+Vous serez intégré à notre équipe de développement et participerez à des projets concrets tout en poursuivant vos études. Vous serez encadré par des développeurs seniors qui vous accompagneront dans votre montée en compétences.
 
-C'est une opportunite ideale pour acquerir une experience professionnelle solide dans le secteur FinTech.`,
+C'est une opportunité idéale pour acquérir une expérience professionnelle solide dans le secteur FinTech.`,
     responsabilites: [
-      'Participer au developpement de fonctionnalites',
+      'Participer au développement de fonctionnalités',
       'Corriger des bugs sous supervision',
-      'Ecrire des tests unitaires',
-      'Participer aux ceremonies Agile',
-      'Apprendre les bonnes pratiques de developpement'
+      'Écrire des tests unitaires',
+      'Participer aux cérémonies Agile',
+      'Apprendre les bonnes pratiques de développement'
     ],
     competences_requises: [
       'HTML/CSS/JavaScript',
       'Notions de Vue.js ou React',
       'Git basique',
-      'Motivation et curiosite'
+      'Motivation et curiosité'
     ],
     competences_souhaitees: [
       'TypeScript',
@@ -610,10 +610,10 @@ C'est une opportunite ideale pour acquerir une experience professionnelle solide
       'Linux'
     ],
     avantages: [
-      'Mentorat personnalise',
+      'Mentorat personnalisé',
       'Projets concrets',
-      'Remuneration attractive',
-      'Possibilite d\'embauche en CDI',
+      'Rémunération attractive',
+      'Possibilité d\'embauche en CDI',
       'Tickets restaurant'
     ],
     date_publication: '2024-12-07',
@@ -644,24 +644,24 @@ C'est une opportunite ideale pour acquerir une experience professionnelle solide
     salaire_min: 3000000,
     salaire_max: 4500000,
     devise: 'FCFA',
-    description: 'Concevez et pilotez l\'architecture cloud de nos solutions multi-cloud a l\'echelle africaine.',
-    description_complete: `DevHub Africa recherche un Architecte Cloud Solutions pour definir et implementer notre strategie cloud.
+    description: 'Concevez et pilotez l\'architecture cloud de nos solutions multi-cloud à l\'échelle africaine.',
+    description_complete: `DevHub Africa recherche un Architecte Cloud Solutions pour définir et implémenter notre stratégie cloud.
 
-En tant qu'architecte, vous serez responsable de la conception de solutions cloud scalables, securisees et optimisees en termes de couts. Vous travaillerez avec nos equipes d'ingenieurs pour implementer les meilleures pratiques et accompagner nos clients dans leur transformation cloud.
+En tant qu'architecte, vous serez responsable de la conception de solutions cloud scalables, sécurisées et optimisées en termes de coûts. Vous travaillerez avec nos équipes d'ingénieurs pour implémenter les meilleures pratiques et accompagner nos clients dans leur transformation cloud.
 
-Nous operons sur AWS, GCP et Azure, servant des clients dans 15 pays africains.`,
+Nous opérons sur AWS, GCP et Azure, servant des clients dans 15 pays africains.`,
     responsabilites: [
-      'Definir l\'architecture cloud des projets',
-      'Evaluer et recommander des solutions techniques',
-      'Accompagner les equipes dans l\'implementation',
-      'Optimiser les couts cloud',
+      'Définir l\'architecture cloud des projets',
+      'Évaluer et recommander des solutions techniques',
+      'Accompagner les équipes dans l\'implémentation',
+      'Optimiser les coûts cloud',
       'Assurer la veille technologique'
     ],
     competences_requises: [
-      'AWS (certifie Solutions Architect)',
+      'AWS (certifié Solutions Architect)',
       'Architecture microservices',
       'Infrastructure as Code (Terraform)',
-      'Securite cloud',
+      'Sécurité cloud',
       'Leadership technique'
     ],
     competences_souhaitees: [
@@ -672,9 +672,9 @@ Nous operons sur AWS, GCP et Azure, servant des clients dans 15 pays africains.`
     ],
     avantages: [
       'Full remote',
-      'Salaire competitif international',
-      'Budget certifications illimite',
-      'Conferences internationales',
+      'Salaire compétitif international',
+      'Budget certifications illimité',
+      'Conférences internationales',
       'Stock options'
     ],
     date_publication: '2024-12-02',
@@ -727,7 +727,7 @@ export const filterOffres = (
       return false
     }
 
-    // Filtre par niveau d'experience
+    // Filtre par niveau d'expérience
     if (filters.niveau_experience && offre.niveau_experience !== filters.niveau_experience) {
       return false
     }
@@ -749,7 +749,7 @@ export const filterOffres = (
 // Formatage du salaire
 export const formatSalaire = (offre: Offre): string => {
   if (!offre.salaire_min && !offre.salaire_max) {
-    return 'Non communique'
+    return 'Non communiqué'
   }
 
   const formatNumber = (n: number) =>
@@ -760,13 +760,13 @@ export const formatSalaire = (offre: Offre): string => {
   }
 
   if (offre.salaire_min) {
-    return `A partir de ${formatNumber(offre.salaire_min)} ${offre.devise || 'FCFA'}`
+    return `À partir de ${formatNumber(offre.salaire_min)} ${offre.devise || 'FCFA'}`
   }
 
-  return `Jusqu'a ${formatNumber(offre.salaire_max!)} ${offre.devise || 'FCFA'}`
+  return `Jusqu'à ${formatNumber(offre.salaire_max!)} ${offre.devise || 'FCFA'}`
 }
 
-// Calcul du temps ecoule depuis la publication
+// Calcul du temps écoulé depuis la publication
 export const getTempsDepuisPublication = (datePublication: string): string => {
   const now = new Date()
   const published = new Date(datePublication)

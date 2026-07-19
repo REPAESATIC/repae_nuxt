@@ -30,19 +30,19 @@ export const adminNavGroups: AdminNavGroup[] = [
     items: [
       {
         id: 'categories',
-        label: 'Categories',
+        label: 'Catégories',
         href: '/admin/categories',
         icon: 'fa-solid fa-tag',
       },
       {
         id: 'actualites',
-        label: 'Actualites',
+        label: 'Actualités',
         href: '/admin/actualites',
         icon: 'fa-solid fa-bullhorn',
       },
       {
         id: 'evenements',
-        label: 'Evenements',
+        label: 'Événements',
         href: '/admin/evenements',
         icon: 'fa-solid fa-calendar-alt',
       },
@@ -75,7 +75,7 @@ export const adminNavGroups: AdminNavGroup[] = [
   },
   {
     id: 'referentiel',
-    label: 'Referentiel',
+    label: 'Référentiel',
     icon: 'fa-solid fa-database',
     items: [
       {
@@ -88,7 +88,7 @@ export const adminNavGroups: AdminNavGroup[] = [
   },
   {
     id: 'systeme',
-    label: 'Systeme',
+    label: 'Système',
     icon: 'fa-solid fa-cog',
     items: [
       {
@@ -99,7 +99,7 @@ export const adminNavGroups: AdminNavGroup[] = [
       },
       {
         id: 'parametres',
-        label: 'Parametres',
+        label: 'Paramètres',
         href: '/admin/parametres',
         icon: 'fa-solid fa-sliders-h',
       },

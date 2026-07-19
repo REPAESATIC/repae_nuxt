@@ -8,6 +8,7 @@ definePageMeta({
 
 const router = useRouter()
 const { createNews, fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 // State
@@ -66,7 +67,7 @@ onMounted(async () => {
     const result = await fetchCategories()
     categories.value = result.data
   } catch {
-    toast.error('Erreur', 'Impossible de charger les categories.')
+    toast.error('Erreur', 'Impossible de charger les catégories.')
   }
 })
 
@@ -118,7 +119,7 @@ const submit = async () => {
     return
   }
   if (!form.categoryId) {
-    toast.warning('Champ requis', 'Veuillez selectionner une categorie.')
+    toast.warning('Champ requis', 'Veuillez sélectionner une catégorie.')
     return
   }
 
@@ -135,10 +136,11 @@ const submit = async () => {
       status: form.status,
       coverImage: coverImageFile.value,
     })
-    toast.success('Actualite creee', 'L\'actualite a ete creee avec succes.')
+    toast.success('Actualité créée', 'L\'actualité a été créée avec succès.')
     router.push('/admin/actualites')
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de creer l\'actualite.')
+    if (handleAuthError(e)) return
+    toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'actualité.')
   } finally {
     loading.value = false
   }
@@ -162,10 +164,10 @@ onUnmounted(() => {
       </NuxtLink>
       <div>
         <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white">
-          Nouvelle actualite
+          Nouvelle actualité
         </h2>
         <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mt-0.5">
-          Redigez et publiez une nouvelle actualite
+          Rédigez et publiez une nouvelle actualité
         </p>
       </div>
     </div>
@@ -180,8 +182,8 @@ onUnmounted(() => {
         <input
           v-model="form.title"
           type="text"
-          placeholder="Titre de l'actualite"
-          class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+          placeholder="Titre de l'actualité"
+          class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
         />
       </div>
 
@@ -194,21 +196,21 @@ onUnmounted(() => {
           <input
             v-model="form.slug"
             type="text"
-            placeholder="Genere automatiquement depuis le titre"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+            placeholder="Généré automatiquement depuis le titre"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             @input="onSlugInput"
           />
         </div>
 
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-            Categorie *
+            Catégorie *
           </label>
           <select
             v-model="form.categoryId"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer transition-all"
           >
-            <option value="" disabled>Selectionner une categorie</option>
+            <option value="" disabled>Sélectionner une catégorie</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">
               {{ cat.name }}
             </option>
@@ -240,7 +242,7 @@ onUnmounted(() => {
           />
           <div class="absolute top-2 right-2 flex gap-2">
             <label
-              class="p-2 rounded-lg bg-violet-500 hover:bg-violet-600 text-white transition-colors cursor-pointer"
+              class="p-2 rounded-lg bg-repae-blue-500 hover:bg-repae-blue-600 text-white transition-colors cursor-pointer"
             >
               <font-awesome-icon icon="fa-solid fa-pen" class="text-sm" />
               <input
@@ -263,7 +265,7 @@ onUnmounted(() => {
         <!-- Upload zone -->
         <label
           v-else
-          class="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-violet-400 dark:hover:border-violet-500 transition-colors cursor-pointer"
+          class="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-repae-blue-400 dark:hover:border-repae-blue-500 transition-colors cursor-pointer"
         >
           <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-2xl text-repae-gray-400 mb-2" />
           <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
@@ -281,14 +283,14 @@ onUnmounted(() => {
       <!-- Summary -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-          Resume
+          Résumé
         </label>
         <textarea
           v-model="form.summary"
           rows="3"
-          placeholder="Court resume de l'actualite (max 500 caracteres)"
+          placeholder="Court résumé de l'actualité (max 500 caractères)"
           maxlength="500"
-          class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 resize-none transition-all"
+          class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 resize-none transition-all"
         />
         <p class="text-xs text-repae-gray-400 mt-1 text-right">
           {{ form.summary.length }}/500
@@ -302,8 +304,8 @@ onUnmounted(() => {
         </label>
         <UiToastEditor
           v-model="form.content"
-          label="Contenu de l'actualite"
-          placeholder="Redigez le contenu de l'actualite..."
+          label="Contenu de l'actualité"
+          placeholder="Rédigez le contenu de l'actualité..."
         />
       </div>
 
@@ -340,13 +342,13 @@ onUnmounted(() => {
           <button
             type="submit"
             :disabled="loading"
-            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
           >
             <font-awesome-icon
               :icon="loading ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"
               :class="{ 'animate-spin': loading }"
             />
-            {{ loading ? 'Creation...' : 'Creer l\'actualite' }}
+            {{ loading ? 'Création...' : 'Créer l\'actualité' }}
           </button>
         </div>
       </div>

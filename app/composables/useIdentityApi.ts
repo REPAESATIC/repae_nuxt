@@ -26,6 +26,10 @@ export interface AlumniItem {
   xUrl?: string
   isVerified: boolean
   isOpenToMentoring: boolean
+  isAdherent: boolean
+  paymentMethod?: string
+  paymentReference?: string
+  paymentProofUrl?: string
   country?: string
   department?: string
   promotion?: number
@@ -40,6 +44,14 @@ export interface PaginatedAlumnis {
   total: number
   page: number
   limit: number
+}
+
+/** Préfixe UUID réservé aux comptes seed/système (admin, comptes de test). Un alumni réel a un UUID aléatoire. */
+export const SYSTEM_UUID_PREFIX = '00000000-0000-0000-0000-'
+
+/** Vrai si l'entrée correspond à un compte admin/système (seed) plutôt qu'à un véritable alumni. */
+export function isSystemAccount(a: Pick<AlumniItem, 'id' | 'userId'>): boolean {
+  return Boolean(a.id?.startsWith(SYSTEM_UUID_PREFIX) || a.userId?.startsWith(SYSTEM_UUID_PREFIX))
 }
 
 // ─── Promotions ────────────────────────────────────────────────────────────────
@@ -124,6 +136,12 @@ export interface RegisterAlumniPayload {
   promotionId: string
   countryId: string
   degree?: string
+  /** Moyen de paiement de la cotisation (Djamo, Orange Money, MTN Mobile Money, Moov Money, Wave, Autre) — obligatoire */
+  paymentMethod?: string
+  /** Référence / numéro de transaction du paiement — obligatoire */
+  paymentReference?: string
+  /** Preuve de paiement (PDF, JPG ou PNG — max 5 Mo) — obligatoire */
+  paymentProofFile?: File
 }
 
 // ─── Work Experiences ────────────────────────────────────────────────────────
@@ -281,6 +299,18 @@ export interface UpdateAlumniPayload {
   promotionId?: string
 }
 
+// ─── Import Alumni (Excel/CSV) ───────────────────────────────────────────────
+
+export interface ImportAlumnisError {
+  row: number
+  error: string
+}
+
+export interface ImportAlumnisResult {
+  success: number
+  errors: ImportAlumnisError[]
+}
+
 // ─── Composable ────────────────────────────────────────────────────────────────
 
 export function useIdentityApi() {
@@ -290,9 +320,24 @@ export function useIdentityApi() {
   // ─── Auth / Registration ────────────────────────────────────────────────────
 
   const registerAlumni = async (payload: RegisterAlumniPayload): Promise<AlumniItem> => {
+    // L'API attend désormais un multipart/form-data (preuve de paiement à uploader)
+    const formData = new FormData()
+    formData.append('email', payload.email)
+    formData.append('firstName', payload.firstName)
+    formData.append('lastName', payload.lastName)
+    formData.append('phoneNumber', payload.phoneNumber)
+    formData.append('promotionId', payload.promotionId)
+    formData.append('countryId', payload.countryId)
+    if (payload.degree) formData.append('degree', payload.degree)
+    // Informations de paiement envoyées uniquement en cas d'adhésion (cotisation)
+    if (payload.paymentMethod) formData.append('paymentMethod', payload.paymentMethod)
+    if (payload.paymentReference) formData.append('paymentReference', payload.paymentReference)
+    if (payload.paymentProofFile) formData.append('paymentProofFile', payload.paymentProofFile)
+
+    // Ne pas définir Content-Type : ofetch ajoute automatiquement la boundary multipart
     return await $fetch<AlumniItem>(`${baseUrl}/auth/register/alumni`, {
       method: 'POST',
-      body: payload,
+      body: formData,
     })
   }
 
@@ -507,6 +552,7 @@ export function useIdentityApi() {
     search?: string
     isVerified?: boolean
     isOpenToMentoring?: boolean
+    isAdherent?: boolean
     promotionId?: string
     departmentId?: string
     countryId?: string
@@ -517,6 +563,7 @@ export function useIdentityApi() {
     if (params?.search) query.set('search', params.search)
     if (params?.isVerified !== undefined) query.set('isVerified', String(params.isVerified))
     if (params?.isOpenToMentoring !== undefined) query.set('isOpenToMentoring', String(params.isOpenToMentoring))
+    if (params?.isAdherent !== undefined) query.set('isAdherent', String(params.isAdherent))
     if (params?.promotionId) query.set('promotionId', params.promotionId)
     if (params?.departmentId) query.set('departmentId', params.departmentId)
     if (params?.countryId) query.set('countryId', params.countryId)
@@ -524,17 +571,53 @@ export function useIdentityApi() {
     if (params?.limit) query.set('limit', String(params.limit))
 
     const qs = query.toString()
-    return await $fetch<PaginatedAlumnis>(`${baseUrl}/alumnis${qs ? `?${qs}` : ''}`)
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    const result = await $fetch<PaginatedAlumnis>(`${baseUrl}/alumnis${qs ? `?${qs}` : ''}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+
+    // L'annuaire ne doit contenir que des alumni, pas les comptes admin/système.
+    // L'API n'expose pas le rôle et n'offre aucun filtre `role`, donc on écarte ici les comptes
+    // seed : leurs UUID sont réservés (préfixe `00000000-0000-0000-0000-`), là où tout alumni réel
+    // reçoit un UUID aléatoire. Filtrage centralisé -> vaut pour annuaire, carte, recherche, accueil.
+    const filtered = result.data.filter((a) => !isSystemAccount(a))
+    const removed = result.data.length - filtered.length
+    return { ...result, data: filtered, total: Math.max(0, result.total - removed) }
   }
 
   const fetchAlumni = async (id: string): Promise<AlumniItem> => {
-    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}`)
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
   }
 
   const verifyAlumni = async (id: string): Promise<AlumniItem> => {
     const token = import.meta.client ? localStorage.getItem('admin-token') : null
     return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}/verify`, {
       method: 'PATCH',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+  }
+
+  // Marquer un alumni comme adherent (cotisation validee) - admin
+  const adhereAlumni = async (id: string): Promise<AlumniItem> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}/adhere`, {
+      method: 'PATCH',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+  }
+
+  // Import en masse d'alumni adherents via fichier Excel/CSV (admin)
+  const importAlumnis = async (file: File): Promise<ImportAlumnisResult> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
+    const formData = new FormData()
+    formData.append('file', file)
+    // Ne pas fixer Content-Type manuellement : $fetch gere le boundary multipart
+    return await $fetch<ImportAlumnisResult>(`${baseUrl}/alumnis/import`, {
+      method: 'POST',
+      body: formData,
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
   }
@@ -687,6 +770,8 @@ export function useIdentityApi() {
     fetchAlumniList,
     fetchAlumni,
     verifyAlumni,
+    adhereAlumni,
+    importAlumnis,
     fetchWorkExperiences,
     createWorkExperience,
     updateWorkExperience,

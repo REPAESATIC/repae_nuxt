@@ -22,7 +22,7 @@ const activeCategories = computed(() => {
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2">
         <font-awesome-icon icon="fa-solid fa-star" class="text-repae-blue-500" />
-        Competences
+        Compétences
       </h2>
       <button
         class="text-sm text-repae-blue-500 hover:text-repae-blue-600 font-medium font-brand cursor-pointer"
@@ -32,20 +32,20 @@ const activeCategories = computed(() => {
       </button>
     </div>
 
-    <!-- Competences par categorie -->
+    <!-- Compétences par catégorie -->
     <div class="space-y-5">
       <div
         v-for="categorie in activeCategories"
         :key="categorie"
         class="space-y-3"
       >
-        <!-- Categorie header -->
+        <!-- Catégorie header -->
         <div class="flex items-center gap-2 text-sm font-medium text-repae-gray-600 dark:text-repae-gray-400">
           <font-awesome-icon :icon="categorieConfig[categorie].icon" class="text-repae-blue-500/70" />
           <span>{{ categorieConfig[categorie].label }}</span>
         </div>
 
-        <!-- Competences badges -->
+        <!-- Compétences badges -->
         <div class="flex flex-wrap gap-2">
           <div
             v-for="comp in competencesByCategorie[categorie]"
@@ -68,7 +68,7 @@ const activeCategories = computed(() => {
               <span
                 v-if="comp.certifie"
                 class="text-xs"
-                title="Certifie"
+                title="Certifié"
               >
                 <font-awesome-icon icon="fa-solid fa-certificate" />
               </span>
@@ -81,7 +81,7 @@ const activeCategories = computed(() => {
               <div class="font-semibold">{{ comp.nom }}</div>
               <div class="text-gray-300">{{ niveauConfig[comp.niveau].label }}</div>
               <div v-if="comp.annees_experience" class="text-gray-400">
-                {{ comp.annees_experience }} an{{ comp.annees_experience > 1 ? 's' : '' }} d'experience
+                {{ comp.annees_experience }} an{{ comp.annees_experience > 1 ? 's' : '' }} d'expérience
               </div>
               <!-- Arrow -->
               <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-repae-gray-900 dark:border-t-repae-gray-700" />
@@ -91,7 +91,7 @@ const activeCategories = computed(() => {
       </div>
     </div>
 
-    <!-- Legende -->
+    <!-- Légende -->
     <div class="mt-6 pt-4 border-t border-gray-200 dark:border-repae-gray-700">
       <div class="flex flex-wrap items-center gap-4 text-xs text-repae-gray-500 dark:text-repae-gray-400">
         <span class="font-medium">Niveaux :</span>
@@ -116,7 +116,7 @@ const activeCategories = computed(() => {
     >
       <font-awesome-icon icon="fa-solid fa-star" class="text-4xl text-gray-300 dark:text-repae-gray-600 mb-3" />
       <p class="text-repae-gray-500 dark:text-repae-gray-400 font-brand">
-        Aucune competence renseignee
+        Aucune compétence renseignée
       </p>
     </div>
   </div>

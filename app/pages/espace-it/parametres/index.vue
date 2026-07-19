@@ -27,7 +27,7 @@ const loadSettings = async () => {
   error.value = null
 
   try {
-    // Valeurs par defaut si les preferences n'existent pas encore
+    // Valeurs par défaut si les préférences n'existent pas encore
     const defaultPreferences: UserPreferenceItem = {
       id: '',
       theme: 'SYSTEM',
@@ -46,7 +46,7 @@ const loadSettings = async () => {
     const [alumni, prefs] = await Promise.all([
       fetchMyAlumni(),
       fetchMyPreferences().catch((e: any) => {
-        // 404 = preferences pas encore creees, utiliser les defauts
+        // 404 = préférences pas encore créées, utiliser les défauts
         if (e?.statusCode === 404 || e?.response?.status === 404) {
           return defaultPreferences
         }
@@ -57,7 +57,7 @@ const loadSettings = async () => {
     userEmail.value = alumni.email || ''
     preferences.value = prefs
 
-    // Synchroniser le theme local avec le backend
+    // Synchroniser le thème local avec le backend
     const themeMap: Record<string, 'light' | 'dark' | 'system'> = {
       LIGHT: 'light',
       DARK: 'dark',

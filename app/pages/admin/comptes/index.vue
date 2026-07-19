@@ -64,8 +64,8 @@ const handleToggleStatus = async (item: UserItem) => {
     const newStatus = item.status === 'BANNED' ? 'PENDING' : 'BANNED'
     await updateUser(item.id, { status: newStatus })
     toast.success(
-      newStatus === 'BANNED' ? 'Compte banni' : 'Compte reactive',
-      `Le compte ${item.email} a ete ${newStatus === 'BANNED' ? 'banni' : 'reactive'}.`,
+      newStatus === 'BANNED' ? 'Compte banni' : 'Compte réactivé',
+      `Le compte ${item.email} a été ${newStatus === 'BANNED' ? 'banni' : 'réactivé'}.`,
     )
     await loadComptes()
   } catch (e: any) {
@@ -78,9 +78,9 @@ const handleToggleStatus = async (item: UserItem) => {
 
 // Helpers
 const roleConfig: Record<string, { label: string; class: string }> = {
-  ADMIN: { label: 'Admin', class: 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400' },
+  ADMIN: { label: 'Admin', class: 'bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-400' },
   ALUMNI: { label: 'Alumni', class: 'bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400' },
-  STUDENT: { label: 'Etudiant', class: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400' },
+  STUDENT: { label: 'Étudiant', class: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400' },
 }
 
 const statusConfig: Record<string, { label: string; icon: string; class: string }> = {
@@ -113,7 +113,7 @@ const formatDate = (date: string | null | undefined) => {
       </div>
       <NuxtLink
         to="/admin/comptes/creer"
-        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
         Nouveau compte
@@ -132,25 +132,25 @@ const formatDate = (date: string | null | undefined) => {
           v-model="searchQuery"
           type="text"
           placeholder="Rechercher par email ou nom..."
-          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
         />
       </div>
 
       <!-- Role filter -->
       <select
         v-model="roleFilter"
-        class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
+        class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer"
       >
-        <option value="">Tous les roles</option>
+        <option value="">Tous les rôles</option>
         <option value="ADMIN">Admin</option>
         <option value="ALUMNI">Alumni</option>
-        <option value="STUDENT">Etudiant</option>
+        <option value="STUDENT">Étudiant</option>
       </select>
 
       <!-- Status filter -->
       <select
         v-model="statusFilter"
-        class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer"
+        class="px-4 py-2.5 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer"
       >
         <option value="">Tous les statuts</option>
         <option value="PENDING">En attente</option>
@@ -161,7 +161,7 @@ const formatDate = (date: string | null | undefined) => {
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <!-- Empty state -->
@@ -169,22 +169,22 @@ const formatDate = (date: string | null | undefined) => {
       v-else-if="comptes.length === 0"
       class="text-center py-20 bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700"
     >
-      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center">
-        <font-awesome-icon icon="fa-solid fa-user-cog" class="text-violet-500 text-2xl" />
+      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center">
+        <font-awesome-icon icon="fa-solid fa-user-cog" class="text-repae-blue-500 text-2xl" />
       </div>
       <h3 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
         Aucun compte
       </h3>
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-        {{ searchQuery || roleFilter || statusFilter ? 'Aucun resultat pour ces filtres.' : 'Aucun compte utilisateur enregistre pour le moment.' }}
+        {{ searchQuery || roleFilter || statusFilter ? 'Aucun résultat pour ces filtres.' : 'Aucun compte utilisateur enregistré pour le moment.' }}
       </p>
       <NuxtLink
         v-if="!searchQuery && !roleFilter && !statusFilter"
         to="/admin/comptes/creer"
-        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
       >
         <font-awesome-icon icon="fa-solid fa-plus" />
-        Creer un compte
+        Créer un compte
       </NuxtLink>
     </div>
 
@@ -198,16 +198,16 @@ const formatDate = (date: string | null | undefined) => {
                 Utilisateur
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
-                Role
+                Rôle
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden sm:table-cell">
                 Statut
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden md:table-cell">
-                Derniere connexion
+                Dernière connexion
               </th>
               <th class="text-left px-6 py-4 text-xs font-semibold font-brand text-repae-gray-500 dark:text-repae-gray-400 uppercase tracking-wider hidden lg:table-cell">
-                Date creation
+                Date création
               </th>
               <th class="px-6 py-4" />
             </tr>
@@ -221,8 +221,8 @@ const formatDate = (date: string | null | undefined) => {
               <!-- Utilisateur -->
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-full bg-violet-100 dark:bg-violet-500/15 items-center justify-center shrink-0 hidden sm:flex">
-                    <font-awesome-icon icon="fa-solid fa-user" class="text-violet-500 text-sm" />
+                  <div class="w-10 h-10 rounded-full bg-repae-blue-100 dark:bg-repae-blue-500/15 items-center justify-center shrink-0 hidden sm:flex">
+                    <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500 text-sm" />
                   </div>
                   <div class="min-w-0">
                     <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white truncate max-w-xs">
@@ -260,14 +260,14 @@ const formatDate = (date: string | null | undefined) => {
                 </span>
               </td>
 
-              <!-- Derniere connexion -->
+              <!-- Dernière connexion -->
               <td class="px-6 py-4 hidden md:table-cell">
                 <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
                   {{ formatDate(item.lastLogin) }}
                 </span>
               </td>
 
-              <!-- Date creation -->
+              <!-- Date création -->
               <td class="px-6 py-4 hidden lg:table-cell">
                 <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
                   {{ formatDate(item.createdAt) }}
@@ -279,7 +279,7 @@ const formatDate = (date: string | null | undefined) => {
                 <div class="flex items-center justify-end gap-2">
                   <NuxtLink
                     :to="`/admin/comptes/${item.id}`"
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors cursor-pointer"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-repae-blue-600 dark:text-repae-blue-400 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-solid fa-eye" />
                     Voir
@@ -308,30 +308,7 @@ const formatDate = (date: string | null | undefined) => {
       </div>
 
       <!-- Pagination -->
-      <div
-        v-if="totalPages > 1"
-        class="flex items-center justify-between px-6 py-4 border-t border-gray-200 dark:border-repae-gray-700"
-      >
-        <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
-          Page {{ page }} sur {{ totalPages }}
-        </p>
-        <div class="flex items-center gap-2">
-          <button
-            :disabled="page <= 1"
-            class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-repae-gray-700 text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-200 dark:hover:bg-repae-gray-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            @click="page--"
-          >
-            <font-awesome-icon icon="fa-solid fa-chevron-left" class="text-xs" />
-          </button>
-          <button
-            :disabled="page >= totalPages"
-            class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-repae-gray-700 text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-200 dark:hover:bg-repae-gray-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-            @click="page++"
-          >
-            <font-awesome-icon icon="fa-solid fa-chevron-right" class="text-xs" />
-          </button>
-        </div>
-      </div>
+      <UiPagination v-model:page="page" :total-pages="totalPages" />
     </div>
   </div>
 </template>

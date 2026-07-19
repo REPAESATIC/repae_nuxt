@@ -31,10 +31,10 @@ const adminEmail = computed(() => {
   return 'admin@repae.ci'
 })
 
+const { clearSession } = useAdminAuth()
+
 const logout = () => {
-  localStorage.removeItem('admin-auth')
-  localStorage.removeItem('admin-token')
-  localStorage.removeItem('admin-user')
+  clearSession()
   isUserMenuOpen.value = false
   navigateTo('/connexion-admin')
 }
@@ -57,19 +57,19 @@ onUnmounted(() => {
 const pageTitle = computed(() => {
   const path = route.path
   if (path === '/admin') return 'Tableau de bord'
-  if (path.startsWith('/admin/categories')) return 'Categories'
-  if (path.startsWith('/admin/evenements')) return 'Evenements'
-  if (path.startsWith('/admin/actualites')) return 'Actualites'
+  if (path.startsWith('/admin/categories')) return 'Catégories'
+  if (path.startsWith('/admin/evenements')) return 'Événements'
+  if (path.startsWith('/admin/actualites')) return 'Actualités'
   if (path.startsWith('/admin/alumni')) return 'Alumni'
   if (path.startsWith('/admin/entreprises')) return 'Entreprises'
   if (path.startsWith('/admin/comptes')) return 'Comptes'
-  if (path.startsWith('/admin/competences')) return 'Competences'
-  if (path.startsWith('/admin/groupes-competences')) return 'Groupes de competences'
+  if (path.startsWith('/admin/competences')) return 'Compétences'
+  if (path.startsWith('/admin/groupes-competences')) return 'Groupes de compétences'
   if (path.startsWith('/admin/pays')) return 'Pays'
-  if (path.startsWith('/admin/departements')) return 'Departements'
+  if (path.startsWith('/admin/departements')) return 'Départements'
   if (path.startsWith('/admin/promotions')) return 'Promotions'
   if (path.startsWith('/admin/notifications')) return 'Notifications'
-  if (path.startsWith('/admin/parametres')) return 'Parametres'
+  if (path.startsWith('/admin/parametres')) return 'Paramètres'
   return 'Administration'
 })
 </script>
@@ -97,7 +97,7 @@ const pageTitle = computed(() => {
 
         <div class="flex items-center gap-3">
           <div class="hidden sm:flex items-center gap-2">
-            <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400">
+            <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md bg-repae-blue-100 dark:bg-repae-blue-500/15 text-repae-blue-600 dark:text-repae-blue-400">
               Admin
             </span>
             <span class="text-slate-300 dark:text-slate-600">/</span>
@@ -118,7 +118,7 @@ const pageTitle = computed(() => {
         >
           <font-awesome-icon
             :icon="isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"
-            :class="isDark ? 'text-amber-400' : 'text-violet-500'"
+            :class="isDark ? 'text-amber-400' : 'text-repae-blue-500'"
           />
         </button>
 
@@ -138,7 +138,7 @@ const pageTitle = computed(() => {
             class="flex items-center gap-3 p-1.5 pr-3 rounded-xl bg-gray-100 dark:bg-repae-gray-800 hover:bg-gray-200 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer"
             @click="toggleUserMenu"
           >
-            <div class="w-8 h-8 rounded-lg bg-linear-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-linear-to-br from-repae-blue-500 to-repae-blue-700 flex items-center justify-center">
               <font-awesome-icon icon="fa-solid fa-user-cog" class="text-white text-xs" />
             </div>
             <span class="hidden sm:block text-sm font-medium font-brand text-repae-gray-900 dark:text-white">

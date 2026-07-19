@@ -33,8 +33,8 @@ const form = reactive({
 })
 
 const verificationOptions = [
-  { value: false, label: 'Non verifiee', icon: 'fa-solid fa-clock', class: 'border-orange-500 bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400' },
-  { value: true, label: 'Verifiee', icon: 'fa-solid fa-check-circle', class: 'border-green-500 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' },
+  { value: false, label: 'Non vérifiée', icon: 'fa-solid fa-clock', class: 'border-orange-500 bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400' },
+  { value: true, label: 'Vérifiée', icon: 'fa-solid fa-check-circle', class: 'border-green-500 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' },
 ] as const
 
 // Image state
@@ -51,8 +51,8 @@ const verifying = ref(false)
 
 // Helpers
 const verifiedConfig: Record<string, { label: string; class: string }> = {
-  true: { label: 'Verifiee', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
-  false: { label: 'Non verifiee', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
+  true: { label: 'Vérifiée', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
+  false: { label: 'Non vérifiée', class: 'bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-400' },
 }
 
 const tailleConfig: Record<string, { label: string; class: string }> = {
@@ -82,7 +82,7 @@ onMounted(async () => {
     await new Promise(resolve => setTimeout(resolve, 300))
     const data = findEntrepriseById(entrepriseId)
     if (!data) {
-      toast.error('Erreur', 'Entreprise non trouvee.')
+      toast.error('Erreur', 'Entreprise non trouvée.')
       router.push('/admin/entreprises')
       return
     }
@@ -158,11 +158,11 @@ const handleVerify = async () => {
       form.verifie = found.verifie
     }
     toast.success(
-      found?.verifie ? 'Entreprise verifiee' : 'Verification retiree',
-      `${original.value.nom} a ete ${found?.verifie ? 'verifiee' : 'deverifiee'}.`,
+      found?.verifie ? 'Entreprise vérifiée' : 'Vérification retirée',
+      `${original.value.nom} a été ${found?.verifie ? 'vérifiée' : 'dévérifiée'}.`,
     )
   } catch {
-    toast.error('Erreur', 'Impossible de modifier le statut de verification.')
+    toast.error('Erreur', 'Impossible de modifier le statut de vérification.')
   } finally {
     verifying.value = false
   }
@@ -175,7 +175,7 @@ const submit = async () => {
     return
   }
   if (!form.secteur_activite) {
-    toast.warning('Champ requis', 'Le secteur d\'activite est obligatoire.')
+    toast.warning('Champ requis', 'Le secteur d\'activité est obligatoire.')
     return
   }
   if (!form.taille) {
@@ -208,10 +208,10 @@ const submit = async () => {
       if (logoPreview.value) found.logo_url = logoPreview.value
       else if (!existingLogo.value) found.logo_url = ''
     }
-    toast.success('Entreprise mise a jour', 'Les modifications ont ete enregistrees.')
+    toast.success('Entreprise mise à jour', 'Les modifications ont été enregistrées.')
     router.push('/admin/entreprises')
   } catch {
-    toast.error('Erreur', 'Impossible de mettre a jour l\'entreprise.')
+    toast.error('Erreur', 'Impossible de mettre à jour l\'entreprise.')
   } finally {
     saving.value = false
   }
@@ -227,7 +227,7 @@ onUnmounted(() => {
   <div class="max-w-4xl">
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <template v-else-if="original">
@@ -283,7 +283,7 @@ onUnmounted(() => {
             :icon="verifying ? 'fa-solid fa-spinner' : (original.verifie ? 'fa-solid fa-times-circle' : 'fa-solid fa-check-circle')"
             :class="{ 'animate-spin': verifying }"
           />
-          {{ original.verifie ? 'Deverifier' : 'Verifier' }}
+          {{ original.verifie ? 'Dévérifier' : 'Vérifier' }}
         </button>
       </div>
 
@@ -315,7 +315,7 @@ onUnmounted(() => {
             />
             <div class="absolute top-2 right-2 flex gap-2">
               <label
-                class="p-2 rounded-lg bg-violet-500 hover:bg-violet-600 text-white transition-colors cursor-pointer"
+                class="p-2 rounded-lg bg-repae-blue-500 hover:bg-repae-blue-600 text-white transition-colors cursor-pointer"
               >
                 <font-awesome-icon icon="fa-solid fa-pen" class="text-sm" />
                 <input
@@ -338,7 +338,7 @@ onUnmounted(() => {
           <!-- Upload zone -->
           <label
             v-if="!showEditor && !currentLogo"
-            class="flex flex-col items-center justify-center w-32 h-32 rounded-2xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-violet-400 dark:hover:border-violet-500 transition-colors cursor-pointer"
+            class="flex flex-col items-center justify-center w-32 h-32 rounded-2xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-repae-blue-400 dark:hover:border-repae-blue-500 transition-colors cursor-pointer"
           >
             <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-2xl text-repae-gray-400 mb-2" />
             <span class="text-xs text-repae-gray-500 dark:text-repae-gray-400 text-center px-2">
@@ -362,7 +362,7 @@ onUnmounted(() => {
             v-model="form.nom"
             type="text"
             placeholder="Nom de l'entreprise"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
           />
         </div>
 
@@ -370,13 +370,13 @@ onUnmounted(() => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
             <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-              Secteur d'activite *
+              Secteur d'activité *
             </label>
             <select
               v-model="form.secteur_activite"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer transition-all"
             >
-              <option value="" disabled>Selectionner un secteur</option>
+              <option value="" disabled>Sélectionner un secteur</option>
               <option v-for="secteur in secteursActivite" :key="secteur" :value="secteur">
                 {{ secteur }}
               </option>
@@ -389,9 +389,9 @@ onUnmounted(() => {
             </label>
             <select
               v-model="form.taille"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer transition-all"
             >
-              <option value="" disabled>Selectionner la taille</option>
+              <option value="" disabled>Sélectionner la taille</option>
               <option value="startup">Startup</option>
               <option value="pme">PME</option>
               <option value="grande_entreprise">Grande entreprise</option>
@@ -409,7 +409,7 @@ onUnmounted(() => {
             rows="4"
             placeholder="Description de l'entreprise"
             maxlength="1000"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 resize-none transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 resize-none transition-all"
           />
           <p class="text-xs text-repae-gray-400 mt-1 text-right">
             {{ form.description.length }}/1000
@@ -426,19 +426,19 @@ onUnmounted(() => {
               v-model="form.email_contact"
               type="email"
               placeholder="contact@entreprise.ci"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
 
           <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
             <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-              Telephone
+              Téléphone
             </label>
             <input
               v-model="form.telephone"
               type="tel"
               placeholder="+225 XX XX XX XX XX"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
         </div>
@@ -452,7 +452,7 @@ onUnmounted(() => {
             v-model="form.site_web"
             type="url"
             placeholder="https://entreprise.ci"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
           />
         </div>
 
@@ -466,7 +466,7 @@ onUnmounted(() => {
               v-model="form.adresse"
               type="text"
               placeholder="Adresse de l'entreprise"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
 
@@ -478,7 +478,7 @@ onUnmounted(() => {
               v-model="form.ville"
               type="text"
               placeholder="Ville"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
 
@@ -490,7 +490,7 @@ onUnmounted(() => {
               v-model="form.pays"
               type="text"
               placeholder="Pays"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
         </div>
@@ -504,7 +504,7 @@ onUnmounted(() => {
             <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900">
               <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-repae-gray-400" />
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Date de creation</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Date de création</p>
                 <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
                   {{ formatDate(original.date_creation) }}
                 </p>
@@ -514,7 +514,7 @@ onUnmounted(() => {
             <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900">
               <font-awesome-icon icon="fa-solid fa-coins" class="text-yellow-500" />
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Points fidelite</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Points fidélité</p>
                 <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
                   {{ original.points_fidelite }} pts
                 </p>
@@ -539,7 +539,7 @@ onUnmounted(() => {
         <!-- Statut + Actions -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-3">
-            Statut de verification
+            Statut de vérification
           </label>
           <div class="flex gap-3 mb-6">
             <button
@@ -569,7 +569,7 @@ onUnmounted(() => {
             <button
               type="submit"
               :disabled="saving"
-              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
             >
               <font-awesome-icon
                 :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"

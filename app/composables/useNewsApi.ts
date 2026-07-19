@@ -87,6 +87,9 @@ export function useNewsApi() {
   const config = useRuntimeConfig()
   const baseUrl = config.public.contentApiBase as string
 
+  // En-tetes Authorization (JWT admin) centralises pour les routes protegees
+  const { getAuthHeaders } = useAdminAuth()
+
   const fetchNewsList = async (params?: {
     search?: string
     categoryId?: string
@@ -127,6 +130,7 @@ export function useNewsApi() {
     return await $fetch<NewsItem>(`${baseUrl}/news`, {
       method: 'POST',
       body: formData,
+      headers: getAuthHeaders(),
     })
   }
 
@@ -143,6 +147,7 @@ export function useNewsApi() {
     return await $fetch<NewsItem>(`${baseUrl}/news/${id}`, {
       method: 'PUT',
       body: formData,
+      headers: getAuthHeaders(),
     })
   }
 
@@ -168,6 +173,7 @@ export function useNewsApi() {
     return await $fetch<CategoryItem>(`${baseUrl}/categories`, {
       method: 'POST',
       body: payload,
+      headers: getAuthHeaders(),
     })
   }
 
@@ -175,6 +181,7 @@ export function useNewsApi() {
     return await $fetch<CategoryItem>(`${baseUrl}/categories/${id}`, {
       method: 'PUT',
       body: payload,
+      headers: getAuthHeaders(),
     })
   }
 

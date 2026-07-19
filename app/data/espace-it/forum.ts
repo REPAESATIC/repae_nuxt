@@ -1,4 +1,4 @@
-// Donnees mock pour le Forum d'entraide professionnelle
+// Données mock pour le Forum d'entraide professionnelle
 
 export type CategorieQuestion = 'technique' | 'carriere' | 'freelance' | 'formation' | 'autre'
 
@@ -21,7 +21,7 @@ export interface ForumQuestion {
   tags: string[]
 }
 
-// Configuration des categories
+// Configuration des catégories
 export const categorieConfig: Record<CategorieQuestion, { label: string; color: string; icon: string }> = {
   technique: {
     label: 'Technique',
@@ -29,7 +29,7 @@ export const categorieConfig: Record<CategorieQuestion, { label: string; color: 
     icon: 'fa-solid fa-code'
   },
   carriere: {
-    label: 'Carriere',
+    label: 'Carrière',
     color: 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400',
     icon: 'fa-solid fa-briefcase'
   },
@@ -55,7 +55,7 @@ export const forumQuestions: ForumQuestion[] = [
   {
     id: '1',
     titre: 'Comment migrer une application Laravel vers NestJS ?',
-    contenu: 'Je travaille sur un projet de migration d\'une API Laravel vers NestJS. Quels sont les points de vigilance et les bonnes pratiques a suivre ?',
+    contenu: 'Je travaille sur un projet de migration d\'une API Laravel vers NestJS. Quels sont les points de vigilance et les bonnes pratiques à suivre ?',
     categorie: 'technique',
     auteur: {
       id: '2',
@@ -72,8 +72,8 @@ export const forumQuestions: ForumQuestion[] = [
   },
   {
     id: '2',
-    titre: 'Negociation salariale : vos conseils ?',
-    contenu: 'J\'ai une offre interessante mais le salaire propose est en dessous de mes attentes. Comment bien negocier sans risquer de perdre l\'opportunite ?',
+    titre: 'Négociation salariale : vos conseils ?',
+    contenu: 'J\'ai une offre intéressante mais le salaire proposé est en dessous de mes attentes. Comment bien négocier sans risquer de perdre l\'opportunité ?',
     categorie: 'carriere',
     auteur: {
       id: '3',
@@ -86,12 +86,12 @@ export const forumQuestions: ForumQuestion[] = [
     nombre_reponses: 15,
     nombre_vues: 256,
     resolu: true,
-    tags: ['Negociation', 'Salaire', 'Entretien']
+    tags: ['Négociation', 'Salaire', 'Entretien']
   },
   {
     id: '3',
-    titre: 'Demarrer en freelance depuis Abidjan : retours d\'experience',
-    contenu: 'Je souhaite me lancer en freelance tout en restant a Abidjan. Quelles plateformes utilisez-vous ? Comment gerez-vous les paiements internationaux ?',
+    titre: 'Démarrer en freelance depuis Abidjan : retours d\'expérience',
+    contenu: 'Je souhaite me lancer en freelance tout en restant à Abidjan. Quelles plateformes utilisez-vous ? Comment gérez-vous les paiements internationaux ?',
     categorie: 'freelance',
     auteur: {
       id: '4',
@@ -108,8 +108,8 @@ export const forumQuestions: ForumQuestion[] = [
   },
   {
     id: '4',
-    titre: 'Certification AWS : laquelle choisir pour debuter ?',
-    contenu: 'Je veux me certifier AWS mais je suis perdu entre les differentes certifications. Par laquelle commencer quand on a 2 ans d\'experience ?',
+    titre: 'Certification AWS : laquelle choisir pour débuter ?',
+    contenu: 'Je veux me certifier AWS mais je suis perdu entre les différentes certifications. Par laquelle commencer quand on a 2 ans d\'expérience ?',
     categorie: 'formation',
     auteur: {
       id: '5',
@@ -126,8 +126,8 @@ export const forumQuestions: ForumQuestion[] = [
   },
   {
     id: '5',
-    titre: 'Probleme de performance avec React Query et grandes listes',
-    contenu: 'J\'ai une application React avec des listes de +1000 elements. Meme avec React Query et la virtualisation, j\'ai des lags. Des suggestions ?',
+    titre: 'Problème de performance avec React Query et grandes listes',
+    contenu: 'J\'ai une application React avec des listes de +1000 éléments. Même avec React Query et la virtualisation, j\'ai des lags. Des suggestions ?',
     categorie: 'technique',
     auteur: {
       id: '6',
@@ -144,8 +144,8 @@ export const forumQuestions: ForumQuestion[] = [
   },
   {
     id: '6',
-    titre: 'Reconversion vers la data science : par ou commencer ?',
-    contenu: 'Apres 5 ans en developpement web, je souhaite me reconvertir vers la data science. Quelles competences prioriser ? Quelles formations recommandez-vous ?',
+    titre: 'Reconversion vers la data science : par où commencer ?',
+    contenu: 'Après 5 ans en développement web, je souhaite me reconvertir vers la data science. Quelles compétences prioriser ? Quelles formations recommandez-vous ?',
     categorie: 'carriere',
     auteur: {
       id: '7',
@@ -162,7 +162,7 @@ export const forumQuestions: ForumQuestion[] = [
   }
 ]
 
-// Fonction pour obtenir les questions recentes
+// Fonction pour obtenir les questions récentes
 export const getRecentQuestions = (limit: number = 5): ForumQuestion[] => {
   return forumQuestions
     .slice()
@@ -170,7 +170,7 @@ export const getRecentQuestions = (limit: number = 5): ForumQuestion[] => {
     .slice(0, limit)
 }
 
-// Fonction pour obtenir les questions populaires (par nombre de reponses)
+// Fonction pour obtenir les questions populaires (par nombre de réponses)
 export const getPopularQuestions = (limit: number = 5): ForumQuestion[] => {
   return forumQuestions
     .slice()
@@ -188,11 +188,11 @@ export const getForumStats = () => {
   }
 }
 
-// Interface pour les reponses
+// Interface pour les réponses
 export interface ForumReponse {
   id: string
   question_id: string
-  parent_id?: string // ID de la reponse parente (pour les reponses imbriquees)
+  parent_id?: string // ID de la réponse parente (pour les réponses imbriquées)
   contenu: string
   auteur: {
     id: string
@@ -206,13 +206,13 @@ export interface ForumReponse {
   is_solution: boolean
 }
 
-// Reponses mock
+// Réponses mock
 export const forumReponses: ForumReponse[] = [
-  // Reponses pour la question 1 (Laravel vers NestJS)
+  // Réponses pour la question 1 (Laravel vers NestJS)
   {
     id: '1',
     question_id: '1',
-    contenu: 'Salut ! J\'ai fait cette migration l\'annee derniere. Voici mes conseils :\n\n1. **Commence par les modeles** : NestJS utilise TypeORM ou Prisma, donc adapte tes modeles Eloquent\n2. **Les middlewares** deviennent des Guards et Interceptors dans NestJS\n3. **Attention aux validations** : passe de Laravel Validation a class-validator\n\nLe plus dur c\'est de changer de mentalite entre les deux frameworks.',
+    contenu: 'Salut ! J\'ai fait cette migration l\'année dernière. Voici mes conseils :\n\n1. **Commence par les modèles** : NestJS utilise TypeORM ou Prisma, donc adapte tes modèles Eloquent\n2. **Les middlewares** deviennent des Guards et Interceptors dans NestJS\n3. **Attention aux validations** : passe de Laravel Validation à class-validator\n\nLe plus dur c\'est de changer de mentalité entre les deux frameworks.',
     auteur: {
       id: '8',
       nom: 'Camara',
@@ -227,7 +227,7 @@ export const forumReponses: ForumReponse[] = [
   {
     id: '2',
     question_id: '1',
-    contenu: 'Je te conseille aussi de regarder du cote de NestJS-Query si tu as beaucoup de CRUD. Ca simplifie enormement la migration des Controllers Laravel.',
+    contenu: 'Je te conseille aussi de regarder du côté de NestJS-Query si tu as beaucoup de CRUD. Ça simplifie énormément la migration des Controllers Laravel.',
     auteur: {
       id: '9',
       nom: 'Sangare',
@@ -242,7 +242,7 @@ export const forumReponses: ForumReponse[] = [
   {
     id: '3',
     question_id: '1',
-    contenu: 'N\'oublie pas les tests ! PHPUnit vs Jest c\'est un autre monde. Prevois du temps pour re-ecrire ta suite de tests.',
+    contenu: 'N\'oublie pas les tests ! PHPUnit vs Jest c\'est un autre monde. Prévois du temps pour réécrire ta suite de tests.',
     auteur: {
       id: '10',
       nom: 'Traore',
@@ -255,11 +255,11 @@ export const forumReponses: ForumReponse[] = [
     is_solution: false
   },
 
-  // Reponses pour la question 2 (Negociation salariale)
+  // Réponses pour la question 2 (Négociation salariale)
   {
     id: '4',
     question_id: '2',
-    contenu: 'Le secret c\'est de toujours donner une fourchette et non un chiffre fixe. Par exemple : "Je recherche entre X et Y selon les avantages proposes".\n\nAussi, renseigne-toi sur les salaires du marche avant (Glassdoor, discussions avec des collegues).',
+    contenu: 'Le secret c\'est de toujours donner une fourchette et non un chiffre fixe. Par exemple : "Je recherche entre X et Y selon les avantages proposés".\n\nAussi, renseigne-toi sur les salaires du marché avant (Glassdoor, discussions avec des collègues).',
     auteur: {
       id: '11',
       nom: 'Coulibaly',
@@ -274,7 +274,7 @@ export const forumReponses: ForumReponse[] = [
   {
     id: '5',
     question_id: '2',
-    contenu: 'Important : ne jamais donner ton salaire actuel en premier ! Laisse-les faire la premiere offre. Et n\'hesite pas a negocier les avantages si le salaire est bloque (teletravail, formation, conges...).',
+    contenu: 'Important : ne jamais donner ton salaire actuel en premier ! Laisse-les faire la première offre. Et n\'hésite pas à négocier les avantages si le salaire est bloqué (télétravail, formation, congés...).',
     auteur: {
       id: '12',
       nom: 'Diabate',
@@ -287,11 +287,11 @@ export const forumReponses: ForumReponse[] = [
     is_solution: false
   },
 
-  // Reponses pour la question 3 (Freelance Abidjan)
+  // Réponses pour la question 3 (Freelance Abidjan)
   {
     id: '6',
     question_id: '3',
-    contenu: 'Pour les plateformes, je recommande :\n- **Malt** : tres bien pour la France/Europe\n- **Upwork** : international mais competitif\n- **Toptal** : si tu passes leur test, les projets sont top\n\nPour les paiements, Wise (ex-TransferWise) est incontournable depuis Abidjan !',
+    contenu: 'Pour les plateformes, je recommande :\n- **Malt** : très bien pour la France/Europe\n- **Upwork** : international mais compétitif\n- **Toptal** : si tu passes leur test, les projets sont top\n\nPour les paiements, Wise (ex-TransferWise) est incontournable depuis Abidjan !',
     auteur: {
       id: '13',
       nom: 'Yao',
@@ -306,7 +306,7 @@ export const forumReponses: ForumReponse[] = [
   {
     id: '7',
     question_id: '3',
-    contenu: 'Pense aussi a te creer une presence LinkedIn forte. Beaucoup de mes clients viennent de la. Et n\'oublie pas de te declarer legalement (statut auto-entrepreneur ou equivalent en CI).',
+    contenu: 'Pense aussi à te créer une présence LinkedIn forte. Beaucoup de mes clients viennent de là. Et n\'oublie pas de te déclarer légalement (statut auto-entrepreneur ou équivalent en CI).',
     auteur: {
       id: '14',
       nom: 'Konan',
@@ -319,11 +319,11 @@ export const forumReponses: ForumReponse[] = [
     is_solution: false
   },
 
-  // Reponses pour la question 4 (Certification AWS)
+  // Réponses pour la question 4 (Certification AWS)
   {
     id: '8',
     question_id: '4',
-    contenu: 'Avec 2 ans d\'experience, je te conseille de commencer par **AWS Cloud Practitioner** pour avoir les bases, puis enchainer avec **AWS Solutions Architect Associate**.\n\nLes ressources : les cours gratuits d\'AWS Skill Builder + les labs pratiques sont excellents.',
+    contenu: 'Avec 2 ans d\'expérience, je te conseille de commencer par **AWS Cloud Practitioner** pour avoir les bases, puis enchaîner avec **AWS Solutions Architect Associate**.\n\nLes ressources : les cours gratuits d\'AWS Skill Builder + les labs pratiques sont excellents.',
     auteur: {
       id: '15',
       nom: 'Ake',
@@ -338,7 +338,7 @@ export const forumReponses: ForumReponse[] = [
   {
     id: '9',
     question_id: '4',
-    contenu: 'Le Solutions Architect Associate est vraiment THE certification a avoir. Elle ouvre beaucoup de portes. Compte environ 2-3 mois de preparation si tu bosses deja.',
+    contenu: 'Le Solutions Architect Associate est vraiment THE certification à avoir. Elle ouvre beaucoup de portes. Compte environ 2-3 mois de préparation si tu bosses déjà.',
     auteur: {
       id: '16',
       nom: 'N\'Guessan',
@@ -352,14 +352,14 @@ export const forumReponses: ForumReponse[] = [
   },
 
   // ========================================
-  // REPONSES IMBRIQUEES (replies to replies)
+  // RÉPONSES IMBRIQUÉES (replies to replies)
   // ========================================
 
-  // Reponse a la reponse 1 (sur Laravel vers NestJS)
+  // Réponse à la réponse 1 (sur Laravel vers NestJS)
   {
     id: '10',
     question_id: '1',
-    parent_id: '1', // Reponse a Adama Camara
+    parent_id: '1', // Réponse à Adama Camara
     contenu: 'Merci Adama ! Pour TypeORM vs Prisma, tu recommandes lequel pour quelqu\'un qui vient de Laravel ?',
     auteur: {
       id: '1',
@@ -375,8 +375,8 @@ export const forumReponses: ForumReponse[] = [
   {
     id: '11',
     question_id: '1',
-    parent_id: '10', // Reponse a Aya (nested level 2)
-    contenu: 'Prisma sans hesiter ! La syntaxe est plus intuitive et le schema.prisma ressemble beaucoup aux migrations Laravel. En plus, le typage TypeScript est automatique.',
+    parent_id: '10', // Réponse à Aya (nested level 2)
+    contenu: 'Prisma sans hésiter ! La syntaxe est plus intuitive et le schema.prisma ressemble beaucoup aux migrations Laravel. En plus, le typage TypeScript est automatique.',
     auteur: {
       id: '8',
       nom: 'Camara',
@@ -391,7 +391,7 @@ export const forumReponses: ForumReponse[] = [
   {
     id: '12',
     question_id: '1',
-    parent_id: '11', // Reponse a Adama (nested level 3)
+    parent_id: '11', // Réponse à Adama (nested level 3)
     contenu: 'Je confirme, Prisma c\'est top ! J\'ai fait le switch et je regrette pas.',
     auteur: {
       id: '9',
@@ -405,12 +405,12 @@ export const forumReponses: ForumReponse[] = [
     is_solution: false
   },
 
-  // Autre branche de reponse a la reponse 1
+  // Autre branche de réponse à la réponse 1
   {
     id: '13',
     question_id: '1',
     parent_id: '1',
-    contenu: 'Pour les Guards NestJS, tu as des ressources a recommander ? J\'ai du mal avec le concept.',
+    contenu: 'Pour les Guards NestJS, tu as des ressources à recommander ? J\'ai du mal avec le concept.',
     auteur: {
       id: '17',
       nom: 'Bamba',
@@ -426,7 +426,7 @@ export const forumReponses: ForumReponse[] = [
     id: '14',
     question_id: '1',
     parent_id: '13',
-    contenu: 'La doc officielle NestJS est excellente pour les Guards : https://docs.nestjs.com/guards\nEt regarde aussi les videos de Fireship sur YouTube !',
+    contenu: 'La doc officielle NestJS est excellente pour les Guards : https://docs.nestjs.com/guards\nEt regarde aussi les vidéos de Fireship sur YouTube !',
     auteur: {
       id: '8',
       nom: 'Camara',
@@ -439,12 +439,12 @@ export const forumReponses: ForumReponse[] = [
     is_solution: false
   },
 
-  // Reponse a la reponse 4 (sur negociation salariale - meilleure reponse)
+  // Réponse à la réponse 4 (sur négociation salariale - meilleure réponse)
   {
     id: '15',
     question_id: '2',
     parent_id: '4',
-    contenu: 'Tres bon conseil ! Et pour la recherche des salaires du marche, vous conseillez quoi comme source fiable en Cote d\'Ivoire ?',
+    contenu: 'Très bon conseil ! Et pour la recherche des salaires du marché, vous conseillez quoi comme source fiable en Côte d\'Ivoire ?',
     auteur: {
       id: '18',
       nom: 'Toure',
@@ -460,7 +460,7 @@ export const forumReponses: ForumReponse[] = [
     id: '16',
     question_id: '2',
     parent_id: '15',
-    contenu: 'Pour la CI, je recommande de rejoindre les groupes LinkedIn et Telegram des devs ivoiriens. Les discussions y sont franches sur les salaires. Sinon, les cabinets comme Afrique RH publient parfois des etudes.',
+    contenu: 'Pour la CI, je recommande de rejoindre les groupes LinkedIn et Telegram des devs ivoiriens. Les discussions y sont franches sur les salaires. Sinon, les cabinets comme Afrique RH publient parfois des études.',
     auteur: {
       id: '11',
       nom: 'Coulibaly',
@@ -473,12 +473,12 @@ export const forumReponses: ForumReponse[] = [
     is_solution: false
   },
 
-  // Reponse a la reponse 6 (sur Freelance)
+  // Réponse à la réponse 6 (sur Freelance)
   {
     id: '17',
     question_id: '3',
     parent_id: '6',
-    contenu: 'Wise fonctionne bien depuis Abidjan ? J\'ai entendu dire qu\'il y avait des problemes de verification.',
+    contenu: 'Wise fonctionne bien depuis Abidjan ? J\'ai entendu dire qu\'il y avait des problèmes de vérification.',
     auteur: {
       id: '19',
       nom: 'Kone',
@@ -494,7 +494,7 @@ export const forumReponses: ForumReponse[] = [
     id: '18',
     question_id: '3',
     parent_id: '17',
-    contenu: 'Oui ca marche ! La verification peut prendre 2-3 jours mais apres c\'est fluide. J\'utilise la carte virtuelle pour mes achats en ligne aussi.',
+    contenu: 'Oui ça marche ! La vérification peut prendre 2-3 jours mais après c\'est fluide. J\'utilise la carte virtuelle pour mes achats en ligne aussi.',
     auteur: {
       id: '13',
       nom: 'Yao',
@@ -524,16 +524,16 @@ export const forumReponses: ForumReponse[] = [
   }
 ]
 
-// Interface pour les reponses avec leurs sous-reponses
+// Interface pour les réponses avec leurs sous-réponses
 export interface ForumReponseWithReplies extends ForumReponse {
   replies: ForumReponseWithReplies[]
 }
 
-// Fonction pour construire l'arbre des reponses
+// Fonction pour construire l'arbre des réponses
 export const getNestedReplies = (questionId: string): ForumReponseWithReplies[] => {
   const allReplies = forumReponses.filter(r => r.question_id === questionId)
 
-  // Map pour acceder rapidement aux reponses par ID
+  // Map pour accéder rapidement aux réponses par ID
   const replyMap = new Map<string, ForumReponseWithReplies>()
   allReplies.forEach(r => {
     replyMap.set(r.id, { ...r, replies: [] })
@@ -545,13 +545,13 @@ export const getNestedReplies = (questionId: string): ForumReponseWithReplies[] 
   allReplies.forEach(r => {
     const replyWithReplies = replyMap.get(r.id)!
     if (r.parent_id) {
-      // C'est une sous-reponse
+      // C'est une sous-réponse
       const parent = replyMap.get(r.parent_id)
       if (parent) {
         parent.replies.push(replyWithReplies)
       }
     } else {
-      // C'est une reponse de premier niveau
+      // C'est une réponse de premier niveau
       rootReplies.push(replyWithReplies)
     }
   })
@@ -573,10 +573,10 @@ export const getNestedReplies = (questionId: string): ForumReponseWithReplies[] 
   return sortReplies(rootReplies)
 }
 
-// Fonction pour obtenir les reponses d'une question (version plate, pour compatibilite)
+// Fonction pour obtenir les réponses d'une question (version plate, pour compatibilité)
 export const getReponsesByQuestionId = (questionId: string): ForumReponse[] => {
   return forumReponses
-    .filter(r => r.question_id === questionId && !r.parent_id) // Seulement les reponses de premier niveau
+    .filter(r => r.question_id === questionId && !r.parent_id) // Seulement les réponses de premier niveau
     .sort((a, b) => {
       // Solution en premier, puis par likes
       if (a.is_solution && !b.is_solution) return -1

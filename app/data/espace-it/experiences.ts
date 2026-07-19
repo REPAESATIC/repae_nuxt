@@ -1,4 +1,4 @@
-// Donnees mock des experiences professionnelles de l'utilisateur (Cote d'Ivoire)
+// Données mock des expériences professionnelles de l'utilisateur (Côte d'Ivoire)
 
 export interface Experience {
   id: string
@@ -17,50 +17,50 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     id: '1',
-    poste: 'Developpeur Full Stack Senior',
-    entreprise: 'MTN Cote d\'Ivoire',
+    poste: 'Développeur Full Stack Senior',
+    entreprise: 'MTN Côte d\'Ivoire',
     logo_url: 'https://picsum.photos/100/100?random=10',
-    lieu: 'Abidjan, Cote d\'Ivoire',
+    lieu: 'Abidjan, Côte d\'Ivoire',
     type_contrat: 'CDI',
     date_debut: '2021-03',
     en_cours: true,
-    description: 'Responsable du developpement et de la maintenance des applications web et mobile money de l\'entreprise. Lead technique d\'une equipe de 5 developpeurs. Mise en place de l\'architecture microservices et CI/CD.',
+    description: 'Responsable du développement et de la maintenance des applications web et mobile money de l\'entreprise. Lead technique d\'une équipe de 5 développeurs. Mise en place de l\'architecture microservices et CI/CD.',
     competences: ['Vue.js', 'Node.js', 'PostgreSQL', 'Docker', 'AWS']
   },
   {
     id: '2',
-    poste: 'Developpeur Full Stack',
-    entreprise: 'Orange Cote d\'Ivoire',
+    poste: 'Développeur Full Stack',
+    entreprise: 'Orange Côte d\'Ivoire',
     logo_url: 'https://picsum.photos/100/100?random=11',
-    lieu: 'Abidjan, Cote d\'Ivoire',
+    lieu: 'Abidjan, Côte d\'Ivoire',
     type_contrat: 'CDI',
     date_debut: '2019-01',
     date_fin: '2021-02',
-    description: 'Developpement d\'applications web et mobiles pour Orange Money et les services digitaux. Participation a la conception et a l\'implementation de solutions fintech pour l\'Afrique de l\'Ouest.',
+    description: 'Développement d\'applications web et mobiles pour Orange Money et les services digitaux. Participation à la conception et à l\'implémentation de solutions fintech pour l\'Afrique de l\'Ouest.',
     competences: ['React', 'React Native', 'Node.js', 'MongoDB']
   },
   {
     id: '3',
-    poste: 'Developpeur Web Junior',
+    poste: 'Développeur Web Junior',
     entreprise: 'Sifca Group',
     logo_url: 'https://picsum.photos/100/100?random=12',
-    lieu: 'Abidjan, Cote d\'Ivoire',
+    lieu: 'Abidjan, Côte d\'Ivoire',
     type_contrat: 'CDD',
     date_debut: '2018-08',
     date_fin: '2018-12',
-    description: 'Premier emploi apres l\'obtention du diplome a l\'ESATIC. Developpement d\'outils internes de gestion pour le groupe agro-industriel.',
+    description: 'Premier emploi après l\'obtention du diplôme à l\'ESATIC. Développement d\'outils internes de gestion pour le groupe agro-industriel.',
     competences: ['PHP', 'Laravel', 'MySQL', 'JavaScript']
   },
   {
     id: '4',
-    poste: 'Stagiaire Developpeur',
+    poste: 'Stagiaire Développeur',
     entreprise: 'ARTCI',
     logo_url: 'https://picsum.photos/100/100?random=13',
-    lieu: 'Abidjan, Cote d\'Ivoire',
+    lieu: 'Abidjan, Côte d\'Ivoire',
     type_contrat: 'Stage',
     date_debut: '2017-06',
     date_fin: '2017-09',
-    description: 'Stage de fin d\'etudes a l\'Autorite de Regulation des Telecommunications. Participation au developpement d\'un portail de gestion des plaintes consommateurs.',
+    description: 'Stage de fin d\'études à l\'Autorité de Régulation des Télécommunications. Participation au développement d\'un portail de gestion des plaintes consommateurs.',
     competences: ['Java', 'Spring Boot', 'Oracle']
   }
 ]
@@ -69,14 +69,14 @@ export const experiences: Experience[] = [
 export const formatExperienceDates = (debut: string, fin?: string, enCours?: boolean): string => {
   const formatDate = (date: string) => {
     const [year, month] = date.split('-')
-    const months = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec']
+    const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc']
     return `${months[parseInt(month) - 1]} ${year}`
   }
 
   const debutFormatted = formatDate(debut)
 
   if (enCours) {
-    return `${debutFormatted} - Present`
+    return `${debutFormatted} - Présent`
   }
 
   if (fin) {
@@ -86,7 +86,7 @@ export const formatExperienceDates = (debut: string, fin?: string, enCours?: boo
   return debutFormatted
 }
 
-// Helper pour calculer la duree
+// Helper pour calculer la durée
 export const calculateDuration = (debut: string, fin?: string, enCours?: boolean): string => {
   const startDate = new Date(debut + '-01')
   const endDate = enCours ? new Date() : (fin ? new Date(fin + '-01') : new Date())

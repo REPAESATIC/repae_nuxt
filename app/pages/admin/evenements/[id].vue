@@ -11,6 +11,7 @@ const route = useRoute()
 const router = useRouter()
 const { fetchEvent, updateEvent } = useEventsApi()
 const { fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 const eventId = route.params.id as string
@@ -34,8 +35,8 @@ const form = reactive({
 
 const statusOptions = [
   { value: 'DRAFT', label: 'Brouillon', icon: 'fa-solid fa-file-pen', class: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400' },
-  { value: 'PUBLISHED', label: 'Publie', icon: 'fa-solid fa-globe', class: 'border-green-500 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' },
-  { value: 'ARCHIVED', label: 'Archive', icon: 'fa-solid fa-box-archive', class: 'border-gray-500 bg-gray-50 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400' },
+  { value: 'PUBLISHED', label: 'Publié', icon: 'fa-solid fa-globe', class: 'border-green-500 bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400' },
+  { value: 'ARCHIVED', label: 'Archivé', icon: 'fa-solid fa-box-archive', class: 'border-gray-500 bg-gray-50 dark:bg-gray-500/10 text-gray-600 dark:text-gray-400' },
 ] as const
 
 const rawImageFile = ref<File | null>(null)
@@ -74,7 +75,7 @@ onMounted(async () => {
       existingImage.value = eventData.imageUrl
     }
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de charger l\'evenement.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de charger l\'événement.')
     router.push('/admin/evenements')
   } finally {
     loading.value = false
@@ -95,7 +96,7 @@ const accessUrlPlaceholder = computed(() =>
 )
 
 const accessUrlLabel = computed(() =>
-  form.locationType === 'ONLINE' ? 'Lien de la reunion' : 'Lien Google Maps',
+  form.locationType === 'ONLINE' ? 'Lien de la réunion' : 'Lien Google Maps',
 )
 
 // Image handling
@@ -158,10 +159,11 @@ const submit = async () => {
       status: form.status,
       image: coverImageFile.value,
     })
-    toast.success('Evenement mis a jour', 'Les modifications ont ete enregistrees.')
+    toast.success('Événement mis à jour', 'Les modifications ont été enregistrées.')
     router.push('/admin/evenements')
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de mettre a jour l\'evenement.')
+    if (handleAuthError(e)) return
+    toast.error('Erreur', e?.data?.message || 'Impossible de mettre à jour l\'événement.')
   } finally {
     saving.value = false
   }
@@ -170,8 +172,8 @@ const submit = async () => {
 // Status display
 const statusConfig: Record<string, { label: string; class: string }> = {
   DRAFT: { label: 'Brouillon', class: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-400' },
-  PUBLISHED: { label: 'Publie', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
-  ARCHIVED: { label: 'Archive', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+  PUBLISHED: { label: 'Publié', class: 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400' },
+  ARCHIVED: { label: 'Archivé', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
 }
 
 // Cleanup
@@ -186,7 +188,7 @@ onUnmounted(() => {
   <div class="max-w-4xl">
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <template v-else-if="original">
@@ -201,7 +203,7 @@ onUnmounted(() => {
           </NuxtLink>
           <div class="min-w-0">
             <h2 class="text-xl font-bold font-brand text-repae-gray-900 dark:text-white truncate">
-              Modifier l'evenement
+              Modifier l'événement
             </h2>
             <div class="flex items-center gap-2 mt-1">
               <span
@@ -214,7 +216,7 @@ onUnmounted(() => {
               </span>
               <span v-if="original.isFeatured" class="text-xs text-amber-500 font-medium">
                 <font-awesome-icon icon="fa-solid fa-star" class="mr-0.5" />
-                A la une
+                À la une
               </span>
             </div>
           </div>
@@ -231,8 +233,8 @@ onUnmounted(() => {
           <input
             v-model="form.title"
             type="text"
-            placeholder="Titre de l'evenement"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+            placeholder="Titre de l'événement"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
           />
         </div>
 
@@ -240,24 +242,24 @@ onUnmounted(() => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
             <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-              Date de l'evenement *
+              Date de l'événement *
             </label>
             <input
               v-model="form.eventDate"
               type="datetime-local"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer transition-all"
             />
           </div>
 
           <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
             <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-2">
-              Categorie *
+              Catégorie *
             </label>
             <select
               v-model="form.categoryId"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 cursor-pointer transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 cursor-pointer transition-all"
             >
-              <option value="" disabled>Selectionner une categorie</option>
+              <option value="" disabled>Sélectionner une catégorie</option>
               <option v-for="cat in categories" :key="cat.id" :value="cat.id">
                 {{ cat.name }}
               </option>
@@ -278,20 +280,20 @@ onUnmounted(() => {
               :class="[
                 'flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold font-brand text-sm transition-all cursor-pointer',
                 form.locationType === 'PHYSICAL'
-                  ? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400'
+                  ? 'border-repae-blue-500 bg-repae-blue-50 dark:bg-repae-blue-500/10 text-repae-blue-600 dark:text-repae-blue-400'
                   : 'border-gray-200 dark:border-repae-gray-700 text-repae-gray-500 dark:text-repae-gray-400 hover:border-gray-300 dark:hover:border-repae-gray-600'
               ]"
               @click="form.locationType = 'PHYSICAL'"
             >
               <font-awesome-icon icon="fa-solid fa-location-dot" />
-              Presentiel
+              Présentiel
             </button>
             <button
               type="button"
               :class="[
                 'flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-2 font-semibold font-brand text-sm transition-all cursor-pointer',
                 form.locationType === 'ONLINE'
-                  ? 'border-violet-500 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400'
+                  ? 'border-repae-blue-500 bg-repae-blue-50 dark:bg-repae-blue-500/10 text-repae-blue-600 dark:text-repae-blue-400'
                   : 'border-gray-200 dark:border-repae-gray-700 text-repae-gray-500 dark:text-repae-gray-400 hover:border-gray-300 dark:hover:border-repae-gray-600'
               ]"
               @click="form.locationType = 'ONLINE'"
@@ -310,7 +312,7 @@ onUnmounted(() => {
               v-model="form.locationName"
               type="text"
               :placeholder="locationNamePlaceholder"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
 
@@ -323,7 +325,7 @@ onUnmounted(() => {
               v-model="form.accessUrl"
               type="url"
               :placeholder="accessUrlPlaceholder"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
         </div>
@@ -352,7 +354,7 @@ onUnmounted(() => {
             />
             <div class="absolute top-2 right-2 flex gap-2">
               <label
-                class="p-2 rounded-lg bg-violet-500 hover:bg-violet-600 text-white transition-colors cursor-pointer"
+                class="p-2 rounded-lg bg-repae-blue-500 hover:bg-repae-blue-600 text-white transition-colors cursor-pointer"
               >
                 <font-awesome-icon icon="fa-solid fa-pen" class="text-sm" />
                 <input
@@ -375,7 +377,7 @@ onUnmounted(() => {
           <!-- Upload zone -->
           <label
             v-else
-            class="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-violet-400 dark:hover:border-violet-500 transition-colors cursor-pointer"
+            class="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-repae-gray-600 hover:border-repae-blue-400 dark:hover:border-repae-blue-500 transition-colors cursor-pointer"
           >
             <font-awesome-icon icon="fa-solid fa-cloud-upload-alt" class="text-2xl text-repae-gray-400 mb-2" />
             <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">
@@ -397,8 +399,8 @@ onUnmounted(() => {
           </label>
           <UiToastEditor
             v-model="form.description"
-            label="Description de l'evenement"
-            placeholder="Decrivez l'evenement en detail..."
+            label="Description de l'événement"
+            placeholder="Décrivez l'événement en détail..."
           />
         </div>
 
@@ -409,13 +411,13 @@ onUnmounted(() => {
           </h3>
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span class="text-repae-gray-500 dark:text-repae-gray-400">Cree le</span>
+              <span class="text-repae-gray-500 dark:text-repae-gray-400">Créé le</span>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">
                 {{ new Date(original.createdAt).toLocaleDateString('fr-FR') }}
               </p>
             </div>
             <div>
-              <span class="text-repae-gray-500 dark:text-repae-gray-400">Derniere modification</span>
+              <span class="text-repae-gray-500 dark:text-repae-gray-400">Dernière modification</span>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">
                 {{ new Date(original.updatedAt).toLocaleDateString('fr-FR') }}
               </p>
@@ -456,7 +458,7 @@ onUnmounted(() => {
             <button
               type="submit"
               :disabled="saving"
-              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
             >
               <font-awesome-icon
                 :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"

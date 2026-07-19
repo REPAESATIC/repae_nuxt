@@ -1,10 +1,19 @@
 // Données d'adhésion au REPAE
 
 export const cotisation = {
-  montant: 10000,
+  montant: 5000,
   devise: 'FCFA',
-  periode: 'annuelle',
-  description: 'La cotisation annuelle permet de financer les activités du réseau et de bénéficier de tous les avantages membres.'
+  periode: 'unique',
+  frequence: 'Adhésion unique, valable à vie',
+  description: "L'adhésion est unique, valable à vie, et vous ouvre les portes d'un réseau professionnel dynamique, solidaire et en pleine expansion.",
+  // Lien de paiement en ligne sécurisé (Djamo, Orange Money, MTN, Moov, Wave)
+  lienPaiement: 'https://pay.djamo.com/b2qgr',
+  // Coordonnées pour les transferts effectués exclusivement via Wave (Sendwave, Wave, etc.)
+  transfertWave: {
+    numero: '+225 05 75 28 16 69',
+    titulaire: 'ILBOUDO Archel',
+    fonction: 'Trésorier'
+  }
 }
 
 export const avantages = [
@@ -67,8 +76,8 @@ export const etapesAdhesion = [
   },
   {
     numero: 4,
-    titre: 'Paiement de la cotisation',
-    description: 'Réglez votre cotisation annuelle via les moyens de paiement disponibles.',
+    titre: 'Paiement de l\'adhésion',
+    description: 'Réglez votre adhésion unique (5 000 FCFA, à vie) via les moyens de paiement disponibles.',
     icon: 'fa-solid fa-handshake'
   },
   {
@@ -89,20 +98,14 @@ export const conditionsEligibilite = [
 export const moyensPaiement = [
   {
     id: 1,
-    nom: 'Mobile Money',
-    description: 'Orange Money, MTN Money, Moov Money',
-    icon: 'fa-solid fa-phone'
+    nom: 'Paiement en ligne sécurisé',
+    description: 'Djamo, Orange Money, MTN Mobile Money, Moov Money, Wave',
+    icon: 'fa-solid fa-lock'
   },
   {
     id: 2,
-    nom: 'Virement bancaire',
-    description: 'Transfert vers le compte du REPAE',
-    icon: 'fa-solid fa-building'
-  },
-  {
-    id: 3,
-    nom: 'Espèces',
-    description: 'Lors des événements du réseau',
-    icon: 'fa-solid fa-handshake'
+    nom: 'Paiement via transfert Wave',
+    description: 'Pour les transferts effectués exclusivement via Wave (Sendwave, Wave, etc.)',
+    icon: 'fa-solid fa-mobile-screen-button'
   }
 ]

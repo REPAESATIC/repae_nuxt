@@ -24,9 +24,9 @@ const form = reactive({
 })
 
 const roleOptions = [
-  { value: 'ADMIN' as const, label: 'Admin', icon: 'fa-solid fa-shield-alt', class: 'border-violet-500 bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400' },
+  { value: 'ADMIN' as const, label: 'Admin', icon: 'fa-solid fa-shield-alt', class: 'border-repae-blue-500 bg-repae-blue-50 dark:bg-repae-blue-500/10 text-repae-blue-600 dark:text-repae-blue-400' },
   { value: 'ALUMNI' as const, label: 'Alumni', icon: 'fa-solid fa-user-graduate', class: 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400' },
-  { value: 'STUDENT' as const, label: 'Etudiant', icon: 'fa-solid fa-graduation-cap', class: 'border-amber-500 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' },
+  { value: 'STUDENT' as const, label: 'Étudiant', icon: 'fa-solid fa-graduation-cap', class: 'border-amber-500 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' },
 ]
 
 const statusOptions = [
@@ -37,9 +37,9 @@ const statusOptions = [
 
 // Helpers
 const roleConfig: Record<string, { label: string; class: string }> = {
-  ADMIN: { label: 'Admin', class: 'bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-400' },
+  ADMIN: { label: 'Admin', class: 'bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-400' },
   ALUMNI: { label: 'Alumni', class: 'bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400' },
-  STUDENT: { label: 'Etudiant', class: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400' },
+  STUDENT: { label: 'Étudiant', class: 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400' },
 }
 
 const statusConfig: Record<string, { label: string; icon: string; class: string }> = {
@@ -80,8 +80,8 @@ const handleToggleStatus = async () => {
     original.value = { ...updated }
     form.status = updated.status
     toast.success(
-      updated.status === 'BANNED' ? 'Compte banni' : 'Compte reactive',
-      `Le compte a ete ${updated.status === 'BANNED' ? 'banni' : 'reactive'}.`,
+      updated.status === 'BANNED' ? 'Compte banni' : 'Compte réactivé',
+      `Le compte a été ${updated.status === 'BANNED' ? 'banni' : 'réactivé'}.`,
     )
   } catch (e: any) {
     const msg = e?.data?.message || 'Impossible de modifier le statut du compte.'
@@ -158,7 +158,7 @@ onMounted(async () => {
   } catch (e: any) {
     const status = e?.response?.status || e?.statusCode
     if (status === 404) {
-      toast.error('Erreur', 'Compte non trouve.')
+      toast.error('Erreur', 'Compte non trouvé.')
     } else {
       toast.error('Erreur', 'Impossible de charger le compte.')
     }
@@ -184,16 +184,16 @@ const submit = async () => {
     if (form.status !== original.value?.status) payload.status = form.status
 
     if (Object.keys(payload).length === 0) {
-      toast.info('Aucun changement', 'Aucune modification detectee.')
+      toast.info('Aucun changement', 'Aucune modification détectée.')
       saving.value = false
       return
     }
 
     await updateUser(compteId, payload)
-    toast.success('Compte mis a jour', 'Les modifications ont ete enregistrees.')
+    toast.success('Compte mis à jour', 'Les modifications ont été enregistrées.')
     router.push('/admin/comptes')
   } catch (e: any) {
-    const msg = e?.data?.message || 'Impossible de mettre a jour le compte.'
+    const msg = e?.data?.message || 'Impossible de mettre à jour le compte.'
     toast.error('Erreur', Array.isArray(msg) ? msg[0] : msg)
   } finally {
     saving.value = false
@@ -205,7 +205,7 @@ const submit = async () => {
   <div class="max-w-4xl">
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <template v-else-if="original">
@@ -282,7 +282,7 @@ const submit = async () => {
               v-model="form.email"
               type="email"
               placeholder="utilisateur@repae.ci"
-              class="w-full pl-11 pr-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+              class="w-full pl-11 pr-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             />
           </div>
         </div>
@@ -338,13 +338,13 @@ const submit = async () => {
         <!-- Metadata (read-only) -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <label class="block text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
-            Informations systeme
+            Informations système
           </label>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900">
               <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-repae-gray-400" />
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Date de creation</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Date de création</p>
                 <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
                   {{ formatDate(original.createdAt) }}
                 </p>
@@ -354,7 +354,7 @@ const submit = async () => {
             <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900">
               <font-awesome-icon icon="fa-solid fa-clock" class="text-blue-500" />
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Derniere connexion</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Dernière connexion</p>
                 <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
                   {{ formatDateTime(original.lastLogin) }}
                 </p>
@@ -364,7 +364,7 @@ const submit = async () => {
             <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900">
               <font-awesome-icon icon="fa-solid fa-rotate" class="text-green-500" />
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Derniere mise a jour</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Dernière mise à jour</p>
                 <p class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white">
                   {{ formatDateTime(original.updatedAt) }}
                 </p>
@@ -456,7 +456,7 @@ const submit = async () => {
                       v-model="adminPasswordForm.password"
                       :type="showAdminPassword ? 'text' : 'password'"
                       placeholder="Nouveau mot de passe"
-                      class="w-full px-4 py-2.5 pl-10 pr-10 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+                      class="w-full px-4 py-2.5 pl-10 pr-10 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
                     />
                     <font-awesome-icon icon="fa-solid fa-lock" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-repae-gray-400 text-xs" />
                     <button
@@ -495,7 +495,7 @@ const submit = async () => {
                       v-model="adminPasswordForm.confirmPassword"
                       type="password"
                       placeholder="Confirmer le mot de passe"
-                      class="w-full px-4 py-2.5 pl-10 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500/30 focus:border-violet-500 transition-all"
+                      class="w-full px-4 py-2.5 pl-10 rounded-xl bg-white dark:bg-repae-gray-800 border border-gray-200 dark:border-repae-gray-700 text-sm text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
                     />
                     <font-awesome-icon icon="fa-solid fa-lock" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-repae-gray-400 text-xs" />
                   </div>
@@ -511,7 +511,7 @@ const submit = async () => {
                 <button
                   type="button"
                   :disabled="!canAdminReset"
-                  class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+                  class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
                   @click="handleAdminResetPassword"
                 >
                   <font-awesome-icon
@@ -537,7 +537,7 @@ const submit = async () => {
             <button
               type="submit"
               :disabled="saving"
-              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+              class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-repae-blue-500 hover:bg-repae-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
             >
               <font-awesome-icon
                 :icon="saving ? 'fa-solid fa-spinner' : 'fa-solid fa-save'"

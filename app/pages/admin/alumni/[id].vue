@@ -7,7 +7,7 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const { fetchAlumni, verifyAlumni } = useIdentityApi()
+const { fetchAlumni, verifyAlumni, adhereAlumni } = useIdentityApi()
 const toast = useToast()
 
 const alumniId = route.params.id as string
@@ -16,6 +16,7 @@ const alumniId = route.params.id as string
 const loading = ref(true)
 const alumni = ref<AlumniItem | null>(null)
 const verifying = ref(false)
+const adhering = ref(false)
 
 // Load data
 onMounted(async () => {
@@ -35,11 +36,24 @@ const handleVerify = async () => {
   verifying.value = true
   try {
     alumni.value = await verifyAlumni(alumniId)
-    toast.success('Alumni verifie', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant verifie.`)
+    toast.success('Alumni vérifié', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant vérifié.`)
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de verifier cet alumni.')
+    toast.error('Erreur', e?.data?.message || 'Impossible de vérifier cet alumni.')
   } finally {
     verifying.value = false
+  }
+}
+
+const handleAdhere = async () => {
+  if (!alumni.value) return
+  adhering.value = true
+  try {
+    alumni.value = await adhereAlumni(alumniId)
+    toast.success('Adhésion validée', `${alumni.value.firstName} ${alumni.value.lastName} est maintenant adhérent.`)
+  } catch (e: any) {
+    toast.error('Erreur', e?.data?.message || 'Impossible de marquer cet alumni comme adhérent.')
+  } finally {
+    adhering.value = false
   }
 }
 
@@ -53,9 +67,9 @@ const formatDate = (date: string) => {
 }
 
 const skillLevelConfig: Record<string, { label: string; class: string }> = {
-  BEGINNER: { label: 'Debutant', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
-  INTERMEDIATE: { label: 'Intermediaire', class: 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400' },
-  ADVANCED: { label: 'Avance', class: 'bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400' },
+  BEGINNER: { label: 'Débutant', class: 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400' },
+  INTERMEDIATE: { label: 'Intermédiaire', class: 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400' },
+  ADVANCED: { label: 'Avancé', class: 'bg-repae-blue-100 text-repae-blue-600 dark:bg-repae-blue-500/15 dark:text-repae-blue-400' },
   EXPERT: { label: 'Expert', class: 'bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400' },
 }
 </script>
@@ -64,7 +78,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
   <div>
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">
-      <font-awesome-icon icon="fa-solid fa-spinner" class="text-violet-500 text-2xl animate-spin" />
+      <font-awesome-icon icon="fa-solid fa-spinner" class="text-repae-blue-500 text-2xl animate-spin" />
     </div>
 
     <template v-else-if="alumni">
@@ -91,7 +105,18 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 ]"
               >
                 <font-awesome-icon :icon="alumni.isVerified ? 'fa-solid fa-circle-check' : 'fa-solid fa-clock'" class="text-[10px]" />
-                {{ alumni.isVerified ? 'Verifie' : 'Non verifie' }}
+                {{ alumni.isVerified ? 'Vérifié' : 'Non vérifié' }}
+              </span>
+              <span
+                :class="[
+                  'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold',
+                  alumni.isAdherent
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400'
+                    : 'bg-gray-100 text-gray-600 dark:bg-gray-500/15 dark:text-gray-400'
+                ]"
+              >
+                <font-awesome-icon :icon="alumni.isAdherent ? 'fa-solid fa-medal' : 'fa-solid fa-circle-xmark'" class="text-[10px]" />
+                {{ alumni.isAdherent ? 'Adhérent' : 'Non adhérent' }}
               </span>
               <span v-if="alumni.isOpenToMentoring" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-repae-blue-100 text-repae-blue-700 dark:bg-repae-blue-500/15 dark:text-repae-blue-400">
                 <font-awesome-icon icon="fa-solid fa-handshake" class="text-[10px]" />
@@ -100,18 +125,32 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
             </div>
           </div>
         </div>
-        <button
-          v-if="!alumni.isVerified"
-          :disabled="verifying"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500 hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
-          @click="handleVerify"
-        >
-          <font-awesome-icon
-            :icon="verifying ? 'fa-solid fa-spinner' : 'fa-solid fa-user-check'"
-            :class="{ 'animate-spin': verifying }"
-          />
-          {{ verifying ? 'Verification...' : 'Verifier ce profil' }}
-        </button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            v-if="!alumni.isVerified"
+            :disabled="verifying"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-green-500 hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+            @click="handleVerify"
+          >
+            <font-awesome-icon
+              :icon="verifying ? 'fa-solid fa-spinner' : 'fa-solid fa-user-check'"
+              :class="{ 'animate-spin': verifying }"
+            />
+            {{ verifying ? 'Vérification...' : 'Vérifier ce profil' }}
+          </button>
+          <button
+            v-if="!alumni.isAdherent"
+            :disabled="adhering"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold font-brand text-sm transition-colors cursor-pointer"
+            @click="handleAdhere"
+          >
+            <font-awesome-icon
+              :icon="adhering ? 'fa-solid fa-spinner' : 'fa-solid fa-medal'"
+              :class="{ 'animate-spin': adhering }"
+            />
+            {{ adhering ? 'Validation...' : 'Marquer adhérent' }}
+          </button>
+        </div>
       </div>
 
       <!-- Content -->
@@ -120,7 +159,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 overflow-hidden">
           <!-- Cover -->
           <div
-            class="h-32 sm:h-40 bg-gradient-to-r from-violet-500 to-indigo-600"
+            class="h-32 sm:h-40 bg-gradient-to-r from-repae-blue-500 to-repae-blue-700"
             :style="alumni.coverPicUrl ? { backgroundImage: `url(${alumni.coverPicUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}"
           />
 
@@ -134,9 +173,9 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               />
               <div
                 v-else
-                class="w-20 h-20 rounded-2xl bg-violet-100 dark:bg-violet-500/15 border-4 border-white dark:border-repae-gray-800 flex items-center justify-center shrink-0"
+                class="w-20 h-20 rounded-2xl bg-repae-blue-100 dark:bg-repae-blue-500/15 border-4 border-white dark:border-repae-gray-800 flex items-center justify-center shrink-0"
               >
-                <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-violet-500 text-2xl" />
+                <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-repae-blue-500 text-2xl" />
               </div>
               <div class="min-w-0 pb-1">
                 <h3 class="text-lg font-bold font-brand text-repae-gray-900 dark:text-white">
@@ -176,7 +215,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
                 :href="alumni.portfolioUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center text-repae-gray-500 hover:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-colors cursor-pointer"
+                class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center text-repae-gray-500 hover:text-repae-blue-500 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer"
               >
                 <font-awesome-icon icon="fa-solid fa-globe" />
               </a>
@@ -200,8 +239,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div v-if="alumni.email" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-envelope" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-envelope" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Email</p>
@@ -209,17 +248,17 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.phoneNumber" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-phone" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-phone" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Telephone</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Téléphone</p>
                 <p class="text-sm font-medium text-repae-gray-900 dark:text-white">{{ alumni.phoneNumber }}</p>
               </div>
             </div>
             <div v-if="alumni.city || alumni.country" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Localisation</p>
@@ -229,8 +268,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.address" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-map-marker-alt" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Adresse</p>
@@ -238,8 +277,8 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.promotion" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-graduation-cap" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
                 <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Promotion</p>
@@ -247,15 +286,55 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               </div>
             </div>
             <div v-if="alumni.department" class="flex items-start gap-3">
-              <div class="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                <font-awesome-icon icon="fa-solid fa-briefcase" class="text-violet-500 text-xs" />
+              <div class="w-8 h-8 rounded-lg bg-repae-blue-100 dark:bg-repae-blue-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-briefcase" class="text-repae-blue-500 text-xs" />
               </div>
               <div>
-                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Departement</p>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Département</p>
                 <p class="text-sm font-medium text-repae-gray-900 dark:text-white">{{ alumni.department }}</p>
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Paiement de la cotisation -->
+        <div
+          v-if="alumni.paymentMethod || alumni.paymentReference || alumni.paymentProofUrl"
+          class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6"
+        >
+          <h4 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
+            Paiement de la cotisation
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div v-if="alumni.paymentMethod" class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-money-bill-wave" class="text-emerald-500 text-xs" />
+              </div>
+              <div>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Moyen de paiement</p>
+                <p class="text-sm font-medium text-repae-gray-900 dark:text-white">{{ alumni.paymentMethod }}</p>
+              </div>
+            </div>
+            <div v-if="alumni.paymentReference" class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center shrink-0">
+                <font-awesome-icon icon="fa-solid fa-hashtag" class="text-emerald-500 text-xs" />
+              </div>
+              <div>
+                <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">Référence</p>
+                <p class="text-sm font-medium text-repae-gray-900 dark:text-white break-all">{{ alumni.paymentReference }}</p>
+              </div>
+            </div>
+          </div>
+          <a
+            v-if="alumni.paymentProofUrl"
+            :href="alumni.paymentProofUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 font-semibold text-sm transition-colors cursor-pointer"
+          >
+            <font-awesome-icon icon="fa-solid fa-file-invoice" />
+            Voir la preuve de paiement
+          </a>
         </div>
 
         <!-- Bio -->
@@ -271,7 +350,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
         <!-- Skills -->
         <div v-if="alumni.skills && alumni.skills.length > 0" class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <h4 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
-            Competences
+            Compétences
           </h4>
           <div class="flex flex-wrap gap-2">
             <div
@@ -297,7 +376,7 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
         <!-- Meta -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
           <h4 class="text-sm font-semibold font-brand text-repae-gray-900 dark:text-white mb-4">
-            Informations systeme
+            Informations système
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
             <div>
@@ -305,11 +384,11 @@ const skillLevelConfig: Record<string, { label: string; class: string }> = {
               <p class="font-medium text-repae-gray-900 dark:text-white font-mono text-xs mt-0.5">{{ alumni.userId }}</p>
             </div>
             <div>
-              <p class="text-repae-gray-500 dark:text-repae-gray-400">Cree le</p>
+              <p class="text-repae-gray-500 dark:text-repae-gray-400">Créé le</p>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">{{ formatDate(alumni.createdAt) }}</p>
             </div>
             <div>
-              <p class="text-repae-gray-500 dark:text-repae-gray-400">Modifie le</p>
+              <p class="text-repae-gray-500 dark:text-repae-gray-400">Modifié le</p>
               <p class="font-medium text-repae-gray-900 dark:text-white mt-0.5">{{ formatDate(alumni.updatedAt) }}</p>
             </div>
           </div>

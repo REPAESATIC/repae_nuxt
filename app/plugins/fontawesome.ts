@@ -118,6 +118,9 @@ import {
   faArrowsLeftRight,
   faHouseLaptop,
   faMoneyBillWave,
+  faHashtag,
+  faCircleXmark,
+  faFileInvoice,
   faFileContract,
   faLocationDot,
   // Sprint 11 Offre Detail & Candidature icons
@@ -174,6 +177,11 @@ import {
   faBullhorn,
   faBoxArchive,
   faFilePen,
+  // Import alumni icons
+  faFileImport,
+  faFileExcel,
+  faFileCsv,
+  faDownload,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -306,6 +314,9 @@ library.add(
   faArrowsLeftRight,
   faHouseLaptop,
   faMoneyBillWave,
+  faHashtag,
+  faCircleXmark,
+  faFileInvoice,
   faFileContract,
   faLocationDot,
   // Sprint 11 Offre Detail & Candidature icons
@@ -362,6 +373,11 @@ library.add(
   faBullhorn,
   faBoxArchive,
   faFilePen,
+  // Import alumni icons
+  faFileImport,
+  faFileExcel,
+  faFileCsv,
+  faDownload,
 )
 
 // Add regular icons to library

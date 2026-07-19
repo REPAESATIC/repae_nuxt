@@ -202,6 +202,15 @@ onMounted(() => {
             />
           </button>
 
+          <!-- Login Button -->
+          <NuxtLink
+            to="/connexion-it"
+            class="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold font-brand text-repae-blue-600 dark:text-repae-blue-400 bg-white/80 dark:bg-repae-gray-800/80 border border-repae-blue-500/40 dark:border-repae-blue-400/40 rounded-xl hover:bg-repae-blue-50 dark:hover:bg-repae-gray-700 hover:border-repae-blue-500 transition-all duration-300 cursor-pointer"
+          >
+            <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" class="text-sm" />
+            <span>Connexion</span>
+          </NuxtLink>
+
           <!-- CTA Button -->
           <button
             @click="openJoinModal"
@@ -325,6 +334,16 @@ onMounted(() => {
               <font-awesome-icon icon="fa-solid fa-search" />
               <span>Rechercher...</span>
             </button>
+
+            <!-- Mobile Login -->
+            <NuxtLink
+              to="/connexion-it"
+              class="flex items-center justify-center gap-2 w-full px-4 py-3 mb-3 text-repae-blue-600 dark:text-repae-blue-400 bg-white dark:bg-repae-gray-800 border border-repae-blue-500/40 dark:border-repae-blue-400/40 text-center font-semibold font-brand rounded-xl hover:bg-repae-blue-50 dark:hover:bg-repae-gray-700 transition-all cursor-pointer"
+              @click="isMobileMenuOpen = false"
+            >
+              <font-awesome-icon icon="fa-solid fa-arrow-right-to-bracket" />
+              Connexion
+            </NuxtLink>
 
             <!-- Mobile CTA -->
             <button

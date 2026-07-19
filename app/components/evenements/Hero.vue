@@ -1,5 +1,27 @@
 <script setup>
+const props = defineProps({
+  upcomingCount: {
+    type: Number,
+    default: 0,
+  },
+  categoriesCount: {
+    type: Number,
+    default: 0,
+  },
+  totalCount: {
+    type: Number,
+    default: 0,
+  },
+})
+
 const heroVisible = ref(false)
+
+// Stats synchronisées avec les données réelles des événements
+const stats = computed(() => [
+  { value: props.upcomingCount, label: 'Événements à venir' },
+  { value: props.categoriesCount, label: 'Catégories' },
+  { value: props.totalCount, label: 'Événements au total' },
+])
 
 onMounted(() => {
   setTimeout(() => {
@@ -63,17 +85,9 @@ onMounted(() => {
           ]"
           :style="{ transitionDelay: '300ms' }"
         >
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-bold text-white font-brand">7+</div>
-            <div class="text-gray-300 font-brand text-sm">Événements à venir</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-bold text-white font-brand">5</div>
-            <div class="text-gray-300 font-brand text-sm">Catégories</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-bold text-white font-brand">500+</div>
-            <div class="text-gray-300 font-brand text-sm">Participants</div>
+          <div v-for="stat in stats" :key="stat.label" class="text-center">
+            <div class="text-3xl md:text-4xl font-bold text-white font-brand">{{ stat.value }}</div>
+            <div class="text-gray-300 font-brand text-sm">{{ stat.label }}</div>
           </div>
         </div>
       </div>

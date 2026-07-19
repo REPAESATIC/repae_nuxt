@@ -5,13 +5,13 @@ export type { CurrentEntreprise }
 // Secteurs d'activite disponibles
 export const secteursActivite: string[] = [
   'Technologies de l\'information',
-  'Telecommunications',
+  'Télécommunications',
   'Finance & Banque',
-  'Energie',
+  'Énergie',
   'Commerce & Distribution',
   'Conseil & Audit',
-  'Sante',
-  'Education',
+  'Santé',
+  'Éducation',
 ]
 
 export const entreprisesMock: CurrentEntreprise[] = []

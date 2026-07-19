@@ -52,7 +52,7 @@ const openAdd = () => {
 }
 
 const openEdit = (formation: Formation) => {
-  // Recuperer degree et fieldOfStudy depuis le diplome combine
+  // Récupérer degree et fieldOfStudy depuis le diplôme combiné
   const parts = formation.diplome.split(' - ')
   form.degree = parts[0] || ''
   form.fieldOfStudy = parts[1] || ''
@@ -193,7 +193,7 @@ const handleDelete = async (id: string) => {
         </h4>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Etablissement -->
+          <!-- Établissement -->
           <div class="sm:col-span-2">
             <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-1">
               Établissement *
@@ -206,7 +206,7 @@ const handleDelete = async (id: string) => {
             />
           </div>
 
-          <!-- Diplome -->
+          <!-- Diplôme -->
           <div>
             <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-1">
               Diplôme *
@@ -219,7 +219,7 @@ const handleDelete = async (id: string) => {
             />
           </div>
 
-          <!-- Domaine d'etude -->
+          <!-- Domaine d'étude -->
           <div>
             <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-1">
               Domaine d'étude
@@ -258,7 +258,7 @@ const handleDelete = async (id: string) => {
             />
           </div>
 
-          <!-- Date debut -->
+          <!-- Date début -->
           <div>
             <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-1">
               Date de début *

@@ -19,7 +19,7 @@ const loading = ref(true)
 onMounted(async () => {
   try {
     const [eventsResult, categoriesResult] = await Promise.all([
-      fetchEventsList({ limit: 50 }),
+      fetchEventsList({ status: 'PUBLISHED', limit: 50 }),
       fetchCategories(),
     ])
     events.value = eventsResult.data
@@ -53,9 +53,9 @@ const getDisplayStatus = (event: EventItem): 'completed' | 'ongoing' | 'upcoming
   return 'upcoming'
 }
 
-// Published events only (filter out DRAFT)
+// Published events only (DRAFT et ARCHIVED exclus, par securite cote client)
 const publishedEvents = computed(() =>
-  events.value.filter(e => e.status === 'PUBLISHED' || e.status === 'ARCHIVED')
+  events.value.filter(e => e.status === 'PUBLISHED')
 )
 
 // Trending: up to 4 upcoming/ongoing events
@@ -77,6 +77,17 @@ const featuredEvent = computed(() =>
     || publishedEvents.value[0]
     || null
 )
+
+// Stats du hero — synchronisées avec les données réelles
+const upcomingCount = computed(() =>
+  publishedEvents.value.filter(e => getDisplayStatus(e) !== 'completed').length
+)
+
+const categoriesCount = computed(() =>
+  new Set(publishedEvents.value.map(e => e.categoryId)).size
+)
+
+const totalCount = computed(() => publishedEvents.value.length)
 </script>
 
 <template>
@@ -84,7 +95,11 @@ const featuredEvent = computed(() =>
     <AppNavbar />
 
     <!-- Hero Section -->
-    <EvenementsHero />
+    <EvenementsHero
+      :upcoming-count="upcomingCount"
+      :categories-count="categoriesCount"
+      :total-count="totalCount"
+    />
 
     <!-- Loading -->
     <div v-if="loading" class="flex items-center justify-center py-20">

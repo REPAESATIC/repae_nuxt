@@ -124,7 +124,7 @@ const handleDelete = async (id: string) => {
 
 <template>
   <div class="space-y-4">
-    <!-- Liste des experiences existantes -->
+    <!-- Liste des expériences existantes -->
     <div
       v-for="exp in experiences"
       :key="exp.id"
@@ -262,7 +262,7 @@ const handleDelete = async (id: string) => {
             </select>
           </div>
 
-          <!-- Date debut -->
+          <!-- Date début -->
           <div>
             <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-1">
               Date de début *

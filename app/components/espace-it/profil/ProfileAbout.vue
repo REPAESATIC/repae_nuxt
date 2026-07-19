@@ -9,7 +9,7 @@ defineProps<{
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2">
         <font-awesome-icon icon="fa-solid fa-user" class="text-repae-blue-500" />
-        A propos
+        À propos
       </h2>
       <button
         class="text-sm text-repae-blue-500 hover:text-repae-blue-600 font-medium font-brand cursor-pointer"

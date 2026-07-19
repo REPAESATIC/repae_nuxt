@@ -1,4 +1,4 @@
-// Donnees mock de l'utilisateur connecte (IT authentifie - Cote d'Ivoire - ESATIC)
+// Données mock de l'utilisateur connecté (IT authentifié - Côte d'Ivoire - ESATIC)
 export interface CurrentUser {
   id: string
   prenom: string
@@ -20,10 +20,10 @@ export const currentUser: CurrentUser = {
   nom: 'Yao',
   email: 'kouame.yao@email.ci',
   photo_url: 'https://i.pravatar.cc/150?u=kouame',
-  poste_actuel: 'Developpeur Full Stack Senior',
-  entreprise_actuelle: 'MTN Cote d\'Ivoire',
+  poste_actuel: 'Développeur Full Stack Senior',
+  entreprise_actuelle: 'MTN Côte d\'Ivoire',
   promotion: 2018,
-  pays: 'Cote d\'Ivoire',
+  pays: 'Côte d\'Ivoire',
   ville: 'Abidjan',
   disponibilite: 'ouvert_opportunites',
   linkedin_url: 'https://linkedin.com/in/kouameyao'
@@ -52,7 +52,7 @@ export const espaceItNavItems: NavItem[] = [
     label: 'Mon profil',
     href: '/espace-it/profil',
     icon: 'fa-solid fa-user',
-    description: 'Gerer votre profil'
+    description: 'Gérer votre profil'
   },
   {
     id: 'annuaire',
@@ -103,9 +103,9 @@ export const espaceItNavItems: NavItem[] = [
   },
   {
     id: 'parametres',
-    label: 'Parametres',
+    label: 'Paramètres',
     href: '/espace-it/parametres',
     icon: 'fa-solid fa-cog',
-    description: 'Gerer vos preferences'
+    description: 'Gérer vos préférences'
   }
 ]

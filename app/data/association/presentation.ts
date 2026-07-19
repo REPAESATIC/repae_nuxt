@@ -107,11 +107,6 @@ export const statistiques = [
     description: 'Alumni inscrits au réseau'
   },
   {
-    valeur: '+251',
-    label: 'Membres adhérents',
-    description: 'Membres actifs de l\'association'
-  },
-  {
     valeur: '13',
     label: 'Promotions',
     description: 'Générations d\'anciens étudiants'

@@ -35,7 +35,7 @@ const disponibilite = computed(() => disponibiliteConfig[props.profile.disponibi
             :alt="`${profile.prenom} ${profile.nom}`"
             class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border-4 border-white dark:border-repae-gray-800 shadow-lg"
           />
-          <!-- Disponibilite indicator -->
+          <!-- Disponibilité indicator -->
           <div
             :class="[
               'absolute bottom-2 right-2 w-5 h-5 rounded-full border-2 border-white dark:border-repae-gray-800',
@@ -91,12 +91,6 @@ const disponibilite = computed(() => disponibiliteConfig[props.profile.disponibi
             <font-awesome-icon icon="fa-solid fa-pencil-alt" />
             <span>Modifier le profil</span>
           </NuxtLink>
-          <button
-            class="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-repae-gray-700 hover:bg-gray-200 dark:hover:bg-repae-gray-600 text-repae-gray-700 dark:text-repae-gray-300 font-medium font-brand text-sm rounded-xl transition-colors cursor-pointer"
-          >
-            <font-awesome-icon icon="fa-solid fa-share" />
-            <span>Partager</span>
-          </button>
         </div>
       </div>
 

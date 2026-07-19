@@ -48,7 +48,7 @@ const performSearch = async (query) => {
   // Appels API en parallèle
   const [alumniRes, eventsRes, newsRes] = await Promise.allSettled([
     fetchAlumniList({ search: query, limit: 5 }),
-    fetchEventsList({ search: query, limit: 5 }),
+    fetchEventsList({ search: query, status: 'PUBLISHED', limit: 5 }),
     fetchNewsList({ search: query, status: 'PUBLISHED', limit: 5 }),
   ])
 
@@ -201,7 +201,7 @@ const typeColor = (type) => {
     page: 'bg-repae-blue-500/20 text-repae-blue-600 dark:text-repae-blue-400',
     alumni: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
     event: 'bg-amber-500/20 text-amber-600 dark:text-amber-400',
-    news: 'bg-violet-500/20 text-violet-600 dark:text-violet-400',
+    news: 'bg-repae-blue-500/20 text-repae-blue-600 dark:text-repae-blue-400',
   }
   return colors[type] || colors.page
 }

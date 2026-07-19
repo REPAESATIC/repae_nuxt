@@ -338,7 +338,7 @@ const handleSubmit = () => {
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Prenom -->
+        <!-- Prénom -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Prénom <span class="text-red-500">*</span>
@@ -390,7 +390,7 @@ const handleSubmit = () => {
           </p>
         </div>
 
-        <!-- Telephone -->
+        <!-- Téléphone -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Téléphone <span class="text-red-500">*</span>
@@ -419,7 +419,7 @@ const handleSubmit = () => {
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Diplome -->
+        <!-- Diplôme -->
         <div>
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Diplôme
@@ -466,7 +466,7 @@ const handleSubmit = () => {
           </p>
         </div>
 
-        <!-- Disponibilite -->
+        <!-- Disponibilité -->
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Disponibilité

@@ -58,11 +58,11 @@ const secteur = computed(() => secteurConfig[props.entreprise.secteur])
               </div>
               <div class="flex items-center gap-1.5 text-sm text-repae-gray-500 dark:text-repae-gray-400">
                 <font-awesome-icon icon="fa-solid fa-calendar-alt" class="text-repae-blue-500" />
-                <span>Creee en {{ formatDateCreation(entreprise.date_creation) }}</span>
+                <span>Créée en {{ formatDateCreation(entreprise.date_creation) }}</span>
               </div>
               <div class="flex items-center gap-1.5 text-sm text-repae-gray-500 dark:text-repae-gray-400">
                 <font-awesome-icon icon="fa-solid fa-users" class="text-repae-blue-500" />
-                <span>{{ entreprise.nombre_employes }} employes</span>
+                <span>{{ entreprise.nombre_employes }} employés</span>
               </div>
             </div>
           </div>
@@ -98,11 +98,11 @@ const secteur = computed(() => secteurConfig[props.entreprise.secteur])
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Main Content -->
       <div class="lg:col-span-2 space-y-6">
-        <!-- A propos -->
+        <!-- À propos -->
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-repae-gray-700">
           <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2 mb-4">
             <font-awesome-icon icon="fa-solid fa-building" class="text-repae-blue-500" />
-            A propos
+            À propos
           </h2>
           <div class="prose prose-sm dark:prose-invert max-w-none">
             <p
@@ -172,14 +172,14 @@ const secteur = computed(() => secteurConfig[props.entreprise.secteur])
           </div>
         </div>
 
-        <!-- Recompenses -->
+        <!-- Récompenses -->
         <div
           v-if="entreprise.recompenses && entreprise.recompenses.length > 0"
           class="bg-white dark:bg-repae-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-repae-gray-700"
         >
           <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white flex items-center gap-2 mb-4">
             <font-awesome-icon icon="fa-solid fa-trophy" class="text-repae-blue-500" />
-            Recompenses & Certifications
+            Récompenses & Certifications
           </h2>
           <div class="space-y-3">
             <div

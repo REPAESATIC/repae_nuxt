@@ -51,7 +51,7 @@ const emit = defineEmits<{
                 class="flex items-center gap-1.5 px-3 py-1.5 bg-white/90 hover:bg-white text-repae-gray-900 text-sm font-medium rounded-lg transition-colors cursor-pointer"
               >
                 <font-awesome-icon icon="fa-solid fa-external-link-alt" />
-                Demo
+                Démo
               </a>
               <a
                 v-if="projet.url_github"

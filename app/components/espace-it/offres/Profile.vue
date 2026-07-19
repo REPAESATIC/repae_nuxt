@@ -75,7 +75,7 @@ const formatDate = (dateStr: string) => {
                   v-if="isExpired"
                   class="px-2.5 py-1 rounded-lg text-xs font-medium font-brand bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400"
                 >
-                  Expiree
+                  Expirée
                 </span>
               </div>
               <h1 class="text-2xl font-bold font-brand text-repae-gray-900 dark:text-white">
@@ -125,11 +125,11 @@ const formatDate = (dateStr: string) => {
         </div>
       </div>
 
-      <!-- Responsabilites -->
+      <!-- Responsabilités -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <font-awesome-icon icon="fa-solid fa-list-check" class="text-repae-blue-500" />
-          Responsabilites
+          Responsabilités
         </h2>
         <ul class="space-y-3">
           <li
@@ -146,11 +146,11 @@ const formatDate = (dateStr: string) => {
         </ul>
       </div>
 
-      <!-- Competences -->
+      <!-- Compétences -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <font-awesome-icon icon="fa-solid fa-code" class="text-repae-blue-500" />
-          Competences
+          Compétences
         </h2>
 
         <!-- Requises -->
@@ -169,10 +169,10 @@ const formatDate = (dateStr: string) => {
           </div>
         </div>
 
-        <!-- Souhaitees -->
+        <!-- Souhaitées -->
         <div v-if="offre.competences_souhaitees?.length">
           <h3 class="text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-3">
-            Souhaitees (bonus)
+            Souhaitées (bonus)
           </h3>
           <div class="flex flex-wrap gap-2">
             <span
@@ -226,7 +226,7 @@ const formatDate = (dateStr: string) => {
           @click="emit('postuler')"
         >
           <font-awesome-icon icon="fa-solid fa-paper-plane" />
-          {{ isExpired ? 'Offre expiree' : 'Postuler maintenant' }}
+          {{ isExpired ? 'Offre expirée' : 'Postuler maintenant' }}
         </button>
 
         <!-- Stats -->
@@ -238,7 +238,7 @@ const formatDate = (dateStr: string) => {
             </span>
           </div>
           <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-repae-gray-700">
-            <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">Publiee</span>
+            <span class="text-sm text-repae-gray-500 dark:text-repae-gray-400">Publiée</span>
             <span class="font-medium text-repae-gray-700 dark:text-repae-gray-300">
               {{ tempsPublication }}
             </span>
@@ -263,10 +263,10 @@ const formatDate = (dateStr: string) => {
         </div>
       </div>
 
-      <!-- Publie par -->
+      <!-- Publié par -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <h3 class="text-sm font-medium font-brand text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-          Publiee par
+          Publiée par
         </h3>
         <div class="flex items-center gap-4">
           <img
@@ -298,7 +298,7 @@ const formatDate = (dateStr: string) => {
       <!-- Entreprise -->
       <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
         <h3 class="text-sm font-medium font-brand text-repae-gray-500 dark:text-repae-gray-400 mb-4">
-          A propos de l'entreprise
+          À propos de l'entreprise
         </h3>
         <div class="flex items-center gap-4 mb-4">
           <img

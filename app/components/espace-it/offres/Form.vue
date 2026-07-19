@@ -98,7 +98,7 @@ const validateForm = (): boolean => {
   }
 
   if (!form.entreprise_id) {
-    errors.entreprise_id = 'Veuillez selectionner une entreprise'
+    errors.entreprise_id = 'Veuillez sélectionner une entreprise'
     isValid = false
   }
 
@@ -108,7 +108,7 @@ const validateForm = (): boolean => {
   }
 
   if (!form.niveau_experience) {
-    errors.niveau_experience = 'Le niveau d\'experience est requis'
+    errors.niveau_experience = 'Le niveau d\'expérience est requis'
     isValid = false
   }
 
@@ -121,27 +121,27 @@ const validateForm = (): boolean => {
     errors.description = 'La description courte est requise'
     isValid = false
   } else if (form.description.trim().length < 50) {
-    errors.description = 'La description doit contenir au moins 50 caracteres'
+    errors.description = 'La description doit contenir au moins 50 caractères'
     isValid = false
   }
 
   if (!form.description_complete.trim()) {
-    errors.description_complete = 'La description complete est requise'
+    errors.description_complete = 'La description complète est requise'
     isValid = false
   } else if (form.description_complete.trim().length < 100) {
-    errors.description_complete = 'La description complete doit contenir au moins 100 caracteres'
+    errors.description_complete = 'La description complète doit contenir au moins 100 caractères'
     isValid = false
   }
 
   const cleanedResponsabilites = cleanArray(form.responsabilites)
   if (cleanedResponsabilites.length < 2) {
-    errors.responsabilites = 'Ajoutez au moins 2 responsabilites'
+    errors.responsabilites = 'Ajoutez au moins 2 responsabilités'
     isValid = false
   }
 
   const cleanedCompetences = cleanArray(form.competences_requises)
   if (cleanedCompetences.length < 2) {
-    errors.competences_requises = 'Ajoutez au moins 2 competences requises'
+    errors.competences_requises = 'Ajoutez au moins 2 compétences requises'
     isValid = false
   }
 
@@ -152,7 +152,7 @@ const validateForm = (): boolean => {
     const expDate = new Date(form.date_expiration)
     const today = new Date()
     if (expDate <= today) {
-      errors.date_expiration = 'La date d\'expiration doit etre dans le futur'
+      errors.date_expiration = 'La date d\'expiration doit être dans le futur'
       isValid = false
     }
   }
@@ -209,7 +209,7 @@ const minExpirationDate = computed(() => {
           <input
             v-model="form.titre"
             type="text"
-            placeholder="ex: Developpeur Full Stack Senior"
+            placeholder="ex: Développeur Full Stack Senior"
             :class="[
               'w-full px-4 py-3 bg-gray-50 dark:bg-repae-gray-900 border rounded-xl text-sm text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 transition-colors',
               errors.titre ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
@@ -230,7 +230,7 @@ const minExpirationDate = computed(() => {
               errors.entreprise_id ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
             ]"
           >
-            <option value="">Selectionnez une entreprise</option>
+            <option value="">Sélectionnez une entreprise</option>
             <option v-for="entreprise in entreprisesList" :key="entreprise.id" :value="entreprise.id">
               {{ entreprise.nom }}
             </option>
@@ -250,7 +250,7 @@ const minExpirationDate = computed(() => {
               errors.type_contrat ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
             ]"
           >
-            <option :value="null">Selectionnez un type</option>
+            <option :value="null">Sélectionnez un type</option>
             <option v-for="type in typesContrat" :key="type.value" :value="type.value">
               {{ type.label }}
             </option>
@@ -258,10 +258,10 @@ const minExpirationDate = computed(() => {
           <p v-if="errors.type_contrat" class="mt-1 text-sm text-red-500">{{ errors.type_contrat }}</p>
         </div>
 
-        <!-- Niveau d'experience -->
+        <!-- Niveau d'expérience -->
         <div>
           <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-            Niveau d'experience <span class="text-red-500">*</span>
+            Niveau d'expérience <span class="text-red-500">*</span>
           </label>
           <select
             v-model="form.niveau_experience"
@@ -270,7 +270,7 @@ const minExpirationDate = computed(() => {
               errors.niveau_experience ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
             ]"
           >
-            <option :value="null">Selectionnez un niveau</option>
+            <option :value="null">Sélectionnez un niveau</option>
             <option v-for="niveau in niveauxExperience" :key="niveau.value" :value="niveau.value">
               {{ niveau.label }}
             </option>
@@ -290,7 +290,7 @@ const minExpirationDate = computed(() => {
               errors.mode_remote ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
             ]"
           >
-            <option :value="null">Selectionnez un mode</option>
+            <option :value="null">Sélectionnez un mode</option>
             <option v-for="mode in modesRemote" :key="mode.value" :value="mode.value">
               {{ mode.label }}
             </option>
@@ -300,11 +300,11 @@ const minExpirationDate = computed(() => {
       </div>
     </div>
 
-    <!-- Section 2: Remuneration -->
+    <!-- Section 2: Rémunération -->
     <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-6 flex items-center gap-2">
         <font-awesome-icon icon="fa-solid fa-money-bill-wave" class="text-repae-blue-500" />
-        Remuneration <span class="text-sm font-normal text-repae-gray-400">(optionnel)</span>
+        Rémunération <span class="text-sm font-normal text-repae-gray-400">(optionnel)</span>
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -365,12 +365,12 @@ const minExpirationDate = computed(() => {
         <div>
           <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
             Description courte <span class="text-red-500">*</span>
-            <span class="text-repae-gray-400 font-normal">(affichee dans la liste)</span>
+            <span class="text-repae-gray-400 font-normal">(affichée dans la liste)</span>
           </label>
           <textarea
             v-model="form.description"
             rows="3"
-            placeholder="Resume attractif du poste en quelques lignes..."
+            placeholder="Résumé attractif du poste en quelques lignes..."
             :class="[
               'w-full px-4 py-3 bg-gray-50 dark:bg-repae-gray-900 border rounded-xl text-sm text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 transition-colors resize-none',
               errors.description ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
@@ -382,16 +382,16 @@ const minExpirationDate = computed(() => {
           </div>
         </div>
 
-        <!-- Description complete -->
+        <!-- Description complète -->
         <div>
           <label class="block text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-2">
-            Description complete <span class="text-red-500">*</span>
-            <span class="text-repae-gray-400 font-normal">(affichee dans le detail)</span>
+            Description complète <span class="text-red-500">*</span>
+            <span class="text-repae-gray-400 font-normal">(affichée dans le détail)</span>
           </label>
           <textarea
             v-model="form.description_complete"
             rows="8"
-            placeholder="Description detaillee du poste, de l'entreprise, du contexte..."
+            placeholder="Description détaillée du poste, de l'entreprise, du contexte..."
             :class="[
               'w-full px-4 py-3 bg-gray-50 dark:bg-repae-gray-900 border rounded-xl text-sm text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 transition-colors resize-none',
               errors.description_complete ? 'border-red-500' : 'border-gray-200 dark:border-repae-gray-700'
@@ -405,11 +405,11 @@ const minExpirationDate = computed(() => {
       </div>
     </div>
 
-    <!-- Section 4: Responsabilites -->
+    <!-- Section 4: Responsabilités -->
     <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-6 flex items-center gap-2">
         <font-awesome-icon icon="fa-solid fa-list-check" class="text-repae-blue-500" />
-        Responsabilites <span class="text-red-500">*</span>
+        Responsabilités <span class="text-red-500">*</span>
       </h2>
 
       <div class="space-y-3">
@@ -421,7 +421,7 @@ const minExpirationDate = computed(() => {
           <input
             :value="item"
             type="text"
-            placeholder="ex: Developper de nouvelles fonctionnalites"
+            placeholder="ex: Développer de nouvelles fonctionnalités"
             class="flex-1 px-4 py-3 bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 rounded-xl text-sm text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 transition-colors"
             @input="updateArrayItem('responsabilites', index, ($event.target as HTMLInputElement).value)"
           />
@@ -440,23 +440,23 @@ const minExpirationDate = computed(() => {
           @click="addArrayItem('responsabilites')"
         >
           <font-awesome-icon icon="fa-solid fa-plus" />
-          Ajouter une responsabilite
+          Ajouter une responsabilité
         </button>
         <p v-if="errors.responsabilites" class="text-sm text-red-500">{{ errors.responsabilites }}</p>
       </div>
     </div>
 
-    <!-- Section 5: Competences -->
+    <!-- Section 5: Compétences -->
     <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
       <h2 class="text-lg font-semibold font-brand text-repae-gray-900 dark:text-white mb-6 flex items-center gap-2">
         <font-awesome-icon icon="fa-solid fa-code" class="text-repae-blue-500" />
-        Competences
+        Compétences
       </h2>
 
-      <!-- Competences requises -->
+      <!-- Compétences requises -->
       <div class="mb-8">
         <h3 class="text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-3">
-          Competences requises <span class="text-red-500">*</span>
+          Compétences requises <span class="text-red-500">*</span>
         </h3>
         <div class="space-y-3">
           <div
@@ -486,16 +486,16 @@ const minExpirationDate = computed(() => {
             @click="addArrayItem('competences_requises')"
           >
             <font-awesome-icon icon="fa-solid fa-plus" />
-            Ajouter une competence
+            Ajouter une compétence
           </button>
           <p v-if="errors.competences_requises" class="text-sm text-red-500">{{ errors.competences_requises }}</p>
         </div>
       </div>
 
-      <!-- Competences souhaitees -->
+      <!-- Compétences souhaitées -->
       <div>
         <h3 class="text-sm font-medium font-brand text-repae-gray-700 dark:text-repae-gray-300 mb-3">
-          Competences souhaitees <span class="text-repae-gray-400">(bonus)</span>
+          Compétences souhaitées <span class="text-repae-gray-400">(bonus)</span>
         </h3>
         <div class="space-y-3">
           <div
@@ -525,7 +525,7 @@ const minExpirationDate = computed(() => {
             @click="addArrayItem('competences_souhaitees')"
           >
             <font-awesome-icon icon="fa-solid fa-plus" />
-            Ajouter une competence
+            Ajouter une compétence
           </button>
         </div>
       </div>
@@ -547,7 +547,7 @@ const minExpirationDate = computed(() => {
           <input
             :value="item"
             type="text"
-            placeholder="ex: Teletravail 2 jours par semaine"
+            placeholder="ex: Télétravail 2 jours par semaine"
             class="flex-1 px-4 py-3 bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 rounded-xl text-sm text-repae-gray-900 dark:text-white placeholder-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/20 focus:border-repae-blue-500 transition-colors"
             @input="updateArrayItem('avantages', index, ($event.target as HTMLInputElement).value)"
           />
@@ -603,7 +603,7 @@ const minExpirationDate = computed(() => {
         @click="handlePreview"
       >
         <font-awesome-icon icon="fa-solid fa-eye" />
-        Previsualiser
+        Prévisualiser
       </button>
       <button
         type="submit"
