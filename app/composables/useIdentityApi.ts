@@ -639,16 +639,20 @@ export function useIdentityApi() {
   }
 
   const createPromotion = async (payload: { year: number; nickname?: string }): Promise<PromotionItem> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
     return await $fetch<PromotionItem>(`${baseUrl}/promotions`, {
       method: 'POST',
       body: payload,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
   }
 
   const updatePromotion = async (id: string, payload: { year?: number; nickname?: string | null }): Promise<PromotionItem> => {
+    const token = import.meta.client ? localStorage.getItem('admin-token') : null
     return await $fetch<PromotionItem>(`${baseUrl}/promotions/${id}`, {
       method: 'PUT',
       body: payload,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
   }
 
