@@ -54,6 +54,33 @@ export default defineNuxtConfig({
       identityApiBase: '',
       umamiId: '',
       umamiHost: '',
+
+      // Observabilité SigNoz / OpenTelemetry (voir app/plugins/00.otel.client.ts)
+      // Toutes ces valeurs sont surchargeables via .env avec le préfixe NUXT_PUBLIC_OTEL_*
+      otel: {
+        // 'true' pour activer l'instrumentation (désactivée par défaut en local)
+        enabled: '',
+        // Base du collecteur OTLP/HTTP self-hosted, ex : https://otel.alumni-esatic.com
+        // Les chemins /v1/traces, /v1/logs, /v1/metrics sont ajoutés automatiquement
+        collectorUrl: '',
+        // Surcharges optionnelles si les signaux passent par des endpoints différents
+        tracesUrl: '',
+        logsUrl: '',
+        metricsUrl: '',
+        // Identité du service telle qu'elle apparaîtra dans SigNoz
+        serviceName: 'repae-frontend',
+        serviceVersion: '',
+        environment: 'development',
+        // Échantillonnage des traces : 1 = 100 %, 0.2 = 20 %
+        tracesSampleRate: '1',
+        // Intervalle d'export des métriques (ms)
+        metricsInterval: '60000',
+        // Instrumentations optionnelles
+        userInteraction: 'true',
+        webVitals: 'true',
+        // 'true' pour activer les logs de diagnostic OTel dans la console
+        debug: '',
+      },
     },
   },
 
