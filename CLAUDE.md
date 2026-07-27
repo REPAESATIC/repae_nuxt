@@ -297,7 +297,7 @@ Le front envoie **traces, logs et métriques** au collecteur OTLP/HTTP SigNoz se
 
 ```bash
 NUXT_PUBLIC_OTEL_ENABLED=true
-NUXT_PUBLIC_OTEL_COLLECTOR_URL=https://otel.alumni-esatic.com   # sans /v1/...
+NUXT_PUBLIC_OTEL_COLLECTOR_URL=https://otel-collector.alumni-esatic.com   # sans /v1/...
 NUXT_PUBLIC_OTEL_SERVICE_NAME=repae-frontend
 NUXT_PUBLIC_OTEL_ENVIRONMENT=production
 ```
