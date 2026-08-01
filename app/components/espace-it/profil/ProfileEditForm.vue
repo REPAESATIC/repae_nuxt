@@ -568,11 +568,12 @@ const handleSubmit = () => {
         <textarea
           v-model="formData.biographie"
           rows="5"
+          maxlength="500"
           placeholder="Décrivez votre parcours, vos compétences et vos objectifs..."
           class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-repae-gray-600 bg-white dark:bg-repae-gray-700 text-repae-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-repae-blue-500 focus:border-transparent transition-colors resize-none"
         />
         <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400 mt-1">
-          {{ formData.biographie.length }} / 1000 caractères
+          {{ formData.biographie.length }} / 500 caractères
         </p>
       </div>
     </div>
