@@ -46,8 +46,29 @@ onMounted(async () => {
   }
 })
 
+// ─── Partage ─────────────────────────────────────────────────────────────────
+// Les réseaux sociaux exigent une URL ABSOLUE. `route.fullPath` ne renvoie que le
+// chemin (`/evenements/xxx`) : Facebook et LinkedIn le rejettent silencieusement et
+// se contentent d'ouvrir leur page d'accueil, d'où l'impression d'une simple redirection.
+const requestUrl = useRequestURL()
+const shareUrl = computed(() => `${requestUrl.origin}/evenements/${eventId}`)
+const shareTitle = computed(() => event.value?.title || 'Événement REPAE')
+
 useHead({
   title: computed(() => event.value ? `${event.value.title} - Événements REPAE` : 'Événement - REPAE'),
+})
+
+// Métadonnées Open Graph : sans elles, l'aperçu affiché par Facebook, LinkedIn ou WhatsApp
+// reste vide (ni titre, ni image), même lorsque l'URL partagée est correcte.
+useSeoMeta({
+  ogType: 'article',
+  ogTitle: () => event.value?.title || 'Événement REPAE',
+  ogDescription: () => (event.value?.description || '').replace(/<[^>]*>/g, '').slice(0, 200),
+  ogImage: () => event.value?.imageUrl || '',
+  ogUrl: () => shareUrl.value,
+  twitterCard: 'summary_large_image',
+  twitterTitle: () => event.value?.title || 'Événement REPAE',
+  twitterImage: () => event.value?.imageUrl || '',
 })
 
 const getCategoryName = (categoryId: string) => {
@@ -109,6 +130,29 @@ const locationType = computed(() => {
   if (!event.value) return ''
   return event.value.location.type === 'ONLINE' ? 'En ligne' : 'Présentiel'
 })
+
+const shareLinks = computed(() => {
+  const url = encodeURIComponent(shareUrl.value)
+  const title = encodeURIComponent(shareTitle.value)
+  return {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+    twitter: `https://twitter.com/intent/tweet?text=${title}&url=${url}`,
+    // `shareArticle` est déprécié et ignore désormais les paramètres : `share-offsite` est l'endpoint actuel
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${shareTitle.value} ${shareUrl.value}`)}`,
+  }
+})
+
+const linkCopied = ref(false)
+const copyShareLink = async () => {
+  try {
+    await navigator.clipboard.writeText(shareUrl.value)
+    linkCopied.value = true
+    setTimeout(() => { linkCopied.value = false }, 2000)
+  } catch (e) {
+    console.error('Copie du lien impossible:', e)
+  }
+}
 </script>
 
 <template>
@@ -303,30 +347,53 @@ const locationType = computed(() => {
                 </h3>
                 <div class="flex items-center gap-3">
                   <a
-                    :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent($route.fullPath)}`"
+                    :href="shareLinks.facebook"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Partager sur Facebook"
                     class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/15 flex items-center justify-center text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-500/25 transition-colors cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-brands fa-facebook" />
                   </a>
                   <a
-                    :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(event.title)}&url=${encodeURIComponent($route.fullPath)}`"
+                    :href="shareLinks.twitter"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Partager sur X (Twitter)"
                     class="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-500/15 flex items-center justify-center text-sky-500 dark:text-sky-400 hover:bg-sky-200 dark:hover:bg-sky-500/25 transition-colors cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-brands fa-twitter" />
                   </a>
                   <a
-                    :href="`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent($route.fullPath)}&title=${encodeURIComponent(event.title)}`"
+                    :href="shareLinks.linkedin"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Partager sur LinkedIn"
                     class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/15 flex items-center justify-center text-blue-700 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-500/25 transition-colors cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-brands fa-linkedin" />
                   </a>
+                  <a
+                    :href="shareLinks.whatsapp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Partager sur WhatsApp"
+                    class="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-500/15 flex items-center justify-center text-green-600 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-500/25 transition-colors cursor-pointer"
+                  >
+                    <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                  </a>
+                  <button
+                    type="button"
+                    :aria-label="linkCopied ? 'Lien copié' : 'Copier le lien'"
+                    class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-200 dark:hover:bg-repae-gray-600 transition-colors cursor-pointer"
+                    @click="copyShareLink"
+                  >
+                    <font-awesome-icon :icon="linkCopied ? 'fa-solid fa-check' : 'fa-solid fa-link'" />
+                  </button>
                 </div>
+                <p v-if="linkCopied" class="mt-2 text-xs text-green-600 dark:text-green-400">
+                  Lien copié dans le presse-papiers
+                </p>
               </div>
             </div>
           </div>
