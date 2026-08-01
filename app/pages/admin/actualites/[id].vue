@@ -110,6 +110,19 @@ const removeImage = () => {
 
 const currentImage = computed(() => coverImagePreview.value || existingCoverImage.value)
 
+// Le backend refuse tout slug non conforme (majuscules, accents, espaces) :
+// on normalise la saisie à la volée, puis complètement au blur.
+const onSlugInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const sanitized = sanitizeSlugInput(input.value)
+  if (input.value !== sanitized) input.value = sanitized
+  form.slug = sanitized
+}
+
+const onSlugBlur = () => {
+  form.slug = toSlug(form.slug)
+}
+
 // Submit
 const submit = async () => {
   if (!form.title.trim()) {
@@ -117,11 +130,13 @@ const submit = async () => {
     return
   }
 
+  form.slug = toSlug(form.slug)
+
   saving.value = true
   try {
     await updateNews(newsId, {
       title: form.title,
-      slug: form.slug,
+      slug: form.slug || undefined,
       content: form.content,
       summary: form.summary || undefined,
       categoryId: form.categoryId,
@@ -214,11 +229,20 @@ onUnmounted(() => {
               Slug
             </label>
             <input
-              v-model="form.slug"
+              :value="form.slug"
               type="text"
+              inputmode="url"
+              autocapitalize="off"
+              autocomplete="off"
+              spellcheck="false"
               placeholder="slug-url-friendly"
-              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white font-mono placeholder:text-repae-gray-400 placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
+              @input="onSlugInput"
+              @blur="onSlugBlur"
             />
+            <p class="mt-1.5 text-xs text-repae-gray-500 dark:text-repae-gray-400">
+              Minuscules, chiffres et tirets uniquement — la saisie est formatée automatiquement.
+            </p>
           </div>
 
           <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
