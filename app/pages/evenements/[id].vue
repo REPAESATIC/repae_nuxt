@@ -8,67 +8,70 @@ const eventId = route.params.id as string
 const { fetchEvent, fetchEventsList } = useEventsApi()
 const { fetchCategories } = useNewsApi()
 
-const event = ref<EventItem | null>(null)
-const categories = ref<CategoryItem[]>([])
-const relatedEvents = ref<EventItem[]>([])
-const loading = ref(true)
-const error = ref(false)
-
-onMounted(async () => {
-  try {
+// Chargement cote serveur (SSR / prerender) et non plus dans `onMounted` : les robots de
+// Facebook, LinkedIn et WhatsApp n'executent pas le JavaScript. Sans donnees presentes dans
+// le HTML initial, les balises Open Graph restent vides et l'apercu du partage n'affiche rien.
+const { data: pageData, pending: loading } = await useAsyncData(
+  `event-${eventId}`,
+  async () => {
     const [eventData, categoriesResult] = await Promise.all([
       fetchEvent(eventId),
       fetchCategories(),
     ])
     // Seuls les evenements publies sont accessibles en front-office
-    if (eventData.status !== 'PUBLISHED') {
-      error.value = true
-      return
-    }
-    event.value = eventData
-    categories.value = categoriesResult.data
+    if (eventData.status !== 'PUBLISHED') return null
 
-    // Load related events (same category, exclude current)
+    // Evenements similaires (meme categorie, hors evenement courant)
     const relatedResult = await fetchEventsList({
       categoryId: eventData.categoryId,
       status: 'PUBLISHED',
       limit: 4,
     }).catch(() => null)
-    if (relatedResult) {
-      relatedEvents.value = relatedResult.data
+
+    return {
+      event: eventData,
+      categories: categoriesResult.data,
+      related: (relatedResult?.data || [])
         .filter(e => e.id !== eventId && e.status === 'PUBLISHED')
-        .slice(0, 3)
+        .slice(0, 3),
     }
-  } catch {
-    error.value = true
-  } finally {
-    loading.value = false
-  }
-})
+  },
+  { default: () => null },
+)
+
+const event = computed<EventItem | null>(() => pageData.value?.event ?? null)
+const categories = computed<CategoryItem[]>(() => pageData.value?.categories ?? [])
+const relatedEvents = computed<EventItem[]>(() => pageData.value?.related ?? [])
+const error = computed(() => !loading.value && !pageData.value)
 
 // ─── Partage ─────────────────────────────────────────────────────────────────
-// Les réseaux sociaux exigent une URL ABSOLUE. `route.fullPath` ne renvoie que le
-// chemin (`/evenements/xxx`) : Facebook et LinkedIn le rejettent silencieusement et
-// se contentent d'ouvrir leur page d'accueil, d'où l'impression d'une simple redirection.
-const requestUrl = useRequestURL()
-const shareUrl = computed(() => `${requestUrl.origin}/evenements/${eventId}`)
-const shareTitle = computed(() => event.value?.title || 'Événement REPAE')
+const { shareUrl, shareTitle, shareLinks, linkCopied, copyShareLink, toAbsoluteUrl } = useContentShare({
+  path: `/evenements/${eventId}`,
+  title: () => event.value?.title || 'Événement REPAE',
+})
 
 useHead({
   title: computed(() => event.value ? `${event.value.title} - Événements REPAE` : 'Événement - REPAE'),
 })
 
-// Métadonnées Open Graph : sans elles, l'aperçu affiché par Facebook, LinkedIn ou WhatsApp
-// reste vide (ni titre, ni image), même lorsque l'URL partagée est correcte.
+// Les crawlers lisent ces balises dans le HTML servi : elles déterminent le titre, la
+// description et l'image affichés dans l'aperçu du lien partagé.
+const shareDescription = computed(() =>
+  (event.value?.description || '').replace(/<[^>]*>/g, '').trim().slice(0, 200)
+)
+
 useSeoMeta({
+  description: () => shareDescription.value,
   ogType: 'article',
-  ogTitle: () => event.value?.title || 'Événement REPAE',
-  ogDescription: () => (event.value?.description || '').replace(/<[^>]*>/g, '').slice(0, 200),
-  ogImage: () => event.value?.imageUrl || '',
+  ogTitle: () => shareTitle.value,
+  ogDescription: () => shareDescription.value,
+  ogImage: () => toAbsoluteUrl(event.value?.imageUrl),
   ogUrl: () => shareUrl.value,
+  ogSiteName: 'REPAE',
   twitterCard: 'summary_large_image',
-  twitterTitle: () => event.value?.title || 'Événement REPAE',
-  twitterImage: () => event.value?.imageUrl || '',
+  twitterTitle: () => shareTitle.value,
+  twitterDescription: () => shareDescription.value,
+  twitterImage: () => toAbsoluteUrl(event.value?.imageUrl),
 })
 
 const getCategoryName = (categoryId: string) => {
@@ -131,28 +134,6 @@ const locationType = computed(() => {
   return event.value.location.type === 'ONLINE' ? 'En ligne' : 'Présentiel'
 })
 
-const shareLinks = computed(() => {
-  const url = encodeURIComponent(shareUrl.value)
-  const title = encodeURIComponent(shareTitle.value)
-  return {
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-    twitter: `https://twitter.com/intent/tweet?text=${title}&url=${url}`,
-    // `shareArticle` est déprécié et ignore désormais les paramètres : `share-offsite` est l'endpoint actuel
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${shareTitle.value} ${shareUrl.value}`)}`,
-  }
-})
-
-const linkCopied = ref(false)
-const copyShareLink = async () => {
-  try {
-    await navigator.clipboard.writeText(shareUrl.value)
-    linkCopied.value = true
-    setTimeout(() => { linkCopied.value = false }, 2000)
-  } catch (e) {
-    console.error('Copie du lien impossible:', e)
-  }
-}
 </script>
 
 <template>

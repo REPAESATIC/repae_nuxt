@@ -13,6 +13,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Firebase Deployment
 - `firebase deploy` - Deploy to Firebase Hosting (requires `pnpm generate` first)
 
+**`NUXT_PUBLIC_SITE_URL` doit être défini au moment du `pnpm generate`** (ex : `https://alumni-esatic.com`).
+Sans cette variable, les liens de partage et les balises `og:url` du HTML prérendu contiennent
+`http://localhost` et les aperçus de partage sont inutilisables.
+
+### Aperçus de partage (Open Graph)
+
+Les robots de Facebook, LinkedIn et WhatsApp n'exécutent pas le JavaScript : une page servie en
+SPA leur apparaît vide, sans titre ni image. Les pages `/actualites/[id]` et `/evenements/[id]`
+sont donc **prérendues** en HTML complet :
+
+- leurs données sont chargées via `useAsyncData` (jamais dans `onMounted`, sinon le HTML est vide) ;
+- le hook `nitro:config` de `nuxt.config.ts` interroge `content-services` au build pour lister les
+  contenus publiés et générer un fichier HTML par contenu ;
+- une API injoignable n'échoue pas le build : elle émet un avertissement et les pages retombent
+  sur le rendu client (sans aperçu).
+
+**Conséquence** : un contenu publié APRÈS le déploiement n'a pas encore de fichier HTML — son
+aperçu reste générique jusqu'au prochain `pnpm generate && firebase deploy`. Pour des aperçus
+immédiats, il faudrait passer ces routes en SSR.
+
+Le composable `useContentShare()` centralise les liens de partage (URL absolue obligatoire) et
+`toAbsoluteUrl()` pour les images des balises OG.
+
 ## Architecture Overview
 
 This is a Nuxt 4 application with the following stack:
