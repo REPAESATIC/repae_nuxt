@@ -62,9 +62,11 @@ const loadProfile = async () => {
 
     // 2. Récupérer les données liées en parallèle
     const [workExps, edus, projs] = await Promise.all([
-      fetchWorkExperiences(alumni.id).catch(() => []),
-      fetchEducations(alumni.id).catch(() => []),
-      fetchProjects(alumni.id).catch(() => []),
+      // Une section en échec ne doit pas vider tout le profil, mais l'erreur doit rester visible
+      // en console : un 401 silencieux ici se manifestait par des listes vides sans explication.
+      fetchWorkExperiences(alumni.id).catch((e) => { console.error('Erreur chargement expériences:', e); return [] }),
+      fetchEducations(alumni.id).catch((e) => { console.error('Erreur chargement formations:', e); return [] }),
+      fetchProjects(alumni.id).catch((e) => { console.error('Erreur chargement portfolio:', e); return [] }),
     ])
 
     // 3. Transformer vers les types français

@@ -343,8 +343,24 @@ export function useIdentityApi() {
 
   // ─── IT Auth ─────────────────────────────────────────────────────────────────
 
-  const getItAuthHeaders = () => {
+  const getItAuthHeaders = (): Record<string, string> => {
     const token = import.meta.client ? localStorage.getItem('it-token') : null
+    return token ? { Authorization: `Bearer ${token}` } : {}
+  }
+
+  /**
+   * Token de la session courante, quel que soit l'espace : admin (`admin-token`) ou IT (`it-token`).
+   * Les routes de consultation de l'annuaire (`GET /alumnis`, `GET /alumnis/:id`) sont protégées par
+   * `@AuthUser()` (JWT requis, tous rôles) : sans ce fallback, un alumni connecté à l'espace IT
+   * envoyait la requête sans en-tête `Authorization` et recevait un 401.
+   */
+  const getAnyToken = (): string | null => {
+    if (!import.meta.client) return null
+    return localStorage.getItem('admin-token') || localStorage.getItem('it-token')
+  }
+
+  const getAnyAuthHeaders = (): Record<string, string> => {
+    const token = getAnyToken()
     return token ? { Authorization: `Bearer ${token}` } : {}
   }
 
@@ -384,19 +400,25 @@ export function useIdentityApi() {
   // ─── Work Experiences ─────────────────────────────────────────────────────────
 
   const fetchWorkExperiences = async (alumniId: string): Promise<WorkExperienceItem[]> => {
-    return await $fetch<WorkExperienceItem[]>(`${baseUrl}/work-experiences/alumni/${alumniId}`)
+    return await $fetch<WorkExperienceItem[]>(`${baseUrl}/work-experiences/alumni/${alumniId}`, {
+      headers: getAnyAuthHeaders(),
+    })
   }
 
   // ─── Educations ───────────────────────────────────────────────────────────────
 
   const fetchEducations = async (alumniId: string): Promise<EducationItem[]> => {
-    return await $fetch<EducationItem[]>(`${baseUrl}/educations/alumni/${alumniId}`)
+    return await $fetch<EducationItem[]>(`${baseUrl}/educations/alumni/${alumniId}`, {
+      headers: getAnyAuthHeaders(),
+    })
   }
 
   // ─── Projects ─────────────────────────────────────────────────────────────────
 
   const fetchProjects = async (alumniId: string): Promise<ProjectItem[]> => {
-    return await $fetch<ProjectItem[]>(`${baseUrl}/projects/alumni/${alumniId}`)
+    return await $fetch<ProjectItem[]>(`${baseUrl}/projects/alumni/${alumniId}`, {
+      headers: getAnyAuthHeaders(),
+    })
   }
 
   // ─── Work Experiences CRUD ────────────────────────────────────────────────────
@@ -498,7 +520,7 @@ export function useIdentityApi() {
     query.set('limit', String(params?.limit ?? 200))
     const qs = query.toString()
     const result = await $fetch<{ data: SkillCatalogItem[] }>(`${baseUrl}/skills${qs ? `?${qs}` : ''}`, {
-      headers: getItAuthHeaders(),
+      headers: getAnyAuthHeaders(),
     })
     return result.data || result as any
   }
@@ -571,9 +593,8 @@ export function useIdentityApi() {
     if (params?.limit) query.set('limit', String(params.limit))
 
     const qs = query.toString()
-    const token = import.meta.client ? localStorage.getItem('admin-token') : null
     const result = await $fetch<PaginatedAlumnis>(`${baseUrl}/alumnis${qs ? `?${qs}` : ''}`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: getAnyAuthHeaders(),
     })
 
     // L'annuaire ne doit contenir que des alumni, pas les comptes admin/système.
@@ -586,9 +607,8 @@ export function useIdentityApi() {
   }
 
   const fetchAlumni = async (id: string): Promise<AlumniItem> => {
-    const token = import.meta.client ? localStorage.getItem('admin-token') : null
     return await $fetch<AlumniItem>(`${baseUrl}/alumnis/${id}`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: getAnyAuthHeaders(),
     })
   }
 
@@ -690,7 +710,7 @@ export function useIdentityApi() {
 
   // ─── Users (Admin) ──────────────────────────────────────────────────────────
 
-  const getAuthHeaders = () => {
+  const getAuthHeaders = (): Record<string, string> => {
     const token = import.meta.client ? localStorage.getItem('admin-token') : null
     return token ? { Authorization: `Bearer ${token}` } : {}
   }
