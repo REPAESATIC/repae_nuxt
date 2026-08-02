@@ -21,6 +21,8 @@ const errorMessage = ref('')
 
 const route = useRoute()
 const redirectPath = computed(() => route.query.redirect as string || '/espace-it')
+// Posé par le middleware ou `useItAuth().logout()` quand le token a expiré
+const sessionExpired = computed(() => route.query.expired === '1')
 
 const handleSubmit = async () => {
   errorMessage.value = ''
@@ -115,6 +117,15 @@ const handleSubmit = async () => {
             <p class="text-repae-gray-500 dark:text-repae-gray-400">
               Accédez à votre espace professionnel
             </p>
+          </div>
+
+          <!-- Session expirée -->
+          <div
+            v-if="sessionExpired && !errorMessage"
+            class="mb-4 px-4 py-3 bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 rounded-xl text-amber-700 dark:text-amber-400 text-sm flex items-center gap-2"
+          >
+            <font-awesome-icon icon="fa-solid fa-circle-exclamation" />
+            Votre session a expiré. Veuillez vous reconnecter pour continuer.
           </div>
 
           <!-- Error Message -->

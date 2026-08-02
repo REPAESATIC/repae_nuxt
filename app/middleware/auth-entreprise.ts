@@ -12,11 +12,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const isAuthenticated = true // Mock: toujours authentifie
 
   if (!isAuthenticated) {
-    // Rediriger vers la page de connexion si non authentifie
-    return navigateTo('/connexion-entreprise', {
-      query: {
-        redirect: to.fullPath
-      }
+    // Rediriger vers la page de connexion si non authentifie.
+    // Le `query` doit figurer dans l'objet de destination, sinon il est ignore.
+    return navigateTo({
+      path: '/connexion-entreprise',
+      query: { redirect: to.fullPath },
     })
   }
 

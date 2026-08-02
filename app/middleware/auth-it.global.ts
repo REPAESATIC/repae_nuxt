@@ -13,14 +13,29 @@ export default defineNuxtRouteMiddleware((to, from) => {
     return
   }
 
+  const { isTokenExpired, clearSession } = useItAuth()
+
   const isAuthenticated = localStorage.getItem('it-auth') === 'true'
 
   if (!isAuthenticated) {
-    // Rediriger vers la page de connexion IT si non authentifie
-    return navigateTo('/connexion-it', {
-      query: {
-        redirect: to.fullPath
-      }
+    // Rediriger vers la page de connexion IT si non authentifie.
+    // Le `query` doit figurer dans l'objet de destination : passe en second argument
+    // (options de navigation), il etait silencieusement ignore et le `redirect` perdu.
+    return navigateTo({
+      path: '/connexion-it',
+      query: { redirect: to.fullPath },
+    })
+  }
+
+  // Connecte mais token expire -> on nettoie la session et on redirige.
+  // `it-auth` persiste indefiniment dans le localStorage alors que le token ne vit qu'une heure :
+  // sans ce controle, l'utilisateur restait sur l'interface avec un token mort et chaque appel
+  // repondait 401 « Vous devez etre authentifie pour acceder a cette ressource. »
+  if (isTokenExpired()) {
+    clearSession()
+    return navigateTo({
+      path: '/connexion-it',
+      query: { redirect: to.fullPath, expired: '1' },
     })
   }
 

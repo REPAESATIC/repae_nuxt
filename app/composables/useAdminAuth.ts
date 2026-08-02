@@ -5,47 +5,15 @@
 //  - Deconnexion + redirection vers la page de connexion
 //  - Gestion automatique des reponses 401/403 (session expiree / invalide)
 
-interface JwtPayload {
-  sub?: string
-  email?: string
-  role?: string
-  exp?: number
-  iat?: number
-}
-
 export function useAdminAuth() {
   const getToken = (): string | null => {
     return import.meta.client ? localStorage.getItem('admin-token') : null
   }
 
-  // Decode la partie payload d'un JWT (base64url) sans librairie externe
-  const decodeToken = (token: string): JwtPayload | null => {
-    try {
-      const payload = token.split('.')[1]
-      if (!payload) return null
-      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/')
-      const json = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      )
-      return JSON.parse(json) as JwtPayload
-    } catch {
-      return null
-    }
-  }
+  // Décodage et contrôle d'expiration partagés avec l'espace IT (`app/utils/jwt.ts`)
+  const decodeToken = (token: string): JwtPayload | null => decodeJwtPayload(token)
 
-  // true si le token est absent ou expire (marge de 10s pour la latence reseau).
-  // Si le token n'expose pas de claim `exp`, on laisse le backend trancher (=> false).
-  const isTokenExpired = (): boolean => {
-    const token = getToken()
-    if (!token) return true
-    const payload = decodeToken(token)
-    if (!payload?.exp) return false
-    const nowSec = Math.floor(Date.now() / 1000)
-    return payload.exp <= nowSec + 10
-  }
+  const isTokenExpired = (): boolean => isJwtExpired(getToken())
 
   // Construit l'en-tete Authorization pour les routes protegees
   const getAuthHeaders = (): Record<string, string> => {

@@ -35,14 +35,8 @@ export function useItUser() {
 
   // ─── Auth Headers ──────────────────────────────────────────────────────────────
 
-  const getToken = (): string | null => {
-    return import.meta.client ? localStorage.getItem('it-token') : null
-  }
-
-  const getHeaders = () => {
-    const token = getToken()
-    return token ? { Authorization: `Bearer ${token}` } : {}
-  }
+  // La session (token, expiration, déconnexion) est gérée par `useItAuth`
+  const { getToken, getAuthHeaders: getHeaders, handleAuthError, clearSession } = useItAuth()
 
   // ─── Profil Alumni ─────────────────────────────────────────────────────────────
 
@@ -55,8 +49,11 @@ export function useItUser() {
       })
       alumni.value = data
       loaded.value = true
-    } catch {
+    } catch (e: any) {
       alumni.value = null
+      // Un token expiré doit renvoyer vers la connexion, pas laisser l'espace IT
+      // s'afficher vide comme si le profil n'existait pas.
+      handleAuthError(e)
     } finally {
       loading.value = false
     }
@@ -133,10 +130,7 @@ export function useItUser() {
   const logout = () => {
     if (!import.meta.client) return
 
-    localStorage.removeItem('it-auth')
-    localStorage.removeItem('it-token')
-    localStorage.removeItem('it-user')
-    localStorage.removeItem('it-profile-incomplete')
+    clearSession()
 
     // Reset state
     alumni.value = null

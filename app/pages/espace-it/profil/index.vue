@@ -25,6 +25,8 @@ const {
   enrichProfileWithCurrentJob,
 } = useProfileAdapter()
 
+const { handleAuthError } = useItAuth()
+
 // État réactif
 const isLoading = ref(true)
 const error = ref<string | null>(null)
@@ -87,17 +89,13 @@ const loadProfile = async () => {
     portfolio.value = mappedPortfolio
   } catch (e: any) {
     console.error('Erreur chargement profil:', e)
-    error.value = e?.data?.message || 'Impossible de charger le profil.'
 
-    // Si 401, rediriger vers la connexion
-    if (e?.response?.status === 401 || e?.statusCode === 401) {
-      if (import.meta.client) {
-        localStorage.removeItem('it-auth')
-        localStorage.removeItem('it-token')
-        localStorage.removeItem('it-user')
-      }
-      navigateTo('/connexion-it')
-    }
+    // Session expirée ou invalide : on redirige vers la connexion sans afficher le message
+    // brut de l'API (« Vous devez être authentifié pour accéder à cette ressource. »), qui
+    // n'apprend rien à l'utilisateur et lui laisse croire à une panne.
+    if (handleAuthError(e)) return
+
+    error.value = e?.data?.message || 'Impossible de charger le profil.'
   } finally {
     isLoading.value = false
   }
