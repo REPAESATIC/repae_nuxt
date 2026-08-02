@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { NuxtLink } from '#components'
+
 export interface DashboardStat {
   id: string
   label: string
@@ -37,7 +39,7 @@ const colorClasses = {
 <template>
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     <component
-      :is="stat.to ? 'NuxtLink' : 'div'"
+      :is="stat.to ? NuxtLink : 'div'"
       v-for="(stat, index) in stats"
       :key="stat.id"
       :to="stat.to"
