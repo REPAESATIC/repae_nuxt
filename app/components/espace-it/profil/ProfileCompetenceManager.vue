@@ -12,7 +12,7 @@ const emit = defineEmits<{
   (e: 'saved'): void
 }>()
 
-const { fetchSkillsCatalog, addAlumniSkill, updateAlumniSkill, deleteAlumniSkill } = useIdentityApi()
+const { fetchSkillsCatalog, createSkill, addAlumniSkill, updateAlumniSkill, deleteAlumniSkill } = useIdentityApi()
 const { niveauFrToApi, levelMap } = useProfileAdapter()
 const toast = useToast()
 
@@ -60,6 +60,39 @@ const suggestions = computed(() => {
 const selectSkill = (skill: SkillCatalogItem) => {
   selectedSkill.value = skill
   searchQuery.value = skill.name
+}
+
+// Nom saisi, nettoyé, tel qu'il serait enregistré au catalogue
+const newSkillName = computed(() => searchQuery.value.trim())
+
+// Vrai quand la recherche ne correspond à aucune compétence du catalogue.
+// Le catalogue commun étant très peu fourni, sans cette porte de sortie l'utilisateur
+// se retrouvait bloqué sur « Aucune compétence trouvée », sans aucun moyen d'avancer.
+const canCreateSkill = computed(() => {
+  if (newSkillName.value.length < 2) return false
+  const existe = skillsCatalog.value.some(
+    s => s.name.toLowerCase() === newSkillName.value.toLowerCase()
+  )
+  return !existe
+})
+
+const isCreatingSkill = ref(false)
+
+/** Crée la compétence au catalogue puis la sélectionne, pour enchaîner sur le choix du niveau. */
+const handleCreateSkill = async () => {
+  if (!canCreateSkill.value) return
+  isCreatingSkill.value = true
+
+  try {
+    const created = await createSkill(newSkillName.value)
+    skillsCatalog.value = [...skillsCatalog.value, created]
+    selectSkill(created)
+  } catch (e: any) {
+    const msg = e?.data?.message
+    toast.error(Array.isArray(msg) ? msg[0] : (msg || 'Impossible de créer cette compétence'))
+  } finally {
+    isCreatingSkill.value = false
+  }
 }
 
 const cancelSelection = () => {
@@ -231,12 +264,24 @@ const handleDelete = async (competence: Competence) => {
               </button>
             </div>
 
-            <p
-              v-else-if="searchQuery.length >= 2"
-              class="mt-2 text-xs text-repae-gray-500 dark:text-repae-gray-400"
-            >
-              Aucune compétence trouvée pour "{{ searchQuery }}"
-            </p>
+            <!-- Compétence absente du catalogue : on propose de l'y ajouter -->
+            <div v-else-if="canCreateSkill" class="mt-2 space-y-2">
+              <p class="text-xs text-repae-gray-500 dark:text-repae-gray-400">
+                Aucune compétence trouvée pour «&nbsp;{{ newSkillName }}&nbsp;».
+              </p>
+              <button
+                type="button"
+                :disabled="isCreatingSkill"
+                class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-dashed border-repae-blue-400 text-repae-blue-600 dark:text-repae-blue-400 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer text-sm font-medium font-brand"
+                @click="handleCreateSkill"
+              >
+                <font-awesome-icon
+                  :icon="isCreatingSkill ? 'fa-solid fa-spinner' : 'fa-solid fa-plus'"
+                  :class="{ 'animate-spin': isCreatingSkill }"
+                />
+                {{ isCreatingSkill ? 'Création...' : `Ajouter « ${newSkillName} » au catalogue` }}
+              </button>
+            </div>
           </div>
 
           <!-- Skill sélectionnée - choisir le niveau -->

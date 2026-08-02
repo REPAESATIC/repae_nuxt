@@ -525,6 +525,20 @@ export function useIdentityApi() {
     return result.data || result as any
   }
 
+  /**
+   * Ajoute une compétence au catalogue commun.
+   * Ouvert aux alumni côté API (`POST /skills`, rôles ADMIN ou ALUMNI) : sans cela, le catalogue
+   * étant quasiment vide, aucune compétence ne pouvait être ajoutée à un profil.
+   * `name` est unique en base : un doublon exact est refusé par le backend.
+   */
+  const createSkill = async (name: string): Promise<SkillCatalogItem> => {
+    return await $fetch<SkillCatalogItem>(`${baseUrl}/skills`, {
+      method: 'POST',
+      body: { name },
+      headers: getAnyAuthHeaders(),
+    })
+  }
+
   // ─── Alumni Skills CRUD ──────────────────────────────────────────────────────
 
   const addAlumniSkill = async (alumniId: string, skillId: string, level: string): Promise<AlumniSkillItem> => {
@@ -809,6 +823,7 @@ export function useIdentityApi() {
     updateProject,
     deleteProject,
     fetchSkillsCatalog,
+    createSkill,
     addAlumniSkill,
     updateAlumniSkill,
     deleteAlumniSkill,
