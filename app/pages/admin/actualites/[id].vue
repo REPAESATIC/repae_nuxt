@@ -63,7 +63,7 @@ onMounted(async () => {
       existingCoverImage.value = newsData.coverImage
     }
   } catch (e: any) {
-    toast.error('Erreur', e?.data?.message || 'Impossible de charger l\'actualité.')
+    toast.error('Erreur', apiErrorMessage(e, 'Impossible de charger l\'actualité.'))
     router.push('/admin/actualites')
   } finally {
     loading.value = false
@@ -129,6 +129,14 @@ const submit = async () => {
     toast.warning('Champ requis', 'Le titre est obligatoire.')
     return
   }
+  // Le backend refuse de publier un contenu trop court, mais l'accepte en brouillon.
+  if (form.status === 'PUBLISHED' && !isPublishableContent(form.content)) {
+    toast.warning(
+      'Contenu trop court',
+      `Une actualité publiée doit contenir au moins ${MIN_PUBLISHABLE_CONTENT_LENGTH} caractères. Laissez-la en brouillon le temps de la compléter.`,
+    )
+    return
+  }
 
   form.slug = toSlug(form.slug)
 
@@ -147,7 +155,7 @@ const submit = async () => {
     router.push('/admin/actualites')
   } catch (e: any) {
     if (handleAuthError(e)) return
-    toast.error('Erreur', e?.data?.message || 'Impossible de mettre à jour l\'actualité.')
+    toast.error('Erreur', apiErrorMessage(e, 'Impossible de mettre à jour l\'actualité.'))
   } finally {
     saving.value = false
   }

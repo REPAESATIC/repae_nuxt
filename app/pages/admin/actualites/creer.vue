@@ -121,6 +121,14 @@ const submit = async () => {
     toast.warning('Champ requis', 'Veuillez sélectionner une catégorie.')
     return
   }
+  // Le backend refuse de publier un contenu trop court, mais l'accepte en brouillon.
+  if (form.status === 'PUBLISHED' && !isPublishableContent(form.content)) {
+    toast.warning(
+      'Contenu trop court',
+      `Une actualité publiée doit contenir au moins ${MIN_PUBLISHABLE_CONTENT_LENGTH} caractères. Enregistrez-la en brouillon le temps de la compléter.`,
+    )
+    return
+  }
 
   loading.value = true
   try {
@@ -139,7 +147,7 @@ const submit = async () => {
     router.push('/admin/actualites')
   } catch (e: any) {
     if (handleAuthError(e)) return
-    toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'actualité.')
+    toast.error('Erreur', apiErrorMessage(e, 'Impossible de créer l\'actualité.'))
   } finally {
     loading.value = false
   }
