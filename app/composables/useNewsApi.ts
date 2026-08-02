@@ -83,6 +83,34 @@ export interface UpdateCategoryPayload {
   bgHexColor?: string
 }
 
+// Codes pour lesquels une seconde tentative a un sens : le serveur n'a pas
+// traite la demande, la rejouer telle quelle ne change donc rien a son etat.
+const CODES_REJOUABLES = [500, 502, 503, 504]
+
+/**
+ * Rejoue une fois une requete tombee sur une erreur serveur.
+ *
+ * content-services televerse l'image vers MinIO AVANT d'ecrire l'actualite en
+ * base, et `MinioStorageService.upload()` ne capture pas ses erreurs : tant que
+ * MinIO n'est pas joignable — la fenetre qui suit un redeploiement — la requete
+ * echoue en 500 sans que rien ne soit persiste. D'ou le « Internal server
+ * error » a la premiere soumission qui disparait a la seconde.
+ *
+ * Le slug etant unique cote serveur, une actualite qui aurait malgre tout ete
+ * creee ferait echouer la reprise en 409 plutot que de produire un doublon.
+ */
+const withServerErrorRetry = async <T>(request: () => Promise<T>): Promise<T> => {
+  try {
+    return await request()
+  } catch (error: any) {
+    const status = error?.response?.status ?? error?.statusCode ?? error?.status
+    if (!CODES_REJOUABLES.includes(status)) throw error
+
+    await new Promise((resolve) => setTimeout(resolve, 900))
+    return await request()
+  }
+}
+
 export function useNewsApi() {
   const config = useRuntimeConfig()
   const baseUrl = config.public.contentApiBase as string
@@ -115,40 +143,51 @@ export function useNewsApi() {
   }
 
   const createNews = async (payload: CreateNewsPayload): Promise<NewsItem> => {
-    const formData = new FormData()
-    formData.append('title', payload.title)
-    formData.append('content', payload.content)
-    formData.append('authorId', payload.authorId)
-    formData.append('authorFullName', payload.authorFullName)
-    formData.append('categoryId', payload.categoryId)
-    if (payload.summary) formData.append('summary', payload.summary)
-    if (payload.slug) formData.append('slug', payload.slug)
-    if (payload.authorAvatarUrl) formData.append('authorAvatarUrl', payload.authorAvatarUrl)
-    if (payload.status) formData.append('status', payload.status)
-    if (payload.coverImage) formData.append('coverImage', payload.coverImage)
+    // Reconstruit a chaque tentative : un FormData consomme son fichier.
+    const buildBody = () => {
+      const formData = new FormData()
+      formData.append('title', payload.title)
+      formData.append('content', payload.content)
+      formData.append('authorId', payload.authorId)
+      formData.append('authorFullName', payload.authorFullName)
+      formData.append('categoryId', payload.categoryId)
+      if (payload.summary) formData.append('summary', payload.summary)
+      if (payload.slug) formData.append('slug', payload.slug)
+      if (payload.authorAvatarUrl) formData.append('authorAvatarUrl', payload.authorAvatarUrl)
+      if (payload.status) formData.append('status', payload.status)
+      if (payload.coverImage) formData.append('coverImage', payload.coverImage)
+      return formData
+    }
 
-    return await $fetch<NewsItem>(`${baseUrl}/news`, {
-      method: 'POST',
-      body: formData,
-      headers: getAuthHeaders(),
-    })
+    return await withServerErrorRetry(() =>
+      $fetch<NewsItem>(`${baseUrl}/news`, {
+        method: 'POST',
+        body: buildBody(),
+        headers: getAuthHeaders(),
+      }),
+    )
   }
 
   const updateNews = async (id: string, payload: UpdateNewsPayload): Promise<NewsItem> => {
-    const formData = new FormData()
-    if (payload.title !== undefined) formData.append('title', payload.title)
-    if (payload.slug !== undefined) formData.append('slug', payload.slug)
-    if (payload.content !== undefined) formData.append('content', payload.content)
-    if (payload.summary !== undefined) formData.append('summary', payload.summary)
-    if (payload.categoryId !== undefined) formData.append('categoryId', payload.categoryId)
-    if (payload.status !== undefined) formData.append('status', payload.status)
-    if (payload.coverImage) formData.append('coverImage', payload.coverImage)
+    const buildBody = () => {
+      const formData = new FormData()
+      if (payload.title !== undefined) formData.append('title', payload.title)
+      if (payload.slug !== undefined) formData.append('slug', payload.slug)
+      if (payload.content !== undefined) formData.append('content', payload.content)
+      if (payload.summary !== undefined) formData.append('summary', payload.summary)
+      if (payload.categoryId !== undefined) formData.append('categoryId', payload.categoryId)
+      if (payload.status !== undefined) formData.append('status', payload.status)
+      if (payload.coverImage) formData.append('coverImage', payload.coverImage)
+      return formData
+    }
 
-    return await $fetch<NewsItem>(`${baseUrl}/news/${id}`, {
-      method: 'PUT',
-      body: formData,
-      headers: getAuthHeaders(),
-    })
+    return await withServerErrorRetry(() =>
+      $fetch<NewsItem>(`${baseUrl}/news/${id}`, {
+        method: 'PUT',
+        body: buildBody(),
+        headers: getAuthHeaders(),
+      }),
+    )
   }
 
   const fetchCategories = async (params?: {

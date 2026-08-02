@@ -155,7 +155,15 @@ const submit = async () => {
     router.push('/admin/actualites')
   } catch (e: any) {
     if (handleAuthError(e)) return
-    toast.error('Erreur', apiErrorMessage(e, 'Impossible de mettre à jour l\'actualité.'))
+    toast.error(
+      'Erreur',
+      apiErrorMessage(
+        e,
+        coverImageFile.value
+          ? 'Impossible de mettre à jour l\'actualité — l\'envoi de l\'image a échoué. Réessayez dans quelques instants.'
+          : 'Impossible de mettre à jour l\'actualité.',
+      ),
+    )
   } finally {
     saving.value = false
   }
@@ -357,6 +365,7 @@ onUnmounted(() => {
             v-model="form.content"
             label="Contenu de l'actualité"
             placeholder="Rédigez le contenu de l'actualité..."
+            :min-length="MIN_PUBLISHABLE_CONTENT_LENGTH"
           />
         </div>
 
