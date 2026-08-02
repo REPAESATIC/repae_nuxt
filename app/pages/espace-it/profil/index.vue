@@ -38,6 +38,7 @@ const competences = ref<Competence[]>([])
 const portfolio = ref<ProjetPortfolio[]>([])
 
 // Modals
+const showAboutModal = ref(false)
 const showFormationModal = ref(false)
 const showExperienceModal = ref(false)
 const showPortfolioModal = ref(false)
@@ -45,6 +46,7 @@ const showCompetenceModal = ref(false)
 const showContactModal = ref(false)
 
 const onSectionSaved = async () => {
+  showAboutModal.value = false
   showFormationModal.value = false
   showExperienceModal.value = false
   showPortfolioModal.value = false
@@ -161,7 +163,7 @@ useSeoMeta({
         <!-- Main Content -->
         <div class="lg:col-span-2 space-y-6">
           <!-- About -->
-          <EspaceItProfilProfileAbout :biographie="userProfile.biographie" />
+          <EspaceItProfilProfileAbout :biographie="userProfile.biographie" @edit="showAboutModal = true" />
 
           <!-- Formations -->
           <EspaceItProfilProfileFormation :formations="formations" @edit="showFormationModal = true" />
@@ -184,6 +186,15 @@ useSeoMeta({
       </div>
 
       <!-- Modals CRUD -->
+      <EspaceItProfilProfileSectionModal
+        :show="showAboutModal"
+        title="À propos"
+        icon="fa-solid fa-user"
+        @close="showAboutModal = false"
+      >
+        <EspaceItProfilProfileAboutManager @saved="onSectionSaved" />
+      </EspaceItProfilProfileSectionModal>
+
       <EspaceItProfilProfileSectionModal
         :show="showContactModal"
         title="Coordonnées"
