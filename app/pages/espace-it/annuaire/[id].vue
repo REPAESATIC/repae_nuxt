@@ -46,9 +46,9 @@ const loadAlumniProfile = async () => {
 
     // Charger les données liées en parallèle
     const [workExps, edus, projs] = await Promise.all([
-      fetchWorkExperiences(alumni.id).catch(() => []),
-      fetchEducations(alumni.id).catch(() => []),
-      fetchProjects(alumni.id).catch(() => []),
+      fetchWorkExperiences(alumni.id).catch((e) => { console.error('Erreur chargement expériences:', e); return [] }),
+      fetchEducations(alumni.id).catch((e) => { console.error('Erreur chargement formations:', e); return [] }),
+      fetchProjects(alumni.id).catch((e) => { console.error('Erreur chargement portfolio:', e); return [] }),
     ])
 
     // Transformer via useProfileAdapter

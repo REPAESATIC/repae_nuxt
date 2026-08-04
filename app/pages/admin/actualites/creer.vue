@@ -34,25 +34,24 @@ const statusOptions = [
 // Slug auto-generation
 const slugManuallyEdited = ref(false)
 
-const toSlug = (text: string): string => {
-  return text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-}
-
 watch(() => form.title, (title) => {
   if (!slugManuallyEdited.value) {
     form.slug = toSlug(title)
   }
 })
 
-const onSlugInput = () => {
-  slugManuallyEdited.value = form.slug.length > 0
+// Le backend refuse tout slug non conforme (majuscules, accents, espaces) :
+// on normalise la saisie \u00e0 la vol\u00e9e, puis compl\u00e8tement au blur.
+const onSlugInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const sanitized = sanitizeSlugInput(input.value)
+  if (input.value !== sanitized) input.value = sanitized
+  form.slug = sanitized
+  slugManuallyEdited.value = sanitized.length > 0
+}
+
+const onSlugBlur = () => {
+  form.slug = toSlug(form.slug)
 }
 
 // Image state
@@ -122,6 +121,14 @@ const submit = async () => {
     toast.warning('Champ requis', 'Veuillez sélectionner une catégorie.')
     return
   }
+  // Le backend refuse de publier un contenu trop court, mais l'accepte en brouillon.
+  if (form.status === 'PUBLISHED' && !isPublishableContent(form.content)) {
+    toast.warning(
+      'Contenu trop court',
+      `Une actualité publiée doit contenir au moins ${MIN_PUBLISHABLE_CONTENT_LENGTH} caractères. Enregistrez-la en brouillon le temps de la compléter.`,
+    )
+    return
+  }
 
   loading.value = true
   try {
@@ -129,7 +136,7 @@ const submit = async () => {
       title: form.title,
       content: form.content,
       summary: form.summary || undefined,
-      slug: form.slug || undefined,
+      slug: toSlug(form.slug) || undefined,
       categoryId: form.categoryId,
       authorId: form.authorId,
       authorFullName: form.authorFullName,
@@ -140,7 +147,15 @@ const submit = async () => {
     router.push('/admin/actualites')
   } catch (e: any) {
     if (handleAuthError(e)) return
-    toast.error('Erreur', e?.data?.message || 'Impossible de créer l\'actualité.')
+    toast.error(
+      'Erreur',
+      apiErrorMessage(
+        e,
+        coverImageFile.value
+          ? 'Impossible de créer l\'actualité — l\'envoi de l\'image a échoué. Réessayez dans quelques instants.'
+          : 'Impossible de créer l\'actualité.',
+      ),
+    )
   } finally {
     loading.value = false
   }
@@ -194,12 +209,20 @@ onUnmounted(() => {
             Slug
           </label>
           <input
-            v-model="form.slug"
+            :value="form.slug"
             type="text"
+            inputmode="url"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
             placeholder="Généré automatiquement depuis le titre"
-            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
+            class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white font-mono placeholder:text-repae-gray-400 placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
             @input="onSlugInput"
+            @blur="onSlugBlur"
           />
+          <p class="mt-1.5 text-xs text-repae-gray-500 dark:text-repae-gray-400">
+            Minuscules, chiffres et tirets uniquement — la saisie est formatée automatiquement.
+          </p>
         </div>
 
         <div class="bg-white dark:bg-repae-gray-800 rounded-2xl border border-gray-200 dark:border-repae-gray-700 p-6">
@@ -306,6 +329,7 @@ onUnmounted(() => {
           v-model="form.content"
           label="Contenu de l'actualité"
           placeholder="Rédigez le contenu de l'actualité..."
+          :min-length="MIN_PUBLISHABLE_CONTENT_LENGTH"
         />
       </div>
 

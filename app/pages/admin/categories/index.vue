@@ -24,6 +24,21 @@ const form = reactive({
   bgHexColor: '#FFFFFF',
 })
 
+// Slug : aperçu auto (depuis le nom) + normalisation pendant la saisie
+const autoSlug = computed(() => toSlug(form.name))
+
+const onSlugInput = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const sanitized = sanitizeSlugInput(input.value)
+  // On réécrit la valeur affichée pour que l'utilisateur voie la transformation
+  if (input.value !== sanitized) input.value = sanitized
+  form.slug = sanitized
+}
+
+const onSlugBlur = () => {
+  form.slug = toSlug(form.slug)
+}
+
 // Load
 const loadCategories = async () => {
   loading.value = true
@@ -70,12 +85,16 @@ const submit = async () => {
     return
   }
 
+  // Sécurité : on n'envoie jamais un slug non conforme au backend
+  const slug = toSlug(form.slug) || undefined
+  form.slug = slug ?? ''
+
   saving.value = true
   try {
     if (editingCategory.value) {
       await updateCategory(editingCategory.value.id, {
         name: form.name,
-        slug: form.slug || undefined,
+        slug,
         hexColor: form.hexColor,
         bgHexColor: form.bgHexColor,
       })
@@ -83,7 +102,7 @@ const submit = async () => {
     } else {
       await createCategory({
         name: form.name,
-        slug: form.slug || undefined,
+        slug,
         hexColor: form.hexColor,
         bgHexColor: form.bgHexColor,
       })
@@ -252,11 +271,20 @@ const submit = async () => {
                   Slug
                 </label>
                 <input
-                  v-model="form.slug"
+                  :value="form.slug"
                   type="text"
-                  placeholder="Généré automatiquement si vide"
-                  class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white placeholder:text-repae-gray-400 focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
+                  inputmode="url"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  spellcheck="false"
+                  :placeholder="autoSlug || 'Généré automatiquement si vide'"
+                  class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-repae-gray-900 border border-gray-200 dark:border-repae-gray-700 text-repae-gray-900 dark:text-white font-mono placeholder:text-repae-gray-400 placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-repae-blue-500/30 focus:border-repae-blue-500 transition-all"
+                  @input="onSlugInput"
+                  @blur="onSlugBlur"
                 />
+                <p class="mt-1.5 text-xs text-repae-gray-500 dark:text-repae-gray-400">
+                  Minuscules, chiffres et tirets uniquement — la saisie est formatée automatiquement.
+                </p>
               </div>
 
               <!-- Colors -->

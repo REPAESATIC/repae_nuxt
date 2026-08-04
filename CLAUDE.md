@@ -13,6 +13,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Firebase Deployment
 - `firebase deploy` - Deploy to Firebase Hosting (requires `pnpm generate` first)
 
+**`NUXT_PUBLIC_SITE_URL` doit être défini au moment du `pnpm generate`** (ex : `https://alumni-esatic.com`).
+Sans cette variable, les liens de partage et les balises `og:url` du HTML prérendu contiennent
+`http://localhost` et les aperçus de partage sont inutilisables.
+
+### Aperçus de partage (Open Graph)
+
+Les robots de Facebook, LinkedIn et WhatsApp n'exécutent pas le JavaScript : une page servie en
+SPA leur apparaît vide, sans titre ni image. Les pages `/actualites/[id]` et `/evenements/[id]`
+sont donc **prérendues** en HTML complet :
+
+- leurs données sont chargées via `useAsyncData` (jamais dans `onMounted`, sinon le HTML est vide) ;
+- le hook `nitro:config` de `nuxt.config.ts` interroge `content-services` au build pour lister les
+  contenus publiés et générer un fichier HTML par contenu ;
+- une API injoignable n'échoue pas le build : elle émet un avertissement et les pages retombent
+  sur le rendu client (sans aperçu).
+
+**Conséquence** : un contenu publié APRÈS le déploiement n'a pas encore de fichier HTML — son
+aperçu reste générique jusqu'au prochain `pnpm generate && firebase deploy`. Pour des aperçus
+immédiats, il faudrait passer ces routes en SSR.
+
+Le composable `useContentShare()` centralise les liens de partage (URL absolue obligatoire) et
+`toAbsoluteUrl()` pour les images des balises OG.
+
 ## Architecture Overview
 
 This is a Nuxt 4 application with the following stack:
@@ -278,6 +301,78 @@ const { isDark, toggle } = useDarkMode()
     </button>
   </div>
 </template>
+```
+
+## Observabilité — SigNoz / OpenTelemetry
+
+Le front envoie **traces, logs et métriques** au collecteur OTLP/HTTP SigNoz self-hosted
+(`https://signoz.alumni-esatic.com`). Instrumentation 100 % côté navigateur.
+
+### Fichiers
+
+| Fichier | Rôle |
+|---------|------|
+| `app/plugins/00.otel.client.ts` | Point d'entrée : lit la config, charge le SDK en import dynamique |
+| `app/otel/instrumentation.ts` | Initialisation des 3 signaux (~60 Ko gzip, chunk séparé) |
+| `app/composables/useOtel.ts` | API applicative : logs, métriques et spans custom |
+
+### Configuration (`.env`)
+
+```bash
+NUXT_PUBLIC_OTEL_ENABLED=true
+NUXT_PUBLIC_OTEL_COLLECTOR_URL=https://otel-collector.alumni-esatic.com   # sans /v1/...
+NUXT_PUBLIC_OTEL_SERVICE_NAME=repae-frontend
+NUXT_PUBLIC_OTEL_ENVIRONMENT=production
+```
+
+Voir `.env.example` pour la liste complète (échantillonnage, intervalle métriques,
+Web Vitals, interactions utilisateur, debug). En self-hosted, **aucun header d'ingestion**
+n'est nécessaire : seule l'URL du collecteur compte. Les chemins `/v1/traces`, `/v1/logs`
+et `/v1/metrics` sont ajoutés automatiquement.
+
+Quand `NUXT_PUBLIC_OTEL_ENABLED` n'est pas à `true`, le SDK n'est jamais téléchargé.
+
+### Ce qui est instrumenté automatiquement
+
+- **Traces** : chargement du document, ressources statiques, `fetch`/XHR, clics et
+  soumissions de formulaire, navigations Vue Router
+- **Logs** : erreurs Vue (`vue:error`), erreurs JS globales, promesses rejetées
+- **Métriques** : Core Web Vitals (LCP, CLS, INP, FCP, TTFB), pages vues,
+  durée de navigation, compteur d'erreurs
+
+L'en-tête `traceparent` n'est propagé que vers `contentApiBase`, `identityApiBase` et
+l'origine du site — l'envoyer à des domaines tiers provoquerait des échecs de preflight CORS.
+
+### Instrumentation applicative
+
+```ts
+const { logInfo, logError, increment, recordDuration, withSpan } = useOtel()
+
+logInfo('Connexion réussie', { 'user.role': 'ALUMNI' })
+logError(error, { 'page.path': '/espace-it/profil' })
+increment('repae.candidature.envoyee', { 'offre.id': offreId })
+recordDuration('repae.recherche.duree', 128, { 'recherche.type': 'annuaire' })
+
+const alumni = await withSpan('chargement annuaire', () => $fetch('/alumnis'))
+```
+
+Tous ces appels sont sûrs même quand l'instrumentation est désactivée (providers no-op).
+
+### Prérequis côté collecteur (DevOps)
+
+Le collecteur doit être **joignable depuis le navigateur** et autoriser le **CORS** de
+l'origine du front dans son `config.yaml` :
+
+```yaml
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - https://alumni-esatic.com
+          allowed_headers: ['*']
 ```
 
 ## Placeholder Images & Avatars

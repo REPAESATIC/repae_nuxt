@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { NuxtLink } from '#components'
+
 export interface DashboardStat {
   id: string
   label: string
@@ -6,6 +8,8 @@ export interface DashboardStat {
   icon: string
   color: 'blue' | 'green' | 'purple' | 'orange'
   trend: string
+  /** Rend la carte cliquable vers cette route */
+  to?: string
 }
 
 defineProps<{
@@ -34,10 +38,15 @@ const colorClasses = {
 
 <template>
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-    <div
+    <component
+      :is="stat.to ? NuxtLink : 'div'"
       v-for="(stat, index) in stats"
       :key="stat.id"
-      class="bg-white dark:bg-repae-gray-800 rounded-xl p-4 border border-gray-200 dark:border-repae-gray-700 hover:shadow-md transition-shadow animate__animated animate__fadeInUp"
+      :to="stat.to"
+      :class="[
+        'bg-white dark:bg-repae-gray-800 rounded-xl p-4 border border-gray-200 dark:border-repae-gray-700 hover:shadow-md transition-shadow animate__animated animate__fadeInUp',
+        stat.to ? 'block cursor-pointer hover:border-repae-blue-500 dark:hover:border-repae-blue-400' : ''
+      ]"
       :style="{ animationDelay: `${index * 100}ms` }"
     >
       <div class="flex items-start justify-between">
@@ -67,6 +76,6 @@ const colorClasses = {
       <p class="text-sm text-repae-gray-500 dark:text-repae-gray-400 font-brand">
         {{ stat.label }}
       </p>
-    </div>
+    </component>
   </div>
 </template>

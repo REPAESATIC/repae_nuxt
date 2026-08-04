@@ -10,6 +10,8 @@ interface Props {
   placeholder?: string
   imageUploadUrl?: string
   label?: string
+  /** Nombre de caractères visibles attendus ; 0 désactive le compteur. */
+  minLength?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -19,6 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: 'Redigez votre contenu ici...',
   imageUploadUrl: '',
   label: 'Contenu',
+  minLength: 0,
 })
 
 const emit = defineEmits<{
@@ -32,8 +35,18 @@ const { isDark } = useDarkMode()
 const isOpen = ref(false)
 let draftContent = ''
 
+// Contenu en cours de frappe : `modelValue` n'est mis à jour qu'à la validation
+// du modal, il ne peut donc pas alimenter un compteur en temps réel.
+const liveContent = ref('')
+
+const currentLength = computed(() =>
+  contentTextLength(isOpen.value ? liveContent.value : props.modelValue),
+)
+const meetsMinLength = computed(() => currentLength.value >= props.minLength)
+
 function open() {
   draftContent = props.modelValue
+  liveContent.value = draftContent
   isOpen.value = true
   nextTick(() => {
     if (!editorRef.value) return
@@ -57,6 +70,9 @@ function open() {
       hooks: {
         addImageBlobHook: handleImageUpload,
       },
+    })
+    editorInstance.on('change', () => {
+      liveContent.value = editorInstance?.getHTML() ?? ''
     })
   })
 }
@@ -160,6 +176,24 @@ onBeforeUnmount(() => {
     </div>
   </div>
 
+  <!-- Rappel de la limite hors édition, pour ne pas la découvrir à l'envoi -->
+  <p
+    v-if="minLength > 0"
+    :class="[
+      'mt-1.5 text-xs tabular-nums',
+      meetsMinLength
+        ? 'text-repae-gray-500 dark:text-repae-gray-400'
+        : 'text-amber-600 dark:text-amber-400',
+    ]"
+  >
+    <template v-if="meetsMinLength">
+      {{ currentLength }} caractères — le contenu peut être publié.
+    </template>
+    <template v-else>
+      {{ currentLength }}/{{ minLength }} caractères — en dessous de {{ minLength }}, l'actualité ne peut être enregistrée qu'en brouillon.
+    </template>
+  </p>
+
   <!-- Fullscreen modal -->
   <Teleport to="body">
     <Transition name="fade">
@@ -173,6 +207,23 @@ onBeforeUnmount(() => {
             {{ label }}
           </h2>
           <div class="flex items-center gap-3">
+            <!-- Compteur vivant : la limite doit se voir pendant la frappe -->
+            <span
+              v-if="minLength > 0"
+              :class="[
+                'text-xs font-medium tabular-nums',
+                meetsMinLength
+                  ? 'text-repae-gray-500 dark:text-repae-gray-400'
+                  : 'text-amber-600 dark:text-amber-400',
+              ]"
+            >
+              <template v-if="meetsMinLength">
+                {{ currentLength }} caractères
+              </template>
+              <template v-else>
+                {{ currentLength }}/{{ minLength }} caractères minimum pour publier
+              </template>
+            </span>
             <button
               type="button"
               class="px-4 py-2 rounded-xl border border-gray-200 dark:border-repae-gray-600 text-sm font-semibold text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-100 dark:hover:bg-repae-gray-700 transition-colors cursor-pointer"

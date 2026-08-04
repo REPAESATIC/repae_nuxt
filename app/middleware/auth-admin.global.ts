@@ -17,9 +17,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   const isAuthenticated = localStorage.getItem('admin-auth') === 'true'
 
-  // Non connecte -> page de connexion
+  // Non connecte -> page de connexion.
+  // Le `query` doit figurer dans l'objet de destination : passe en second argument
+  // (options de navigation), il etait silencieusement ignore — d'ou un `redirect` perdu
+  // et le message « session expiree » jamais affiche.
   if (!isAuthenticated) {
-    return navigateTo('/connexion-admin', {
+    return navigateTo({
+      path: '/connexion-admin',
       query: { redirect: to.fullPath },
     })
   }
@@ -28,7 +32,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
   // (evite de laisser l'admin sur l'interface avec un token mort = erreurs "unauthorised")
   if (isTokenExpired()) {
     clearSession()
-    return navigateTo('/connexion-admin', {
+    return navigateTo({
+      path: '/connexion-admin',
       query: { redirect: to.fullPath, expired: '1' },
     })
   }

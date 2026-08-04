@@ -25,6 +25,8 @@ const {
   enrichProfileWithCurrentJob,
 } = useProfileAdapter()
 
+const { handleAuthError } = useItAuth()
+
 // État réactif
 const isLoading = ref(true)
 const error = ref<string | null>(null)
@@ -36,6 +38,7 @@ const competences = ref<Competence[]>([])
 const portfolio = ref<ProjetPortfolio[]>([])
 
 // Modals
+const showAboutModal = ref(false)
 const showFormationModal = ref(false)
 const showExperienceModal = ref(false)
 const showPortfolioModal = ref(false)
@@ -43,6 +46,7 @@ const showCompetenceModal = ref(false)
 const showContactModal = ref(false)
 
 const onSectionSaved = async () => {
+  showAboutModal.value = false
   showFormationModal.value = false
   showExperienceModal.value = false
   showPortfolioModal.value = false
@@ -62,9 +66,11 @@ const loadProfile = async () => {
 
     // 2. Récupérer les données liées en parallèle
     const [workExps, edus, projs] = await Promise.all([
-      fetchWorkExperiences(alumni.id).catch(() => []),
-      fetchEducations(alumni.id).catch(() => []),
-      fetchProjects(alumni.id).catch(() => []),
+      // Une section en échec ne doit pas vider tout le profil, mais l'erreur doit rester visible
+      // en console : un 401 silencieux ici se manifestait par des listes vides sans explication.
+      fetchWorkExperiences(alumni.id).catch((e) => { console.error('Erreur chargement expériences:', e); return [] }),
+      fetchEducations(alumni.id).catch((e) => { console.error('Erreur chargement formations:', e); return [] }),
+      fetchProjects(alumni.id).catch((e) => { console.error('Erreur chargement portfolio:', e); return [] }),
     ])
 
     // 3. Transformer vers les types français
@@ -85,17 +91,13 @@ const loadProfile = async () => {
     portfolio.value = mappedPortfolio
   } catch (e: any) {
     console.error('Erreur chargement profil:', e)
-    error.value = e?.data?.message || 'Impossible de charger le profil.'
 
-    // Si 401, rediriger vers la connexion
-    if (e?.response?.status === 401 || e?.statusCode === 401) {
-      if (import.meta.client) {
-        localStorage.removeItem('it-auth')
-        localStorage.removeItem('it-token')
-        localStorage.removeItem('it-user')
-      }
-      navigateTo('/connexion-it')
-    }
+    // Session expirée ou invalide : on redirige vers la connexion sans afficher le message
+    // brut de l'API (« Vous devez être authentifié pour accéder à cette ressource. »), qui
+    // n'apprend rien à l'utilisateur et lui laisse croire à une panne.
+    if (handleAuthError(e)) return
+
+    error.value = e?.data?.message || 'Impossible de charger le profil.'
   } finally {
     isLoading.value = false
   }
@@ -161,7 +163,7 @@ useSeoMeta({
         <!-- Main Content -->
         <div class="lg:col-span-2 space-y-6">
           <!-- About -->
-          <EspaceItProfilProfileAbout :biographie="userProfile.biographie" />
+          <EspaceItProfilProfileAbout :biographie="userProfile.biographie" @edit="showAboutModal = true" />
 
           <!-- Formations -->
           <EspaceItProfilProfileFormation :formations="formations" @edit="showFormationModal = true" />
@@ -184,6 +186,15 @@ useSeoMeta({
       </div>
 
       <!-- Modals CRUD -->
+      <EspaceItProfilProfileSectionModal
+        :show="showAboutModal"
+        title="À propos"
+        icon="fa-solid fa-user"
+        @close="showAboutModal = false"
+      >
+        <EspaceItProfilProfileAboutManager @saved="onSectionSaved" />
+      </EspaceItProfilProfileSectionModal>
+
       <EspaceItProfilProfileSectionModal
         :show="showContactModal"
         title="Coordonnées"

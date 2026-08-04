@@ -8,46 +8,70 @@ const eventId = route.params.id as string
 const { fetchEvent, fetchEventsList } = useEventsApi()
 const { fetchCategories } = useNewsApi()
 
-const event = ref<EventItem | null>(null)
-const categories = ref<CategoryItem[]>([])
-const relatedEvents = ref<EventItem[]>([])
-const loading = ref(true)
-const error = ref(false)
-
-onMounted(async () => {
-  try {
+// Chargement cote serveur (SSR / prerender) et non plus dans `onMounted` : les robots de
+// Facebook, LinkedIn et WhatsApp n'executent pas le JavaScript. Sans donnees presentes dans
+// le HTML initial, les balises Open Graph restent vides et l'apercu du partage n'affiche rien.
+const { data: pageData, pending: loading } = await useAsyncData(
+  `event-${eventId}`,
+  async () => {
     const [eventData, categoriesResult] = await Promise.all([
       fetchEvent(eventId),
       fetchCategories(),
     ])
     // Seuls les evenements publies sont accessibles en front-office
-    if (eventData.status !== 'PUBLISHED') {
-      error.value = true
-      return
-    }
-    event.value = eventData
-    categories.value = categoriesResult.data
+    if (eventData.status !== 'PUBLISHED') return null
 
-    // Load related events (same category, exclude current)
+    // Evenements similaires (meme categorie, hors evenement courant)
     const relatedResult = await fetchEventsList({
       categoryId: eventData.categoryId,
       status: 'PUBLISHED',
       limit: 4,
     }).catch(() => null)
-    if (relatedResult) {
-      relatedEvents.value = relatedResult.data
+
+    return {
+      event: eventData,
+      categories: categoriesResult.data,
+      related: (relatedResult?.data || [])
         .filter(e => e.id !== eventId && e.status === 'PUBLISHED')
-        .slice(0, 3)
+        .slice(0, 3),
     }
-  } catch {
-    error.value = true
-  } finally {
-    loading.value = false
-  }
+  },
+  { default: () => null },
+)
+
+const event = computed<EventItem | null>(() => pageData.value?.event ?? null)
+const categories = computed<CategoryItem[]>(() => pageData.value?.categories ?? [])
+const relatedEvents = computed<EventItem[]>(() => pageData.value?.related ?? [])
+const error = computed(() => !loading.value && !pageData.value)
+
+// ─── Partage ─────────────────────────────────────────────────────────────────
+const { shareUrl, shareTitle, shareLinks, linkCopied, copyShareLink, toAbsoluteUrl } = useContentShare({
+  path: `/evenements/${eventId}`,
+  title: () => event.value?.title || 'Événement REPAE',
 })
 
 useHead({
   title: computed(() => event.value ? `${event.value.title} - Événements REPAE` : 'Événement - REPAE'),
+})
+
+// Les crawlers lisent ces balises dans le HTML servi : elles déterminent le titre, la
+// description et l'image affichés dans l'aperçu du lien partagé.
+const shareDescription = computed(() =>
+  (event.value?.description || '').replace(/<[^>]*>/g, '').trim().slice(0, 200)
+)
+
+useSeoMeta({
+  description: () => shareDescription.value,
+  ogType: 'article',
+  ogTitle: () => shareTitle.value,
+  ogDescription: () => shareDescription.value,
+  ogImage: () => toAbsoluteUrl(event.value?.imageUrl),
+  ogUrl: () => shareUrl.value,
+  ogSiteName: 'REPAE',
+  twitterCard: 'summary_large_image',
+  twitterTitle: () => shareTitle.value,
+  twitterDescription: () => shareDescription.value,
+  twitterImage: () => toAbsoluteUrl(event.value?.imageUrl),
 })
 
 const getCategoryName = (categoryId: string) => {
@@ -109,6 +133,7 @@ const locationType = computed(() => {
   if (!event.value) return ''
   return event.value.location.type === 'ONLINE' ? 'En ligne' : 'Présentiel'
 })
+
 </script>
 
 <template>
@@ -303,30 +328,53 @@ const locationType = computed(() => {
                 </h3>
                 <div class="flex items-center gap-3">
                   <a
-                    :href="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent($route.fullPath)}`"
+                    :href="shareLinks.facebook"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Partager sur Facebook"
                     class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/15 flex items-center justify-center text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-500/25 transition-colors cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-brands fa-facebook" />
                   </a>
                   <a
-                    :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(event.title)}&url=${encodeURIComponent($route.fullPath)}`"
+                    :href="shareLinks.twitter"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Partager sur X (Twitter)"
                     class="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-500/15 flex items-center justify-center text-sky-500 dark:text-sky-400 hover:bg-sky-200 dark:hover:bg-sky-500/25 transition-colors cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-brands fa-twitter" />
                   </a>
                   <a
-                    :href="`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent($route.fullPath)}&title=${encodeURIComponent(event.title)}`"
+                    :href="shareLinks.linkedin"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label="Partager sur LinkedIn"
                     class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/15 flex items-center justify-center text-blue-700 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-500/25 transition-colors cursor-pointer"
                   >
                     <font-awesome-icon icon="fa-brands fa-linkedin" />
                   </a>
+                  <a
+                    :href="shareLinks.whatsapp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Partager sur WhatsApp"
+                    class="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-500/15 flex items-center justify-center text-green-600 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-500/25 transition-colors cursor-pointer"
+                  >
+                    <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                  </a>
+                  <button
+                    type="button"
+                    :aria-label="linkCopied ? 'Lien copié' : 'Copier le lien'"
+                    class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-repae-gray-700 flex items-center justify-center text-repae-gray-600 dark:text-repae-gray-300 hover:bg-gray-200 dark:hover:bg-repae-gray-600 transition-colors cursor-pointer"
+                    @click="copyShareLink"
+                  >
+                    <font-awesome-icon :icon="linkCopied ? 'fa-solid fa-check' : 'fa-solid fa-link'" />
+                  </button>
                 </div>
+                <p v-if="linkCopied" class="mt-2 text-xs text-green-600 dark:text-green-400">
+                  Lien copié dans le presse-papiers
+                </p>
               </div>
             </div>
           </div>

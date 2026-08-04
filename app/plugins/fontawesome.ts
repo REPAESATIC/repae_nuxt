@@ -182,6 +182,8 @@ import {
   faFileExcel,
   faFileCsv,
   faDownload,
+  // Partage d'un contenu (copie du lien)
+  faLink,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Import regular icons
@@ -202,6 +204,7 @@ import {
   faFacebook,
   faInstagram,
   faYoutube,
+  faWhatsapp,
 } from '@fortawesome/free-brands-svg-icons'
 
 // Add solid icons to library
@@ -378,6 +381,7 @@ library.add(
   faFileExcel,
   faFileCsv,
   faDownload,
+  faLink,
 )
 
 // Add regular icons to library
@@ -398,6 +402,7 @@ library.add(
   faFacebook,
   faInstagram,
   faYoutube,
+  faWhatsapp,
 )
 
 export default defineNuxtPlugin((nuxtApp) => {

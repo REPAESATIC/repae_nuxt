@@ -27,7 +27,8 @@ const stats = computed<DashboardStat[]>(() => [
     value: realAlumniCount.value !== null ? String(realAlumniCount.value) : '...',
     icon: 'fa-solid fa-users',
     color: 'purple',
-    trend: 'Dans l\'annuaire'
+    trend: 'Dans l\'annuaire',
+    to: '/espace-it/annuaire'
   },
   {
     id: 'candidatures',
