@@ -190,6 +190,14 @@ export function useNewsApi() {
     )
   }
 
+  // Le serveur n'autorise la suppression qu'en statut DRAFT ou ARCHIVED (400 sinon)
+  const deleteNews = async (id: string): Promise<void> => {
+    await $fetch<void>(`${baseUrl}/news/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    })
+  }
+
   const fetchCategories = async (params?: {
     search?: string
     page?: number
@@ -229,6 +237,7 @@ export function useNewsApi() {
     fetchNews,
     createNews,
     updateNews,
+    deleteNews,
     fetchCategories,
     fetchCategory,
     createCategory,

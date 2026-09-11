@@ -118,10 +118,19 @@ export function useEventsApi() {
     })
   }
 
+  // Le serveur n'autorise la suppression qu'en statut DRAFT ou ARCHIVED (400 sinon)
+  const deleteEvent = async (id: string): Promise<void> => {
+    await $fetch<void>(`${baseUrl}/events/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    })
+  }
+
   return {
     fetchEventsList,
     fetchEvent,
     createEvent,
     updateEvent,
+    deleteEvent,
   }
 }

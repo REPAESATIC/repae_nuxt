@@ -6,8 +6,9 @@ definePageMeta({
   layout: 'admin',
 })
 
-const { fetchNewsList, fetchCategories } = useNewsApi()
-const { fetchEventsList } = useEventsApi()
+const { fetchNewsList, fetchCategories, deleteNews } = useNewsApi()
+const { fetchEventsList, deleteEvent } = useEventsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 // Ligne unifiee du tableau : une actualite ou un evenement a venir
@@ -103,6 +104,58 @@ onMounted(() => {
   loadUpcomingEvents()
   loadCategories()
 })
+
+// Suppression : le serveur ne l'autorise qu'en brouillon ou archivé.
+const rowToDelete = ref<FeedRow | null>(null)
+const deleting = ref(false)
+
+const isDeletable = (status: string) => status === 'DRAFT' || status === 'ARCHIVED'
+
+const deleteModalTitle = computed(() =>
+  rowToDelete.value?.kind === 'event' ? 'Supprimer cet événement ?' : 'Supprimer cette actualité ?',
+)
+
+const deleteModalMessage = computed(() => {
+  if (!rowToDelete.value) return ''
+  return `« ${rowToDelete.value.data.title} » sera définitivement supprimé${rowToDelete.value.kind === 'news' ? 'e' : ''}, ainsi que son image. Cette action est irréversible.`
+})
+
+const askDelete = (row: FeedRow) => {
+  rowToDelete.value = row
+}
+
+const confirmDelete = async () => {
+  const row = rowToDelete.value
+  if (!row) return
+
+  deleting.value = true
+  try {
+    if (row.kind === 'event') {
+      await deleteEvent(row.data.id)
+      toast.success('Événement supprimé', `« ${row.data.title} » a été supprimé.`)
+    } else {
+      await deleteNews(row.data.id)
+      toast.success('Actualité supprimée', `« ${row.data.title} » a été supprimée.`)
+    }
+    rowToDelete.value = null
+
+    // Si la page devient vide après suppression, on recule d'une page
+    if (row.kind === 'news' && news.value.length === 1 && page.value > 1) {
+      page.value -= 1
+    } else {
+      await loadNews()
+    }
+    await loadUpcomingEvents()
+  } catch (e: any) {
+    if (handleAuthError(e)) return
+    toast.error(
+      'Suppression impossible',
+      apiErrorMessage(e, row.kind === 'event' ? 'Impossible de supprimer l\'événement.' : 'Impossible de supprimer l\'actualité.'),
+    )
+  } finally {
+    deleting.value = false
+  }
+}
 
 // Helpers
 const getCategoryName = (categoryId: string) => {
@@ -342,7 +395,7 @@ const formatDate = (date: string) => {
               </td>
 
               <!-- Actions -->
-              <td class="px-6 py-4 text-right">
+              <td class="px-6 py-4 text-right whitespace-nowrap">
                 <NuxtLink
                   :to="row.kind === 'event' ? `/admin/evenements/${row.data.id}` : `/admin/actualites/${row.data.id}`"
                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-repae-blue-600 dark:text-repae-blue-400 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer"
@@ -350,6 +403,16 @@ const formatDate = (date: string) => {
                   <font-awesome-icon icon="fa-solid fa-pen" />
                   Modifier
                 </NuxtLink>
+                <button
+                  v-if="isDeletable(row.data.status)"
+                  type="button"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer"
+                  :title="row.kind === 'event' ? 'Supprimer l\'événement' : 'Supprimer l\'actualité'"
+                  @click="askDelete(row)"
+                >
+                  <font-awesome-icon icon="fa-solid fa-trash" />
+                  Supprimer
+                </button>
               </td>
             </tr>
           </tbody>
@@ -359,5 +422,16 @@ const formatDate = (date: string) => {
       <!-- Pagination -->
       <UiPagination v-model:page="page" :total-pages="totalPages" />
     </div>
+
+    <!-- Confirmation de suppression -->
+    <UiConfirmModal
+      :open="rowToDelete !== null"
+      :loading="deleting"
+      :title="deleteModalTitle"
+      :message="deleteModalMessage"
+      confirm-label="Supprimer"
+      @confirm="confirmDelete"
+      @cancel="rowToDelete = null"
+    />
   </div>
 </template>

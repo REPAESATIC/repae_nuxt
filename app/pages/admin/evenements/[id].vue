@@ -9,7 +9,7 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const { fetchEvent, updateEvent } = useEventsApi()
+const { fetchEvent, updateEvent, deleteEvent } = useEventsApi()
 const { fetchCategories } = useNewsApi()
 const { handleAuthError } = useAdminAuth()
 const toast = useToast()
@@ -169,6 +169,35 @@ const submit = async () => {
   }
 }
 
+// Suppression : le serveur ne l'autorise qu'en brouillon ou archivé.
+const showDeleteModal = ref(false)
+const deleting = ref(false)
+
+const canDelete = computed(
+  () => original.value?.status === 'DRAFT' || original.value?.status === 'ARCHIVED',
+)
+
+const deleteHint = computed(() =>
+  canDelete.value
+    ? 'Supprimer définitivement l\'événement'
+    : 'Passez l\'événement en brouillon ou archivez-le avant de pouvoir le supprimer.',
+)
+
+const confirmDelete = async () => {
+  deleting.value = true
+  try {
+    await deleteEvent(eventId)
+    toast.success('Événement supprimé', 'L\'événement a été définitivement supprimé.')
+    showDeleteModal.value = false
+    router.push('/admin/evenements')
+  } catch (e: any) {
+    if (handleAuthError(e)) return
+    toast.error('Suppression impossible', apiErrorMessage(e, 'Impossible de supprimer l\'événement.'))
+  } finally {
+    deleting.value = false
+  }
+}
+
 // Status display
 const statusConfig: Record<string, { label: string; class: string }> = {
   DRAFT: { label: 'Brouillon', class: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-500/15 dark:text-yellow-400' },
@@ -221,7 +250,24 @@ onUnmounted(() => {
             </div>
           </div>
         </div>
+        <button
+          type="button"
+          :disabled="!canDelete"
+          :title="deleteHint"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-red-200 dark:border-red-500/30 text-sm font-semibold font-brand text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors cursor-pointer shrink-0"
+          @click="showDeleteModal = true"
+        >
+          <font-awesome-icon icon="fa-solid fa-trash" />
+          Supprimer
+        </button>
       </div>
+      <p
+        v-if="!canDelete"
+        class="-mt-3 mb-6 text-xs text-repae-gray-500 dark:text-repae-gray-400"
+      >
+        <font-awesome-icon icon="fa-solid fa-circle-info" class="mr-1" />
+        {{ deleteHint }}
+      </p>
 
       <!-- Form -->
       <form @submit.prevent="submit" class="space-y-6">
@@ -469,6 +515,17 @@ onUnmounted(() => {
           </div>
         </div>
       </form>
+
+      <!-- Confirmation de suppression -->
+      <UiConfirmModal
+        :open="showDeleteModal"
+        :loading="deleting"
+        title="Supprimer cet événement ?"
+        :message="`« ${original.title} » sera définitivement supprimé, ainsi que son image. Cette action est irréversible.`"
+        confirm-label="Supprimer"
+        @confirm="confirmDelete"
+        @cancel="showDeleteModal = false"
+      />
     </template>
   </div>
 </template>

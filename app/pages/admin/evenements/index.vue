@@ -6,8 +6,9 @@ definePageMeta({
   layout: 'admin',
 })
 
-const { fetchEventsList } = useEventsApi()
+const { fetchEventsList, deleteEvent } = useEventsApi()
 const { fetchCategories } = useNewsApi()
+const { handleAuthError } = useAdminAuth()
 const toast = useToast()
 
 // State
@@ -64,6 +65,40 @@ onMounted(() => {
   loadEvents()
   loadCategories()
 })
+
+// Suppression : le serveur ne l'autorise qu'en brouillon ou archivé.
+const eventToDelete = ref<EventItem | null>(null)
+const deleting = ref(false)
+
+const isDeletable = (status: string) => status === 'DRAFT' || status === 'ARCHIVED'
+
+const askDelete = (item: EventItem) => {
+  eventToDelete.value = item
+}
+
+const confirmDelete = async () => {
+  const item = eventToDelete.value
+  if (!item) return
+
+  deleting.value = true
+  try {
+    await deleteEvent(item.id)
+    toast.success('Événement supprimé', `« ${item.title} » a été supprimé.`)
+    eventToDelete.value = null
+
+    // Si la page devient vide après suppression, on recule d'une page
+    if (events.value.length === 1 && page.value > 1) {
+      page.value -= 1
+    } else {
+      await loadEvents()
+    }
+  } catch (e: any) {
+    if (handleAuthError(e)) return
+    toast.error('Suppression impossible', apiErrorMessage(e, 'Impossible de supprimer l\'événement.'))
+  } finally {
+    deleting.value = false
+  }
+}
 
 // Helpers
 const getCategoryName = (categoryId: string) => {
@@ -267,7 +302,7 @@ const formatEventDate = (date: string) => {
               </td>
 
               <!-- Actions -->
-              <td class="px-6 py-4 text-right">
+              <td class="px-6 py-4 text-right whitespace-nowrap">
                 <NuxtLink
                   :to="`/admin/evenements/${item.id}`"
                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-repae-blue-600 dark:text-repae-blue-400 hover:bg-repae-blue-50 dark:hover:bg-repae-blue-500/10 transition-colors cursor-pointer"
@@ -275,6 +310,16 @@ const formatEventDate = (date: string) => {
                   <font-awesome-icon icon="fa-solid fa-pen" />
                   Modifier
                 </NuxtLink>
+                <button
+                  v-if="isDeletable(item.status)"
+                  type="button"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer"
+                  title="Supprimer l'événement"
+                  @click="askDelete(item)"
+                >
+                  <font-awesome-icon icon="fa-solid fa-trash" />
+                  Supprimer
+                </button>
               </td>
             </tr>
           </tbody>
@@ -284,5 +329,16 @@ const formatEventDate = (date: string) => {
       <!-- Pagination -->
       <UiPagination v-model:page="page" :total-pages="totalPages" />
     </div>
+
+    <!-- Confirmation de suppression -->
+    <UiConfirmModal
+      :open="eventToDelete !== null"
+      :loading="deleting"
+      title="Supprimer cet événement ?"
+      :message="eventToDelete ? `« ${eventToDelete.title} » sera définitivement supprimé, ainsi que son image. Cette action est irréversible.` : ''"
+      confirm-label="Supprimer"
+      @confirm="confirmDelete"
+      @cancel="eventToDelete = null"
+    />
   </div>
 </template>
